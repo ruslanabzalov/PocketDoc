@@ -1,0 +1,143 @@
+package com.ruslanabzalov.pocketdoc;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class DiseasesListFragment extends Fragment {
+
+    private Disease mDisease;
+
+    private RecyclerView mDiseasesRecyclerView;
+    private DiseasesAdapter mAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_diseases_list, container, false);
+        mDiseasesRecyclerView = view.findViewById(R.id.diseases_recycler_view);
+        // LayoutManager управляет позиционированием элементов,
+        // а также определяет поведение прокрутки
+        mDiseasesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        updateUI();
+        return view;
+    }
+
+    /**
+     * Метод, заполняющий меню.
+     * */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_diseases_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_disease:
+                Disease disease = new Disease();
+                DiseasesList.get(getActivity()).addDisease(disease);
+                Intent intent = new Intent(getActivity(), DiseaseActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class DiseasesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private TextView mTitleTextView;
+        private TextView mDateTextView;
+
+        private Disease mDisease;
+
+        private DiseasesHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_disease, parent, false));
+            itemView.setOnClickListener(this);
+            mTitleTextView = itemView.findViewById(R.id.disease_title);
+            mDateTextView = itemView.findViewById(R.id.disease_date);
+        }
+
+        public void bind(Disease disease) {
+            mDisease = disease;
+            mTitleTextView.setText(mDisease.getTitle());
+            mDateTextView.setText(mDisease.getDate().toString());
+        }
+
+        /**
+         * Метод, запускающий активность-хост DiseaseActivity с соответствующим фрагментом
+         * при нажатии на элемент списка RecyclerView.
+         * */
+        @Override
+        public void onClick(View view) {
+            Intent intent = DiseaseActivity.newIntent(getActivity(), mDisease.getId());
+            startActivity(intent);
+        }
+
+    }
+
+    private class DiseasesAdapter extends RecyclerView.Adapter<DiseasesHolder> {
+
+        private List<Disease> mDiseases;
+
+        private DiseasesAdapter(List<Disease> diseases) {
+            mDiseases = diseases;
+        }
+
+        @Override
+        public DiseasesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new DiseasesHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(DiseasesHolder holder, int position) {
+            Disease disease = mDiseases.get(position);
+            holder.bind(disease);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDiseases.size();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    /**
+     * Метод, настраивающий пользовательский интерфейс фрагмента.
+     * */
+    public void updateUI() {
+        DiseasesList diseasesList = DiseasesList.get(getActivity());
+        List<Disease> diseases = diseasesList.getDiseases();
+        if (mAdapter == null) {
+            mAdapter = new DiseasesAdapter(diseases);
+            mDiseasesRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+}

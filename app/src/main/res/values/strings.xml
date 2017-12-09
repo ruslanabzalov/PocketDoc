@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pocket Doc</string>
+    <string name="title_docs">Запись к врачу</string>
+    <string name="title_medication">Лечение</string>
+    <string name="title_map">Карта</string>
+    <string name="title_profile">Профиль</string>
+    <string name="disease_title_hint">Введите название заболевания</string>
+    <string name="disease_title_label">Название</string>
+    <string name="disease_details_label">Описание</string>
+    <string name="disease_cured_label">Вылечено</string>
+    <string name="new_disease">Новое заболевание</string>
+</resources>
