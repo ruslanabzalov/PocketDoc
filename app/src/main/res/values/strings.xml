@@ -8,5 +8,6 @@
     <string name="disease_title_label">Название</string>
     <string name="disease_details_label">Описание</string>
     <string name="disease_cured_label">Вылечено</string>
+    <string name="disease_date_picker_title">Дата начала лечения:</string>
     <string name="new_disease">Новое заболевание</string>
 </resources>

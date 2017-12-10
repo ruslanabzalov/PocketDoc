@@ -2,6 +2,7 @@ package com.ruslanabzalov.pocketdoc;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,9 +15,19 @@ import android.widget.EditText;
 
 import java.util.UUID;
 
+/**
+ * Класс-фрагмент, отвечающий за отображение информации о заболевании.
+ * */
 public class DiseaseFragment extends Fragment {
 
+    /**
+     * Константа-ключ для доступа к аргументу-заболеванию по идентификатору.
+     * */
     private static final String ARG_DISEASE_ID = "disease_id";
+    /**
+     * Метка DiseaseDatePicker.
+     * */
+    private static final String DIALOG_DISEASE_DATE = "DiseaseDialogDate";
 
     private Disease mDisease;
 
@@ -39,9 +50,9 @@ public class DiseaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Извлечение дополнения
+        // Извлечение ID заболевания
         UUID diseaseId = (UUID) getArguments().getSerializable(ARG_DISEASE_ID);
-        // Получение нужного экземпляра класса Disease по идентификатору
+        // Получение нужного экземпляра класса Disease по ID
         mDisease = DiseasesList.get(getActivity()).getDisease(diseaseId);
     }
 
@@ -51,6 +62,7 @@ public class DiseaseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_disease, container, false);
         mTitleField = view.findViewById(R.id.disease_title);
         mTitleField.setText(mDisease.getTitle());
+        // Добавление названия заболевания
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence sequence, int start, int count, int after) {
@@ -69,7 +81,12 @@ public class DiseaseFragment extends Fragment {
         });
         mDateButton = view.findViewById(R.id.disease_date);
         mDateButton.setText(mDisease.getDate().toString());
-        mDateButton.setEnabled(false);
+        mDateButton.setOnClickListener((View v) -> {
+            FragmentManager manager = getFragmentManager();
+            DiseaseDatePickerFragment diseaseDialog = DiseaseDatePickerFragment
+                    .newInstance(mDisease.getDate());
+            diseaseDialog.show(manager, DIALOG_DISEASE_DATE);
+        });
         mCuredCheckBox = view.findViewById(R.id.disease_cured);
         mCuredCheckBox.setChecked(mDisease.isCured());
         mCuredCheckBox

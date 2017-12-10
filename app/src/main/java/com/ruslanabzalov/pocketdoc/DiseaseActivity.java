@@ -11,17 +11,19 @@ import java.util.UUID;
  * */
 public class DiseaseActivity extends SingleFragmentActivity {
 
-    // Константа-ключ для доступа к дополнению-идентификатору экземпляра класса Disease
+    /**
+     * Константа-ключ для доступа к дополнению-идентификатору экземпляра класса Disease
+     * */
     private static final String EXTRA_DISEASE_ID = "com.ruslanabzalov.pocketdoc.disease_id";
 
     /**
      * Статический метод для создания нового интента с дополнениями.
      * */
-    public static Intent newIntent(Context packageContext, UUID crimeId) {
+    public static Intent newIntent(Context packageContext, UUID diseaseId) {
         // Создание нового интента
         Intent intent = new Intent(packageContext, DiseaseActivity.class);
         // Добавление дополнения в интент
-        intent.putExtra(EXTRA_DISEASE_ID, crimeId);
+        intent.putExtra(EXTRA_DISEASE_ID, diseaseId);
         return intent;
     }
 

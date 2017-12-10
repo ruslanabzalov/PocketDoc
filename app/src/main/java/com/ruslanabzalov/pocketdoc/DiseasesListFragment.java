@@ -85,11 +85,13 @@ public class DiseasesListFragment extends Fragment {
 
         /**
          * Метод, запускающий активность-хост DiseaseActivity с соответствующим фрагментом
-         * при нажатии на элемент списка RecyclerView.
+         * при нажатии на заболевание из списка RecyclerView.
          * */
         @Override
         public void onClick(View view) {
+            // Создание интента с дополнением в виде ID заболевания
             Intent intent = DiseaseActivity.newIntent(getActivity(), mDisease.getId());
+            // Запуск активности DiseaseActivity
             startActivity(intent);
         }
 
@@ -137,6 +139,7 @@ public class DiseasesListFragment extends Fragment {
             mAdapter = new DiseasesAdapter(diseases);
             mDiseasesRecyclerView.setAdapter(mAdapter);
         } else {
+            // Уведомление адаптера RecyclerView о том, что данные могли быть изменены
             mAdapter.notifyDataSetChanged();
         }
     }
