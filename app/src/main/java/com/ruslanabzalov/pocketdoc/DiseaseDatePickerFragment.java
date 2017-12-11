@@ -1,6 +1,8 @@
 package com.ruslanabzalov.pocketdoc;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -10,15 +12,18 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Класс, отвечающий за создание и настройку AlertDialog.
- * */
+ */
 public class DiseaseDatePickerFragment extends DialogFragment {
 
+    public static final String EXTRA_DISEASE_DATE = "com.ruslanabzalov.pocketdoc.date";
+
     /**
-     * Константа-ключ для упаковки аргумета, связанного с датой начала заболевания.
-     * */
+     * Константа-ключ для упаковки аргумента, связанного с датой начала заболевания.
+     */
     private static final String ARG_DISEASE_DATE = "disease date";
 
     private DatePicker mDiseaseDatePicker;
@@ -26,7 +31,9 @@ public class DiseaseDatePickerFragment extends DialogFragment {
     /**
      * Метод, создающий экземпляр фрагмента DiseaseDatePickerFragment,
      * а также упаковывающий и задающий его аргументы.
-     * */
+     * @param date
+     * @return
+     */
     public static DiseaseDatePickerFragment newInstance(Date date) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_DISEASE_DATE, date);
@@ -36,8 +43,10 @@ public class DiseaseDatePickerFragment extends DialogFragment {
     }
 
     /**
-     * Метод, создающий AlertDialog с заголовком и одной кнопкой Ok.
-     * */
+     * Метод, создающий AlertDialog для выбора даты начала лечения с заголовком и одной кнопкой Ok.
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Date date = (Date) getArguments().getSerializable(ARG_DISEASE_DATE);
@@ -54,7 +63,29 @@ public class DiseaseDatePickerFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.disease_date_picker_title)
-                .setPositiveButton(android.R.string.ok, null)
+                // Отправка результата после нажатия на кнопку Ok
+                .setPositiveButton(android.R.string.ok,
+                        (dialogInterface, i) -> {
+                            int year1 = mDiseaseDatePicker.getYear();
+                            int month1 = mDiseaseDatePicker.getMonth();
+                            int day1 = mDiseaseDatePicker.getDayOfMonth();
+                            Date date1 = new GregorianCalendar(year1, month1, day1).getTime();
+                            sendResult(Activity.RESULT_OK, date1);
+                        })
                 .create();
+    }
+
+    /**
+     * Метод, возвращающий результат целевому фрагменту.
+     * @param resultCode
+     * @param date
+     */
+    private void sendResult(int resultCode, Date date) {
+        if (getTargetFragment() == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_DISEASE_DATE, date);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 }

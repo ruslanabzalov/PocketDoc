@@ -8,17 +8,20 @@ import java.util.UUID;
 
 /**
  * Активность для хостинга фрагментов DiseaseFragment.
- * */
+ */
 public class DiseaseActivity extends SingleFragmentActivity {
 
     /**
-     * Константа-ключ для доступа к дополнению-идентификатору экземпляра класса Disease
-     * */
+     * Константа-ключ для доступа к дополнению-идентификатору экземпляра класса Disease.
+     */
     private static final String EXTRA_DISEASE_ID = "com.ruslanabzalov.pocketdoc.disease_id";
 
     /**
      * Статический метод для создания нового интента с дополнениями.
-     * */
+     * @param packageContext
+     * @param diseaseId
+     * @return
+     */
     public static Intent newIntent(Context packageContext, UUID diseaseId) {
         // Создание нового интента
         Intent intent = new Intent(packageContext, DiseaseActivity.class);
@@ -27,6 +30,10 @@ public class DiseaseActivity extends SingleFragmentActivity {
         return intent;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     protected Fragment createFragment() {
         UUID diseaseId = (UUID) getIntent().getSerializableExtra(EXTRA_DISEASE_ID);

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 /**
  * Класс-синглтон для отображения списка заболеваний.
- * */
+ */
 class DiseasesList {
 
     private static DiseasesList sDiseasesList;
@@ -16,8 +16,10 @@ class DiseasesList {
     private List<Disease> mDiseases;
 
     /**
-     * Метод, вовзращающий лишь один объект класса DiseasesList.
-     * */
+     * Метод, вовзращающий только один объект класса DiseasesList.
+     * @param context
+     * @return
+     */
     static DiseasesList get(Context context) {
         if (sDiseasesList == null) {
             sDiseasesList = new DiseasesList(context);
@@ -25,34 +27,35 @@ class DiseasesList {
         return sDiseasesList;
     }
 
+    /**
+     * Метод, создающий список список заболеваний.
+     * @param context
+     */
     private DiseasesList(Context context) {
         mDiseases = new ArrayList<>();
-        // Временное создание списка из 100 заболеваний
-        for (int counter = 0; counter < 100; counter++) {
-            Disease disease = new Disease();
-            disease.setTitle("Disease #" + counter);
-            disease.setCured(counter % 2 == 0); // Для каждого второго заболевания
-            mDiseases.add(disease);
-        }
     }
 
     /**
      * Метод, добавляющий новое заболевание в список.
-     * */
+     * @param disease
+     */
     void addDisease(Disease disease) {
         mDiseases.add(disease);
     }
 
     /**
      * Метод, возвращающий список заболеваний.
-     * */
+     * @return
+     */
     List<Disease> getDiseases() {
         return mDiseases;
     }
 
     /**
      * Метод, вовзращающий конкретное заболевание из списка.
-     * */
+     * @param id
+     * @return
+     */
     Disease getDisease(UUID id) {
         for (Disease disease : mDiseases) {
             if (disease.getId().equals(id)) {

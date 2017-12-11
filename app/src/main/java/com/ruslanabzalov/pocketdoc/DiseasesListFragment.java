@@ -25,6 +25,7 @@ public class DiseasesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Указание, что фрагмент должен получать обратные вызовы
         setHasOptionsMenu(true);
     }
 
@@ -36,26 +37,33 @@ public class DiseasesListFragment extends Fragment {
         // LayoutManager управляет позиционированием элементов,
         // а также определяет поведение прокрутки
         mDiseasesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateUI();
+        updateDiseaseListFragment();
         return view;
     }
 
     /**
      * Метод, заполняющий меню.
-     * */
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_diseases_list, menu);
     }
 
+    /**
+     * Метод, обрабатывающий нажатие на кнопку "+" меню.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_disease:
                 Disease disease = new Disease();
                 DiseasesList.get(getActivity()).addDisease(disease);
-                Intent intent = new Intent(getActivity(), DiseaseActivity.class);
+                Intent intent = DiseaseActivity.newIntent(getActivity(), disease.getId());
                 startActivity(intent);
                 return true;
             default:
@@ -86,7 +94,8 @@ public class DiseasesListFragment extends Fragment {
         /**
          * Метод, запускающий активность-хост DiseaseActivity с соответствующим фрагментом
          * при нажатии на заболевание из списка RecyclerView.
-         * */
+         * @param view
+         */
         @Override
         public void onClick(View view) {
             // Создание интента с дополнением в виде ID заболевания
@@ -126,13 +135,13 @@ public class DiseasesListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+        updateDiseaseListFragment();
     }
 
     /**
-     * Метод, настраивающий пользовательский интерфейс фрагмента.
-     * */
-    public void updateUI() {
+     * Метод, настраивающий пользовательский интерфейс фрагмента DiseaseListFragment.
+     */
+    public void updateDiseaseListFragment() {
         DiseasesList diseasesList = DiseasesList.get(getActivity());
         List<Disease> diseases = diseasesList.getDiseases();
         if (mAdapter == null) {

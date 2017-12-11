@@ -5,12 +5,11 @@ import java.util.UUID;
 
 /**
  * Класс, описывающий заболевание.
- * */
+ */
 class Disease {
 
     private UUID mId; // Генерируемый идентификатор заболевания
     private String mTitle; // Название заболевания
-    // TODO: Заменить одну дату на две: начало лечения и его конец
     private Date mDate; // Дата заболевания
     private boolean mCured; // Статус заболевания
 
