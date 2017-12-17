@@ -1,13 +1,15 @@
-package com.ruslanabzalov.pocketdoc;
+package com.ruslanabzalov.pocketdoc.disease;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.ruslanabzalov.pocketdoc.SingleFragmentActivity;
+
 import java.util.UUID;
 
 /**
- * Активность для хостинга фрагментов DiseaseFragment.
+ * Активность для хостинга фрагмента DiseaseFragment.
  */
 public class DiseaseActivity extends SingleFragmentActivity {
 

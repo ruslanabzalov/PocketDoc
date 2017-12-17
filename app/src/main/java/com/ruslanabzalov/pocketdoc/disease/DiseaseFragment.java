@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc;
+package com.ruslanabzalov.pocketdoc.disease;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+
+import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.Date;
 import java.util.UUID;
@@ -45,8 +47,7 @@ public class DiseaseFragment extends Fragment {
     private EditText mTitleField;
 
     /**
-     * Метод, создающий экземпляр фрагмента DiseaseFragment,
-     * а также упаковывающий и задающий его аргументы.
+     * Метод, создающий экземпляр фрагмента DiseaseFragment, а также задающий его аргументы.
      * @param diseaseId
      * @return
      */

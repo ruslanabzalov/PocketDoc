@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc;
+package com.ruslanabzalov.pocketdoc.disease;
 
 import android.content.Context;
 

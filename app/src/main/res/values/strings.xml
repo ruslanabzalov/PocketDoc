@@ -10,4 +10,5 @@
     <string name="disease_cured_label">Вылечено</string>
     <string name="disease_date_picker_title">Дата начала лечения:</string>
     <string name="new_disease">Новое заболевание</string>
+    <string name="search_docs">Поиск врачей</string>
 </resources>

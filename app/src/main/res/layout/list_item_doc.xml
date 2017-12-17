@@ -8,14 +8,8 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/disease_title"
+        android:id="@+id/doc_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Название болезни"/>
-
-    <TextView
-        android:id="@+id/disease_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Дата начала лечения"/>
+        tools:text="Имя доктора"/>
 </LinearLayout>

@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Абстрактный класс для создания и закрепления фрагмента.
+ * Абстрактный класс для создания и закрепления фрагментов.
  * */
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 

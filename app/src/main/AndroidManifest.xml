@@ -20,7 +20,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DiseaseActivity"
+            android:name=".disease.DiseaseActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".docs.DocActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
         </activity>

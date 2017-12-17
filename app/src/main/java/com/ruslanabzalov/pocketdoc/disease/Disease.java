@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc;
+package com.ruslanabzalov.pocketdoc.disease;
 
 import java.util.Date;
 import java.util.UUID;

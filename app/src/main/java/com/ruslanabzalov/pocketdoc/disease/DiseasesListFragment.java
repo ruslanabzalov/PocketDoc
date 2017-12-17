@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc;
+package com.ruslanabzalov.pocketdoc.disease;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.List;
 
@@ -71,14 +73,14 @@ public class DiseasesListFragment extends Fragment {
         }
     }
 
-    private class DiseasesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class DiseaseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
 
         private Disease mDisease;
 
-        private DiseasesHolder(LayoutInflater inflater, ViewGroup parent) {
+        private DiseaseHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_disease, parent, false));
             itemView.setOnClickListener(this);
             mTitleTextView = itemView.findViewById(R.id.disease_title);
@@ -98,15 +100,13 @@ public class DiseasesListFragment extends Fragment {
          */
         @Override
         public void onClick(View view) {
-            // Создание интента с дополнением в виде ID заболевания
             Intent intent = DiseaseActivity.newIntent(getActivity(), mDisease.getId());
-            // Запуск активности DiseaseActivity
             startActivity(intent);
         }
 
     }
 
-    private class DiseasesAdapter extends RecyclerView.Adapter<DiseasesHolder> {
+    private class DiseasesAdapter extends RecyclerView.Adapter<DiseaseHolder> {
 
         private List<Disease> mDiseases;
 
@@ -115,13 +115,13 @@ public class DiseasesListFragment extends Fragment {
         }
 
         @Override
-        public DiseasesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public DiseaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new DiseasesHolder(layoutInflater, parent);
+            return new DiseaseHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(DiseasesHolder holder, int position) {
+        public void onBindViewHolder(DiseaseHolder holder, int position) {
             Disease disease = mDiseases.get(position);
             holder.bind(disease);
         }
