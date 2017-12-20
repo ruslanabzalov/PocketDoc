@@ -12,4 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Имя доктора"/>
+
+    <TextView
+        android:id="@+id/doc_experience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Опыт"/>
+
+    <TextView
+        android:id="@+id/doc_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Цена"/>
 </LinearLayout>

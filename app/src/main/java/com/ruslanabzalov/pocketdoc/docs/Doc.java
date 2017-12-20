@@ -8,6 +8,8 @@ public class Doc {
     private String mId;
     private String mName;
     private String mDescription;
+    private String mPrice;
+    private String mExperience;
 
     @Override
     public String toString() {
@@ -36,5 +38,21 @@ public class Doc {
 
     public void setDescription(String description) {
         mDescription = description;
+    }
+
+    public String getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(String price) {
+        mPrice = price;
+    }
+
+    public String getExperience() {
+        return mExperience;
+    }
+
+    public void setExperience(String experience) {
+        mExperience = experience;
     }
 }

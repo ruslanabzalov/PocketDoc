@@ -1,5 +1,6 @@
 package com.ruslanabzalov.pocketdoc.docs;
 
+import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 
@@ -20,6 +21,9 @@ import java.util.List;
  */
 public class DocsFetch {
 
+    private static final String LOGIN = "partner.13849";
+    private static final String PASSWORD = "BIQWlAdw";
+
     private static final String TAG = "DocsFetch";
 
     /**
@@ -30,13 +34,13 @@ public class DocsFetch {
      */
     public byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
-        // Создание объекта подключения к URL-адресу
+        // Создание объекта подключения к URL-адресу по протоколу HTTP
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        String basicAuth = "Basic " + new String(Base64.encode("partner.13849:BIQWlAdw".getBytes(), Base64.NO_WRAP ));
+        String basicAuth = "Basic " +
+                new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(), Base64.NO_WRAP ));
         connection.setRequestProperty ("Authorization", basicAuth);
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            // Get the response code
             int statusCode = connection.getResponseCode();
             InputStream in;
             if (statusCode >= 200 && statusCode < 400) {
@@ -70,17 +74,37 @@ public class DocsFetch {
     /**
      * Метод, формирующий URL-запрос и загружающий его содержимое.
      */
-    public List<Doc> fetchItems() {
+    public List<Doc> fetchDocs() {
         List<Doc> docs = new ArrayList<>();
         try {
-            // Тестовое получение всех врачей в Москве
-            String jsonString =
-                    getUrlString("https://partner.13849:BIQWlAdw@back.docdoc.ru" +
-                            "/api/rest/1.0.6/json/doctor/list/start/0/count/345/city/1/" +
-                            "speciality/87/stations/168/near/mixed");
+            // Тестовое получение всех врачей специализации №87 в Москве
+            String url = Uri
+                    .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
+                    .buildUpon()
+                    .appendPath("api")
+                    .appendPath("rest")
+                    .appendPath("1.0.6")
+                    .appendPath("json")
+                    .appendPath("doctor")
+                    .appendPath("list")
+                    .appendPath("start")
+                    .appendPath("0")
+                    .appendPath("count")
+                    .appendPath("500")
+                    .appendPath("city")
+                    .appendPath("1")
+                    .appendPath("speciality")
+                    .appendPath("87")
+                    .appendPath("stations")
+                    .appendPath("168")
+                    .appendPath("near")
+                    .appendPath("mixed")
+                    .build()
+                    .toString();
+            String jsonString = getUrlString(url);
             Log.i(TAG, "JSON получен: " + jsonString);
-            JSONObject jsonBody = new JSONObject(jsonString);
-            parseItems(docs, jsonBody);
+            JSONObject json = new JSONObject(jsonString);
+            parseDocs(docs, json);
         } catch (IOException ex) {
             Log.e(TAG, "Ошибка при получении данных: ", ex);
         } catch (JSONException ex) {
@@ -90,22 +114,24 @@ public class DocsFetch {
     }
 
     /**
-     * Метод для парсинга JSON-данных.
-     * @param items
-     * @param jsonBody
+     * Метод для парсинга JSON.
+     * @param docs
+     * @param json
      * @throws IOException
      * @throws JSONException
      */
-    private void parseItems(List<Doc> items, JSONObject jsonBody) throws IOException,
+    private void parseDocs(List<Doc> docs, JSONObject json) throws IOException,
             JSONException {
-        JSONArray docsJsonArray = jsonBody.getJSONArray("DoctorList");
+        JSONArray docsJsonArray = json.getJSONArray("DoctorList");
         for (int counter = 0; counter < docsJsonArray.length(); counter++) {
             JSONObject docJsonObject = docsJsonArray.getJSONObject(counter);
             Doc doc = new Doc();
             doc.setId(docJsonObject.getString("Id"));
             doc.setName(docJsonObject.getString("Name"));
             doc.setDescription(docJsonObject.getString("Description"));
-            items.add(doc);
+            doc.setPrice(docJsonObject.getString("Price"));
+            doc.setExperience(docJsonObject.getString("ExperienceYear"));
+            docs.add(doc);
         }
     }
 }

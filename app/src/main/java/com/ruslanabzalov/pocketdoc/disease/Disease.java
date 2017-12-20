@@ -6,43 +6,43 @@ import java.util.UUID;
 /**
  * Класс, описывающий заболевание.
  */
-class Disease {
+public class Disease {
 
     private UUID mId; // Генерируемый идентификатор заболевания
     private String mTitle; // Название заболевания
     private Date mDate; // Дата заболевания
     private boolean mCured; // Статус заболевания
 
-    Disease() {
+    public Disease() {
         this.mId = UUID.randomUUID();
         this.mDate = new Date();
     }
 
-    UUID getId() {
+    public UUID getId() {
         return mId;
     }
 
-    String getTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    void setTitle(String title) {
+    public void setTitle(String title) {
         mTitle = title;
     }
 
-    Date getDate() {
+    public Date getDate() {
         return mDate;
     }
 
-    void setDate(Date date) {
+    public void setDate(Date date) {
         mDate = date;
     }
 
-    boolean isCured() {
+    public boolean isCured() {
         return mCured;
     }
 
-    void setCured(boolean cured) {
+    public void setCured(boolean cured) {
         mCured = cured;
     }
 }

@@ -43,18 +43,19 @@ public class DocsListFragment extends Fragment {
     }
 
     private void setupAdapter() {
+        // Проверка на добавление фрагмента к активности
         if (isAdded()) {
             mDocsRecyclerView.setAdapter(new DocsAdapter(mDocs));
         }
     }
 
     /**
-     * Класс для получения данных в бэкграунде.
+     * Класс для получения данных в фоновом потоке.
      */
     private class FetchItemsTask extends AsyncTask<Void, Void, List<Doc>> {
         @Override
         protected List<Doc> doInBackground(Void... params) {
-            return new DocsFetch().fetchItems();
+            return new DocsFetch().fetchDocs();
         }
 
         /**
@@ -72,17 +73,23 @@ public class DocsListFragment extends Fragment {
     private class DocsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mNameTextView;
+        private TextView mExperienceTextView;
+        private TextView mPriceTextView;
 
         private Doc mDoc;
 
         private DocsHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_doc, parent, false));
             mNameTextView = itemView.findViewById(R.id.doc_name);
+            mExperienceTextView = itemView.findViewById(R.id.doc_experience);
+            mPriceTextView = itemView.findViewById(R.id.doc_price);
         }
 
         public void bind(Doc doc) {
             mDoc = doc;
             mNameTextView.setText(mDoc.getName());
+            mExperienceTextView.setText(String.format("Опыт: %s", mDoc.getExperience()));
+            mPriceTextView.setText(String.format("Цена: %s", mDoc.getPrice()));
         }
 
         @Override
