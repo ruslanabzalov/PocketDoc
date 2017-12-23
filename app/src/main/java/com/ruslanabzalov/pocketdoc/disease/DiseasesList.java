@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Класс-синглтон для отображения списка заболеваний.
+ * Класс-синглтон, описывающий список заболеваний.
  */
-class DiseasesList {
+public class DiseasesList {
 
     private static DiseasesList sDiseasesList;
 
@@ -17,10 +17,10 @@ class DiseasesList {
 
     /**
      * Метод, вовзращающий только один объект класса DiseasesList.
-     * @param context
-     * @return
+     * @param context контекст
+     * @return экземпляр класса DiseaseList
      */
-    static DiseasesList get(Context context) {
+    public static DiseasesList get(Context context) {
         if (sDiseasesList == null) {
             sDiseasesList = new DiseasesList(context);
         }
@@ -29,7 +29,7 @@ class DiseasesList {
 
     /**
      * Метод, создающий список список заболеваний.
-     * @param context
+     * @param context контекст
      */
     private DiseasesList(Context context) {
         mDiseases = new ArrayList<>();
@@ -37,26 +37,26 @@ class DiseasesList {
 
     /**
      * Метод, добавляющий новое заболевание в список.
-     * @param disease
+     * @param disease заболевание
      */
-    void addDisease(Disease disease) {
+    public void addDisease(Disease disease) {
         mDiseases.add(disease);
     }
 
     /**
      * Метод, возвращающий список заболеваний.
-     * @return
+     * @return список заболеваний
      */
-    List<Disease> getDiseases() {
+    public List<Disease> getDiseases() {
         return mDiseases;
     }
 
     /**
      * Метод, вовзращающий конкретное заболевание из списка.
-     * @param id
-     * @return
+     * @param id идентификатор заболевания
+     * @return конкретное заболевание или null, если его нет в списке
      */
-    Disease getDisease(UUID id) {
+    public Disease getDisease(UUID id) {
         for (Disease disease : mDiseases) {
             if (disease.getId().equals(id)) {
                 return disease;

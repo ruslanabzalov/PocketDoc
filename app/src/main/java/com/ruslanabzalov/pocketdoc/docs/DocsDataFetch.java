@@ -19,12 +19,12 @@ import java.util.List;
 /**
  * Класс, для получение списка врачей посредством API.
  */
-public class DocsFetch {
+public class DocsDataFetch {
 
     private static final String LOGIN = "partner.13849";
     private static final String PASSWORD = "BIQWlAdw";
 
-    private static final String TAG = "DocsFetch";
+    private static final String TAG = "DocsDataFetch";
 
     /**
      * Метод, получающий низкоуровневые данные по URL.
@@ -36,7 +36,7 @@ public class DocsFetch {
         URL url = new URL(urlSpec);
         // Создание объекта подключения к URL-адресу по протоколу HTTP
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        String basicAuth = "Basic " +
+        String basicAuth ="Basic " +
                 new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(), Base64.NO_WRAP ));
         connection.setRequestProperty ("Authorization", basicAuth);
         try {
@@ -45,8 +45,7 @@ public class DocsFetch {
             InputStream in;
             if (statusCode >= 200 && statusCode < 400) {
                 in = connection.getInputStream();
-            }
-            else {
+            } else {
                 in = connection.getErrorStream();
             }
             int bytesRead = 0;
@@ -114,14 +113,13 @@ public class DocsFetch {
     }
 
     /**
-     * Метод для парсинга JSON.
+     * Метод для парсинга JSON-данных.
      * @param docs
      * @param json
      * @throws IOException
      * @throws JSONException
      */
-    private void parseDocs(List<Doc> docs, JSONObject json) throws IOException,
-            JSONException {
+    private void parseDocs(List<Doc> docs, JSONObject json) throws IOException, JSONException {
         JSONArray docsJsonArray = json.getJSONArray("DoctorList");
         for (int counter = 0; counter < docsJsonArray.length(); counter++) {
             JSONObject docJsonObject = docsJsonArray.getJSONObject(counter);
@@ -131,6 +129,7 @@ public class DocsFetch {
             doc.setDescription(docJsonObject.getString("Description"));
             doc.setPrice(docJsonObject.getString("Price"));
             doc.setExperience(docJsonObject.getString("ExperienceYear"));
+            doc.setRating(docJsonObject.getString("Rating"));
             docs.add(doc);
         }
     }

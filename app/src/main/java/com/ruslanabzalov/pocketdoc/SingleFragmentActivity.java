@@ -6,13 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Абстрактный класс, предназначенный для создания и закрепления фрагментов.
+ * Абстрактный класс для создания и закрепления фрагментов.
  * */
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     /**
-     * Метод, предназначенный для создания фрагмента.
-     * @return Фрагмент
+     * Абстрактный метод для создания фрагмента.
+     * @return новый фрагмент.
      */
     protected abstract Fragment createFragment();
 
@@ -24,9 +24,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
             fragment = createFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
+            fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
         }
     }
 }

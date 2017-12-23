@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ruslanabzalov.pocketdoc.disease.DiseasesListFragment;
-import com.ruslanabzalov.pocketdoc.docs.DocsListFragment;
+import com.ruslanabzalov.pocketdoc.docs.DocsSearchFragment;
 import com.ruslanabzalov.pocketdoc.map.MapFragment;
 import com.ruslanabzalov.pocketdoc.profile.ProfileFragment;
 
@@ -21,30 +21,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, new DocsListFragment()).commit();
+        // Отображение фрагмента DocsSearchFragment при создании активности MainActivity.
+        transaction.replace(R.id.container, new DocsSearchFragment()).commit();
+        navigation.setOnNavigationItemSelectedListener(item -> {
+            FragmentManager newFm = getSupportFragmentManager();
+            FragmentTransaction newTransaction = newFm.beginTransaction();
+            switch (item.getItemId()) {
+                case R.id.navigation_docs:
+                    newTransaction.replace(R.id.container, new DocsSearchFragment()).commit();
+                    return true;
+                case R.id.navigation_medication:
+                    newTransaction.replace(R.id.container, new DiseasesListFragment()).commit();
+                    return true;
+                case R.id.navigation_map:
+                    newTransaction.replace(R.id.container, new MapFragment()).commit();
+                    return true;
+                case R.id.navigation_profile:
+                    newTransaction.replace(R.id.container, new ProfileFragment()).commit();
+                    return true;
+            }
+            return false;
+        });
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener
-            mOnNavigationItemSelectedListener = item -> {
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                switch (item.getItemId()) {
-                    case R.id.navigation_docs:
-                        transaction.replace(R.id.container, new DocsListFragment()).commit();
-                        return true;
-                    case R.id.navigation_medication:
-                        transaction.replace(R.id.container, new DiseasesListFragment()).commit();
-                        return true;
-                    case R.id.navigation_map:
-                        transaction.replace(R.id.container, new MapFragment()).commit();
-                        return true;
-                    case R.id.navigation_profile:
-                        transaction.replace(R.id.container, new ProfileFragment()).commit();
-                        return true;
-                }
-                return false;
-            };
 }

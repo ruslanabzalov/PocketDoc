@@ -24,4 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Цена"/>
+
+    <TextView
+        android:id="@+id/doc_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Цена"/>
 </LinearLayout>

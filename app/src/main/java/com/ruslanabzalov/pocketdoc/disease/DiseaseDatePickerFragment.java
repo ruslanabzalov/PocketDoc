@@ -17,24 +17,24 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Класс, отвечающий за создание и настройку AlertDialog.
+ * Класс, отвечающий за создание и настройку AlertDialog, предназначенного для выбора даты.
  */
 public class DiseaseDatePickerFragment extends DialogFragment {
 
-    public static final String EXTRA_DISEASE_DATE = "com.ruslanabzalov.pocketdoc.date";
+    public static final String EXTRA_DISEASE_DATE = "com.ruslanabzalov.pocketdoc.disease.date";
 
     /**
-     * Константа-ключ для упаковки аргумента, связанного с датой начала заболевания.
+     * Константа-ключ для упаковки аргумента, связанного с датой начала лечения.
      */
-    private static final String ARG_DISEASE_DATE = "disease date";
+    private static final String ARG_DISEASE_DATE = "disease_date";
 
     private DatePicker mDiseaseDatePicker;
 
     /**
      * Метод, создающий экземпляр фрагмента DiseaseDatePickerFragment,
      * а также упаковывающий и задающий его аргументы.
-     * @param date
-     * @return
+     * @param date дата начала лечения
+     * @return фрагмент DiseaseDatePickerFragment
      */
     public static DiseaseDatePickerFragment newInstance(Date date) {
         Bundle args = new Bundle();
@@ -47,7 +47,7 @@ public class DiseaseDatePickerFragment extends DialogFragment {
     /**
      * Метод, создающий AlertDialog для выбора даты начала лечения с заголовком и одной кнопкой Ok.
      * @param savedInstanceState
-     * @return
+     * @return объект типа AlertDialog
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -68,19 +68,19 @@ public class DiseaseDatePickerFragment extends DialogFragment {
                 // Отправка результата после нажатия на кнопку Ok
                 .setPositiveButton(android.R.string.ok,
                         (dialogInterface, i) -> {
-                            int year1 = mDiseaseDatePicker.getYear();
-                            int month1 = mDiseaseDatePicker.getMonth();
-                            int day1 = mDiseaseDatePicker.getDayOfMonth();
-                            Date date1 = new GregorianCalendar(year1, month1, day1).getTime();
-                            sendResult(Activity.RESULT_OK, date1);
+                            int newYear = mDiseaseDatePicker.getYear();
+                            int newMonth = mDiseaseDatePicker.getMonth();
+                            int newDay = mDiseaseDatePicker.getDayOfMonth();
+                            Date newDate = new GregorianCalendar(newYear, newMonth, newDay).getTime();
+                            sendResult(Activity.RESULT_OK, newDate);
                         })
                 .create();
     }
 
     /**
      * Метод, возвращающий результат целевому фрагменту.
-     * @param resultCode
-     * @param date
+     * @param resultCode код результата
+     * @param date дата начала лечения
      */
     private void sendResult(int resultCode, Date date) {
         if (getTargetFragment() == null) {

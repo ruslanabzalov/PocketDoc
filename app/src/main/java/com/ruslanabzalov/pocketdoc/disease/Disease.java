@@ -8,9 +8,9 @@ import java.util.UUID;
  */
 public class Disease {
 
-    private UUID mId; // Генерируемый идентификатор заболевания
+    private UUID mId; // Идентификатор заболевания
     private String mTitle; // Название заболевания
-    private Date mDate; // Дата заболевания
+    private Date mDate; // Дата начала лечения
     private boolean mCured; // Статус заболевания
 
     public Disease() {

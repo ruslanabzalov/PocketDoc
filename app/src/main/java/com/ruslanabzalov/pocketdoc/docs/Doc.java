@@ -1,20 +1,18 @@
 package com.ruslanabzalov.pocketdoc.docs;
 
+import java.io.Serializable;
+
 /**
  * Класс, описывающий врача и необходимые о нём данные.
  */
-public class Doc {
+public class Doc implements Serializable {
 
     private String mId;
     private String mName;
     private String mDescription;
     private String mPrice;
     private String mExperience;
-
-    @Override
-    public String toString() {
-        return mName;
-    }
+    private String mRating;
 
     public String getName() {
         return mName;
@@ -54,5 +52,13 @@ public class Doc {
 
     public void setExperience(String experience) {
         mExperience = experience;
+    }
+
+    public String getRating() {
+        return mRating;
+    }
+
+    public void setRating(String rating) {
+        mRating = rating;
     }
 }

@@ -14,27 +14,27 @@ import java.util.UUID;
 public class DiseaseActivity extends SingleFragmentActivity {
 
     /**
-     * Константа-ключ для доступа к дополнению-идентификатору экземпляра класса Disease.
+     * Ключ для доступа к дополнению-идентификатору экземпляра класса Disease.
      */
-    private static final String EXTRA_DISEASE_ID = "com.ruslanabzalov.pocketdoc.disease_id";
+    private static final String EXTRA_DISEASE_ID = "com.ruslanabzalov.pocketdoc.disease.disease_id";
 
     /**
-     * Статический метод для создания нового интента с дополнениями.
-     * @param packageContext
-     * @param diseaseId
-     * @return
+     * Статический метод, создающий новый интент с дополнениями
+     * для запуска активности DiseaseActivity.
+     * @param packageContext контекст
+     * @param diseaseId ID заболевания
+     * @return интент с дополнениями для запуска активности DiseaseActivity
      */
     public static Intent newIntent(Context packageContext, UUID diseaseId) {
-        // Создание нового интента
         Intent intent = new Intent(packageContext, DiseaseActivity.class);
-        // Добавление дополнения в интент
         intent.putExtra(EXTRA_DISEASE_ID, diseaseId);
         return intent;
     }
 
     /**
-     *
-     * @return
+     * Метод, создающий фрагмент DiseaseFragment и передающий ему дополнения,
+     * полученные от активности MainActivity.
+     * @return фрагмент DiseaseFragment с аргументами
      */
     @Override
     protected Fragment createFragment() {
