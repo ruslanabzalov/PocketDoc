@@ -10,7 +10,8 @@
     <string name="disease_cured_label">Вылечено</string>
     <string name="disease_date_picker_title">Дата начала лечения:</string>
     <string name="new_disease">Новое заболевание</string>
-    <string name="doc_title_hint">Введите тип врача</string>
-    <string name="doc_date_label">Дата записи</string>
-    <string name="search_docs">Поиск врачей</string>
+    <string name="docs_types">Тип врачей</string>
+    <string name="docs_metros">Ближайшая станция метро</string>
+    <string name="docs_date">Дата записи</string>
+    <string name="docs_search">Поиск врачей</string>
 </resources>

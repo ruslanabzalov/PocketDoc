@@ -23,21 +23,25 @@ public class DocsListFragment extends Fragment {
 
     private static final String TAG = "DocsListFragment";
 
-    private static final String ARG_DOC_TYPE = "doc_type";
+    private static final String ARG_DOCS_TYPE = "docs_type";
+    private static final String ARG_DOCS_METRO = "docs_metro";
+//    private static final String ARG_DOCS_DATE = "docs_date";
 
     private RecyclerView mDocsRecyclerView;
 
     private List<Doc> mDocs = new ArrayList<>();
 
-    /**
-     * Статический метод, предназначенный для создания фрагмента типа DocsListFragment
-     * и прикрепления к нему необходимых аргументов.
-     * @param docType
-     * @return
-     */
-    public static DocsListFragment newInstance(String docType) {
+    private String mDocsTypeId;
+    private String mDocsMetroId;
+//    private String mDocsDate;
+
+
+    public static DocsListFragment newInstance(String docsType, String docsMetro) {
+//    }, String docsDate) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_DOC_TYPE, docType);
+        args.putCharSequence(ARG_DOCS_TYPE, docsType);
+        args.putCharSequence(ARG_DOCS_METRO, docsMetro);
+//        args.putCharSequence(ARG_DOCS_DATE, docsDate);
         DocsListFragment fragment = new DocsListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -47,14 +51,17 @@ public class DocsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        new FetchItemsTask().execute(); // Запуск фонового потока
+        mDocsTypeId = getArguments().getCharSequence(ARG_DOCS_TYPE).toString();
+        mDocsMetroId = getArguments().getCharSequence(ARG_DOCS_METRO).toString();
+//        mDocsDate = getArguments().getCharSequence(ARG_DOCS_DATE).toString();
+        new FetchDocsTask().execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_docs_list, container, false);
-        mDocsRecyclerView = view.findViewById(R.id.docs_recycler_view);
+        mDocsRecyclerView = view.findViewById(R.id.docs_list_recycler_view);
         mDocsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setupAdapter();
         return view;
@@ -72,10 +79,11 @@ public class DocsListFragment extends Fragment {
     /**
      * Класс для получения данных в фоновом потоке.
      */
-    private class FetchItemsTask extends AsyncTask<Void, Void, List<Doc>> {
+    private class FetchDocsTask extends AsyncTask<Void, Void, List<Doc>> {
         @Override
         protected List<Doc> doInBackground(Void... params) {
-            return new DocsDataFetch().fetchDocs();
+            // TODO: В будущем передавать в этом метод и дату
+            return new DocsDataFetch().fetchDocs(mDocsTypeId, mDocsMetroId);
         }
 
         /**
@@ -178,7 +186,7 @@ public class DocsListFragment extends Fragment {
 
         /**
          * Метод, возвращающий общее количество объектов в списке.
-         * @return
+         * @return общее количество объектов в списке.
          */
         @Override
         public int getItemCount() {

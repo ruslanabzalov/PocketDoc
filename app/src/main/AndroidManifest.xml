@@ -25,18 +25,21 @@
         </activity>
         <activity
             android:name=".disease.DiseaseActivity"
-            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".docs.DocActivity"
-            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCXeHWxYW24pqUH1cxTX5pTHxKZ0O011nA" />
 
-        <activity android:name=".docs.DocsListActivity"></activity>
+        <activity
+            android:name=".docs.DocsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".docs.DocsSearchParamsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
