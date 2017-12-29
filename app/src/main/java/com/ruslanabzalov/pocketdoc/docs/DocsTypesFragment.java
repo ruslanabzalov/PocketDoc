@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ruslanabzalov.pocketdoc.DataFetch;
 import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.ArrayList;
@@ -20,17 +21,20 @@ import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Фаргмент для отображения списка специализаций врачей.
+ */
 public class DocsTypesFragment extends Fragment {
 
+    // Константы для отправки данных родительской активности.
     private static final String EXTRA_DOCS_TYPE_ID
             = "com.ruslanabzalov.pocketdoc.docs.docs_type_id";
     private static final String EXTRA_DOCS_TYPE_NAME
             = "com.ruslanabzalov.pocketdoc.docs.docs_type_name";
 
-    // Структура данных для хранения наименований специализаций и их идентификаторов
-    // как пара ключ-значение.
+    // Структура данных для хранения наименований специализаций и их идентификаторов.
     private Map<String, String> mDocsTypes = new HashMap<>();
-    // Структура данных для хранения списка специализаций.
+    // Структура данных для хранения списка наименований специализаций.
     private List<String> mTypesList = new ArrayList<>();
 
     private RecyclerView mDocsTypesRecyclerView;
@@ -38,6 +42,7 @@ public class DocsTypesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Запуск фоновых потоков.
         new FetchDocsTypesTask().execute();
         new FetchDocsTypesListTask().execute();
     }
@@ -52,7 +57,6 @@ public class DocsTypesFragment extends Fragment {
         return view;
     }
 
-
     /**
      * Метод, связывающий объект типа DocsTypesAdapter с объектом типа RecyclerView.
      */
@@ -62,27 +66,38 @@ public class DocsTypesFragment extends Fragment {
         }
     }
 
+    /**
+     * Метод, упаковывающий данные для родительской активности, отправляющий ей результат
+     * и завершающий текущущю активность.
+     * @param docsTypeId идентификатор специализации врачей.
+     * @param docsTypeName наименование специализации врачей.
+     */
     private void docsTypeResult(String docsTypeId, String docsTypeName) {
         Intent data = new Intent();
         data.putExtra(EXTRA_DOCS_TYPE_ID, docsTypeId);
         data.putExtra(EXTRA_DOCS_TYPE_NAME, docsTypeName);
-        getActivity().setResult(RESULT_OK, data);
-        getActivity().finish();
+        getActivity().setResult(RESULT_OK, data); // Отправка результатов родительской активности.
+        getActivity().finish(); // Завершение текущей активности.
     }
 
     /**
      * Класс для получения данных о всех специализациях и их идентификаторах в фоновом потоке.
      */
     private class FetchDocsTypesTask extends AsyncTask<Void, Void, Map<String, String>> {
+        /**
+         * Метод, обрабатывающий и возвращающий необходимые данные в фоновом потоке.
+         * @param params
+         * @return структура данных, хранящая наименования специализаций и их идентификаторы.
+         */
         @Override
         protected Map<String, String> doInBackground(Void... params) {
-            return new DocsDataFetch().fetchDocsTypesAndIds();
+            return new DataFetch().fetchDocsTypesAndIds();
         }
 
         /**
          * Метод, выполняющийся в главном потоке после метода doInBackground()
-         * и служащий для обновления UI.
-         * @param docsTypes
+         * и служащий для обновления данных.
+         * @param docsTypes объект, хранящий идентификатор и соответствующее наименование.
          */
         @Override
         protected void onPostExecute(Map<String, String> docsTypes) {
@@ -94,15 +109,20 @@ public class DocsTypesFragment extends Fragment {
      * Класс для получения данных в виде списка всех специализаций в фоновом потоке.
      */
     private class FetchDocsTypesListTask extends AsyncTask<Void, Void, List<String>> {
+        /**
+         * Метод, обрабатывающий и возвращающий необходимые данные в фоновом потоке.
+         * @param params
+         * @return список всех полученных наименований специализаций.
+         */
         @Override
         protected List<String> doInBackground(Void... params) {
-            return new DocsDataFetch().fetchDocsTypes();
+            return new DataFetch().fetchDocsTypes();
         }
 
         /**
          * Метод, выполняющийся в главном потоке после метода doInBackground()
          * и служащий для обновления UI.
-         * @param typesList
+         * @param typesList список всех полученных наименований специализаций.
          */
         @Override
         protected void onPostExecute(List<String> typesList) {
@@ -112,7 +132,7 @@ public class DocsTypesFragment extends Fragment {
     }
 
     /**
-     * Класс, описывающий определённый объект типа DocsTypesHolder.
+     * Класс, описывающий холдер типа DocsTypesHolder.
      */
     private class DocsTypesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -121,7 +141,7 @@ public class DocsTypesFragment extends Fragment {
         private String mDocsType;
 
         /**
-         * Конструктор для созданя объекта типа DocsTypesHolder и его представления.
+         * Конструктор для создания холдера типа DocsTypesHolder и его представления.
          * @param inflater
          * @param parent
          */
@@ -132,8 +152,8 @@ public class DocsTypesFragment extends Fragment {
         }
 
         /**
-         * Метод, связывающий конкретный объект типа DocsTypesHolder с определёнными данными модели.
-         * @param docsType
+         * Метод, связывающий конкретный холдер типа DocsTypesHolder с определёнными данными модели.
+         * @param docsType наименование специализации врачей.
          */
         public void bind(String docsType) {
             mDocsType = docsType;
@@ -153,23 +173,22 @@ public class DocsTypesFragment extends Fragment {
     }
 
     /**
-     * Класс, описывающий объект типа DocsTypesAdapter.
+     * Класс, описывающий адаптер типа DocsTypesAdapter.
      */
-    private class DocsTypesAdapter
-            extends RecyclerView.Adapter<DocsTypesFragment.DocsTypesHolder> {
+    private class DocsTypesAdapter extends RecyclerView.Adapter<DocsTypesFragment.DocsTypesHolder> {
 
         private List<String> mTypesList;
 
         /**
-         * Констуктор для создания объекта типа DocsTypesAdapter с данными модели.
-         * @param docsTypes
+         * Констуктор для создания адаптера типа DocsTypesAdapter с данными модели.
+         * @param docsTypes список наименований специализаций врачей.
          */
         public DocsTypesAdapter(List<String> docsTypes) {
             mTypesList = docsTypes;
         }
 
         /**
-         * Метод, создающий объект типа DocsTypesHolder с его представлением.
+         * Метод, создающий адаптер типа DocsTypesHolder с его представлением.
          * @param viewGroup
          * @param viewType
          * @return
@@ -182,9 +201,10 @@ public class DocsTypesFragment extends Fragment {
         }
 
         /**
-         * Метод, связывающий данные модели для определённой позиции в списке с их представлением.
-         * @param docsTypesHolder
-         * @param position
+         * Метод, связывающий данные модели для определённой позиции в списке специализаций
+         * с их представлением.
+         * @param docsTypesHolder холдер.
+         * @param position позиция объекта в списке.
          */
         @Override
         public void onBindViewHolder(DocsTypesFragment.DocsTypesHolder docsTypesHolder,

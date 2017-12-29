@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 
 import com.ruslanabzalov.pocketdoc.SingleFragmentActivity;
 
+/**
+ * Активность для хостинга фрагментов DocsTypesFragment и DocsMetrosFragment.
+ */
 public class DocsSearchParamsActivity extends SingleFragmentActivity {
 
     private static String mTargetFragmentName;

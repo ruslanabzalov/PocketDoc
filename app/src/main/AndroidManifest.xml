@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ruslanabzalov.pocketdoc">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -29,17 +29,15 @@
         <activity
             android:name=".docs.DocActivity"
             android:screenOrientation="portrait" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCXeHWxYW24pqUH1cxTX5pTHxKZ0O011nA" />
-
         <activity
             android:name=".docs.DocsListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".docs.DocsSearchParamsActivity"
             android:screenOrientation="portrait" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCO841-X0S0NmcbQv_rTYO9Rn0dO9EStbo" />
     </application>
 
 </manifest>

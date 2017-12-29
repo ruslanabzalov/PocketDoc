@@ -77,6 +77,12 @@ public class DocsSearchFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Метод для получения результатов от дочерних активностей.
+     * @param requestCode код запроса.
+     * @param resultCode код результата.
+     * @param data данные, переданные главной активности.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
@@ -104,7 +110,7 @@ public class DocsSearchFragment extends Fragment {
     }
 
     /**
-     * Метод, проверяющий выбор всех необходимых параметров для поиска.
+     * Метод, проверяющий выбор всех необходимых параметров для поиска врачей.
      */
     private void checkDocsTypeAndMetroButtons() {
         if (!mDocsTypeButton.isEnabled() && !mDocsMetroButton.isEnabled()) {

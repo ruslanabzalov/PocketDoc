@@ -1,8 +1,10 @@
-package com.ruslanabzalov.pocketdoc.docs;
+package com.ruslanabzalov.pocketdoc;
 
 import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
+
+import com.ruslanabzalov.pocketdoc.docs.Doc;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,13 +23,13 @@ import java.util.Map;
 /**
  * Класс, для получение списка врачей посредством API.
  */
-public class DocsDataFetch {
+public class DataFetch {
 
     // Логин и пароль для получения данных посредством API.
     private static final String LOGIN = "partner.13849";
     private static final String PASSWORD = "BIQWlAdw";
 
-    private static final String TAG = "DocsDataFetch";
+    private static final String TAG = "DataFetch";
 
     /**
      * Метод, получающий низкоуровневые данные по URL.
@@ -294,4 +296,13 @@ public class DocsDataFetch {
         }
     }
 
+//    // TODO: Реализовать метод для получения данных о клиниках в Москве.
+//    public List<Hospital> fetchHospitals() {
+//        // Пустая реализация.
+//    }
+//
+//    // TODO: Реализовать метод для парсинга JSON-данных о клиниках в Москве.
+//    private void parseHospitals(List<Hospital> hospitals, JSONObject json) {
+//        // Пустая реализация.
+//    }
 }

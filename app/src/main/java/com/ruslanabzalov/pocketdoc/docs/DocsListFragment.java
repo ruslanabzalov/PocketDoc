@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ruslanabzalov.pocketdoc.DataFetch;
 import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.ArrayList;
@@ -35,7 +36,12 @@ public class DocsListFragment extends Fragment {
     private String mDocsMetroId;
 //    private String mDocsDate;
 
-
+    /**
+     * Метод для создания нового фрагмента DocsListFragment и упаковывающий в него аргументы.
+     * @param docsType идентификатор специализации врачей.
+     * @param docsMetro идентификатор станции метро.
+     * @return Новый фрагмент DocsListFragment.
+     */
     public static DocsListFragment newInstance(String docsType, String docsMetro) {
 //    }, String docsDate) {
         Bundle args = new Bundle();
@@ -80,10 +86,15 @@ public class DocsListFragment extends Fragment {
      * Класс для получения данных в фоновом потоке.
      */
     private class FetchDocsTask extends AsyncTask<Void, Void, List<Doc>> {
+        /**
+         *
+         * @param params
+         * @return
+         */
         @Override
         protected List<Doc> doInBackground(Void... params) {
             // TODO: В будущем передавать в этом метод и дату
-            return new DocsDataFetch().fetchDocs(mDocsTypeId, mDocsMetroId);
+            return new DataFetch().fetchDocs(mDocsTypeId, mDocsMetroId);
         }
 
         /**
@@ -126,7 +137,7 @@ public class DocsListFragment extends Fragment {
 
         /**
          * Метод, связывающий конкретный объект типа DocsHolder с определёнными данными модели.
-         * @param doc
+         * @param doc объект
          */
         public void bind(Doc doc) {
             mDoc = doc;
