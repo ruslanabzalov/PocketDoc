@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.DataFetch;
 import com.ruslanabzalov.pocketdoc.R;
@@ -105,6 +106,10 @@ public class DocsListFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Doc> docs) {
             mDocs = docs;
+            if (mDocs.size() == 0) {
+                Toast.makeText(getActivity(), "Врачи с такими характеристиками не найдены!",
+                        Toast.LENGTH_SHORT).show();
+            }
             setupAdapter();
         }
     }
@@ -118,6 +123,7 @@ public class DocsListFragment extends Fragment {
         private TextView mExperienceTextView;
         private TextView mPriceTextView;
         private TextView mRatingTextView;
+        private TextView mAddressTextView;
 
         private Doc mDoc;
 
@@ -133,6 +139,7 @@ public class DocsListFragment extends Fragment {
             mExperienceTextView = itemView.findViewById(R.id.doc_experience);
             mPriceTextView = itemView.findViewById(R.id.doc_price);
             mRatingTextView = itemView.findViewById(R.id.doc_rating);
+            mAddressTextView = itemView.findViewById(R.id.doc_address);
         }
 
         /**
@@ -142,9 +149,10 @@ public class DocsListFragment extends Fragment {
         public void bind(Doc doc) {
             mDoc = doc;
             mNameTextView.setText(mDoc.getName());
-            mExperienceTextView.setText(String.format("Опыт: %s", mDoc.getExperience()));
-            mPriceTextView.setText(String.format("Цена: %s", mDoc.getPrice()));
-            mRatingTextView.setText(String.format("Рейтинг: %s", mDoc.getRating()));
+            mExperienceTextView.setText(String.format("Опыт работы: %s", mDoc.getExperience()));
+            mPriceTextView.setText(String.format("Цена посещения: %s\u20BD", mDoc.getPrice()));
+            mRatingTextView.setText(String.format("Рейтинг: %s из 5", mDoc.getRating()));
+            mAddressTextView.setText(String.format("Адрес: %s", mDoc.getAddress()));
         }
 
         /**

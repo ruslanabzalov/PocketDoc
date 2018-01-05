@@ -27,6 +27,12 @@
             android:name=".disease.DiseaseActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".disease.DrugsListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".disease.DrugActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".docs.DocActivity"
             android:screenOrientation="portrait" />
         <activity

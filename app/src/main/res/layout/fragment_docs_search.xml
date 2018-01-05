@@ -27,29 +27,16 @@
         android:id="@+id/docs_metros"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-<!--
-    <TextView
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/docs_date"/>
 
-    <Button
-        android:id="@+id/docs_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
--->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="bottom|center"
-        android:layout_margin="16dp">
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/docs_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/docs_search"/>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

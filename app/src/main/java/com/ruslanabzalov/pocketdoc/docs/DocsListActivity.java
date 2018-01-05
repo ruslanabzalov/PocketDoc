@@ -18,7 +18,7 @@ public class DocsListActivity extends SingleFragmentActivity {
      * @param packageContext контекст.
      * @param docsType идентификатор специализации врачей.
      * @param docsMetro идентификатор станции метро.
-     * @return Интент для запуска активности DocsListActivity.
+     * @return интент для запуска активности DocsListActivity.
      */
     public static Intent newIntent(Context packageContext, String docsType, String docsMetro) {
 //    ,String docsDate) {

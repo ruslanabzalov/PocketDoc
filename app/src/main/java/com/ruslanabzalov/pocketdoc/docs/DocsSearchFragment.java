@@ -29,17 +29,14 @@ public class DocsSearchFragment extends Fragment {
     // Коды запросов для корректного получения данных от дочерней активности.
     private static final int REQUEST_CODE_TYPES = 0;
     private static final int REQUEST_CODE_METROS = 1;
-//    private static final int REQUEST_CODE_DATE = 2;
 
     private String mDocsTypeId;
     private String mDocsTypeName;
     private String mDocsMetroId;
     private String mDocsMetroName;
-//    private String mDocsDate;
 
     private Button mDocsTypeButton;
     private Button mDocsMetroButton;
-//    private Button mDocsDateButton;
     private Button mDocsSearchButton;
 
     @Override
@@ -63,11 +60,6 @@ public class DocsSearchFragment extends Fragment {
                     .newIntent(getActivity(), "DocsMetrosFragment");
             startActivityForResult(intent, REQUEST_CODE_METROS);
         });
-//        mDocsDateButton = view.findViewById(R.id.docs_date);
-//        mDocsDateButton.setOnClickListener((View v) -> {
-//            Intent intent = DocsListActivity.newIntent(getActivity());
-//            startActivityForResult(intent, REQUEST_CODE_DATE);
-//        });
         mDocsSearchButton = view.findViewById(R.id.docs_search);
         mDocsSearchButton.setEnabled(false);
         mDocsSearchButton.setOnClickListener((View v) -> {
@@ -95,25 +87,24 @@ public class DocsSearchFragment extends Fragment {
             mDocsTypeId = data.getStringExtra(EXTRA_DOCS_TYPE_ID);
             mDocsTypeName = data.getStringExtra(EXTRA_DOCS_TYPE_NAME);
             mDocsTypeButton.setText(mDocsTypeName);
-            mDocsTypeButton.setEnabled(false);
-            checkDocsTypeAndMetroButtons();
-        } else if (requestCode == REQUEST_CODE_METROS) {
+            checkButtons();
+        }
+        if (requestCode == REQUEST_CODE_METROS) {
             if (data == null) {
                 return;
             }
             mDocsMetroId = data.getStringExtra(EXTRA_DOCS_METRO_ID);
             mDocsMetroName = data.getStringExtra(EXTRA_DOCS_METRO_NAME);
             mDocsMetroButton.setText(mDocsMetroName);
-            mDocsMetroButton.setEnabled(false);
-            checkDocsTypeAndMetroButtons();
+            checkButtons();
         }
     }
 
     /**
      * Метод, проверяющий выбор всех необходимых параметров для поиска врачей.
      */
-    private void checkDocsTypeAndMetroButtons() {
-        if (!mDocsTypeButton.isEnabled() && !mDocsMetroButton.isEnabled()) {
+    private void checkButtons() {
+        if (!mDocsTypeButton.getText().equals("") && !mDocsMetroButton.getText().equals("")) {
             mDocsSearchButton.setEnabled(true);
         }
     }

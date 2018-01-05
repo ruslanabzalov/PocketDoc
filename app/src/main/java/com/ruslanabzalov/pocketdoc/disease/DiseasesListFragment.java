@@ -77,7 +77,6 @@ public class DiseasesListFragment extends Fragment {
     private class DiseaseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTitleTextView;
-        private TextView mDateTextView;
 
         private Disease mDisease;
 
@@ -90,7 +89,6 @@ public class DiseasesListFragment extends Fragment {
             super(inflater.inflate(R.layout.list_item_disease, parent, false));
             itemView.setOnClickListener(this); //
             mTitleTextView = itemView.findViewById(R.id.disease_title);
-            mDateTextView = itemView.findViewById(R.id.disease_date);
         }
 
         /**
@@ -100,7 +98,6 @@ public class DiseasesListFragment extends Fragment {
         public void bind(Disease disease) {
             mDisease = disease;
             mTitleTextView.setText(mDisease.getTitle());
-            mDateTextView.setText(mDisease.getDate().toString());
         }
 
         /**

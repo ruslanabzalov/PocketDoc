@@ -26,15 +26,15 @@ import static android.app.Activity.RESULT_OK;
  */
 public class DocsTypesFragment extends Fragment {
 
-    // Константы для отправки данных родительской активности.
+    // Константы для отправки данных родительской активности
     private static final String EXTRA_DOCS_TYPE_ID
             = "com.ruslanabzalov.pocketdoc.docs.docs_type_id";
     private static final String EXTRA_DOCS_TYPE_NAME
             = "com.ruslanabzalov.pocketdoc.docs.docs_type_name";
 
-    // Структура данных для хранения наименований специализаций и их идентификаторов.
+    // Структура данных для хранения наименований специализаций и их идентификаторов
     private Map<String, String> mDocsTypes = new HashMap<>();
-    // Структура данных для хранения списка наименований специализаций.
+    // Структура данных для хранения списка наименований специализаций
     private List<String> mTypesList = new ArrayList<>();
 
     private RecyclerView mDocsTypesRecyclerView;
@@ -42,7 +42,7 @@ public class DocsTypesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Запуск фоновых потоков.
+        // Запуск фоновых потоков
         new FetchDocsTypesTask().execute();
         new FetchDocsTypesListTask().execute();
     }
@@ -76,8 +76,8 @@ public class DocsTypesFragment extends Fragment {
         Intent data = new Intent();
         data.putExtra(EXTRA_DOCS_TYPE_ID, docsTypeId);
         data.putExtra(EXTRA_DOCS_TYPE_NAME, docsTypeName);
-        getActivity().setResult(RESULT_OK, data); // Отправка результатов родительской активности.
-        getActivity().finish(); // Завершение текущей активности.
+        getActivity().setResult(RESULT_OK, data); // Отправка результатов родительской активности
+        getActivity().finish(); // Завершение текущей активности
     }
 
     /**

@@ -1,23 +1,17 @@
 package com.ruslanabzalov.pocketdoc.disease;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.ruslanabzalov.pocketdoc.R;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -30,21 +24,20 @@ public class DiseaseFragment extends Fragment {
      */
     private static final String ARG_DISEASE_ID = "disease_id";
 
-    /**
-     * Метка DiseaseDatePicker.
-     */
-    private static final String DIALOG_DISEASE_DATE = "DiseaseDialogDate";
+//    /**
+//     * Метка DiseaseDatePicker.
+//     */
+//    private static final String DIALOG_DISEASE_DATE = "DiseaseDialogDate";
 
-    /**
-     * Константа-код запроса для получение даты от DiseaseDatePickerFragment.
-     */
-    private static final int DATE_PICKER_REQUEST_CODE = 0;
+//    /**
+//     * Константа-код запроса для получение даты от DiseaseDatePickerFragment.
+//     */
+//    private static final int DATE_PICKER_REQUEST_CODE = 0;
 
     private Disease mDisease;
 
-    private Button mDateButton;
-    private CheckBox mCuredCheckBox;
     private EditText mTitleField;
+    private Button mDrugsButton;
 
     /**
      * Метод, создающий экземпляр фрагмента DiseaseFragment, а также задающий его аргументы.
@@ -71,8 +64,8 @@ public class DiseaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_disease, container, false);
-        mTitleField = v.findViewById(R.id.disease_title);
+        View view = inflater.inflate(R.layout.fragment_disease, container, false);
+        mTitleField = view.findViewById(R.id.disease_title);
         mTitleField.setText(mDisease.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,48 +79,46 @@ public class DiseaseFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-        mDateButton = v.findViewById(R.id.disease_date);
-        updateDate();
-        mDateButton.setOnClickListener((View view) -> {
-            FragmentManager manager = getFragmentManager();
-            DiseaseDatePickerFragment diseaseDateDialog = DiseaseDatePickerFragment
-                    .newInstance(mDisease.getDate());
-            // Назначение целевого фрагмента
-            diseaseDateDialog
-                    .setTargetFragment(DiseaseFragment.this, DATE_PICKER_REQUEST_CODE);
-            diseaseDateDialog.show(manager, DIALOG_DISEASE_DATE);
-        });
-        mCuredCheckBox = v.findViewById(R.id.disease_cured);
-        mCuredCheckBox.setChecked(mDisease.isCured());
-        mCuredCheckBox
-                .setOnCheckedChangeListener((CompoundButton compoundButton, boolean isChecked)
-                        -> mDisease.setCured(isChecked));
-        return v;
+        mDrugsButton = view.findViewById(R.id.drugs_button);
+        mDrugsButton.setOnClickListener((View v) ->
+                startActivity(DrugsListActivity.newIntent(getActivity())));
+        // TODO: Использовать похожий код в пакете docs.
+//        mDateButton = v.findViewById(R.id.disease_date);
+//        updateDate();
+//        mDateButton.setOnClickListener((View view) -> {
+//            FragmentManager manager = getFragmentManager();
+//            DiseaseDatePickerFragment diseaseDateDialog = DiseaseDatePickerFragment
+//                    .newInstance(mDisease.getDate());
+//            // Назначение целевого фрагмента
+//            diseaseDateDialog
+//                    .setTargetFragment(DiseaseFragment.this, DATE_PICKER_REQUEST_CODE);
+//            diseaseDateDialog.show(manager, DIALOG_DISEASE_DATE);
+//        });
+        return view;
     }
 
-    /**
-     * Метод, получающий данные от фрагмента DiseaseDatePickerFragment.
-     * @param requestCode код запроса для фрагмента DiseaseDatePickerFragment
-     * @param resultCode код результата от фрагмента DiseaseDatePickerFragment
-     * @param data данные, полученные от фрагмента DiseaseDatePickerFragment
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-        if (requestCode == DATE_PICKER_REQUEST_CODE) {
-            Date date =
-                    (Date) data.getSerializableExtra(DiseaseDatePickerFragment.EXTRA_DISEASE_DATE);
-            mDisease.setDate(date);
-            updateDate();
-        }
-    }
+//    /**
+//     * Метод, получающий данные от фрагмента DiseaseDatePickerFragment.
+//     * @param requestCode код запроса для фрагмента DiseaseDatePickerFragment
+//     * @param resultCode код результата от фрагмента DiseaseDatePickerFragment
+//     * @param data данные, полученные от фрагмента DiseaseDatePickerFragment
+//     */
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode != Activity.RESULT_OK) {
+//            return;
+//        }
+//        if (requestCode == DATE_PICKER_REQUEST_CODE) {
+//            Date date =
+//                    (Date) data.getSerializableExtra(DiseaseDatePickerFragment.EXTRA_DISEASE_DATE);
+//            updateDate();
+//        }
+//    }
 
-    /**
-     * Метод, обновляющий дату начала заболевания.
-     */
-    private void updateDate() {
-        mDateButton.setText(mDisease.getDate().toString());
-    }
+//    /**
+//     * Метод, обновляющий дату начала заболевания.
+//     */
+//    private void updateDate() {
+//        mDateButton.setText(mDisease.getDate().toString());
+//    }
 }
