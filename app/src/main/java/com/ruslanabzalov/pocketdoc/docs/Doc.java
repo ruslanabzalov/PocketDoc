@@ -9,11 +9,14 @@ public class Doc implements Serializable {
 
     private String mId;
     private String mName;
-    private String mAddress;
     private String mDescription;
-    private String mPrice;
     private String mExperience;
     private String mRating;
+    private String mPrice;
+    private String mDocsClinicId;
+    private String mClinicName;
+    private String mClinicAddress;
+    private String mClinicDescription;
 
     public String getId() {
         return mId;
@@ -31,28 +34,12 @@ public class Doc implements Serializable {
         mName = name;
     }
 
-    public String getAddress() {
-        return mAddress;
-    }
-
-    public void setAddress(String address) {
-        mAddress = address;
-    }
-
     public String getDescription() {
         return mDescription;
     }
 
     public void setDescription(String description) {
         mDescription = description;
-    }
-
-    public String getPrice() {
-        return mPrice;
-    }
-
-    public void setPrice(String price) {
-        mPrice = price;
     }
 
     public String getExperience() {
@@ -69,5 +56,45 @@ public class Doc implements Serializable {
 
     public void setRating(String rating) {
         mRating = rating;
+    }
+
+    public String getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(String price) {
+        mPrice = price;
+    }
+
+    public String getDocsClinicId() {
+        return mDocsClinicId;
+    }
+
+    public void setDocsClinicId(String docsClinicId) {
+        mDocsClinicId = docsClinicId;
+    }
+
+    public String getClinicName() {
+        return mClinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        mClinicName = clinicName;
+    }
+
+    public String getClinicAddress() {
+        return mClinicAddress;
+    }
+
+    public void setClinicAddress(String clinicAddress) {
+        mClinicAddress = clinicAddress;
+    }
+
+    public String getClinicDescription() {
+        return mClinicDescription;
+    }
+
+    public void setClinicDescription(String clinicDescription) {
+        mClinicDescription = clinicDescription;
     }
 }

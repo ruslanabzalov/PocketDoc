@@ -6,5 +6,10 @@
         android:id="@+id/new_disease"
         android:icon="@drawable/ic_menu_add"
         android:title="@string/new_disease"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/all_diseases"
+        android:icon="@drawable/ic_menu_add"
+        android:title="@string/all_diseases"
+        app:showAsAction="never"/>
 </menu>

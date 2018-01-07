@@ -94,7 +94,6 @@ public class DocsListFragment extends Fragment {
          */
         @Override
         protected List<Doc> doInBackground(Void... params) {
-            // TODO: В будущем передавать в этом метод и дату
             return new DataFetch().fetchDocs(mDocsTypeId, mDocsMetroId);
         }
 
@@ -123,6 +122,7 @@ public class DocsListFragment extends Fragment {
         private TextView mExperienceTextView;
         private TextView mPriceTextView;
         private TextView mRatingTextView;
+//        private TextView mClinicNameTextView;
         private TextView mAddressTextView;
 
         private Doc mDoc;
@@ -139,7 +139,8 @@ public class DocsListFragment extends Fragment {
             mExperienceTextView = itemView.findViewById(R.id.doc_experience);
             mPriceTextView = itemView.findViewById(R.id.doc_price);
             mRatingTextView = itemView.findViewById(R.id.doc_rating);
-            mAddressTextView = itemView.findViewById(R.id.doc_address);
+//            mClinicNameTextView = itemView.findViewById(R.id.doc_clinic_name);
+            mAddressTextView = itemView.findViewById(R.id.doc_clinic_address);
         }
 
         /**
@@ -149,10 +150,14 @@ public class DocsListFragment extends Fragment {
         public void bind(Doc doc) {
             mDoc = doc;
             mNameTextView.setText(mDoc.getName());
-            mExperienceTextView.setText(String.format("Опыт работы: %s", mDoc.getExperience()));
-            mPriceTextView.setText(String.format("Цена посещения: %s\u20BD", mDoc.getPrice()));
+            mExperienceTextView.setText(String.format("Опыт работы (лет): %s",
+                    mDoc.getExperience()));
+            mPriceTextView.setText(String.format("Цена одного посещения: %s\u20BD",
+                    mDoc.getPrice()));
             mRatingTextView.setText(String.format("Рейтинг: %s из 5", mDoc.getRating()));
-            mAddressTextView.setText(String.format("Адрес: %s", mDoc.getAddress()));
+//            mClinicNameTextView.setText(String.format("Название клиники: %s",
+//                    mDoc.getClinicName()));
+            mAddressTextView.setText(String.format("Адрес клиники: %s", mDoc.getClinicAddress()));
         }
 
         /**

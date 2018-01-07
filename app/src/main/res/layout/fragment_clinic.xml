@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/clinic_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Наименование клиники"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/clinic_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Адрес клиники"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/clinic_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Телефон клиники"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/clinic_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Описание клиники"/>
+</LinearLayout>

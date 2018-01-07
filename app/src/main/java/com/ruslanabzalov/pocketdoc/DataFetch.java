@@ -5,6 +5,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.ruslanabzalov.pocketdoc.docs.Doc;
+import com.ruslanabzalov.pocketdoc.map.Hospital;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -260,6 +261,16 @@ public class DataFetch {
                     .appendPath(docsMetroId)
                     .appendPath("near")
                     .appendPath("strict")
+                    .appendPath("order")
+                    .appendPath("-rating")
+                    .appendPath("deti")
+                    .appendPath("0")
+                    .appendPath("na-dom")
+                    .appendPath("0")
+                    .appendPath("withSlots")
+                    .appendPath("1")
+                    .appendPath("slotsDays")
+                    .appendPath("14")
                     .build()
                     .toString();
             String jsonString = getUrlString(url);
@@ -283,10 +294,13 @@ public class DataFetch {
      */
     private void parseDocs(List<Doc> docs, JSONObject json, String docsMetroId)
             throws IOException, JSONException {
-        String clinicId;
         JSONArray docsJsonArray = json.getJSONArray("DoctorList");
         for (int i = 0; i < docsJsonArray.length(); i++) {
             JSONObject docJsonObject = docsJsonArray.getJSONObject(i);
+            // TODO: Проверить на отсутствие расписания у врача.
+//            if (docJsonObject.getString("Slots") == null) {
+//                continue;
+//            }
             Doc doc = new Doc();
             doc.setId(docJsonObject.getString("Id"));
             doc.setName(docJsonObject.getString("Name"));
@@ -297,11 +311,11 @@ public class DataFetch {
             JSONArray docClinicsArray = docJsonObject.getJSONArray("ClinicsInfo");
             for (int j = 0; j < docClinicsArray.length(); j++) {
                 JSONObject docClinic = docClinicsArray.getJSONObject(j);
-                clinicId = docClinic.getString("ClinicId");
+                doc.setDocsClinicId(docClinic.getString("ClinicId"));
                 JSONArray docStationsArray = docClinic.getJSONArray("Stations");
                 for (int k = 0; k < docStationsArray.length(); k++) {
                     if (docsMetroId.equals(docStationsArray.getString(k))) {
-                        doc.setAddress(getClinicData(clinicId));
+                        doc.setClinicAddress(getClinicData(doc.getDocsClinicId()));
                     }
                 }
             }
@@ -314,8 +328,8 @@ public class DataFetch {
      * @param clinicId идентификатор клиники.
      * @return адрес клиники.
      */
-    private String getClinicData(String clinicId) {
-        String address = "Пусто!";
+    private String getClinicData(String clinicId) {//, String dataType) {
+        String data = "Пусто!";
         try {
             String url = Uri
                     .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
@@ -332,18 +346,71 @@ public class DataFetch {
             Log.i(TAG, "JSON получен: " + jsonString);
             JSONObject json = new JSONObject(jsonString);
             JSONArray clinicsJsonArray = json.getJSONArray("Clinic");
-            String street = "", house = "";
+            String name ="", street = "", house = "", description = "";
             for (int i = 0; i < clinicsJsonArray.length(); i++) {
                 JSONObject clinicJsonObject = clinicsJsonArray.getJSONObject(i);
                 street = clinicJsonObject.getString("Street");
                 house = clinicJsonObject.getString("House");
             }
-            address = String.format("%s, %s", street, house);
+            data = String.format("%s, %s", street, house);
         } catch (IOException ex) {
             Log.e(TAG, "Ошибка при получении данных: ", ex);
         } catch (JSONException ex) {
             Log.e(TAG, "Ошибка парсинга JSON: " + ex);
         }
-        return address;
+        return data;
+    }
+
+    public List<Hospital> fetchHospitals() {
+        List<Hospital> hospitals = new ArrayList<>();
+        try {
+            String url = Uri
+                    .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
+                    .buildUpon()
+                    .appendPath("api")
+                    .appendPath("rest")
+                    .appendPath("1.0.6")
+                    .appendPath("json")
+                    .appendPath("clinic")
+                    .appendPath("list")
+                    .appendPath("start")
+                    .appendPath("0")
+                    .appendPath("count")
+                    .appendPath("300")
+                    .appendPath("city")
+                    .appendPath("1")
+                    .appendPath("type")
+                    .appendPath("1")
+                    .build()
+                    .toString();
+            String jsonString = getUrlString(url);
+            Log.i(TAG, "JSON получен: " + jsonString);
+            JSONObject json = new JSONObject(jsonString);
+            parseHospitals(hospitals, json);
+        } catch (IOException ex) {
+            Log.e(TAG, "Ошибка при получении данных: ", ex);
+        } catch (JSONException ex) {
+            Log.e(TAG, "Ошибка парсинга JSON: " + ex);
+        }
+        return hospitals;
+    }
+
+    private void parseHospitals(List<Hospital> hospitals, JSONObject json) throws IOException,
+            JSONException {
+        JSONArray hospitalsJsonArray = json.getJSONArray("ClinicList");
+        for (int i = 0; i < hospitalsJsonArray.length(); i++) {
+            JSONObject hospitalJsonObject = hospitalsJsonArray.getJSONObject(i);
+            Hospital hospital = new Hospital();
+            hospital.setId(hospitalJsonObject.getString("Id"));
+            hospital.setName(hospitalJsonObject.getString("Name"));
+            hospital.setDescription(hospitalJsonObject.getString("Description"));
+            hospital.setAddress(hospitalJsonObject.getString("Street") + "," +
+                    hospitalJsonObject.getString("House"));
+            hospital.setPhone(hospitalJsonObject.getString("PhoneAppointment"));
+            hospital.setUrl(hospitalJsonObject.getString("URL"));
+            hospital.setLongitude(hospitalJsonObject.getString("Longitude"));
+            hospital.setLatitude(hospitalJsonObject.getString("Latitude"));
+            hospitals.add(hospital);
+        }
     }
 }

@@ -1,85 +1,78 @@
 package com.ruslanabzalov.pocketdoc.map;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ruslanabzalov.pocketdoc.R;
+import com.ruslanabzalov.pocketdoc.DataFetch;
+
+import java.util.List;
 
 /**
  * Фрагмент, отвечающий за отображение на карте медицинских центров.
  */
-public class MapFragment extends Fragment {
+public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarkerClickListener {
 
-    private MapView mMapView;
-    private GoogleMap googleMap;
+    private GoogleMap mGoogleMap;
+    private Marker mMarker;
+
+    private List<Hospital> mHospitals;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
-        mMapView = view.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume(); // Необходимо для немедленного отображения карты.
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mMapView.getMapAsync(mMap -> {
-            googleMap = mMap;
-            //googleMap.setMyLocationEnabled(true);
-            // Отображение маркера на карте.
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions()
-                    .position(sydney).title("Marker Title")
-                    .snippet("Marker Description"));
-            // Автоматическое зуммирование на расположение маркера.
+        getMapAsync((GoogleMap googleMap) -> {
+            mGoogleMap = googleMap;
+            // Запрос разрешения на отображения его геопозиции.
+            mGoogleMap.setOnMarkerClickListener(this);
+            // Позиционирование камеры на городе Москва.
             CameraPosition cameraPosition = new CameraPosition
                     .Builder()
-                    .target(sydney)
-                    .zoom(12)
+                    .target(new LatLng(55.751244, 37.618423))
+                    .zoom(10)
                     .build();
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         });
-        return view;
+        new FetchHospitalsTask().execute();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
+    public boolean onMarkerClick(Marker marker) {
+        mMarker = marker;
+        Intent intent = ClinicActivity.newIntent(getContext(), (Hospital) marker.getTag());
+        startActivity(intent);
+        return true;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
+    private class FetchHospitalsTask extends AsyncTask<Void, Void, List<Hospital>> {
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
+        @Override
+        protected List<Hospital> doInBackground(Void... params) {
+            return new DataFetch().fetchHospitals();
+        }
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mMapView.onLowMemory();
+        @Override
+        protected void onPostExecute(List<Hospital> hospitals) {
+            mHospitals = hospitals;
+            if (mHospitals.size() == 0 || mHospitals == null) {
+                Toast.makeText(getActivity(), "Клиники не найдены!", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < mHospitals.size(); i++) {
+                    mMarker = mGoogleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(
+                                    Double.parseDouble(mHospitals.get(i).getLatitude()),
+                                    Double.parseDouble(mHospitals.get(i).getLongitude()))));
+                    mMarker.setTag(mHospitals.get(i));
+                }
+            }
+        }
     }
 }

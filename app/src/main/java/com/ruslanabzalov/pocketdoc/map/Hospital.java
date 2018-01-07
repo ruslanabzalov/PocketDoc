@@ -1,53 +1,91 @@
 package com.ruslanabzalov.pocketdoc.map;
 
+import java.io.Serializable;
+
 /**
  * Класс, описывающий медицинское учреждение.
  */
-public class Hospital {
+public class Hospital implements Serializable {
 
-    private String mHospitalName;
-    private String mHospitalType;
-    private String mHospitalDescription;
-    private String mHospitalAddress;
-    private String mHospitalPhone;
+    private String mId;
+    private String mName;
+    private String mType;
+    private String mDescription;
+    private String mAddress;
+    private String mPhone;
+    private String mUrl;
+    private String mLongitude;
+    private String mLatitude;
 
-    public String getHospitalName() {
-        return mHospitalName;
+    public String getId() {
+        return mId;
     }
 
-    public void setHospitalName(String hospitalName) {
-        mHospitalName = hospitalName;
+    public void setId(String id) {
+        mId = id;
     }
 
-    public String getHospitalType() {
-        return mHospitalType;
+    public String getName() {
+        return mName;
     }
 
-    public void setHospitalType(String hospitalType) {
-        mHospitalType = hospitalType;
+    public void setName(String name) {
+        mName = name;
     }
 
-    public String getHospitalDescription() {
-        return mHospitalDescription;
+    public String getType() {
+        return mType;
     }
 
-    public void setHospitalDescription(String hospitalDescription) {
-        mHospitalDescription = hospitalDescription;
+    public void setType(String type) {
+        mType = type;
     }
 
-    public String getHospitalAddress() {
-        return mHospitalAddress;
+    public String getDescription() {
+        return mDescription;
     }
 
-    public void setHospitalAddress(String hospitalAddress) {
-        mHospitalAddress = hospitalAddress;
+    public void setDescription(String description) {
+        mDescription = description;
     }
 
-    public String getHospitalPhone() {
-        return mHospitalPhone;
+    public String getAddress() {
+        return mAddress;
     }
 
-    public void setHospitalPhone(String hospitalPhone) {
-        mHospitalPhone = hospitalPhone;
+    public void setAddress(String address) {
+        mAddress = address;
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String phone) {
+        mPhone = phone;
+    }
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public void setUrl(String url) {
+        mUrl = url;
+    }
+
+    public String getLongitude() {
+        return mLongitude;
+    }
+
+    public void setLongitude(String longitude) {
+        mLongitude = longitude;
+    }
+
+    public String getLatitude() {
+        return mLatitude;
+    }
+
+    public void setLatitude(String latitude) {
+        mLatitude = latitude;
     }
 }

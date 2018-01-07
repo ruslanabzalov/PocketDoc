@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
 
@@ -66,6 +67,10 @@ public class DiseasesListFragment extends Fragment {
                 Intent intent = DiseaseActivity.newIntent(getActivity(), disease.getId());
                 startActivity(intent);
                 return true;
+            case R.id.all_diseases:
+                // TODO: Открытие активности с отображением всех заболеваний.
+                Toast.makeText(getActivity(), "Открытие новой актинвости.", Toast.LENGTH_SHORT)
+                        .show();
             default:
                 return super.onOptionsItemSelected(item);
         }

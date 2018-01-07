@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.ruslanabzalov.pocketdoc.disease.DiseasesListFragment;
 import com.ruslanabzalov.pocketdoc.docs.DocsSearchFragment;
 import com.ruslanabzalov.pocketdoc.map.MapFragment;
-import com.ruslanabzalov.pocketdoc.profile.ProfileFragment;
 
 /**
  * Главная активность приложения, отвечающая за хостинг четырёх основных фрагментов.
@@ -36,11 +35,12 @@ public class MainActivity extends AppCompatActivity {
                     newTransaction.replace(R.id.container, new DiseasesListFragment()).commit();
                     return true;
                 case R.id.navigation_map:
-                    newTransaction.replace(R.id.container, new MapFragment()).commit();
+                    newTransaction.replace(R.id.container, new MapFragment())
+                            .commit();
                     return true;
-                case R.id.navigation_profile:
-                    newTransaction.replace(R.id.container, new ProfileFragment()).commit();
-                    return true;
+//                case R.id.navigation_profile:
+//                    newTransaction.replace(R.id.container, new ProfileFragment()).commit();
+//                    return true;
             }
             return false;
         });

@@ -30,9 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Цена"/>
-
+<!--
     <TextView
-        android:id="@+id/doc_address"
+        android:id="@+id/doc_clinic_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Название клиники"/>
+-->
+    <TextView
+        android:id="@+id/doc_clinic_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Адрес"/>
