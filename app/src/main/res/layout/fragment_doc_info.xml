@@ -7,34 +7,48 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/clinic_name"
         style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/doctor_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        tools:text="Наименование клиники" />
+        tools:text="Ф.И.О."/>
 
     <TextView
         style="?android:listSeparatorTextViewStyle"
-        android:id="@+id/clinic_address"
+        android:id="@+id/doctor_experience"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        tools:text="Адрес клиники"/>
+        tools:text="Стаж"/>
 
     <TextView
         style="?android:listSeparatorTextViewStyle"
-        android:id="@+id/clinic_phone"
+        android:id="@+id/doctor_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        tools:text="Телефон клиники"/>
+        tools:text="Адрес"/>
 
     <TextView
         style="?android:listSeparatorTextViewStyle"
-        android:id="@+id/clinic_description"
+        android:id="@+id/doctor_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        tools:text="Описание клиники"/>
+        tools:text="Описание"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/doctor_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        tools:text="Цена"/>
+
+    <Button
+        android:id="@+id/doc_request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Оформить заявку"/>
 </LinearLayout>

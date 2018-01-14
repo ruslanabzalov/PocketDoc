@@ -42,6 +42,7 @@ public class DocsTypesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Специализации врачей");
         // Запуск фоновых потоков
         new FetchDocsTypesTask().execute();
         new FetchDocsTypesListTask().execute();

@@ -28,6 +28,7 @@ public class DiseasesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Заболевания");
         setHasOptionsMenu(true);
     }
 

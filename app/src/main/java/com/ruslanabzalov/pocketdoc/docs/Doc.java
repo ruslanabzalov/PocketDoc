@@ -14,9 +14,7 @@ public class Doc implements Serializable {
     private String mRating;
     private String mPrice;
     private String mDocsClinicId;
-    private String mClinicName;
-    private String mClinicAddress;
-    private String mClinicDescription;
+    private String mAddress;
 
     public String getId() {
         return mId;
@@ -74,27 +72,11 @@ public class Doc implements Serializable {
         mDocsClinicId = docsClinicId;
     }
 
-    public String getClinicName() {
-        return mClinicName;
+    public String getAddress() {
+        return mAddress;
     }
 
-    public void setClinicName(String clinicName) {
-        mClinicName = clinicName;
-    }
-
-    public String getClinicAddress() {
-        return mClinicAddress;
-    }
-
-    public void setClinicAddress(String clinicAddress) {
-        mClinicAddress = clinicAddress;
-    }
-
-    public String getClinicDescription() {
-        return mClinicDescription;
-    }
-
-    public void setClinicDescription(String clinicDescription) {
-        mClinicDescription = clinicDescription;
+    public void setAddress(String address) {
+        mAddress = address;
     }
 }

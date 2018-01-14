@@ -42,6 +42,7 @@ public class DocsMetrosFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Список станций метро");
         // Запуск фоновых потоков.
         new FetchDocsMetrosTask().execute();
         new FetchDocsMetrosListTask().execute();

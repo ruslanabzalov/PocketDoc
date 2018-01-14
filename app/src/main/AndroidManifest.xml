@@ -24,6 +24,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".docs.DocsSearchParamsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".docs.DocsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".docs.DocInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".docs.DocRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".disease.DiseaseActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -32,15 +44,6 @@
         <activity
             android:name=".disease.DrugActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".docs.DocActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".docs.DocsListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".docs.DocsSearchParamsActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".map.ClinicActivity"
             android:screenOrientation="portrait" />

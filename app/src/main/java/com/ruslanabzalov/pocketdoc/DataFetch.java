@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -315,7 +316,7 @@ public class DataFetch {
                 JSONArray docStationsArray = docClinic.getJSONArray("Stations");
                 for (int k = 0; k < docStationsArray.length(); k++) {
                     if (docsMetroId.equals(docStationsArray.getString(k))) {
-                        doc.setClinicAddress(getClinicData(doc.getDocsClinicId()));
+                        doc.setAddress(getClinicData(doc.getDocsClinicId()));
                     }
                 }
             }
@@ -376,7 +377,7 @@ public class DataFetch {
                     .appendPath("start")
                     .appendPath("0")
                     .appendPath("count")
-                    .appendPath("300")
+                    .appendPath("200")
                     .appendPath("city")
                     .appendPath("1")
                     .appendPath("type")
@@ -412,5 +413,60 @@ public class DataFetch {
             hospital.setLatitude(hospitalJsonObject.getString("Latitude"));
             hospitals.add(hospital);
         }
+    }
+
+    /**
+     * Метод для создания заявки.
+     * @param userName имя клиента.
+     * @param phoneNumber номер телефона клиента.
+     * @param date желаемая дата посещения.
+     * @param docId идентификатор доктора.
+     * @param clinicId идентификатор клиники.
+     */
+    public static void docPostRequest(String userName, String phoneNumber, String date, String docId,
+                                      String clinicId) {
+        Thread thread = new Thread(() -> {
+            try {
+                String uri = Uri
+                        .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
+                        .buildUpon()
+                        .appendPath("api")
+                        .appendPath("rest")
+                        .appendPath("1.0.6")
+                        .appendPath("json")
+                        .appendPath("request")
+                        .build()
+                        .toString();
+                URL url = new URL(uri);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                String basicAuth ="Basic " +
+                        new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(),
+                                Base64.NO_WRAP));
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                connection.setRequestProperty("Accept","application/json");
+                connection.setRequestProperty ("Authorization", basicAuth);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+                JSONObject json = new JSONObject();
+                json.put("name", "test");
+                json.put("phone", phoneNumber + "");
+                json.put("doctor", docId);
+                json.put("clinic", clinicId);
+                json.put("dateAdmission", date);
+                json.put("validate", 0);
+                Log.i("JSON", json.toString());
+                DataOutputStream os = new DataOutputStream(connection.getOutputStream());
+                os.writeBytes(json.toString());
+                os.flush();
+                os.close();
+                Log.i("STATUS", String.valueOf(connection.getResponseCode()));
+                Log.i("MSG" , connection.getResponseMessage());
+                connection.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
     }
 }

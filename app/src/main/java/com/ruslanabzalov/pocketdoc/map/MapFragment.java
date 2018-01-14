@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -29,9 +30,9 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Карта");
         getMapAsync((GoogleMap googleMap) -> {
             mGoogleMap = googleMap;
-            // Запрос разрешения на отображения его геопозиции.
             mGoogleMap.setOnMarkerClickListener(this);
             // Позиционирование камеры на городе Москва.
             CameraPosition cameraPosition = new CameraPosition
@@ -52,6 +53,23 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
         return true;
     }
 
+    private void addMarkers() {
+        if (mHospitals.size() == 0 || mHospitals == null) {
+            Toast.makeText(getActivity(), "Клиники не найдены!", Toast.LENGTH_SHORT).show();
+        } else {
+            for (Hospital clinic : mHospitals) {
+                if (clinic.getLatitude().equals("null") ||
+                        clinic.getLongitude().equals("null")) {
+                    continue;
+                }
+                mMarker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(
+                        Double.parseDouble(clinic.getLatitude()),
+                        Double.parseDouble(clinic.getLongitude()))));
+                mMarker.setTag(clinic);
+            }
+        }
+    }
+
     private class FetchHospitalsTask extends AsyncTask<Void, Void, List<Hospital>> {
 
         @Override
@@ -62,17 +80,7 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
         @Override
         protected void onPostExecute(List<Hospital> hospitals) {
             mHospitals = hospitals;
-            if (mHospitals.size() == 0 || mHospitals == null) {
-                Toast.makeText(getActivity(), "Клиники не найдены!", Toast.LENGTH_SHORT).show();
-            } else {
-                for (int i = 0; i < mHospitals.size(); i++) {
-                    mMarker = mGoogleMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(
-                                    Double.parseDouble(mHospitals.get(i).getLatitude()),
-                                    Double.parseDouble(mHospitals.get(i).getLongitude()))));
-                    mMarker.setTag(mHospitals.get(i));
-                }
-            }
+            addMarkers();
         }
     }
 }

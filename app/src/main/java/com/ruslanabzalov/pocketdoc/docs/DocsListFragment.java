@@ -57,6 +57,7 @@ public class DocsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Список врачей");
         setRetainInstance(true);
         mDocsTypeId = getArguments().getCharSequence(ARG_DOCS_TYPE).toString();
         mDocsMetroId = getArguments().getCharSequence(ARG_DOCS_METRO).toString();
@@ -122,7 +123,6 @@ public class DocsListFragment extends Fragment {
         private TextView mExperienceTextView;
         private TextView mPriceTextView;
         private TextView mRatingTextView;
-//        private TextView mClinicNameTextView;
         private TextView mAddressTextView;
 
         private Doc mDoc;
@@ -139,7 +139,6 @@ public class DocsListFragment extends Fragment {
             mExperienceTextView = itemView.findViewById(R.id.doc_experience);
             mPriceTextView = itemView.findViewById(R.id.doc_price);
             mRatingTextView = itemView.findViewById(R.id.doc_rating);
-//            mClinicNameTextView = itemView.findViewById(R.id.doc_clinic_name);
             mAddressTextView = itemView.findViewById(R.id.doc_clinic_address);
         }
 
@@ -150,23 +149,21 @@ public class DocsListFragment extends Fragment {
         public void bind(Doc doc) {
             mDoc = doc;
             mNameTextView.setText(mDoc.getName());
-            mExperienceTextView.setText(String.format("Опыт работы (лет): %s",
+            mExperienceTextView.setText(String.format("Опыт работы: %s лет/года",
                     mDoc.getExperience()));
             mPriceTextView.setText(String.format("Цена одного посещения: %s\u20BD",
                     mDoc.getPrice()));
             mRatingTextView.setText(String.format("Рейтинг: %s из 5", mDoc.getRating()));
-//            mClinicNameTextView.setText(String.format("Название клиники: %s",
-//                    mDoc.getClinicName()));
-            mAddressTextView.setText(String.format("Адрес клиники: %s", mDoc.getClinicAddress()));
+            mAddressTextView.setText(String.format("Адрес клиники: %s", mDoc.getAddress()));
         }
 
         /**
-         * Метод, запускающий активность DocActivity с дополнениями.
+         * Метод, запускающий активность DocInfoActivity с дополнениями.
          * @param v
          */
         @Override
         public void onClick(View v) {
-            Intent intent = DocActivity.newIntent(getActivity(), mDoc);
+            Intent intent = DocInfoActivity.newIntent(getActivity(), mDoc);
             startActivity(intent);
         }
     }

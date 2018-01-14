@@ -9,7 +9,10 @@
 
     <TextView
         android:id="@+id/docs_metro"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
         tools:text="Станция метро"/>
 </LinearLayout>
+

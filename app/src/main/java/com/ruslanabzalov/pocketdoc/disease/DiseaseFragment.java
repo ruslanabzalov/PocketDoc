@@ -55,6 +55,7 @@ public class DiseaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Болезнь");
         // Извлечение идентификатора заболевания, полученного от активности MainActivity.
         UUID diseaseId = (UUID) getArguments().getSerializable(ARG_DISEASE_ID);
         // Получение нужного заболевания по его идентификатору.

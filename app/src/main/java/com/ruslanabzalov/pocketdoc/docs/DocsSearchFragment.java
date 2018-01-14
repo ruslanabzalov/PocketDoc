@@ -46,6 +46,7 @@ public class DocsSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Поиск врача");
         setHasOptionsMenu(true);
     }
 
