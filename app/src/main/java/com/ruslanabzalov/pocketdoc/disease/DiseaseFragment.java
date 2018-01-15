@@ -24,16 +24,6 @@ public class DiseaseFragment extends Fragment {
      */
     private static final String ARG_DISEASE_ID = "disease_id";
 
-//    /**
-//     * Метка DiseaseDatePicker.
-//     */
-//    private static final String DIALOG_DISEASE_DATE = "DiseaseDialogDate";
-
-//    /**
-//     * Константа-код запроса для получение даты от DiseaseDatePickerFragment.
-//     */
-//    private static final int DATE_PICKER_REQUEST_CODE = 0;
-
     private Disease mDisease;
 
     private EditText mTitleField;
@@ -84,42 +74,6 @@ public class DiseaseFragment extends Fragment {
         mDrugsButton.setOnClickListener((View v) ->
                 startActivity(DrugsListActivity.newIntent(getActivity())));
         // TODO: Использовать похожий код в пакете docs.
-//        mDateButton = v.findViewById(R.id.disease_date);
-//        updateDate();
-//        mDateButton.setOnClickListener((View view) -> {
-//            FragmentManager manager = getFragmentManager();
-//            DiseaseDatePickerFragment diseaseDateDialog = DiseaseDatePickerFragment
-//                    .newInstance(mDisease.getDate());
-//            // Назначение целевого фрагмента
-//            diseaseDateDialog
-//                    .setTargetFragment(DiseaseFragment.this, DATE_PICKER_REQUEST_CODE);
-//            diseaseDateDialog.show(manager, DIALOG_DISEASE_DATE);
-//        });
         return view;
     }
-
-//    /**
-//     * Метод, получающий данные от фрагмента DiseaseDatePickerFragment.
-//     * @param requestCode код запроса для фрагмента DiseaseDatePickerFragment
-//     * @param resultCode код результата от фрагмента DiseaseDatePickerFragment
-//     * @param data данные, полученные от фрагмента DiseaseDatePickerFragment
-//     */
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-//        if (requestCode == DATE_PICKER_REQUEST_CODE) {
-//            Date date =
-//                    (Date) data.getSerializableExtra(DiseaseDatePickerFragment.EXTRA_DISEASE_DATE);
-//            updateDate();
-//        }
-//    }
-
-//    /**
-//     * Метод, обновляющий дату начала заболевания.
-//     */
-//    private void updateDate() {
-//        mDateButton.setText(mDisease.getDate().toString());
-//    }
 }

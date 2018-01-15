@@ -9,6 +9,8 @@
     <string name="disease_cured_label">Вылечено</string>
     <string name="disease_date_picker_title">Дата начала лечения:</string>
     <string name="drugs_button_hint">Лекарства</string>
+    <string name="drug_title_label">Название лекарства</string>
+    <string name="drug_title_hint">Введите название лекарства</string>
     <string name="new_disease">Новое заболевание</string>
     <string name="all_diseases">Все заболевания</string>
     <string name="new_drug">Новое лекарство</string>
@@ -16,5 +18,10 @@
     <string name="docs_metros">Ближайшая станция метро</string>
     <string name="docs_date">Дата записи</string>
     <string name="docs_search">Поиск врачей</string>
+    <string name="docs_record_button">Оформить заявку</string>
+    <string name="user_name_hint">Введите ваше имя</string>
+    <string name="user_phone_hint">Введите ваш номер телефона</string>
+    <string name="user_date_hint">Выберите желаемую дату посещения</string>
+    <string name="request_button_hint">Записаться</string>
     <string name="visits">История записей</string>
 </resources>

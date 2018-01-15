@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ruslanabzalov.pocketdoc.R;
+
 import java.util.UUID;
 
 public class DrugFragment extends Fragment {
@@ -28,6 +30,7 @@ public class DrugFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_drug, container, false);
+        return view;
     }
 }

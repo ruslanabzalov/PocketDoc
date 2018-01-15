@@ -7,8 +7,8 @@ import java.util.UUID;
  */
 public class Disease {
 
-    private UUID mId; // Идентификатор заболевания
-    private String mTitle; // Название заболевания
+    private UUID mId;
+    private String mTitle;
     private DrugsList mDrugs;
 
     public Disease() {

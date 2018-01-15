@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ruslanabzalov.pocketdoc.R;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class DrugsListFragment extends Fragment {
 
     private RecyclerView mDrugsRecyclerView;
+    private DrugAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,14 +64,65 @@ public class DrugsListFragment extends Fragment {
         updateDrugsListFragment();
     }
 
+    private class DrugsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private TextView mTitleTextView;
+
+        private Drug mDrug;
+
+        private DrugsHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_drug, parent, false));
+            itemView.setOnClickListener(this); //
+            mTitleTextView = itemView.findViewById(R.id.disease_title);
+        }
+
+        public void bind(Drug drug) {
+            mDrug = drug;
+            mTitleTextView.setText(mDrug.getDrugName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = DrugActivity.newIntent(getActivity(), mDrug.getDrugId());
+            startActivity(intent);
+        }
+
+    }
+
+    private class DrugAdapter extends RecyclerView.Adapter<DrugsHolder> {
+
+        private List<Drug> mDrugs;
+
+        private DrugAdapter(List<Drug> drugs) {
+            mDrugs = drugs;
+        }
+
+        @Override
+        public DrugsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new DrugsHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(DrugsHolder holder, int position) {
+            Drug drug = mDrugs.get(position);
+            holder.bind(drug);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDrugs.size();
+        }
+    }
+
     public void updateDrugsListFragment() {
         DrugsList drugsList = DrugsList.get(getActivity());
         List<Drug> drugs = drugsList.getDrugs();
-//        if (mAdapter == null) {
-//            mAdapter = new DrugsAdapter(drugs);
-//            mDrugsRecyclerView.setAdapter(mAdapter);
-//        } else {
-//            mAdapter.notifyDataSetChanged();
-//        }
+        if (mAdapter == null) {
+            mAdapter = new DrugAdapter(drugs);
+            mDrugsRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

@@ -9,24 +9,24 @@
         android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите ваше имя"/>
+        android:hint="@string/user_name_hint"/>
 
     <EditText
         android:id="@+id/user_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
-        android:hint="Введите ваш номер телефона"/>
+        android:hint="@string/user_phone_hint"/>
 
     <Button
         android:id="@+id/user_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Выберите желаемую дату посещения"/>
+        android:hint="@string/user_date_hint"/>
 
     <Button
         android:id="@+id/doc_request"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Записаться"/>
+        android:text="@string/request_button_hint"/>
 </LinearLayout>
