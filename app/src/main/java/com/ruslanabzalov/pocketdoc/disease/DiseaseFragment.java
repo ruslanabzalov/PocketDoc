@@ -73,7 +73,6 @@ public class DiseaseFragment extends Fragment {
         mDrugsButton = view.findViewById(R.id.drugs_button);
         mDrugsButton.setOnClickListener((View v) ->
                 startActivity(DrugsListActivity.newIntent(getActivity())));
-        // TODO: Использовать похожий код в пакете docs.
         return view;
     }
 }
