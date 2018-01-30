@@ -17,17 +17,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
-import com.ruslanabzalov.pocketdoc.database.DatabaseSchema;
+import com.ruslanabzalov.pocketdoc.database.DatabaseHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.*;
+import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable;
 import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.DOC_ADDRESS;
 import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.DOC_DESCRIPTION;
 import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.DOC_NAME;
+import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.DOC_TYPE;
+import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.RECORD_DATE;
+import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.USER_NAME;
+import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.USER_PHONE;
 
 public class DocRecordFragment extends Fragment {
 
@@ -58,18 +62,29 @@ public class DocRecordFragment extends Fragment {
         return fragment;
     }
 
-    private static ContentValues getContentValues(Doc doc) {
+    /**
+     * Метод
+     * @param doc
+     * @return
+     */
+    private static ContentValues getContentValues(Doc doc, String userName, String userPhone,
+                                                  String recordDate) {
         ContentValues values = new ContentValues();
         values.put(DOC_NAME, doc.getName());
+        values.put(DOC_TYPE, doc.getType());
         values.put(DOC_ADDRESS, doc.getAddress());
         values.put(DOC_DESCRIPTION, doc.getDescription());
+        values.put(USER_NAME, userName);
+        values.put(USER_PHONE, userPhone);
+        values.put(RECORD_DATE, recordDate);
         return values;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Оформление заявки");
+        mDatabase = new DatabaseHelper(getContext()).getWritableDatabase();
+        getActivity().setTitle(getString(R.string.medical_record_activity_title));
         mDoc = (Doc) getArguments().getSerializable(ARG_DOC);
     }
 
@@ -120,6 +135,7 @@ public class DocRecordFragment extends Fragment {
             Toast.makeText(getContext(),
                     "Заявка на запись успешно создана." + "Ожидайте звонка из клиники.",
                     Toast.LENGTH_LONG).show();
+            addToDatabase(mDoc);
             getActivity().finish();
         });
         checkViews();
@@ -139,8 +155,13 @@ public class DocRecordFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * @param doc
+     */
     private void addToDatabase(Doc doc) {
-        ContentValues contentValues = getContentValues(doc);
+        ContentValues contentValues = getContentValues(doc, mUserName.getText().toString(),
+                mUserPhoneNumber.getText().toString(), mUserDate.getText().toString());
         mDatabase.insert(MedicalRecordsTable.NAME, null, contentValues);
     }
 

@@ -5,6 +5,6 @@
     <item
         android:id="@+id/new_drug"
         android:icon="@drawable/ic_menu_add"
-        android:title="@string/new_drug"
+        android:title="@string/new_medicament"
         app:showAsAction="always"/>
 </menu>

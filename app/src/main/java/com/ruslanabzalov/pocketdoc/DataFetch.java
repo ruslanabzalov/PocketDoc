@@ -39,7 +39,7 @@ public class DataFetch {
      * @return
      * @throws IOException
      */
-    public byte[] getUrlBytes(String urlSpec) throws IOException {
+    private byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         // Создание объекта подключения к URL-адресу по протоколу HTTP.
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -74,7 +74,7 @@ public class DataFetch {
      * @return
      * @throws IOException
      */
-    public String getUrlString(String urlSpec) throws IOException {
+    private String getUrlString(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
 
@@ -277,7 +277,7 @@ public class DataFetch {
             String jsonString = getUrlString(url);
             Log.i(TAG, "JSON получен: " + jsonString);
             JSONObject json = new JSONObject(jsonString);
-            parseDocs(docs, json, docsMetroId);
+            parseDocs(docs, json, docsTypeId, docsMetroId);
         } catch (IOException ex) {
             Log.e(TAG, "Ошибка при получении данных: ", ex);
         } catch (JSONException ex) {
@@ -293,7 +293,7 @@ public class DataFetch {
      * @throws IOException
      * @throws JSONException
      */
-    private void parseDocs(List<Doc> docs, JSONObject json, String docsMetroId)
+    private void parseDocs(List<Doc> docs, JSONObject json, String docTypeId, String docsMetroId)
             throws IOException, JSONException {
         JSONArray docsJsonArray = json.getJSONArray("DoctorList");
         for (int i = 0; i < docsJsonArray.length(); i++) {
@@ -305,6 +305,7 @@ public class DataFetch {
             Doc doc = new Doc();
             doc.setId(docJsonObject.getString("Id"));
             doc.setName(docJsonObject.getString("Name"));
+            doc.setType(docTypeId);
             doc.setDescription(docJsonObject.getString("Description"));
             doc.setPrice(docJsonObject.getString("Price"));
             doc.setExperience(docJsonObject.getString("ExperienceYear"));

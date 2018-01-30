@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,34 +17,33 @@ import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.List;
 
-public class DiseasesListFragment extends Fragment {
+public class IllnessesListFragment extends Fragment {
 
-    private Disease mDisease;
+    private Illness mIllness;
 
     private RecyclerView mDiseasesRecyclerView;
-    private DiseasesAdapter mAdapter;
+    private DiseasesAdapter mDiseasesAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Заболевания");
+        getActivity().setTitle(getString(R.string.illnesses_list_fragment_label));
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_diseases_list, container, false);
-        mDiseasesRecyclerView = v.findViewById(R.id.diseases_recycler_view);
-        // Выбор объекта для позиционирования элементов списка
+        View view = inflater.inflate(R.layout.fragment_diseases_list, container, false);
+        mDiseasesRecyclerView = view.findViewById(R.id.diseases_recycler_view);
         mDiseasesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateDiseaseListFragment();
-        return v;
+        return view;
     }
 
     /**
-     * Метод, заполняющий меню.
-     * @param menu
+     * Метод, отображющий верхнее меню.
+     * @param menu объект меню
      * @param inflater
      */
     @Override
@@ -54,17 +53,17 @@ public class DiseasesListFragment extends Fragment {
     }
 
     /**
-     * Метод, обрабатывающий нажатие на кнопку "+" меню.
+     * Метод, обрабатывающий нажатие на кнопку "+" в меню.
      * @param item элемент меню
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.new_disease:
-                Disease disease = new Disease();
-                DiseasesList.get(getActivity()).addDisease(disease);
-                Intent intent = DiseaseActivity.newIntent(getActivity(), disease.getId());
+            case R.id.new_illness:
+                Illness illness = new Illness();
+                IllnessesList.get(getActivity()).addDisease(illness);
+                Intent intent = IllnessActivity.newIntent(getActivity(), illness.getId());
                 startActivity(intent);
                 return true;
             default:
@@ -89,7 +88,7 @@ public class DiseasesListFragment extends Fragment {
 
         private TextView mTitleTextView;
 
-        private Disease mDisease;
+        private Illness mIllness;
 
         /**
          * Конструктор для создания объекта типа ViewHolder с его представлением.
@@ -104,20 +103,20 @@ public class DiseasesListFragment extends Fragment {
 
         /**
          * Метод, связывающий конкретный объект типа DiseaseHolder с определёнными данными модели.
-         * @param disease конкретное заболевание
+         * @param illness конкретное заболевание
          */
-        public void bind(Disease disease) {
-            mDisease = disease;
-            mTitleTextView.setText(mDisease.getTitle());
+        void bind(Illness illness) {
+            mIllness = illness;
+            mTitleTextView.setText(mIllness.getTitle());
         }
 
         /**
-         * Метод, запускающий активность DiseaseActivity с дополнениями.
+         * Метод, запускающий активность IllnessActivity с дополнениями.
          * @param v
          */
         @Override
         public void onClick(View v) {
-            Intent intent = DiseaseActivity.newIntent(getActivity(), mDisease.getId());
+            Intent intent = IllnessActivity.newIntent(getActivity(), mIllness.getId());
             startActivity(intent);
         }
 
@@ -128,14 +127,14 @@ public class DiseasesListFragment extends Fragment {
      */
     private class DiseasesAdapter extends RecyclerView.Adapter<DiseaseHolder> {
 
-        private List<Disease> mDiseases;
+        private List<Illness> mIllnesses;
 
         /**
          * Констуктор для создания объекта типа DiseasesAdapter с данными модели.
-         * @param diseases список заболеваний пользователя
+         * @param illnesses список заболеваний пользователя
          */
-        private DiseasesAdapter(List<Disease> diseases) {
-            mDiseases = diseases;
+        private DiseasesAdapter(List<Illness> illnesses) {
+            mIllnesses = illnesses;
         }
 
         /**
@@ -157,8 +156,8 @@ public class DiseasesListFragment extends Fragment {
          */
         @Override
         public void onBindViewHolder(DiseaseHolder holder, int position) {
-            Disease disease = mDiseases.get(position);
-            holder.bind(disease);
+            Illness illness = mIllnesses.get(position);
+            holder.bind(illness);
         }
 
         /**
@@ -167,7 +166,7 @@ public class DiseasesListFragment extends Fragment {
          */
         @Override
         public int getItemCount() {
-            return mDiseases.size();
+            return mIllnesses.size();
         }
     }
 
@@ -175,14 +174,14 @@ public class DiseasesListFragment extends Fragment {
      * Метод, связывающий объект типа DiseasesAdapter с RecyclerView
      * и настраивающий UI фрагмента DiseaseListFragment.
      */
-    public void updateDiseaseListFragment() {
-        DiseasesList diseasesList = DiseasesList.get(getActivity());
-        List<Disease> diseases = diseasesList.getDiseases();
-        if (mAdapter == null) {
-            mAdapter = new DiseasesAdapter(diseases);
-            mDiseasesRecyclerView.setAdapter(mAdapter);
+    private void updateDiseaseListFragment() {
+        IllnessesList illnessesList = IllnessesList.get(getActivity());
+        List<Illness> illnesses = illnessesList.getIllnesses();
+        if (mDiseasesAdapter == null) {
+            mDiseasesAdapter = new DiseasesAdapter(illnesses);
+            mDiseasesRecyclerView.setAdapter(mDiseasesAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+            mDiseasesAdapter.notifyDataSetChanged();
         }
     }
 }

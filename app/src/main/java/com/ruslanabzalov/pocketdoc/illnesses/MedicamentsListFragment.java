@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.List;
 
-public class DrugsListFragment extends Fragment {
+public class MedicamentsListFragment extends Fragment {
 
     private RecyclerView mDrugsRecyclerView;
     private DrugAdapter mAdapter;
@@ -48,9 +48,9 @@ public class DrugsListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_drug:
-                Drug drug = new Drug();
-                DrugsList.get(getActivity()).addDrug(drug);
-                Intent intent = DrugActivity.newIntent(getActivity(), drug.getDrugId());
+                Medicament medicament = new Medicament();
+                MedicamentsList.get(getActivity()).addDrug(medicament);
+                Intent intent = MedicamentActivity.newIntent(getActivity(), medicament.getDrugId());
                 startActivity(intent);
                 return true;
             default:
@@ -68,7 +68,7 @@ public class DrugsListFragment extends Fragment {
 
         private TextView mTitleTextView;
 
-        private Drug mDrug;
+        private Medicament mMedicament;
 
         private DrugsHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_drug, parent, false));
@@ -76,14 +76,14 @@ public class DrugsListFragment extends Fragment {
             mTitleTextView = itemView.findViewById(R.id.disease_title);
         }
 
-        public void bind(Drug drug) {
-            mDrug = drug;
-            mTitleTextView.setText(mDrug.getDrugName());
+        public void bind(Medicament medicament) {
+            mMedicament = medicament;
+            mTitleTextView.setText(mMedicament.getDrugName());
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = DrugActivity.newIntent(getActivity(), mDrug.getDrugId());
+            Intent intent = MedicamentActivity.newIntent(getActivity(), mMedicament.getDrugId());
             startActivity(intent);
         }
 
@@ -91,10 +91,10 @@ public class DrugsListFragment extends Fragment {
 
     private class DrugAdapter extends RecyclerView.Adapter<DrugsHolder> {
 
-        private List<Drug> mDrugs;
+        private List<Medicament> mMedicaments;
 
-        private DrugAdapter(List<Drug> drugs) {
-            mDrugs = drugs;
+        private DrugAdapter(List<Medicament> medicaments) {
+            mMedicaments = medicaments;
         }
 
         @Override
@@ -105,21 +105,21 @@ public class DrugsListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(DrugsHolder holder, int position) {
-            Drug drug = mDrugs.get(position);
-            holder.bind(drug);
+            Medicament medicament = mMedicaments.get(position);
+            holder.bind(medicament);
         }
 
         @Override
         public int getItemCount() {
-            return mDrugs.size();
+            return mMedicaments.size();
         }
     }
 
     public void updateDrugsListFragment() {
-        DrugsList drugsList = DrugsList.get(getActivity());
-        List<Drug> drugs = drugsList.getDrugs();
+        MedicamentsList medicamentsList = MedicamentsList.get(getActivity());
+        List<Medicament> medicaments = medicamentsList.getMedicaments();
         if (mAdapter == null) {
-            mAdapter = new DrugAdapter(drugs);
+            mAdapter = new DrugAdapter(medicaments);
             mDrugsRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();

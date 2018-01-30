@@ -20,7 +20,7 @@
             android:id="@+id/disease_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/drug_title_hint"/>
+            android:hint="@string/medicament_title_hint"/>
 
         <TextView
             style="?android:listSeparatorTextViewStyle"

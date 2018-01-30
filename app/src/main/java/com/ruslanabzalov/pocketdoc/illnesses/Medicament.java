@@ -1,11 +1,11 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import java.util.UUID;
 
 /**
  * Класс, описывающий лекарство.
  */
-public class Drug {
+public class Medicament {
 
     private UUID mDrugId;
     private String mDrugName;

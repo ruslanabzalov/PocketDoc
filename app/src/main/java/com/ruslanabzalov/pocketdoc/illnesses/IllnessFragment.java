@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,27 +17,27 @@ import java.util.UUID;
 /**
  * Фрагмент, отвечающий за отображение информации о конкретном заболевании.
  */
-public class DiseaseFragment extends Fragment {
+public class IllnessFragment extends Fragment {
 
     /**
-     * Ключ для доступа к аргументу-заболеванию по идентификатору.
+     * Ключ аргумента, являющегося идентификатором заболевания.
      */
-    private static final String ARG_DISEASE_ID = "disease_id";
+    private static final String ARG_ILLNESS_ID = "illness_id";
 
-    private Disease mDisease;
+    private Illness mIllness;
 
-    private EditText mTitleField;
-    private Button mDrugsButton;
+    private EditText mIllnessTitleEditText;
+    private Button mMedicamentsButton;
 
     /**
-     * Метод, создающий экземпляр фрагмента DiseaseFragment, а также задающий его аргументы.
-     * @param diseaseId идентификатор заболевания
-     * @return фрагмент DiseaseFragment
+     * Метод, создающий экземпляр фрагмента IllnessFragment, а также задающий его аргументы.
+     * @param illnessId идентификатор заболевания
+     * @return фрагмент IllnessFragment
      */
-    public static DiseaseFragment newInstance(UUID diseaseId) {
+    public static IllnessFragment newInstance(UUID illnessId) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_DISEASE_ID, diseaseId);
-        DiseaseFragment fragment = new DiseaseFragment();
+        args.putSerializable(ARG_ILLNESS_ID, illnessId);
+        IllnessFragment fragment = new IllnessFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,32 +47,32 @@ public class DiseaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Болезнь");
         // Извлечение идентификатора заболевания, полученного от активности MainActivity.
-        UUID diseaseId = (UUID) getArguments().getSerializable(ARG_DISEASE_ID);
+        UUID diseaseId = (UUID) getArguments().getSerializable(ARG_ILLNESS_ID);
         // Получение нужного заболевания по его идентификатору.
-        mDisease = DiseasesList.get(getActivity()).getDisease(diseaseId);
+        mIllness = IllnessesList.get(getActivity()).getDisease(diseaseId);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_disease, container, false);
-        mTitleField = view.findViewById(R.id.disease_title);
-        mTitleField.setText(mDisease.getTitle());
-        mTitleField.addTextChangedListener(new TextWatcher() {
+        mIllnessTitleEditText = view.findViewById(R.id.disease_title);
+        mIllnessTitleEditText.setText(mIllness.getTitle());
+        mIllnessTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mDisease.setTitle(charSequence.toString());
+                mIllness.setTitle(charSequence.toString());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-        mDrugsButton = view.findViewById(R.id.drugs_button);
-        mDrugsButton.setOnClickListener((View v) ->
-                startActivity(DrugsListActivity.newIntent(getActivity())));
+        mMedicamentsButton = view.findViewById(R.id.drugs_button);
+        mMedicamentsButton.setOnClickListener((View v) ->
+                startActivity(MedicamentsListActivity.newIntent(getActivity())));
         return view;
     }
 }

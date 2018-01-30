@@ -22,7 +22,7 @@
         android:id="@+id/user_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/user_date_hint"/>
+        android:hint="@string/appointment_date_hint"/>
 
     <Button
         android:id="@+id/doc_request"

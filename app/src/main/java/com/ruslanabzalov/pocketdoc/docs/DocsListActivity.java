@@ -11,7 +11,6 @@ public class DocsListActivity extends SingleFragmentActivity {
     // Константы для получения данных от родительской активности.
     private static final String EXTRA_DOCS_TYPE = "com.ruslanabzalov.pocketdoc.doc.docs_type";
     private static final String EXTRA_DOCS_METRO = "com.ruslanabzalov.pocketdoc.doc.docs_metro";
-//    private static final String EXTRA_DOCS_DATE = "com.ruslanabzalov.pocketdoc.doc.docs_date";
 
     /**
      * Метод, создающий интент для запуска активности DocsListActivity.
@@ -21,11 +20,9 @@ public class DocsListActivity extends SingleFragmentActivity {
      * @return интент для запуска активности DocsListActivity.
      */
     public static Intent newIntent(Context packageContext, String docsType, String docsMetro) {
-//    ,String docsDate) {
         Intent intent = new Intent(packageContext, DocsListActivity.class);
         intent.putExtra(EXTRA_DOCS_TYPE, docsType);
         intent.putExtra(EXTRA_DOCS_METRO, docsMetro);
-//        intent.putExtra(EXTRA_DOCS_DATE, docsDate);
         return intent;
     }
 
@@ -37,7 +34,6 @@ public class DocsListActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         String docsType = getIntent().getStringExtra(EXTRA_DOCS_TYPE);
         String docsMetro = getIntent().getStringExtra(EXTRA_DOCS_METRO);
-//        String docsDate = getIntent().getStringExtra(EXTRA_DOCS_DATE);
-        return DocsListFragment.newInstance(docsType, docsMetro);//, docsDate);
+        return DocsListFragment.newInstance(docsType, docsMetro);
     }
 }

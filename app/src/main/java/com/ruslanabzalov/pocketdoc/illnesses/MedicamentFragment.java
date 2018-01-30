@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,14 +10,14 @@ import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.UUID;
 
-public class DrugFragment extends Fragment {
+public class MedicamentFragment extends Fragment {
 
     private static final String ARG_DRUG_ID = "drug_id";
 
-    public static DrugFragment newInstance(UUID drugId) {
+    public static MedicamentFragment newInstance(UUID drugId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_DRUG_ID, drugId);
-        DrugFragment fragment = new DrugFragment();
+        MedicamentFragment fragment = new MedicamentFragment();
         fragment.setArguments(args);
         return fragment;
     }

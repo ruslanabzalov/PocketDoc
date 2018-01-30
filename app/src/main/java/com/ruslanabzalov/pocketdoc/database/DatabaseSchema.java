@@ -19,13 +19,12 @@ public class DatabaseSchema {
          */
         public static final class Cols {
             public static final String DOC_NAME = "doc_name";
-//            public static final String DOC_TYPE = "doc_type";
-//            public static final String CLINIC_NAME = "clinic_name";
+            public static final String DOC_TYPE = "doc_type";
             public static final String DOC_ADDRESS = "doc_address";
             public static final String DOC_DESCRIPTION = "doc_description";
-//            public static final String USER_NAME = "user_name";
-//            public static final String USER_PHONE = "user_phone";
-//            public static final String RECORD_DATE = "record_date";
+            public static final String USER_NAME = "user_name";
+            public static final String USER_PHONE = "user_phone";
+            public static final String RECORD_DATE = "record_date";
         }
     }
 //

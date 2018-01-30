@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +29,6 @@ public class DocsListFragment extends Fragment {
 
     private static final String ARG_DOCS_TYPE = "docs_type";
     private static final String ARG_DOCS_METRO = "docs_metro";
-//    private static final String ARG_DOCS_DATE = "docs_date";
 
     private RecyclerView mDocsRecyclerView;
 
@@ -35,7 +36,6 @@ public class DocsListFragment extends Fragment {
 
     private String mDocsTypeId;
     private String mDocsMetroId;
-//    private String mDocsDate;
 
     /**
      * Метод для создания нового фрагмента DocsListFragment и упаковывающий в него аргументы.
@@ -44,11 +44,9 @@ public class DocsListFragment extends Fragment {
      * @return Новый фрагмент DocsListFragment.
      */
     public static DocsListFragment newInstance(String docsType, String docsMetro) {
-//    }, String docsDate) {
         Bundle args = new Bundle();
         args.putCharSequence(ARG_DOCS_TYPE, docsType);
         args.putCharSequence(ARG_DOCS_METRO, docsMetro);
-//        args.putCharSequence(ARG_DOCS_DATE, docsDate);
         DocsListFragment fragment = new DocsListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,11 +55,10 @@ public class DocsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Список врачей");
+        getActivity().setTitle(getString(R.string.docs_list_activity_title));
         setRetainInstance(true);
         mDocsTypeId = getArguments().getCharSequence(ARG_DOCS_TYPE).toString();
         mDocsMetroId = getArguments().getCharSequence(ARG_DOCS_METRO).toString();
-//        mDocsDate = getArguments().getCharSequence(ARG_DOCS_DATE).toString();
         new FetchDocsTask().execute();
     }
 
@@ -163,6 +160,7 @@ public class DocsListFragment extends Fragment {
          */
         @Override
         public void onClick(View v) {
+            FragmentManager fm = getFragmentManager();
             Intent intent = DocInfoActivity.newIntent(getActivity(), mDoc);
             startActivity(intent);
         }

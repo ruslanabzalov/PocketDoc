@@ -36,13 +36,16 @@
             android:name=".docs.DocRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".disease.DiseaseActivity"
+            android:name=".docs.RecordsHistoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".disease.DrugsListActivity"
+            android:name=".illnesses.IllnessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".illnesses.MedicamentsListActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".disease.DrugActivity"
+            android:name=".illnesses.MedicamentActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".map.ClinicActivity"

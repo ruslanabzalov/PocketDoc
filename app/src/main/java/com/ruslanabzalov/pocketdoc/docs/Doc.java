@@ -9,6 +9,7 @@ public class Doc implements Serializable {
 
     private String mId;
     private String mName;
+    private String mType;
     private String mDescription;
     private String mExperience;
     private String mRating;
@@ -30,6 +31,14 @@ public class Doc implements Serializable {
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public void setType(String type) {
+        mType = type;
     }
 
     public String getDescription() {

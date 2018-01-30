@@ -25,13 +25,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("create table " + MedicalRecordsTable.NAME +
                 "(" + "_id integer primary key autoincrement, " +
                 MedicalRecordsTable.Cols.DOC_NAME + "," +
-//                MedicalRecordsTable.Cols.DOC_TYPE + "," +
-//                MedicalRecordsTable.Cols.CLINIC_NAME + "," +
+                MedicalRecordsTable.Cols.DOC_TYPE + "," +
                 MedicalRecordsTable.Cols.DOC_ADDRESS + "," +
-                MedicalRecordsTable.Cols.DOC_DESCRIPTION +// "," +
-//                MedicalRecordsTable.Cols.USER_NAME + "," +
-//                MedicalRecordsTable.Cols.USER_PHONE + "," +
-//                MedicalRecordsTable.Cols.RECORD_DATE +
+                MedicalRecordsTable.Cols.DOC_DESCRIPTION + "," +
+                MedicalRecordsTable.Cols.USER_NAME + "," +
+                MedicalRecordsTable.Cols.USER_PHONE + "," +
+                MedicalRecordsTable.Cols.RECORD_DATE +
                 ")"
         );
     }

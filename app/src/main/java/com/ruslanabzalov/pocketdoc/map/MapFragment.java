@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruslanabzalov.pocketdoc.DataFetch;
+import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Карта");
+        getActivity().setTitle(getString(R.string.map_fragment_label));
         getMapAsync((GoogleMap googleMap) -> {
             mGoogleMap = googleMap;
             mGoogleMap.setOnMarkerClickListener(this);

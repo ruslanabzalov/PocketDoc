@@ -1,29 +1,28 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import java.util.UUID;
 
 /**
  * Класс, описывающий заболевание.
  */
-public class Disease {
+class Illness {
 
     private UUID mId;
     private String mTitle;
-    private DrugsList mDrugs;
 
-    public Disease() {
+    Illness() {
         this.mId = UUID.randomUUID();
     }
 
-    public UUID getId() {
+    UUID getId() {
         return mId;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return mTitle;
     }
 
-    public void setTitle(String title) {
+    void setTitle(String title) {
         mTitle = title;
     }
 }

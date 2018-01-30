@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +8,12 @@ import com.ruslanabzalov.pocketdoc.SingleFragmentActivity;
 
 import java.util.UUID;
 
-public class DrugActivity extends SingleFragmentActivity {
+public class MedicamentActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_DRUG_ID = "com.ruslanabzalov.pocketdoc.disease.drug_id";
 
     public static Intent newIntent(Context packageContext, UUID drugId) {
-        Intent intent = new Intent(packageContext, DrugActivity.class);
+        Intent intent = new Intent(packageContext, MedicamentActivity.class);
         intent.putExtra(EXTRA_DRUG_ID, drugId);
         return intent;
     }
@@ -22,6 +22,6 @@ public class DrugActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         UUID drugId = (UUID) getIntent().getSerializableExtra(EXTRA_DRUG_ID);
-        return DrugFragment.newInstance(drugId);
+        return MedicamentFragment.newInstance(drugId);
     }
 }

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
 
@@ -46,7 +45,7 @@ public class DocsSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Поиск врача");
+        getActivity().setTitle(getString(R.string.docs_search_fragment_label));
         setHasOptionsMenu(true);
     }
 
@@ -90,9 +89,9 @@ public class DocsSearchFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.visits:
-                // TODO: Открытие активности с отображением всех предыдущих посещений.
-                Toast.makeText(getActivity(), "Открытие новой актинвости.", Toast.LENGTH_SHORT)
-                        .show();
+                // Открытие активности, отображающей историю посещений.
+                Intent intent = new Intent(getContext(), RecordsHistoryActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -19,9 +19,15 @@ import java.util.GregorianCalendar;
 
 public class DatePickerFragment extends DialogFragment {
 
+    public interface EditNameDialogListener {
+        void onFinishEditDialog(String inputText);
+    }
+
     public static final String EXTRA_DATE = "com.ruslanabzalov.pocketdoc.docs.date";
 
     private DatePicker mDatePicker;
+
+    private EditNameDialogListener listener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -38,7 +44,6 @@ public class DatePickerFragment extends DialogFragment {
         mDatePicker.setMaxDate(System.currentTimeMillis() + 1210000000);
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
-                // Перенести в string.xml
                 .setTitle("Выберите желаемую дату записи")
                 .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> {
                     int year1 = mDatePicker.getYear();

@@ -10,17 +10,17 @@
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/disease_title_label"/>
+        android:text="@string/illness_title_label"/>
 
     <EditText
         android:id="@+id/disease_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/disease_title_hint"/>
+        android:hint="@string/illness_title_hint"/>
 
     <Button
         android:id="@+id/drugs_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/drugs_button_hint"/>
+        android:text="@string/medicaments_button_hint"/>
 </LinearLayout>

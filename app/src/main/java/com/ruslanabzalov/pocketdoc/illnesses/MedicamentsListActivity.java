@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.disease;
+package com.ruslanabzalov.pocketdoc.illnesses;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,15 +6,15 @@ import android.support.v4.app.Fragment;
 
 import com.ruslanabzalov.pocketdoc.SingleFragmentActivity;
 
-public class DrugsListActivity extends SingleFragmentActivity {
+public class MedicamentsListActivity extends SingleFragmentActivity {
 
     /**
-     * Метод, создающий интент для запуска активности DrugsListActivity.
+     * Метод, создающий интент для запуска активности MedicamentsListActivity.
      * @param packageContext контекст.
-     * @return интент для запуска активности DrugsListActivity.
+     * @return интент для запуска активности MedicamentsListActivity.
      */
     public static Intent newIntent(Context packageContext) {
-        return new Intent(packageContext, DrugsListActivity.class);
+        return new Intent(packageContext, MedicamentsListActivity.class);
     }
 
     /**
@@ -23,6 +23,6 @@ public class DrugsListActivity extends SingleFragmentActivity {
      */
     @Override
     protected Fragment createFragment() {
-        return new DrugsListFragment();
+        return new MedicamentsListFragment();
     }
 }
