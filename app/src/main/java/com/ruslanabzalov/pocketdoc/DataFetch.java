@@ -15,12 +15,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Класс, для получение списка врачей посредством API.
@@ -41,8 +42,8 @@ public class DataFetch {
      */
     private byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
-        // Создание объекта подключения к URL-адресу по протоколу HTTP.
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        // Создание объекта подключения к URL-адресу по протоколу HTTPS.
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         // Авторизация.
         String basicAuth ="Basic " +
                 new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(), Base64.NO_WRAP ));
@@ -378,7 +379,7 @@ public class DataFetch {
                     .appendPath("start")
                     .appendPath("0")
                     .appendPath("count")
-                    .appendPath("200")
+                    .appendPath("500")
                     .appendPath("city")
                     .appendPath("1")
                     .appendPath("type")
@@ -439,7 +440,7 @@ public class DataFetch {
                         .build()
                         .toString();
                 URL url = new URL(uri);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 String basicAuth ="Basic " +
                         new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(),
                                 Base64.NO_WRAP));

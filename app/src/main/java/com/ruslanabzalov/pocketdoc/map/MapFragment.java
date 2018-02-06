@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruslanabzalov.pocketdoc.DataFetch;
 import com.ruslanabzalov.pocketdoc.R;
+import com.ruslanabzalov.pocketdoc.docs.RecordsHistoryActivity;
 
 import java.util.List;
 
@@ -51,6 +55,7 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(getString(R.string.map_fragment_label));
+        setHasOptionsMenu(true);
         getMapAsync((GoogleMap googleMap) -> {
             mGoogleMap = googleMap;
             mGoogleMap.setOnMarkerClickListener(this);
@@ -80,6 +85,34 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
             }
         });
         new FetchHospitalsTask().execute();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_map, menu);
+    }
+
+    /**
+     * Метод, обрабатывающий нажатие на кнопку "+" меню.
+     * @param item элемент меню
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.hospitals:
+                // TODO: Выбор отображаемых маркеров.
+                return true;
+            case R.id.policlinics:
+                // TODO: Выбор отображаемых маркеров.
+                return true;
+            case R.id.policlinics_kids:
+                // TODO: Выбор отображаемых маркеров.
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

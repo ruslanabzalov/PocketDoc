@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +18,7 @@ import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Фрагмент, отвечающий за отображение списка врачей.
@@ -57,8 +57,10 @@ public class DocsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(getString(R.string.docs_list_activity_title));
         setRetainInstance(true);
-        mDocsTypeId = getArguments().getCharSequence(ARG_DOCS_TYPE).toString();
-        mDocsMetroId = getArguments().getCharSequence(ARG_DOCS_METRO).toString();
+        mDocsTypeId = Objects.requireNonNull(getArguments().getCharSequence(ARG_DOCS_TYPE))
+                .toString();
+        mDocsMetroId = Objects.requireNonNull(getArguments().getCharSequence(ARG_DOCS_METRO))
+                .toString();
         new FetchDocsTask().execute();
     }
 

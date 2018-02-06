@@ -1,10 +1,13 @@
 package com.ruslanabzalov.pocketdoc.map;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ruslanabzalov.pocketdoc.R;
@@ -41,6 +44,12 @@ public class ClinicFragment extends Fragment {
         mClinicPhoneTextView.setText(mClinic.getPhone());
         TextView mClinicDescriptionTextView = view.findViewById(R.id.clinic_description);
         mClinicDescriptionTextView.setText(mClinic.getDescription());
+        Button mCallButton = view.findViewById(R.id.telephone_button);
+        mCallButton.setOnClickListener((View v) -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
+                    mClinicPhoneTextView.getText().toString(), null));
+            startActivity(intent);
+        });
         return view;
     }
 }

@@ -37,4 +37,10 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Описание клиники"/>
+
+    <Button
+        android:id="@+id/telephone_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Позвонить"/>
 </LinearLayout>
