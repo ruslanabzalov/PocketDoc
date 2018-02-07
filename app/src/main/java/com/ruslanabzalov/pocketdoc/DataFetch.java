@@ -23,23 +23,13 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/**
- * Класс, для получение списка врачей посредством API.
- */
 public class DataFetch {
 
-    // Логин и пароль для получения данных посредством API.
     private static final String LOGIN = "partner.13849";
     private static final String PASSWORD = "BIQWlAdw";
 
     private static final String TAG = "DataFetch";
 
-    /**
-     * Метод, получающий низкоуровневые данные по URL.
-     * @param urlSpec
-     * @return
-     * @throws IOException
-     */
     private byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         // Создание объекта подключения к URL-адресу по протоколу HTTPS.
@@ -69,12 +59,6 @@ public class DataFetch {
         }
     }
 
-    /**
-     * Метод, преобразующий массив URL-байт в строку.
-     * @param urlSpec
-     * @return
-     * @throws IOException
-     */
     private String getUrlString(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
@@ -133,13 +117,6 @@ public class DataFetch {
         return docsTypes;
     }
 
-    /**
-     * Метод для парсинга JSON-данных, связанных со специализациями врачей.
-     * @param docsTypes
-     * @param json
-     * @throws IOException
-     * @throws JSONException
-     */
     private void parseDocsTypesToMap(Map<String, String> docsTypes, JSONObject json)
             throws IOException, JSONException {
         JSONArray docsTypesJsonArray = json.getJSONArray("SpecList");
@@ -236,9 +213,6 @@ public class DataFetch {
         }
     }
 
-    /**
-     * Метод, формирующий URL-запрос и загружающий его содержимое.
-     */
     public List<Doc> fetchDocs(String docsTypeId, String docsMetroId) {
         List<Doc> docs = new ArrayList<>();
         try {
@@ -287,13 +261,6 @@ public class DataFetch {
         return docs;
     }
 
-    /**
-     * Метод для парсинга JSON-данных, связанных с информацией о врачах.
-     * @param docs
-     * @param json
-     * @throws IOException
-     * @throws JSONException
-     */
     private void parseDocs(List<Doc> docs, JSONObject json, String docTypeId, String docsMetroId)
             throws IOException, JSONException {
         JSONArray docsJsonArray = json.getJSONArray("DoctorList");
@@ -326,11 +293,6 @@ public class DataFetch {
         }
     }
 
-    /**
-     * Метод для нахождения адреса клиники.
-     * @param clinicId идентификатор клиники.
-     * @return адрес клиники.
-     */
     private String getClinicData(String clinicId) {//, String dataType) {
         String data = "Пусто!";
         try {
@@ -417,14 +379,6 @@ public class DataFetch {
         }
     }
 
-    /**
-     * Метод для создания заявки.
-     * @param userName имя клиента.
-     * @param phoneNumber номер телефона клиента.
-     * @param date желаемая дата посещения.
-     * @param docId идентификатор доктора.
-     * @param clinicId идентификатор клиники.
-     */
     public static void docPostRequest(String userName, String phoneNumber, String date, String docId,
                                       String clinicId) {
         Thread thread = new Thread(() -> {

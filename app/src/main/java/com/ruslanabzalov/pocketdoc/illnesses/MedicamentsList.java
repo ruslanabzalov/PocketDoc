@@ -12,7 +12,7 @@ public class MedicamentsList {
 
     private List<Medicament> mMedicaments;
 
-    public static MedicamentsList get(Context context) {
+    static MedicamentsList get(Context context) {
         if (sMedicamentsList == null) {
             sMedicamentsList = new MedicamentsList(context);
         }
@@ -23,17 +23,17 @@ public class MedicamentsList {
         mMedicaments = new ArrayList<>();
     }
 
-    public void addDrug(Medicament medicament) {
+    void addMedicament(Medicament medicament) {
         mMedicaments.add(medicament);
     }
 
-    public List<Medicament> getMedicaments() {
+    List<Medicament> getMedicaments() {
         return mMedicaments;
     }
 
-    public Medicament getDrug(UUID id) {
+    Medicament getMedicament(UUID id) {
         for (Medicament medicament : mMedicaments) {
-            if (medicament.getDrugId().equals(id)) {
+            if (medicament.getId().equals(id)) {
                 return medicament;
             }
         }

@@ -13,12 +13,8 @@ public class RecordCursorWrapper extends CursorWrapper {
 
     public Record getRecord() {
         Record record = new Record();
-        record.setDocName(getString(getColumnIndex(MedicalRecordsTable.Cols.DOC_NAME)));
         record.setDocType(getString(getColumnIndex(MedicalRecordsTable.Cols.DOC_TYPE)));
-        record.setDocAddress(getString(getColumnIndex(MedicalRecordsTable.Cols.DOC_ADDRESS)));
-        record.setDocDescription(getString(getColumnIndex(MedicalRecordsTable.Cols.DOC_DESCRIPTION)));
         record.setUserName(getString(getColumnIndex(MedicalRecordsTable.Cols.USER_NAME)));
-        record.setUserPhone(getString(getColumnIndex(MedicalRecordsTable.Cols.USER_PHONE)));
         record.setRecordDate(getString(getColumnIndex(MedicalRecordsTable.Cols.RECORD_DATE)));
         return record;
     }

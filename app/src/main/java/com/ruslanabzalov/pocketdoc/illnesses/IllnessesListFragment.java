@@ -71,49 +71,29 @@ public class IllnessesListFragment extends Fragment {
         }
     }
 
-    /**
-     * Метод жизненного цикла, выполняющийся обновление UI фрагмента DiseaseFragmentList
-     * при возврате из другой активности.
-     */
     @Override
     public void onResume() {
         super.onResume();
         updateDiseaseListFragment();
     }
 
-    /**
-     * Класс, описывающий определённый объект типа DiseaseHolder.
-     */
     private class DiseaseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTitleTextView;
 
         private Illness mIllness;
 
-        /**
-         * Конструктор для создания объекта типа ViewHolder с его представлением.
-         * @param inflater
-         * @param parent
-         */
         private DiseaseHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_disease, parent, false));
             itemView.setOnClickListener(this); //
             mTitleTextView = itemView.findViewById(R.id.disease_title);
         }
 
-        /**
-         * Метод, связывающий конкретный объект типа DiseaseHolder с определёнными данными модели.
-         * @param illness конкретное заболевание
-         */
         void bind(Illness illness) {
             mIllness = illness;
             mTitleTextView.setText(mIllness.getTitle());
         }
 
-        /**
-         * Метод, запускающий активность IllnessActivity с дополнениями.
-         * @param v
-         */
         @Override
         public void onClick(View v) {
             Intent intent = IllnessActivity.newIntent(getActivity(), mIllness.getId());
@@ -122,58 +102,32 @@ public class IllnessesListFragment extends Fragment {
 
     }
 
-    /**
-     * Класс, описывающий объект типа DiseasesAdapter.
-     */
     private class DiseasesAdapter extends RecyclerView.Adapter<DiseaseHolder> {
 
         private List<Illness> mIllnesses;
 
-        /**
-         * Констуктор для создания объекта типа DiseasesAdapter с данными модели.
-         * @param illnesses список заболеваний пользователя
-         */
         private DiseasesAdapter(List<Illness> illnesses) {
             mIllnesses = illnesses;
         }
 
-        /**
-         * Метод, создающий объект типа DiseaseHolder с представлением.
-         * @param parent
-         * @param viewType
-         * @return настроенный объект типа DiseaseHolder
-         */
         @Override
         public DiseaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             return new DiseaseHolder(layoutInflater, parent);
         }
 
-        /**
-         * Метод, связывающий данные модели для определённой позиции в списке с их представлением.
-         * @param holder
-         * @param position
-         */
         @Override
         public void onBindViewHolder(DiseaseHolder holder, int position) {
             Illness illness = mIllnesses.get(position);
             holder.bind(illness);
         }
 
-        /**
-         * Метод, возвращающий общее количество объектов в списке.
-         * @return количество объектов в списке
-         */
         @Override
         public int getItemCount() {
             return mIllnesses.size();
         }
     }
 
-    /**
-     * Метод, связывающий объект типа DiseasesAdapter с RecyclerView
-     * и настраивающий UI фрагмента DiseaseListFragment.
-     */
     private void updateDiseaseListFragment() {
         IllnessesList illnessesList = IllnessesList.get(getActivity());
         List<Illness> illnesses = illnessesList.getIllnesses();

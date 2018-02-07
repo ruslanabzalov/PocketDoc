@@ -30,13 +30,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruslanabzalov.pocketdoc.DataFetch;
 import com.ruslanabzalov.pocketdoc.R;
-import com.ruslanabzalov.pocketdoc.docs.RecordsHistoryActivity;
 
 import java.util.List;
 
-/**
- * Фрагмент, отвечающий за отображение на карте медицинских центров.
- */
 public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarkerClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -50,7 +46,6 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
 
     private List<Hospital> mHospitals;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,23 +54,19 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
         getMapAsync((GoogleMap googleMap) -> {
             mGoogleMap = googleMap;
             mGoogleMap.setOnMarkerClickListener(this);
-            // Позиционирование камеры на городе Москва.
             CameraPosition cameraPosition = new CameraPosition
                     .Builder()
                     .target(new LatLng(55.751244, 37.618423))
                     .zoom(10)
                     .build();
             mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            // Инициализация Google Play Service.
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION) ==
                         PackageManager.PERMISSION_GRANTED) {
-                    // Остлеживание местоположения уже разрешено.
                     buildGoogleApiClient();
                     mGoogleMap.setMyLocationEnabled(true);
                 } else {
-                    // Запрос на предоставление информации о текущем местоположении.
                     checkLocationPermission();
                 }
             }
@@ -93,11 +84,6 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
         inflater.inflate(R.menu.fragment_map, menu);
     }
 
-    /**
-     * Метод, обрабатывающий нажатие на кнопку "+" меню.
-     * @param item элемент меню
-     * @return
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

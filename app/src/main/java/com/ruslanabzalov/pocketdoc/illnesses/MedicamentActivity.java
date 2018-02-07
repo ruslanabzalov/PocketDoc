@@ -18,7 +18,6 @@ public class MedicamentActivity extends SingleFragmentActivity {
         return intent;
     }
 
-
     @Override
     protected Fragment createFragment() {
         UUID drugId = (UUID) getIntent().getSerializableExtra(EXTRA_DRUG_ID);

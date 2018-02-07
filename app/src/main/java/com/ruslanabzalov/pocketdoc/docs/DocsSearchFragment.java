@@ -14,12 +14,8 @@ import android.widget.Button;
 
 import com.ruslanabzalov.pocketdoc.R;
 
-/**
- * Фрагмент, отвечающий за выбор определённой специализации врачей.
- */
 public class DocsSearchFragment extends Fragment {
 
-    // Константы для получения данных из дочерних активностей.
     private static final String EXTRA_DOCS_TYPE_ID
             = "com.ruslanabzalov.pocketdoc.docs.docs_type_id";
     private static final String EXTRA_DOCS_TYPE_NAME
@@ -29,7 +25,6 @@ public class DocsSearchFragment extends Fragment {
     private static final String EXTRA_DOCS_METRO_NAME
             = "com.ruslanabzalov.pocketdoc.docs.docs_metro_name";
 
-    // Коды запросов для корректного получения данных от дочерней активности.
     private static final int REQUEST_CODE_TYPES = 0;
     private static final int REQUEST_CODE_METROS = 1;
 
@@ -80,11 +75,6 @@ public class DocsSearchFragment extends Fragment {
         inflater.inflate(R.menu.fragment_docs_search, menu);
     }
 
-    /**
-     * Метод, обрабатывающий нажатие на кнопку "+" меню.
-     * @param item элемент меню
-     * @return
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -98,12 +88,6 @@ public class DocsSearchFragment extends Fragment {
         }
     }
 
-    /**
-     * Метод для получения результатов от дочерних активностей.
-     * @param requestCode код запроса.
-     * @param resultCode код результата.
-     * @param data данные, переданные главной активности.
-     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
@@ -129,9 +113,6 @@ public class DocsSearchFragment extends Fragment {
         }
     }
 
-    /**
-     * Метод, проверяющий выбор всех необходимых параметров для поиска врачей.
-     */
     private void checkButtons() {
         if (!mDocsTypeButton.getText().equals("") && !mDocsMetroButton.getText().equals("")) {
             mDocsSearchButton.setEnabled(true);

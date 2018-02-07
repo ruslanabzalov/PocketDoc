@@ -51,16 +51,10 @@ public class RecordsHistoryFragment extends Fragment {
         }
     }
 
-    /**
-     *
-     * @param whereClause
-     * @param whereArgs
-     * @return
-     */
     private RecordCursorWrapper queryRecords(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 DatabaseSchema.MedicalRecordsTable.NAME,
-                null, // null - выбор всех столбцов
+                null,
                 whereClause,
                 whereArgs,
                 null,
@@ -70,9 +64,6 @@ public class RecordsHistoryFragment extends Fragment {
         return new RecordCursorWrapper(cursor);
     }
 
-    /**
-     * Метод для чтения информации и записях из базы данных.
-     */
     private void getFromDatabase() {
         try (RecordCursorWrapper cursorWrapper = queryRecords(null, null)) {
             cursorWrapper.moveToFirst();
@@ -85,11 +76,8 @@ public class RecordsHistoryFragment extends Fragment {
 
     private class RecordsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView mDocNameTextView;
         private TextView mDocTypeTextView;
-        private TextView mDocAddressTextView;
         private TextView mUserNameTextView;
-        private TextView mUserPhoneTextView;
         private TextView mRecordDateTextView;
 
         private Record mRecord;
@@ -97,22 +85,16 @@ public class RecordsHistoryFragment extends Fragment {
         private RecordsHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_record, parent, false));
             itemView.setOnClickListener(this);
-            mDocNameTextView = itemView.findViewById(R.id.record_doc_name);
             mDocTypeTextView = itemView.findViewById(R.id.record_doc_type);
-            mDocAddressTextView = itemView.findViewById(R.id.record_doc_address);
             mUserNameTextView = itemView.findViewById(R.id.record_user_name);
-            mUserPhoneTextView = itemView.findViewById(R.id.record_user_phone);
             mRecordDateTextView = itemView.findViewById(R.id.record_date);
         }
 
         void bind(Record record) {
             mRecord = record;
-            mDocNameTextView.setText(mRecord.getDocName());
-            mDocTypeTextView.setText(mRecord.getDocType());
-            mDocAddressTextView.setText(mRecord.getDocAddress());
-            mUserNameTextView.setText(mRecord.getUserName());
-            mUserPhoneTextView.setText(mRecord.getUserPhone());
-            mRecordDateTextView.setText(mRecord.getRecordDate());
+            mDocTypeTextView.setText(String.format("Специализация врача: %s", mRecord.getDocType()));
+            mUserNameTextView.setText(String.format("Имя посетителя: %s", mRecord.getUserName()));
+            mRecordDateTextView.setText(String.format("Дата записи: %s", mRecord.getRecordDate()));
         }
 
         @Override

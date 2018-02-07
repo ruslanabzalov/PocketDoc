@@ -7,12 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ruslanabzalov.pocketdoc.docs.DocsSearchFragment;
+import com.ruslanabzalov.pocketdoc.illnesses.IllnessesListFragment;
 import com.ruslanabzalov.pocketdoc.illnesses.MedicamentsListFragment;
 import com.ruslanabzalov.pocketdoc.map.MapFragment;
 
-/**
- * Главная активность приложения, отвечающая за хостинг трёх основных фрагментов.
- */
 public class MainActivity extends AppCompatActivity {
 
     @Override

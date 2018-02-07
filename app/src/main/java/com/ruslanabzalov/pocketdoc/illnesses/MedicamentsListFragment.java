@@ -35,6 +35,7 @@ public class MedicamentsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_drugs_list, container, false);
         mDrugsRecyclerView = view.findViewById(R.id.drug_list_recycler_view);
         mDrugsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        updateDrugsListFragment();
         return view;
     }
 
@@ -49,8 +50,8 @@ public class MedicamentsListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.new_drug:
                 Medicament medicament = new Medicament();
-                MedicamentsList.get(getActivity()).addDrug(medicament);
-                Intent intent = MedicamentActivity.newIntent(getActivity(), medicament.getDrugId());
+                MedicamentsList.get(getActivity()).addMedicament(medicament);
+                Intent intent = MedicamentActivity.newIntent(getActivity(), medicament.getId());
                 startActivity(intent);
                 return true;
             default:
@@ -73,17 +74,17 @@ public class MedicamentsListFragment extends Fragment {
         private DrugsHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_drug, parent, false));
             itemView.setOnClickListener(this); //
-            mTitleTextView = itemView.findViewById(R.id.disease_title);
+            mTitleTextView = itemView.findViewById(R.id.drug_name);
         }
 
         public void bind(Medicament medicament) {
             mMedicament = medicament;
-            mTitleTextView.setText(mMedicament.getDrugName());
+            mTitleTextView.setText(mMedicament.getName());
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = MedicamentActivity.newIntent(getActivity(), mMedicament.getDrugId());
+            Intent intent = MedicamentActivity.newIntent(getActivity(), mMedicament.getId());
             startActivity(intent);
         }
 

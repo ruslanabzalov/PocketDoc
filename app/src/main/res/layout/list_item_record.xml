@@ -7,39 +7,39 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/record_doc_name"
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Имя врача"/>
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/record_doc_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Специализация"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-    <TextView
-        android:id="@+id/record_doc_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Адрес врача"/>
+            <TextView
+                android:id="@+id/record_doc_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Специализация"/>
 
-    <TextView
-        android:id="@+id/record_user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Имя посетителя"/>
+            <TextView
+                android:id="@+id/record_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Имя посетителя"/>
 
-    <TextView
-        android:id="@+id/record_user_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Номер посетителя"/>
-
-    <TextView
-        android:id="@+id/record_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Дата посещения"/>
+            <TextView
+                android:id="@+id/record_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Дата посещения"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -2,9 +2,6 @@ package com.ruslanabzalov.pocketdoc.docs;
 
 import java.io.Serializable;
 
-/**
- * Класс, описывающий врача и необходимые о нём данные.
- */
 public class Doc implements Serializable {
 
     private String mId;

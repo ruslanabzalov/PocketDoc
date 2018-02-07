@@ -15,21 +15,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
-    /**
-     * Метод, создающий базу данных.
-     * @param sqLiteDatabase база данных SQLite.
-     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // Создание таблицы medical_records.
         sqLiteDatabase.execSQL("create table " + MedicalRecordsTable.NAME +
                 "(" + "_id integer primary key autoincrement, " +
-                MedicalRecordsTable.Cols.DOC_NAME + "," +
                 MedicalRecordsTable.Cols.DOC_TYPE + "," +
-                MedicalRecordsTable.Cols.DOC_ADDRESS + "," +
-                MedicalRecordsTable.Cols.DOC_DESCRIPTION + "," +
                 MedicalRecordsTable.Cols.USER_NAME + "," +
-                MedicalRecordsTable.Cols.USER_PHONE + "," +
                 MedicalRecordsTable.Cols.RECORD_DATE +
                 ")"
         );

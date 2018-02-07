@@ -2,9 +2,6 @@ package com.ruslanabzalov.pocketdoc.map;
 
 import java.io.Serializable;
 
-/**
- * Класс, описывающий медицинское учреждение.
- */
 public class Hospital implements Serializable {
 
     private String mId;

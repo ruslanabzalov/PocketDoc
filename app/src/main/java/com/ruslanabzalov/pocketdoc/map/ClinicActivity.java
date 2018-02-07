@@ -19,6 +19,6 @@ public class ClinicActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         Hospital clinic = (Hospital) getIntent().getSerializableExtra(EXTRA_CLINIC);
-        return new ClinicFragment().newInstance(clinic);
+        return ClinicFragment.newInstance(clinic);
     }
 }

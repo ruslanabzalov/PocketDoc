@@ -11,20 +11,12 @@ import android.widget.TextView;
 
 import com.ruslanabzalov.pocketdoc.R;
 
-/**
- * Класс, отвечающий за отображение информации о конкретном враче и записи к нему на приём.
- */
 public class DocInfoFragment extends Fragment {
 
     private static final String ARG_DOC = "doc";
 
     private Doc mDoc;
 
-    /**
-     * Статический метод для создания фрагмента типа DocInfoFragment
-     * и прикрепления к нему аргументов.
-     * @return
-     */
     public static DocInfoFragment newInstance(Doc doc) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_DOC, doc);
