@@ -32,7 +32,7 @@ public class MedicamentsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_drugs_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_medicaments_list, container, false);
         mDrugsRecyclerView = view.findViewById(R.id.drug_list_recycler_view);
         mDrugsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateDrugsListFragment();
@@ -42,7 +42,7 @@ public class MedicamentsListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_drugs_list, menu);
+        inflater.inflate(R.menu.fragment_medicaments_list, menu);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class MedicamentsListFragment extends Fragment {
         private Medicament mMedicament;
 
         private DrugsHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_drug, parent, false));
+            super(inflater.inflate(R.layout.list_item_medicament, parent, false));
             itemView.setOnClickListener(this); //
             mTitleTextView = itemView.findViewById(R.id.drug_name);
         }

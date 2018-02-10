@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
 
@@ -22,15 +21,13 @@ public class MedicamentFragment extends Fragment {
     private Medicament mMedicament;
 
     private EditText mMedicamentTitleEditText;
-
-    private Button mButton1;
-    //private Button mButton2;
-    private Button mButton3;
-    private Button mButton4;
-    private Button mButton5;
-    private Button mButton6;
-    private Button mButton7;
-    private Button mSetNotification;
+    private Button mUseButton;
+    private Button mDurationInDaysButton;
+    private Button mDosageButton;
+    private Button mHourlyGapsButton;
+    private Button mFirstReceptionButton;
+    private Button mSecondReceptionButton;
+    private Button mSetNotificationButton;
 
     public static MedicamentFragment newInstance(UUID drugId) {
         Bundle args = new Bundle();
@@ -43,7 +40,7 @@ public class MedicamentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Лекарство");
+        getActivity().setTitle(getString(R.string.medicament_fragment_label));
         UUID medicamentId = (UUID) getArguments().getSerializable(ARG_DRUG_ID);
         mMedicament = MedicamentsList.get(getActivity()).getMedicament(medicamentId);
     }
@@ -51,7 +48,7 @@ public class MedicamentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_drug, container, false);
+        View view = inflater.inflate(R.layout.fragment_medicament, container, false);
         mMedicamentTitleEditText = view.findViewById(R.id.medicament_name);
         mMedicamentTitleEditText.setText(mMedicament.getName());
         mMedicamentTitleEditText.addTextChangedListener(new TextWatcher() {
@@ -66,34 +63,27 @@ public class MedicamentFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-        mMedicamentTitleEditText.setText("Аспирин");
-        mButton1 = view.findViewById(R.id.a);
-        mButton1.setText("После еды");
-        mButton3 = view.findViewById(R.id.c);
-        mButton3.setText("10");
-        mButton4 = view.findViewById(R.id.d);
-        mButton4.setText("1 таблетка(-и)");
-        mButton5 = view.findViewById(R.id.e);
-        mButton5.setText("2 часа(-ов)");
-        mButton6 = view.findViewById(R.id.f);
-        mButton6.setText("10:00");
-        mButton7 = view.findViewById(R.id.g);
-        mButton7.setText("20:00");
-        mSetNotification = view.findViewById(R.id.set_notif);
-        mSetNotification.setOnClickListener((View v) -> {
-            Toast.makeText(getContext(), "Напоминание создано", Toast.LENGTH_LONG).show();
-        });
-        //checkButtons();
+        mUseButton = view.findViewById(R.id.use_button);
+        mDurationInDaysButton = view.findViewById(R.id.duration_in_days_button);
+        mDosageButton = view.findViewById(R.id.dosage_button);
+        mHourlyGapsButton = view.findViewById(R.id.hourly_gaps_button);
+        mFirstReceptionButton = view.findViewById(R.id.first_reception_button);
+        mSecondReceptionButton = view.findViewById(R.id.second_reception_button);
+        mSetNotificationButton = view.findViewById(R.id.set_notification_button);
+        checkButtons();
         return view;
     }
 
-//    private void checkButtons() {
-//        if (!mButton1.getText().equals("")// && !mButton2.getText().equals("")
-//                && !mButton3.getText().equals("") && !mButton4.getText().equals("")
-//                && !mButton5.getText().equals("") && !mButton6.getText().equals("")
-//                && !mButton7.getText().equals("")
-//                && !mMedicamentTitleEditText.getText().toString().equals("")) {
-//            mSetNotification.setEnabled(true);
-//        }
-//    }
+    /**
+     * Метод для проверки выбора всех параметров создания напоминаний.
+     */
+    private void checkButtons() {
+        if (!mUseButton.getText().equals("")
+                && !mDurationInDaysButton.getText().equals("") && !mDosageButton.getText().equals("")
+                && !mHourlyGapsButton.getText().equals("") && !mFirstReceptionButton.getText().equals("")
+                && !mSecondReceptionButton.getText().equals("")
+                && !mMedicamentTitleEditText.getText().toString().equals("")) {
+            mSetNotificationButton.setEnabled(true);
+        }
+    }
 }

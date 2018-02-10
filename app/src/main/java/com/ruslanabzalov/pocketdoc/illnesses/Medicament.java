@@ -7,7 +7,6 @@ public class Medicament {
     private UUID mId;
     private String mName; // Название лекарства
     private String mUse; // Способ применения
-    private String mMode; // Режим приёма
     private int mDurationInDays; // Продолжительность в днях
     private String mDosage; // Дозировка
     private int mHourlyGaps; // Принимать каждые
@@ -36,14 +35,6 @@ public class Medicament {
 
     public void setUse(String use) {
         mUse = use;
-    }
-
-    public String getMode() {
-        return mMode;
-    }
-
-    public void setMode(String mode) {
-        mMode = mode;
     }
 
     public int getDurationInDays() {

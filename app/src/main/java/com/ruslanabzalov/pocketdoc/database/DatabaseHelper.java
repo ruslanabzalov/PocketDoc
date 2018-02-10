@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
@@ -15,19 +13,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
+    /**
+     * Метод для создания базы данных.
+     * @param sqLiteDatabase база данных SQLite.
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table " + MedicalRecordsTable.NAME +
+        sqLiteDatabase.execSQL("create table " + DatabaseSchema.MedicalRecordsTable.NAME +
                 "(" + "_id integer primary key autoincrement, " +
-                MedicalRecordsTable.Cols.DOC_TYPE + "," +
-                MedicalRecordsTable.Cols.USER_NAME + "," +
-                MedicalRecordsTable.Cols.RECORD_DATE +
+                DatabaseSchema.MedicalRecordsTable.Cols.DOC_TYPE + "," +
+                DatabaseSchema.MedicalRecordsTable.Cols.USER_NAME + "," +
+                DatabaseSchema.MedicalRecordsTable.Cols.RECORD_DATE +
+                ")"
+        );
+        sqLiteDatabase.execSQL("create table " + DatabaseSchema.HospitalsTable.NAME +
+                "(" + "_id integer primary key autoincrement, " +
+                DatabaseSchema.HospitalsTable.Cols.NAME + "," +
+                DatabaseSchema.HospitalsTable.Cols.TYPE + "," +
+                DatabaseSchema.HospitalsTable.Cols.DESCRIPTION + "," +
+                DatabaseSchema.HospitalsTable.Cols.ADDRESS + "," +
+                DatabaseSchema.HospitalsTable.Cols.PHONE + "," +
+                DatabaseSchema.HospitalsTable.Cols.LONGITUDE + "," +
+                DatabaseSchema.HospitalsTable.Cols.LATITUDE +
                 ")"
         );
     }
 
     /**
-     * Метод, обновляющий базу данных.
+     * Метод для обновления базы данных.
      * @param sqLiteDatabase база данных SQLite.
      * @param oldVersion старая версия базы данных.
      * @param newVersion новая версия базы данных.

@@ -30,23 +30,11 @@
             android:text="Способ применения"/>
 
         <Button
-            android:id="@+id/a"
+            android:id="@+id/use_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Выберите способ применения"/>
-<!--
-        <TextView
-            style="?android:listSeparatorTextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Режим приёма"/>
 
-        <Button
-            android:id="@+id/b"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Выберите режим приёма"/>
--->
         <TextView
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
@@ -54,7 +42,7 @@
             android:text="Продолжительность в днях"/>
 
         <Button
-            android:id="@+id/c"
+            android:id="@+id/duration_in_days_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Продолжительность"/>
@@ -66,7 +54,7 @@
             android:text="Дозировка"/>
 
         <Button
-            android:id="@+id/d"
+            android:id="@+id/dosage_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Выберите дозировку"/>
@@ -78,7 +66,7 @@
             android:text="Напоминать"/>
 
         <Button
-            android:id="@+id/e"
+            android:id="@+id/hourly_gaps_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Каждые X часов"/>
@@ -90,7 +78,7 @@
             android:text="Первый приём"/>
 
         <Button
-            android:id="@+id/f"
+            android:id="@+id/first_reception_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Время первого приёма"/>
@@ -102,13 +90,13 @@
             android:text="Последний приём"/>
 
         <Button
-            android:id="@+id/g"
+            android:id="@+id/second_reception_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Время последнего приёма"/>
 
         <Button
-            android:id="@+id/set_notif"
+            android:id="@+id/set_notification_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Сохранить"/>

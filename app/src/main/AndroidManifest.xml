@@ -39,9 +39,6 @@
             android:name=".docs.RecordsHistoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".illnesses.IllnessActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".illnesses.MedicamentsListActivity"
             android:screenOrientation="portrait"/>
         <activity

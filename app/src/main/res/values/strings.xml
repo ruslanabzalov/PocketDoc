@@ -15,10 +15,7 @@
     <string name="appointment_date_hint">Выберите желаемую дату посещения</string>
     <string name="request_button_hint">Оформить заявку</string>
     <string name="visits">История посещений</string>
-    <string name="illnesses_list_fragment_label">Заболевания</string>
-    <string name="new_illness">Новое заболевание</string>
-    <string name="illness_title_hint">Введите название заболевания</string>
-    <string name="illness_title_label">Название заболевания</string>
+    <string name="medicament_fragment_label">Лекарство</string>
     <string name="medicaments_button_hint">Лекарства</string>
     <string name="new_medicament">Новое лекарство</string>
     <string name="medicament_title_label">Название лекарства</string>
