@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * Класс, отвечающий за создание и обновление базы данных.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;

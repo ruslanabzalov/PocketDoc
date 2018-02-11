@@ -34,12 +34,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruslanabzalov.pocketdoc.DataFetch;
 import com.ruslanabzalov.pocketdoc.R;
 import com.ruslanabzalov.pocketdoc.database.DatabaseHelper;
-import com.ruslanabzalov.pocketdoc.database.DatabaseSchema;
 import com.ruslanabzalov.pocketdoc.database.HospitalCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.HospitalsTable;
+
+/**
+ * Класс, отвечающий за отображение фрагмента Google Map с маркерами медицинских центров.
+ */
 public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarkerClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -57,16 +61,20 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
 
     private static ContentValues getContentValues(Hospital hospital) {
         ContentValues values = new ContentValues();
-        values.put(DatabaseSchema.HospitalsTable.Cols.NAME, hospital.getName());
-        values.put(DatabaseSchema.HospitalsTable.Cols.TYPE, hospital.getType());
-        values.put(DatabaseSchema.HospitalsTable.Cols.DESCRIPTION, hospital.getDescription());
-        values.put(DatabaseSchema.HospitalsTable.Cols.ADDRESS, hospital.getAddress());
-        values.put(DatabaseSchema.HospitalsTable.Cols.PHONE, hospital.getPhone());
-        values.put(DatabaseSchema.HospitalsTable.Cols.LONGITUDE, hospital.getLongitude());
-        values.put(DatabaseSchema.HospitalsTable.Cols.LATITUDE, hospital.getLatitude());
+        values.put(HospitalsTable.Cols.NAME, hospital.getName());
+        values.put(HospitalsTable.Cols.TYPE, hospital.getType());
+        values.put(HospitalsTable.Cols.DESCRIPTION, hospital.getDescription());
+        values.put(HospitalsTable.Cols.ADDRESS, hospital.getAddress());
+        values.put(HospitalsTable.Cols.PHONE, hospital.getPhone());
+        values.put(HospitalsTable.Cols.LONGITUDE, hospital.getLongitude());
+        values.put(HospitalsTable.Cols.LATITUDE, hospital.getLatitude());
         return values;
     }
 
+    /**
+     * Метод создания фрагмента MapFragment.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,17 +117,28 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
         }
     }
 
+    /**
+     * Метод создания меню.
+     * @param menu объект меню.
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_map, menu);
     }
 
+    /**
+     * Метод обработки нажатия на тот или иной пункт меню.
+     * @param item пункт меню.
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.update_data:
                 mGoogleMap.clear();
+                mDatabase.delete(HospitalsTable.NAME, null, null);
                 new FetchHospitalsTask().execute();
                 Toast.makeText(getActivity(),
                         "Обновление данных о медицинских центрах. Ожидайте.",
@@ -167,6 +186,11 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
         }
     }
 
+    /**
+     * Метод обработки нажатия на маркер.
+     * @param marker объект маркер.
+     * @return
+     */
     @Override
     public boolean onMarkerClick(Marker marker) {
         mMarker = marker;
@@ -253,25 +277,6 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
     }
 
     /**
-     * Метод для проверки базы данных на наличие информации о медицинских учреждениях.
-     * @return
-     */
-    private boolean isDatabaseEmpty() {
-        try (HospitalCursorWrapper cursorWrapper = queryHospitals(null, null)) {
-            return cursorWrapper.getCount() == 0;
-        }
-    }
-
-    /**
-     * Метод для добавления в базу данных информации о медицинском учреждении.
-     * @param hospital медицинское учреждение.
-     */
-    private void addHospitalsToDatabase(Hospital hospital) {
-        ContentValues values = getContentValues(hospital);
-        mDatabase.insert(DatabaseSchema.HospitalsTable.NAME, null, values);
-    }
-
-    /**
      * Метод для получения из базы данных необходимой информации о медицинских учреждениях.
      * @param whereClause
      * @param whereArgs
@@ -279,7 +284,7 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
      */
     private HospitalCursorWrapper queryHospitals(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
-                DatabaseSchema.HospitalsTable.NAME,
+                HospitalsTable.NAME,
                 null,
                 whereClause,
                 whereArgs,
@@ -306,6 +311,10 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
         return hospitals;
     }
 
+    /**
+     * Метод добавления маркеров медицинских центров на карту.
+     * @param hospitals список медицинских центров.
+     */
     private void addMarkers(List<Hospital> hospitals) {
         for (Hospital clinic : hospitals) {
             if (clinic.getLatitude().equals("null") ||
@@ -316,6 +325,25 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnMarke
                     Double.parseDouble(clinic.getLatitude()),
                     Double.parseDouble(clinic.getLongitude()))));
             mMarker.setTag(clinic);
+        }
+    }
+
+    /**
+     * Метод для добавления в базу данных информации о медицинском учреждении.
+     * @param hospital медицинское учреждение.
+     */
+    private void addHospitalsToDatabase(Hospital hospital) {
+        ContentValues values = getContentValues(hospital);
+        mDatabase.insert(HospitalsTable.NAME, null, values);
+    }
+
+    /**
+     * Метод для проверки базы данных на наличие информации о медицинских учреждениях.
+     * @return
+     */
+    private boolean isDatabaseEmpty() {
+        try (HospitalCursorWrapper cursorWrapper = queryHospitals(null, null)) {
+            return cursorWrapper.getCount() == 0;
         }
     }
 
