@@ -52,10 +52,6 @@
             android:enabled="true"
             android:exported="false" >
         </receiver>
-        <service
-            android:name=".illnesses.NotificationsService"
-            android:exported="false" >
-        </service>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCO841-X0S0NmcbQv_rTYO9Rn0dO9EStbo" />

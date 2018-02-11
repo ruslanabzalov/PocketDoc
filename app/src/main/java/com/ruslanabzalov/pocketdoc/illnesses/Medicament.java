@@ -4,14 +4,14 @@ import java.util.UUID;
 
 public class Medicament {
 
-    private UUID mId;
-    private String mName; // Название лекарства
-    private String mUse; // Способ применения
-    private int mDurationInDays; // Продолжительность в днях
-    private String mDosage; // Дозировка
-    private int mHourlyGaps; // Принимать каждые
-    private String mFirstReception; // Время первого приёма
-    private String mLastReception; // Время последнего приёма
+    private UUID mId; // Идентификатор лекарства.
+    private String mName; // Название лекарства.
+    private String mUse; // Способ применения.
+    private int mDurationInDays; // Продолжительность в днях.
+    private String mDosage; // Дозировка.
+    private int mHourlyGaps; // Принимать каждые.
+    private String mFirstReception; // Время первого приёма.
+    private String mLastReception; // Время последнего приёма.
 
     Medicament() {
         this.mId = UUID.randomUUID();
