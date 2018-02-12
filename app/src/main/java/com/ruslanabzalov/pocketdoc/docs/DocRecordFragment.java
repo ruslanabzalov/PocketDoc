@@ -55,7 +55,7 @@ public class DocRecordFragment extends Fragment {
 
     private static ContentValues getContentValues(Doc doc, String userName, String recordDate) {
         ContentValues values = new ContentValues();
-        values.put(DOC_TYPE, doc.getType());
+        values.put(DOC_TYPE, "Терапевт");
         values.put(USER_NAME, userName);
         values.put(RECORD_DATE, recordDate);
         return values;
