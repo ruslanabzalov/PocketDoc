@@ -23,16 +23,41 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * Класс для работы с DocDoc API.
+ */
 public class DataFetch {
 
+    /**
+     * Логин для доступа к DocDoc API.
+     */
     private static final String LOGIN = "partner.13849";
+
+    /**
+     * Пароль для доступа к DocDoc API.
+     */
     private static final String PASSWORD = "BIQWlAdw";
 
     private static final String TAG = "DataFetch";
 
+    /**
+     * Метод для преобразования данных в виде массива байт в строку.
+     * @param urlSpec HTTPS-запрос.
+     * @return строка, содержащая полученные данные.
+     * @throws IOException
+     */
+    private String getUrlString(String urlSpec) throws IOException {
+        return new String(getUrlBytes(urlSpec));
+    }
+
+    /**
+     * Метод для получения данных по HTTPS-соединению.
+     * @param urlSpec HTTPS-запрос.
+     * @return массив байт полученных данных.
+     * @throws IOException
+     */
     private byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
-        // Создание объекта подключения к URL-адресу по протоколу HTTPS.
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         // Авторизация.
         String basicAuth ="Basic " +
@@ -47,7 +72,7 @@ public class DataFetch {
             } else {
                 in = connection.getErrorStream();
             }
-            int bytesRead = 0;
+            int bytesRead;
             byte[] buffer = new byte[1024];
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
@@ -57,10 +82,6 @@ public class DataFetch {
         } finally {
             connection.disconnect();
         }
-    }
-
-    private String getUrlString(String urlSpec) throws IOException {
-        return new String(getUrlBytes(urlSpec));
     }
 
     public List<String> fetchDocsTypes() {
@@ -118,7 +139,7 @@ public class DataFetch {
     }
 
     private void parseDocsTypesToMap(Map<String, String> docsTypes, JSONObject json)
-            throws IOException, JSONException {
+            throws JSONException {
         JSONArray docsTypesJsonArray = json.getJSONArray("SpecList");
         for (int counter = 0; counter < docsTypesJsonArray.length(); counter++) {
             JSONObject docsTypeJsonObject = docsTypesJsonArray.getJSONObject(counter);
@@ -129,7 +150,7 @@ public class DataFetch {
     }
 
     private void parseDocsTypesToList(List<String> typesList, JSONObject json)
-            throws IOException, JSONException {
+            throws JSONException {
         JSONArray docsTypesJsonArray = json.getJSONArray("SpecList");
         for (int counter = 0; counter < docsTypesJsonArray.length(); counter++) {
             JSONObject docsTypeJsonObject = docsTypesJsonArray.getJSONObject(counter);
@@ -193,7 +214,7 @@ public class DataFetch {
     }
 
     private void parseDocsMetrosToMap(Map<String, String> docsMetros, JSONObject json)
-            throws IOException, JSONException {
+            throws JSONException {
         JSONArray docsMetrosJsonArray = json.getJSONArray("MetroList");
         for (int counter = 0; counter < docsMetrosJsonArray.length(); counter++) {
             JSONObject docsMetroJsonObject = docsMetrosJsonArray.getJSONObject(counter);
@@ -204,7 +225,7 @@ public class DataFetch {
     }
 
     private void parseDocsMetrosToList(List<String> metrosList, JSONObject json)
-            throws IOException, JSONException {
+            throws JSONException {
         JSONArray docsMetrosJsonArray = json.getJSONArray("MetroList");
         for (int counter = 0; counter < docsMetrosJsonArray.length(); counter++) {
             JSONObject docsMetroJsonObject = docsMetrosJsonArray.getJSONObject(counter);
@@ -262,14 +283,10 @@ public class DataFetch {
     }
 
     private void parseDocs(List<Doc> docs, JSONObject json, String docTypeId, String docsMetroId)
-            throws IOException, JSONException {
+            throws JSONException {
         JSONArray docsJsonArray = json.getJSONArray("DoctorList");
         for (int i = 0; i < docsJsonArray.length(); i++) {
             JSONObject docJsonObject = docsJsonArray.getJSONObject(i);
-            // TODO: Проверить на отсутствие расписания у врача.
-//            if (docJsonObject.getString("Slots") == null) {
-//                continue;
-//            }
             Doc doc = new Doc();
             doc.setId(docJsonObject.getString("Id"));
             doc.setName(docJsonObject.getString("Name"));
@@ -293,7 +310,7 @@ public class DataFetch {
         }
     }
 
-    private String getClinicData(String clinicId) {//, String dataType) {
+    private String getClinicData(String clinicId) {
         String data = "Пусто!";
         try {
             String url = Uri
@@ -360,8 +377,7 @@ public class DataFetch {
         return hospitals;
     }
 
-    private void parseHospitals(List<Hospital> hospitals, JSONObject json) throws IOException,
-            JSONException {
+    private void parseHospitals(List<Hospital> hospitals, JSONObject json) throws JSONException {
         JSONArray hospitalsJsonArray = json.getJSONArray("ClinicList");
         for (int i = 0; i < hospitalsJsonArray.length(); i++) {
             JSONObject hospitalJsonObject = hospitalsJsonArray.getJSONObject(i);
@@ -379,50 +395,47 @@ public class DataFetch {
         }
     }
 
-    public static void docPostRequest(String userName, String phoneNumber, String date, String docId,
-                                      String clinicId) {
-        Thread thread = new Thread(() -> {
-            try {
-                String uri = Uri
-                        .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
-                        .buildUpon()
-                        .appendPath("api")
-                        .appendPath("rest")
-                        .appendPath("1.0.6")
-                        .appendPath("json")
-                        .appendPath("request")
-                        .build()
-                        .toString();
-                URL url = new URL(uri);
-                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-                String basicAuth ="Basic " +
-                        new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(),
-                                Base64.NO_WRAP));
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                connection.setRequestProperty("Accept","application/json");
-                connection.setRequestProperty ("Authorization", basicAuth);
-                connection.setDoOutput(true);
-                connection.setDoInput(true);
-                JSONObject json = new JSONObject();
-                json.put("name", "test");
-                json.put("phone", phoneNumber + "");
-                json.put("doctor", docId);
-                json.put("clinic", clinicId);
-                json.put("dateAdmission", date);
-                json.put("validate", 0);
-                Log.i("JSON", json.toString());
-                DataOutputStream os = new DataOutputStream(connection.getOutputStream());
-                os.writeBytes(json.toString());
-                os.flush();
-                os.close();
-                Log.i("STATUS", String.valueOf(connection.getResponseCode()));
-                Log.i("MSG" , connection.getResponseMessage());
-                connection.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        thread.start();
+    public static void docPostRequest(String userName, String phoneNumber, String date,
+                                      String docId, String clinicId) {
+        try {
+            String uri = Uri
+                    .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
+                    .buildUpon()
+                    .appendPath("api")
+                    .appendPath("rest")
+                    .appendPath("1.0.6")
+                    .appendPath("json")
+                    .appendPath("request")
+                    .build()
+                    .toString();
+            URL url = new URL(uri);
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            String basicAuth ="Basic " +
+                    new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(),
+                            Base64.NO_WRAP));
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            connection.setRequestProperty("Accept","application/json");
+            connection.setRequestProperty ("Authorization", basicAuth);
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            JSONObject json = new JSONObject();
+            json.put("name", userName);
+            json.put("phone", phoneNumber);
+            json.put("doctor", docId);
+            json.put("clinic", clinicId);
+            json.put("dateAdmission", date);
+            json.put("validate", 0);
+            Log.i("JSON", json.toString());
+            DataOutputStream os = new DataOutputStream(connection.getOutputStream());
+            os.writeBytes(json.toString());
+            os.flush();
+            os.close();
+            Log.i("STATUS", String.valueOf(connection.getResponseCode()));
+            Log.i("MSG" , connection.getResponseMessage());
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

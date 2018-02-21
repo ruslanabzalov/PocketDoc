@@ -10,6 +10,9 @@ import com.ruslanabzalov.pocketdoc.docs.DocsSearchFragment;
 import com.ruslanabzalov.pocketdoc.medicaments.MedicamentsListFragment;
 import com.ruslanabzalov.pocketdoc.map.MapFragment;
 
+/**
+ * Главная активность приложения.
+ */
 public class MainActivity extends AppCompatActivity {
 
     /**
