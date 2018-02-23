@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.medicaments;
+package com.ruslanabzalov.pocketdoc.treatment;
 
 import android.app.AlarmManager;
 import android.app.Notification;

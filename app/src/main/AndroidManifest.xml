@@ -39,16 +39,16 @@
             android:name=".docs.RecordsHistoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".medicaments.MedicamentsListActivity"
+            android:name=".treatment.MedicamentsListActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".medicaments.MedicamentActivity"
+            android:name=".treatment.MedicamentActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".map.ClinicActivity"
             android:screenOrientation="portrait" />
         <receiver
-            android:name=".medicaments.Receiver"
+            android:name=".treatment.Receiver"
             android:enabled="true"
             android:exported="false" >
         </receiver>

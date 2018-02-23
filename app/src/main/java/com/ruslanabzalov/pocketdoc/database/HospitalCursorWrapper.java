@@ -20,7 +20,7 @@ public class HospitalCursorWrapper extends CursorWrapper {
         hospital.setDescription(getString(getColumnIndex(HospitalsTable.Cols.DESCRIPTION)));
         hospital.setAddress(getString(getColumnIndex(HospitalsTable.Cols.ADDRESS)));
         hospital.setPhone(getString(getColumnIndex(HospitalsTable.Cols.PHONE)));
-        hospital.setLongitude(longitudegetString(getColumnIndex(HospitalsTable.Cols.LONGITUDE)));
+        hospital.setLongitude(getString(getColumnIndex(HospitalsTable.Cols.LONGITUDE)));
         hospital.setLatitude(getString(getColumnIndex(HospitalsTable.Cols.LATITUDE)));
         return hospital;
     }

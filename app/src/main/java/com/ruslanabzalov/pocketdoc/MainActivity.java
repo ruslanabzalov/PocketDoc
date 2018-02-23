@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ruslanabzalov.pocketdoc.docs.DocsSearchFragment;
-import com.ruslanabzalov.pocketdoc.medicaments.MedicamentsListFragment;
+import com.ruslanabzalov.pocketdoc.treatment.DiseasesListFragment;
 import com.ruslanabzalov.pocketdoc.map.MapFragment;
 
 /**
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_docs:
                     newTransaction.replace(R.id.container, new DocsSearchFragment()).commit();
                     return true;
-                case R.id.navigation_medication:
-                    newTransaction.replace(R.id.container, new MedicamentsListFragment()).commit();
+                case R.id.navigation_treatment:
+                    newTransaction.replace(R.id.container, new DiseasesListFragment()).commit();
                     return true;
                 case R.id.navigation_map:
                     newTransaction.replace(R.id.container, new MapFragment()).commit();

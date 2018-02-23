@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.medicaments;
+package com.ruslanabzalov.pocketdoc.treatment;
 
 import java.util.UUID;
 

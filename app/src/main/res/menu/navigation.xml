@@ -7,7 +7,7 @@
         android:title="@string/title_docs"/>
 
     <item
-        android:id="@+id/navigation_medication"
+        android:id="@+id/navigation_treatment"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_medication"/>
 
