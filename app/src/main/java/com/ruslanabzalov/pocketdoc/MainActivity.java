@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         FragmentManager firstManager = getSupportFragmentManager();
         FragmentTransaction transaction = firstManager.beginTransaction();
-        // Отображение фрагмента DocsSearchFragment при запуске активности.
         transaction.replace(R.id.container, new DocsSearchFragment()).commit();
         navigation.setOnNavigationItemSelectedListener(item -> {
             FragmentManager secondManager = getSupportFragmentManager();
