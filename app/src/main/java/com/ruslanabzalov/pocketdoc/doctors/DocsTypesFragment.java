@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.docs;
+package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.content.Intent;
 import android.os.AsyncTask;

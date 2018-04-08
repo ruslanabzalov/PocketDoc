@@ -10,7 +10,7 @@ public class ClinicActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_CLINIC = "com.ruslanabzalov.pocketdoc.map.clinic";
 
-    public static Intent newIntent(Context packageContext, Hospital clinic) {
+    public static Intent newIntent(Context packageContext, Clinic clinic) {
         Intent intent = new Intent(packageContext, ClinicActivity.class);
         intent.putExtra(EXTRA_CLINIC, clinic);
         return intent;
@@ -18,7 +18,7 @@ public class ClinicActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        Hospital clinic = (Hospital) getIntent().getSerializableExtra(EXTRA_CLINIC);
+        Clinic clinic = (Clinic) getIntent().getSerializableExtra(EXTRA_CLINIC);
         return ClinicFragment.newInstance(clinic);
     }
 }

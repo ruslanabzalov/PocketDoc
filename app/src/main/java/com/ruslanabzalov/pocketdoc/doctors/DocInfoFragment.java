@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.docs;
+package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,11 @@ public class DocInfoFragment extends Fragment {
 
     private static final String ARG_DOC = "doc";
 
-    private Doc mDoc;
+    private Doctor mDoctor;
 
-    public static DocInfoFragment newInstance(Doc doc) {
+    public static DocInfoFragment newInstance(Doctor doctor) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_DOC, doc);
+        args.putSerializable(ARG_DOC, doctor);
         DocInfoFragment fragment = new DocInfoFragment();
         fragment.setArguments(args);
         return fragment;
@@ -29,7 +29,7 @@ public class DocInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Информация о враче");
-        mDoc = (Doc) getArguments().getSerializable(ARG_DOC);
+        mDoctor = (Doctor) getArguments().getSerializable(ARG_DOC);
     }
 
     @Override
@@ -37,19 +37,19 @@ public class DocInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doc_info, container, false);
         TextView docNameTextView = view.findViewById(R.id.doctor_name);
-        docNameTextView.setText(mDoc.getName());
+        docNameTextView.setText(mDoctor.getName());
         TextView docExperienceTextView = view.findViewById(R.id.doctor_experience);
         docExperienceTextView.setText(String.format("Опыт работы: %s лет/года",
-                mDoc.getExperience()));
+                mDoctor.getExperience()));
         TextView docClinicAddressTextView = view.findViewById(R.id.doctor_address);
-        docClinicAddressTextView.setText(mDoc.getAddress());
+        docClinicAddressTextView.setText(mDoctor.getAddress());
         TextView docDescriptionTextView = view.findViewById(R.id.doctor_description);
-        docDescriptionTextView.setText(mDoc.getDescription());
+        docDescriptionTextView.setText(mDoctor.getDescription());
         TextView docPriceTextView = view.findViewById(R.id.doctor_price);
-        docPriceTextView.setText(String.format("Стоимость посещения: %s\u20BD", mDoc.getPrice()));
+        docPriceTextView.setText(String.format("Стоимость посещения: %s\u20BD", mDoctor.getPrice()));
         Button docRequest = view.findViewById(R.id.doc_request);
         docRequest.setOnClickListener((View v) -> {
-            Intent intent = DocRecordActivity.newIntent(getActivity(), mDoc);
+            Intent intent = DocRecordActivity.newIntent(getActivity(), mDoctor);
             startActivity(intent);
         });
         return view;

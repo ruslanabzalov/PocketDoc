@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.docs;
+package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,15 +10,15 @@ public class DocInfoActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_DOC = "com.ruslanabzalov.pocketdoc.docs.doc";
 
-    public static Intent newIntent(Context packageContext, Doc doc) {
+    public static Intent newIntent(Context packageContext, Doctor doctor) {
         Intent intent = new Intent(packageContext, DocInfoActivity.class);
-        intent.putExtra(EXTRA_DOC, doc);
+        intent.putExtra(EXTRA_DOC, doctor);
         return intent;
     }
 
     @Override
     protected Fragment createFragment() {
-        Doc doc = (Doc) getIntent().getSerializableExtra(EXTRA_DOC);
-        return DocInfoFragment.newInstance(doc);
+        Doctor doctor = (Doctor) getIntent().getSerializableExtra(EXTRA_DOC);
+        return DocInfoFragment.newInstance(doctor);
     }
 }

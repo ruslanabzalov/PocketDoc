@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.docs;
+package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

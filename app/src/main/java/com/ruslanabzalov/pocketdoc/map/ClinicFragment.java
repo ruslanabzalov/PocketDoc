@@ -16,9 +16,9 @@ public class ClinicFragment extends Fragment {
 
     private static final String ARG_CLINIC = "clinic";
 
-    private Hospital mClinic;
+    private Clinic mClinic;
 
-    public static Fragment newInstance(Hospital clinic) {
+    public static Fragment newInstance(Clinic clinic) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_CLINIC, clinic);
         ClinicFragment fragment = new ClinicFragment();
@@ -28,7 +28,7 @@ public class ClinicFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mClinic = (Hospital) getArguments().getSerializable(ARG_CLINIC);
+        mClinic = (Clinic) getArguments().getSerializable(ARG_CLINIC);
         super.onCreate(savedInstanceState);
     }
 
@@ -39,9 +39,9 @@ public class ClinicFragment extends Fragment {
         TextView mClinicNameTextView = view.findViewById(R.id.clinic_name);
         mClinicNameTextView.setText(mClinic.getName());
         TextView mClinicAddressTextView = view.findViewById(R.id.clinic_address);
-        mClinicAddressTextView.setText(mClinic.getAddress());
+//        mClinicAddressTextView.setText(mClinic.getAddress());
         TextView mClinicPhoneTextView = view.findViewById(R.id.clinic_phone);
-        mClinicPhoneTextView.setText(mClinic.getPhone());
+//        mClinicPhoneTextView.setText(mClinic.getPhone());
         TextView mClinicDescriptionTextView = view.findViewById(R.id.clinic_description);
         mClinicDescriptionTextView.setText(mClinic.getDescription());
         Button mCallButton = view.findViewById(R.id.telephone_button);

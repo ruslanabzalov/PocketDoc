@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.docs;
+package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,7 +28,7 @@ public class DocsListFragment extends Fragment {
 
     private RecyclerView mDocsRecyclerView;
 
-    private List<Doc> mDocs = new ArrayList<>();
+    private List<Doctor> mDoctors = new ArrayList<>();
 
     private String mDocsTypeId;
     private String mDocsMetroId;
@@ -66,21 +66,21 @@ public class DocsListFragment extends Fragment {
 
     private void setupAdapter() {
         if (isAdded()) {
-            mDocsRecyclerView.setAdapter(new DocsAdapter(mDocs));
+            mDocsRecyclerView.setAdapter(new DocsAdapter(mDoctors));
         }
     }
 
-    private class FetchDocsTask extends AsyncTask<Void, Void, List<Doc>> {
+    private class FetchDocsTask extends AsyncTask<Void, Void, List<Doctor>> {
 
         @Override
-        protected List<Doc> doInBackground(Void... params) {
+        protected List<Doctor> doInBackground(Void... params) {
             return new DataFetch().fetchDocs(mDocsTypeId, mDocsMetroId);
         }
 
         @Override
-        protected void onPostExecute(List<Doc> docs) {
-            mDocs = docs;
-            if (mDocs.size() == 0) {
+        protected void onPostExecute(List<Doctor> doctors) {
+            mDoctors = doctors;
+            if (mDoctors.size() == 0) {
                 Toast.makeText(getActivity(), "Врачи с такими характеристиками не найдены!",
                         Toast.LENGTH_SHORT).show();
             }
@@ -96,7 +96,7 @@ public class DocsListFragment extends Fragment {
         private TextView mRatingTextView;
         private TextView mAddressTextView;
 
-        private Doc mDoc;
+        private Doctor mDoctor;
 
         private DocsHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_doc, parent, false));
@@ -108,29 +108,29 @@ public class DocsListFragment extends Fragment {
             mAddressTextView = itemView.findViewById(R.id.doc_clinic_address);
         }
 
-        public void bind(Doc doc) {
-            mDoc = doc;
-            mNameTextView.setText(mDoc.getName());
+        public void bind(Doctor doctor) {
+            mDoctor = doctor;
+            mNameTextView.setText(mDoctor.getName());
             mExperienceTextView.setText(String.format("Опыт работы: %s лет/года",
-                    mDoc.getExperience()));
+                    mDoctor.getExperience()));
             mPriceTextView.setText(String.format("Цена одного посещения: %s\u20BD",
-                    mDoc.getPrice()));
-            mRatingTextView.setText(String.format("Рейтинг: %s из 5", mDoc.getRating()));
-            mAddressTextView.setText(String.format("Адрес клиники: %s", mDoc.getAddress()));
+                    mDoctor.getPrice()));
+            mRatingTextView.setText(String.format("Рейтинг: %s из 5", mDoctor.getRating()));
+            mAddressTextView.setText(String.format("Адрес клиники: %s", mDoctor.getAddress()));
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = DocInfoActivity.newIntent(getActivity(), mDoc);
+            Intent intent = DocInfoActivity.newIntent(getActivity(), mDoctor);
             startActivity(intent);
         }
     }
 
     private class DocsAdapter extends RecyclerView.Adapter<DocsHolder> {
-        private List<Doc> mDocs;
+        private List<Doctor> mDoctors;
 
-        public DocsAdapter(List<Doc> docs) {
-            mDocs = docs;
+        public DocsAdapter(List<Doctor> doctors) {
+            mDoctors = doctors;
         }
 
         @Override
@@ -141,13 +141,13 @@ public class DocsListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(DocsHolder docsHolder, int position) {
-            Doc doc = mDocs.get(position);
-            docsHolder.bind(doc);
+            Doctor doctor = mDoctors.get(position);
+            docsHolder.bind(doctor);
         }
 
         @Override
         public int getItemCount() {
-            return mDocs.size();
+            return mDoctors.size();
         }
     }
 }

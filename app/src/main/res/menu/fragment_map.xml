@@ -7,7 +7,7 @@
         android:title="Обновить данные о клиниках"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/hospitals"
+        android:id="@+id/clinics"
         android:title="Показать частные клиники"
         app:showAsAction="never"/>
     <item

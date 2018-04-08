@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.docs;
+package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -43,17 +43,17 @@ public class DocRecordFragment extends Fragment {
     private Button mUserDate;
     private Button mDocRecord;
 
-    private Doc mDoc;
+    private Doctor mDoctor;
 
-    public static DocRecordFragment newInstance(Doc doc) {
+    public static DocRecordFragment newInstance(Doctor doctor) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_DOC, doc);
+        args.putSerializable(ARG_DOC, doctor);
         DocRecordFragment fragment = new DocRecordFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private static ContentValues getContentValues(Doc doc, String userName, String recordDate) {
+    private static ContentValues getContentValues(Doctor doctor, String userName, String recordDate) {
         ContentValues values = new ContentValues();
         values.put(DOC_TYPE, "Терапевт");
         values.put(USER_NAME, userName);
@@ -66,7 +66,7 @@ public class DocRecordFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mDatabase = new DatabaseHelper(getContext()).getWritableDatabase();
         getActivity().setTitle(getString(R.string.medical_record_activity_title));
-        mDoc = (Doc) getArguments().getSerializable(ARG_DOC);
+        mDoctor = (Doctor) getArguments().getSerializable(ARG_DOC);
     }
 
     @Override
@@ -112,11 +112,11 @@ public class DocRecordFragment extends Fragment {
             // Рабочий код по формированию заявки на DocDoc.
 //            DataFetch.docPostRequest(mUserName.getText().toString(),
 //                    mUserPhoneNumber.getText().toString(), mUserDate.getText().toString(),
-//                    mDoc.getId(), mDoc.getDocsClinicId());
+//                    mDoctor.getId(), mDoctor.getDocsClinicId());
             Toast.makeText(getContext(),
                     "Заявка на запись успешно создана." + "Ожидайте звонка из клиники.",
                     Toast.LENGTH_LONG).show();
-            addToDatabase(mDoc);
+            addToDatabase(mDoctor);
             getActivity().finish();
         });
         checkViews();
@@ -136,8 +136,8 @@ public class DocRecordFragment extends Fragment {
         }
     }
 
-    private void addToDatabase(Doc doc) {
-        ContentValues contentValues = getContentValues(doc, mUserName.getText().toString(),
+    private void addToDatabase(Doctor doctor) {
+        ContentValues contentValues = getContentValues(doctor, mUserName.getText().toString(),
                 mUserDate.getText().toString());
         mDatabase.insert(MedicalRecordsTable.NAME, null, contentValues);
     }
