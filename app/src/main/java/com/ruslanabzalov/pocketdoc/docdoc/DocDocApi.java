@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc;
+package com.ruslanabzalov.pocketdoc.docdoc;
 
 import com.ruslanabzalov.pocketdoc.doctors.DoctorList;
 import com.ruslanabzalov.pocketdoc.doctors.MetroList;
@@ -11,6 +11,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
 
+/**
+ * Интерфейс, описывающий API сервиса DocDoc.
+ */
 public interface DocDocApi {
 
     /**
@@ -31,7 +34,7 @@ public interface DocDocApi {
      * @param cityId Идентификатор города.
      * @return Список клиник определённого города.
      */
-    @GET("clinic/list/start/{start}/count/{count}/city/{id}/type/1,2,3")
+    @GET("clinic/list/start/{start}/count/{count}/city/{id}/type/1,2")
     Call<ClinicList> getClinics(
             @Header("Authorization") String authorization, @Path("start") int startIndex,
             @Path("count") int count, @Path("id") int cityId);

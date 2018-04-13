@@ -5,9 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
-
-public class Clinic extends RealmObject implements Serializable {
+/**
+ * Класс, описывающий конкретную клинику.
+ */
+public class Clinic implements Serializable {
 
     @SerializedName("Id")
     @Expose
@@ -15,85 +16,109 @@ public class Clinic extends RealmObject implements Serializable {
     @SerializedName("Name")
     @Expose
     private String mName;
-//    private String mType;
+    @SerializedName("ShortName")
+    @Expose
+    private String mShortName;
+    @SerializedName("URL")
+    @Expose
+    private String mUrl;
+    @SerializedName("Longitude")
+    @Expose
+    private String mLongitude;
+    @SerializedName("Latitude")
+    @Expose
+    private String mLatitude;
+    @SerializedName("City")
+    @Expose
+    private String mCity;
+    @SerializedName("Street")
+    @Expose
+    private String mStreet;
+    @SerializedName("StreetId")
+    @Expose
+    private String mStreetId;
+    @SerializedName("House")
+    @Expose
+    private String mHouse;
     @SerializedName("Description")
     @Expose
     private String mDescription;
-//    private String mAddress;
-//    private String mPhone;
-//    private String mUrl;
-//    private String mLongitude;
-//    private String mLatitude;
+    @SerializedName("ShortDescription")
+    @Expose
+    private String mShortDescription;
+    @SerializedName("isDiagnostic")
+    @Expose
+    private String mIsDiagnostic;
+    @SerializedName("isClinic")
+    @Expose
+    private String mIsClinic;
+    @Expose
+    private String mPhone;
+    @SerializedName("PhoneAppointment")
+    @Expose
+    private String mPhoneAppointment;
 
     public String getId() {
         return mId;
-    }
-
-    public void setId(String id) {
-        mId = id;
     }
 
     public String getName() {
         return mName;
     }
 
-    public void setName(String name) {
-        mName = name;
+    public String getShortName() {
+        return mShortName;
     }
 
-//    public String getType() {
-//        return mType;
-//    }
-//
-//    public void setType(String type) {
-//        mType = type;
-//    }
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public String getLongitude() {
+        return mLongitude;
+    }
+
+    public String getLatitude() {
+        return mLatitude;
+    }
+
+    public String getCity() {
+        return mCity;
+    }
+
+    public String getStreet() {
+        return mStreet;
+    }
+
+    public String getStreetId() {
+        return mStreetId;
+    }
+
+    public String getHouse() {
+        return mHouse;
+    }
 
     public String getDescription() {
         return mDescription;
     }
 
-    public void setDescription(String description) {
-        mDescription = description;
+    public String getShortDescription() {
+        return mShortDescription;
     }
-//
-//    public String getAddress() {
-//        return mAddress;
-//    }
-//
-//    public void setAddress(String address) {
-//        mAddress = address;
-//    }
-//
-//    public String getPhone() {
-//        return mPhone;
-//    }
-//
-//    public void setPhone(String phone) {
-//        mPhone = phone;
-//    }
-//
-//    public String getUrl() {
-//        return mUrl;
-//    }
-//
-//    public void setUrl(String url) {
-//        mUrl = url;
-//    }
-//
-//    public String getLongitude() {
-//        return mLongitude;
-//    }
-//
-//    public void setLongitude(String longitude) {
-//        mLongitude = longitude;
-//    }
-//
-//    public String getLatitude() {
-//        return mLatitude;
-//    }
-//
-//    public void setLatitude(String latitude) {
-//        mLatitude = latitude;
-//    }
+
+    public String getIsDiagnostic() {
+        return mIsDiagnostic;
+    }
+
+    public String getIsClinic() {
+        return mIsClinic;
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public String getPhoneAppointment() {
+        return mPhoneAppointment;
+    }
 }

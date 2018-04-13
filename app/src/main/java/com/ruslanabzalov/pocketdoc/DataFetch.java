@@ -267,22 +267,22 @@ public class DataFetch {
             Doctor doctor = new Doctor();
             doctor.setId(docJsonObject.getString("Id"));
             doctor.setName(docJsonObject.getString("Name"));
-            doctor.setType(docTypeId);
+//            doctor.setType(docTypeId);
             doctor.setDescription(docJsonObject.getString("Description"));
-            doctor.setPrice(docJsonObject.getString("Price"));
-            doctor.setExperience(docJsonObject.getString("ExperienceYear"));
+//            doctor.setPrice(docJsonObject.getString("Price"));
+//            doctor.setExperience(docJsonObject.getString("ExperienceYear"));
             doctor.setRating(docJsonObject.getString("Rating"));
             JSONArray docClinicsArray = docJsonObject.getJSONArray("ClinicsInfo");
-            for (int j = 0; j < docClinicsArray.length(); j++) {
-                JSONObject docClinic = docClinicsArray.getJSONObject(j);
-                doctor.setDocsClinicId(docClinic.getString("ClinicId"));
-                JSONArray docStationsArray = docClinic.getJSONArray("Stations");
-                for (int k = 0; k < docStationsArray.length(); k++) {
-                    if (docsMetroId.equals(docStationsArray.getString(k))) {
-                        doctor.setAddress(getClinicData(doctor.getDocsClinicId()));
-                    }
-                }
-            }
+//            for (int j = 0; j < docClinicsArray.length(); j++) {
+//                JSONObject docClinic = docClinicsArray.getJSONObject(j);
+//                doctor.setDocsClinicId(docClinic.getString("ClinicId"));
+//                JSONArray docStationsArray = docClinic.getJSONArray("Stations");
+//                for (int k = 0; k < docStationsArray.length(); k++) {
+//                    if (docsMetroId.equals(docStationsArray.getString(k))) {
+//                        doctor.setAddress(getClinicData(doctor.getDocsClinicId()));
+//                    }
+//                }
+//            }
             doctors.add(doctor);
         }
     }
@@ -359,9 +359,9 @@ public class DataFetch {
         for (int i = 0; i < hospitalsJsonArray.length(); i++) {
             JSONObject hospitalJsonObject = hospitalsJsonArray.getJSONObject(i);
             Clinic clinic = new Clinic();
-            clinic.setId(hospitalJsonObject.getString("Id"));
-            clinic.setName(hospitalJsonObject.getString("Name"));
-            clinic.setDescription(hospitalJsonObject.getString("Description"));
+//            clinic.setId(hospitalJsonObject.getString("Id"));
+//            clinic.setName(hospitalJsonObject.getString("Name"));
+//            clinic.setDescription(hospitalJsonObject.getString("Description"));
 //            clinic.setAddress(hospitalJsonObject.getString("Street") + "," +
 //                    hospitalJsonObject.getString("House"));
 //            clinic.setPhone(hospitalJsonObject.getString("PhoneAppointment"));
@@ -371,48 +371,48 @@ public class DataFetch {
             clinics.add(clinic);
         }
     }
-//
-//    public static void docPostRequest(String userName, String phoneNumber, String date,
-//                                      String docId, String clinicId) {
-//        try {
-//            String uri = Uri
-//                    .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
-//                    .buildUpon()
-//                    .appendPath("api")
-//                    .appendPath("rest")
-//                    .appendPath("1.0.6")
-//                    .appendPath("json")
-//                    .appendPath("request")
-//                    .build()
-//                    .toString();
-//            URL url = new URL(uri);
-//            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-//            String basicAuth ="Basic " +
-//                    new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(),
-//                            Base64.NO_WRAP));
-//            connection.setRequestMethod("POST");
-//            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-//            connection.setRequestProperty("Accept","application/json");
-//            connection.setRequestProperty ("Authorization", basicAuth);
-//            connection.setDoOutput(true);
-//            connection.setDoInput(true);
-//            JSONObject json = new JSONObject();
-//            json.put("name", userName);
-//            json.put("phone", phoneNumber);
-//            json.put("doctor", docId);
-//            json.put("clinic", clinicId);
-//            json.put("dateAdmission", date);
-//            json.put("validate", 0);
-//            Log.i("JSON", json.toString());
+
+    public static void docPostRequest(String userName, String phoneNumber, String date,
+                                      String docId, String clinicId) {
+        try {
+            String uri = Uri
+                    .parse("https://" + LOGIN + ":" + PASSWORD + "@back.docdoc.ru")
+                    .buildUpon()
+                    .appendPath("api")
+                    .appendPath("rest")
+                    .appendPath("1.0.6")
+                    .appendPath("json")
+                    .appendPath("request")
+                    .build()
+                    .toString();
+            URL url = new URL(uri);
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            String basicAuth ="Basic " +
+                    new String(Base64.encode((LOGIN + ":" + PASSWORD).getBytes(),
+                            Base64.NO_WRAP));
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            connection.setRequestProperty("Accept","application/json");
+            connection.setRequestProperty ("Authorization", basicAuth);
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            JSONObject json = new JSONObject();
+            json.put("name", userName);
+            json.put("phone", phoneNumber);
+            json.put("doctor", docId);
+            json.put("clinic", clinicId);
+            json.put("dateAdmission", date);
+            json.put("validate", 0);
+            Log.i("JSON", json.toString());
 //            DataOutputStream os = new DataOutputStream(connection.getOutputStream());
 //            os.writeBytes(json.toString());
 //            os.flush();
 //            os.close();
-//            Log.i("STATUS", String.valueOf(connection.getResponseCode()));
-//            Log.i("MSG" , connection.getResponseMessage());
-//            connection.disconnect();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+            Log.i("STATUS", String.valueOf(connection.getResponseCode()));
+            Log.i("MSG" , connection.getResponseMessage());
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -111,12 +111,12 @@ public class DocsListFragment extends Fragment {
         public void bind(Doctor doctor) {
             mDoctor = doctor;
             mNameTextView.setText(mDoctor.getName());
-            mExperienceTextView.setText(String.format("Опыт работы: %s лет/года",
-                    mDoctor.getExperience()));
-            mPriceTextView.setText(String.format("Цена одного посещения: %s\u20BD",
-                    mDoctor.getPrice()));
+//            mExperienceTextView.setText(String.format("Опыт работы: %s лет/года",
+//                    mDoctor.getExperience()));
+//            mPriceTextView.setText(String.format("Цена одного посещения: %s\u20BD",
+//                    mDoctor.getPrice()));
             mRatingTextView.setText(String.format("Рейтинг: %s из 5", mDoctor.getRating()));
-            mAddressTextView.setText(String.format("Адрес клиники: %s", mDoctor.getAddress()));
+//            mAddressTextView.setText(String.format("Адрес клиники: %s", mDoctor.getAddress()));
         }
 
         @Override
