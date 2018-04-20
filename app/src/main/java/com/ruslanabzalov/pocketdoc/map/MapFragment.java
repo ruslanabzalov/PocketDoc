@@ -47,23 +47,28 @@ public class MapFragment extends SupportMapFragment {
         // Создание REST-клиента.
         DocDocApi docDocApi = DocDocService.getClient();
 
+
+        clinicsCall(docDocApi, 0, 500);
+        clinicsCall(docDocApi, 500, 0);
+    }
+
+    /**
+     * Метод отправки запроса для получения списка клиник.
+     * @param api API-интерфейс сервиса DocDoc.
+     * @param startIndex Начальный индекс клиник.
+     * @param count Кол-во запрашиваемых клиник.
+     */
+    private void clinicsCall(DocDocApi api, int startIndex, int count) {
         // Обработка GET-запроса для получения списка клиник.
-        Call<ClinicList> clinics =
-                docDocApi.getClinics(DocDocService.AUTHORIZATION, 0, 500, 1);
-        clinics.enqueue(new Callback<ClinicList>() {
+        Call<ClinicList> firstClinics =
+                api.getClinics(DocDocService.AUTHORIZATION, startIndex, count, 1);
+        firstClinics.enqueue(new Callback<ClinicList>() {
             @Override
             public void onResponse(@NonNull Call<ClinicList> call,
                                    @NonNull Response<ClinicList> response) {
                 mClinicList = response.body().getClinics();
                 mTotalClinicsNumber = Integer.parseInt(response.body().getTotalClinicsNumber());
-                String positiveToast = getString(R.string.positive_toast);
-                String totalClinics = String.format(Locale.US, "Total clinics in Moscow: %d",
-                        mTotalClinicsNumber);
-                String clinics = String.format(Locale.US, "Clinics received: %d",
-                        mClinicList.size());
-                Toasty.success(getContext(), positiveToast, Toast.LENGTH_LONG).show();
-                Toasty.info(getContext(), totalClinics, Toast.LENGTH_LONG).show();
-                Toasty.info(getContext(), clinics, Toast.LENGTH_LONG).show();
+
             }
 
             @Override

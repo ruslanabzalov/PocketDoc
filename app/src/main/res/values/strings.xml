@@ -27,6 +27,6 @@
     <string name="medicament_title_hint">Введите название лекарства</string>
 
     <string name="map_fragment_label">Карта клиник</string>
-    <string name="positive_toast">Данные о клиниках успешно загружены!</string>
+    <string name="positive_toast">Данные успешно загружены!</string>
     <string name="negative_toast">Ошибка получения данных от сервера!</string>
 </resources>
