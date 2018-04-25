@@ -1,7 +1,6 @@
 package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,17 +16,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
-import com.ruslanabzalov.pocketdoc.database.DatabaseHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable;
-import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.DOC_TYPE;
-import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.RECORD_DATE;
-import static com.ruslanabzalov.pocketdoc.database.DatabaseSchema.MedicalRecordsTable.Cols.USER_NAME;
 
 public class DocRecordFragment extends Fragment {
 
@@ -53,18 +46,9 @@ public class DocRecordFragment extends Fragment {
         return fragment;
     }
 
-    private static ContentValues getContentValues(Doctor doctor, String userName, String recordDate) {
-        ContentValues values = new ContentValues();
-        values.put(DOC_TYPE, "Терапевт");
-        values.put(USER_NAME, userName);
-        values.put(RECORD_DATE, recordDate);
-        return values;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabase = new DatabaseHelper(getContext()).getWritableDatabase();
         getActivity().setTitle(getString(R.string.medical_record_activity_title));
         mDoctor = (Doctor) getArguments().getSerializable(ARG_DOC);
     }
@@ -109,14 +93,9 @@ public class DocRecordFragment extends Fragment {
         });
         mDocRecord = view.findViewById(R.id.doc_request);
         mDocRecord.setOnClickListener((View v) -> {
-            // Рабочий код по формированию заявки на DocDoc.
-//            DataFetch.docPostRequest(mUserName.getText().toString(),
-//                    mUserPhoneNumber.getText().toString(), mUserDate.getText().toString(),
-//                    mDoctor.getId(), mDoctor.getDocsClinicId());
             Toast.makeText(getContext(),
                     "Заявка на запись успешно создана." + "Ожидайте звонка из клиники.",
                     Toast.LENGTH_LONG).show();
-            addToDatabase(mDoctor);
             getActivity().finish();
         });
         checkViews();
@@ -134,12 +113,6 @@ public class DocRecordFragment extends Fragment {
             mUserDate.setText(String.format("%s", dateFormat.format(date)));
             checkViews();
         }
-    }
-
-    private void addToDatabase(Doctor doctor) {
-        ContentValues contentValues = getContentValues(doctor, mUserName.getText().toString(),
-                mUserDate.getText().toString());
-        mDatabase.insert(MedicalRecordsTable.NAME, null, contentValues);
     }
 
     private void checkViews() {

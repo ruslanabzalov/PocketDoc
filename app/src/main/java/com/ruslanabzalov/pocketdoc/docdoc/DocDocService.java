@@ -36,6 +36,7 @@ public class DocDocService {
         } else {
             // Создание пользовательского экземпляра OkHttpClient.
             final OkHttpClient httpClient = new OkHttpClient.Builder()
+                    // Timeout после 60 секунд.
                     .readTimeout(60, TimeUnit.SECONDS)
                     .connectTimeout(60, TimeUnit.SECONDS)
                     .build();
@@ -43,7 +44,8 @@ public class DocDocService {
             // Создание пользовательского экземпляра Retrofit.
             final Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://" +
-                            LOGIN + ":" + PASSWORD + "@back.docdoc.ru/api/rest/1.0.6/json/")
+                            LOGIN + ":" + PASSWORD +
+                            "@back.docdoc.ru/api/rest/1.0.6/json/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient)
                     .build();

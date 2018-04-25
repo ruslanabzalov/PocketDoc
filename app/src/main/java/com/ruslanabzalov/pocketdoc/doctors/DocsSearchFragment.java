@@ -51,13 +51,13 @@ public class DocsSearchFragment extends Fragment {
         mDocsTypeButton = view.findViewById(R.id.docs_types);
         mDocsTypeButton.setOnClickListener((View v) -> {
             Intent intent = DocsSearchParamsActivity
-                    .newIntent(getActivity(), "DocsTypesFragment");
+                    .newIntent(getActivity(), "SpecialitiesFragment");
             startActivityForResult(intent, REQUEST_CODE_TYPES);
         });
         mDocsMetroButton = view.findViewById(R.id.docs_metros);
         mDocsMetroButton.setOnClickListener((View v) -> {
             Intent intent = DocsSearchParamsActivity
-                    .newIntent(getActivity(), "DocsMetrosFragment");
+                    .newIntent(getActivity(), "StationsFragment");
             startActivityForResult(intent, REQUEST_CODE_METROS);
         });
         mDocsSearchButton = view.findViewById(R.id.docs_search);

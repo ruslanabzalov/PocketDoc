@@ -1,6 +1,5 @@
 package com.ruslanabzalov.pocketdoc.doctors;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ruslanabzalov.pocketdoc.R;
-import com.ruslanabzalov.pocketdoc.database.DatabaseHelper;
-import com.ruslanabzalov.pocketdoc.database.DatabaseSchema;
-import com.ruslanabzalov.pocketdoc.database.RecordCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +25,6 @@ public class RecordsHistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabase = new DatabaseHelper(getContext()).getWritableDatabase();
-        getFromDatabase();
         getActivity().setTitle(getString(R.string.visits));
         setRetainInstance(true);
     }
@@ -48,29 +42,6 @@ public class RecordsHistoryFragment extends Fragment {
     private void setupAdapter() {
         if (isAdded()) {
             mRecordsHistoryRecyclerView.setAdapter(new RecordsAdapter(mRecords));
-        }
-    }
-
-    private RecordCursorWrapper queryRecords(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(
-                DatabaseSchema.MedicalRecordsTable.NAME,
-                null,
-                whereClause,
-                whereArgs,
-                null,
-                null,
-                null
-        );
-        return new RecordCursorWrapper(cursor);
-    }
-
-    private void getFromDatabase() {
-        try (RecordCursorWrapper cursorWrapper = queryRecords(null, null)) {
-            cursorWrapper.moveToFirst();
-            while (!cursorWrapper.isAfterLast()) {
-                mRecords.add(cursorWrapper.getRecord());
-                cursorWrapper.moveToNext();
-            }
         }
     }
 

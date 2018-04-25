@@ -1,7 +1,6 @@
 package com.ruslanabzalov.pocketdoc.doctors;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ruslanabzalov.pocketdoc.DataFetch;
 import com.ruslanabzalov.pocketdoc.R;
 
 import java.util.ArrayList;
@@ -51,7 +48,6 @@ public class DocsListFragment extends Fragment {
                 .toString();
         mDocsMetroId = Objects.requireNonNull(getArguments().getCharSequence(ARG_DOCS_METRO))
                 .toString();
-        new FetchDocsTask().execute();
     }
 
     @Override
@@ -67,24 +63,6 @@ public class DocsListFragment extends Fragment {
     private void setupAdapter() {
         if (isAdded()) {
             mDocsRecyclerView.setAdapter(new DocsAdapter(mDoctors));
-        }
-    }
-
-    private class FetchDocsTask extends AsyncTask<Void, Void, List<Doctor>> {
-
-        @Override
-        protected List<Doctor> doInBackground(Void... params) {
-            return new DataFetch().fetchDocs(mDocsTypeId, mDocsMetroId);
-        }
-
-        @Override
-        protected void onPostExecute(List<Doctor> doctors) {
-            mDoctors = doctors;
-            if (mDoctors.size() == 0) {
-                Toast.makeText(getActivity(), "Врачи с такими характеристиками не найдены!",
-                        Toast.LENGTH_SHORT).show();
-            }
-            setupAdapter();
         }
     }
 

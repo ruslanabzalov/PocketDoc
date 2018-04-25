@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MetroList {
+public class StationsList {
 
     @SerializedName("MetroList")
-    private List<Metro> mMetros;
+    private List<Station> mStations;
 
-    public List<Metro> getMetroList() {
-        return mMetros;
+    public List<Station> getStations() {
+        return mStations;
     }
 }

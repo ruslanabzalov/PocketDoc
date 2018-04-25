@@ -12,14 +12,13 @@ public class DocsSearchParamsActivity extends SingleFragmentActivity {
 
     public static Intent newIntent(Context packageContext, String targetFragmentName) {
         mTargetFragmentName = targetFragmentName;
-        Intent intent = new Intent(packageContext, DocsSearchParamsActivity.class);
-        return intent;
+        return new Intent(packageContext, DocsSearchParamsActivity.class);
     }
 
     @Override
     protected Fragment createFragment() {
-        return (mTargetFragmentName.equals("DocsTypesFragment")
-                ? new DocsTypesFragment()
-                : new DocsMetrosFragment());
+        return (mTargetFragmentName.equals("SpecialitiesFragment")
+                ? new SpecialitiesFragment()
+                : new StationsFragment());
     }
 }

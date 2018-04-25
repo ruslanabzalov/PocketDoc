@@ -1,10 +1,8 @@
 package com.ruslanabzalov.pocketdoc.docdoc;
 
 import com.ruslanabzalov.pocketdoc.doctors.DoctorList;
-import com.ruslanabzalov.pocketdoc.doctors.MetroList;
-import com.ruslanabzalov.pocketdoc.doctors.SpecialityList;
-import com.ruslanabzalov.pocketdoc.map.Clinic;
-import com.ruslanabzalov.pocketdoc.map.ClinicList;
+import com.ruslanabzalov.pocketdoc.doctors.StationsList;
+import com.ruslanabzalov.pocketdoc.doctors.SpecialitiesList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,31 +21,8 @@ public interface DocDocApi {
      * @return Список станций метро в определённом городе.
      */
     @GET("metro/city/{id}")
-    Call<MetroList> getStations(
+    Call<StationsList> getStations(
             @Header("Authorization") String authorization, @Path("id") int cityId);
-
-    /**
-     * GET-запрос для получения списка клиник в определённом городе.
-     * @param authorization Авторизация.
-     * @param startIndex Начальный индекс списка клиник.
-     * @param count Количество клиник.
-     * @param cityId Идентификатор города.
-     * @return Список клиник определённого города.
-     */
-    @GET("clinic/list/start/{start}/count/{count}/city/{id}/type/1,2")
-    Call<ClinicList> getClinics(
-            @Header("Authorization") String authorization, @Path("start") int startIndex,
-            @Path("count") int count, @Path("id") int cityId);
-
-    /**
-     * GET-запрос для получения подробной информации о клинике по её идентификатору.
-     * @param authorization Авторизация.
-     * @param clinicId Идентификатор клиники.
-     * @return Подробная информация о конкретной клинике.
-     */
-    @GET("clinic/{id}")
-    Call<Clinic> getClinicInfo(
-            @Header("Authorization") String authorization, @Path("id") int clinicId);
 
     /**
      * GET-запрос для получения списка всех специальностей врачей в конкретном городе.
@@ -56,7 +31,7 @@ public interface DocDocApi {
      * @return Список всех специальностей врачей в определённом городе.
      */
     @GET("speciality/city/{id}")
-    Call<SpecialityList> getSpecialities(
+    Call<SpecialitiesList> getSpecialities(
             @Header("Authorization") String authorization, @Path("id") int cityId);
 
     /**

@@ -4,7 +4,6 @@
 
     <string name="title_docs">Поиск врачей</string>
     <string name="title_medication">Лекарства</string>
-    <string name="title_map">Карта</string>
 
     <string name="docs_search_fragment_label">Поиск врачей</string>
     <string name="docs_type_button_hint">Тип врачей</string>
@@ -26,7 +25,6 @@
     <string name="medicament_title_label">Название лекарства</string>
     <string name="medicament_title_hint">Введите название лекарства</string>
 
-    <string name="map_fragment_label">Карта клиник</string>
     <string name="positive_toast">Данные успешно загружены!</string>
     <string name="negative_toast">Ошибка получения данных от сервера!</string>
 </resources>
