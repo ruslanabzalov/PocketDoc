@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/visits"
-        android:title="@string/visits"
+        android:id="@+id/history_of_visits_item"
+        android:title="@string/history_of_visits_item_text"
         app:showAsAction="never"/>
 </menu>

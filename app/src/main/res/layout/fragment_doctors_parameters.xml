@@ -9,10 +9,10 @@
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/docs_type_button_hint"/>
+        android:text="@string/specialities_button_hint"/>
 
     <Button
-        android:id="@+id/docs_types"
+        android:id="@+id/specialities_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -20,10 +20,10 @@
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/metro_station_button_hint"/>
+        android:text="@string/stations_button_hint"/>
 
     <Button
-        android:id="@+id/docs_metros"
+        android:id="@+id/stations_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -33,9 +33,9 @@
         android:gravity="bottom">
 
         <Button
-            android:id="@+id/docs_search"
+            android:id="@+id/find_doctors_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/docs_search_button_hint" />
+            android:text="@string/find_doctors_button_text" />
     </RelativeLayout>
 </LinearLayout>

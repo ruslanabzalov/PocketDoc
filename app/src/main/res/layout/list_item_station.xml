@@ -8,10 +8,11 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/drug_name"
+        android:id="@+id/station_text_view"
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        tools:text="Название лекарства"/>
+        tools:text="@string/station_preview_text"/>
 </LinearLayout>
+

@@ -2,29 +2,16 @@
     <string name="app_name">PocketDoc</string>
     <string name="google_maps_api_key">AIzaSyBn1Ik06YyB6gVq-SptIPp-wJYVN70EjgI</string>
 
-    <string name="title_docs">Поиск врачей</string>
-    <string name="title_medication">Лекарства</string>
+    <string name="title_doctors">Поиск врачей</string>
+    <string name="title_diseases">Заболевания</string>
 
-    <string name="docs_search_fragment_label">Поиск врачей</string>
-    <string name="docs_type_button_hint">Тип врачей</string>
-    <string name="metro_station_button_hint">Станция метро</string>
-    <string name="docs_search_button_hint">Поиск врачей</string>
-    <string name="docs_list_activity_title">Список врачей</string>
-    <string name="medical_record_activity_title">Оформление заявки</string>
-    <string name="medical_record_button_hint">Оформить заявку</string>
-    <string name="user_name_hint">Введите ваше имя</string>
-    <string name="user_phone_hint">Введите ваш номер телефона</string>
-    <string name="appointment_date_hint">Выберите желаемую дату посещения</string>
-    <string name="request_button_hint">Оформить заявку</string>
+    <string name="history_of_visits_item_text">История записей</string>
+    <string name="speciality_preview_text">Специальность</string>
+    <string name="station_preview_text">Станция метро</string>
+    <string name="find_doctors_button_text">Найти врачей</string>
 
-    <string name="visits">История посещений</string>
+    <string name="specialities_button_hint">Тип врачей</string>
+    <string name="stations_button_hint">Станция метро</string>
 
-    <string name="medicament_fragment_label">Лекарство</string>
-    <string name="medicaments_button_hint">Лекарства</string>
-    <string name="new_medicament">Новое лекарство</string>
-    <string name="medicament_title_label">Название лекарства</string>
-    <string name="medicament_title_hint">Введите название лекарства</string>
-
-    <string name="positive_toast">Данные успешно загружены!</string>
-    <string name="negative_toast">Ошибка получения данных от сервера!</string>
+    <string name="error_toast">Ошибка получения данных от сервера!</string>
 </resources>

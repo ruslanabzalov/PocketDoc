@@ -9,6 +9,10 @@ public class SpecialitiesList {
     @SerializedName("SpecList")
     private List<Speciality> mSpecialities;
 
+    public void setSpecialities(List<Speciality> specialities) {
+        mSpecialities = specialities;
+    }
+
     public List<Speciality> getSpecialities() {
         return mSpecialities;
     }

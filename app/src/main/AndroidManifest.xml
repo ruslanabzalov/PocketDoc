@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ruslanabzalov.pocketdoc">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -24,26 +22,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".doctors.DocsSearchParamsActivity"
+            android:name=".doctors.ParametersListActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".doctors.DocsListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".doctors.DocInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".doctors.DocRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".doctors.RecordsHistoryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".treatment.MedicamentsListActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".treatment.MedicamentActivity"
-            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

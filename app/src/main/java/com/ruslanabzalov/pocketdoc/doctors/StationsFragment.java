@@ -52,8 +52,8 @@ public class StationsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_docs_metros, container, false);
-        mStationsRecyclerView = view.findViewById(R.id.docs_metros_recycler_view);
+        View view = inflater.inflate(R.layout.fragment_stations_list, container, false);
+        mStationsRecyclerView = view.findViewById(R.id.stations_list_recycler_view);
         mStationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
@@ -93,7 +93,7 @@ public class StationsFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<StationsList> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(),
-                        getString(R.string.negative_toast), Toast.LENGTH_SHORT).show();
+                        getString(R.string.error_toast), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
         });
@@ -109,9 +109,9 @@ public class StationsFragment extends Fragment {
         private Station mStation;
 
         private StationsHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_docs_metros, parent, false));
+            super(inflater.inflate(R.layout.list_item_station, parent, false));
             itemView.setOnClickListener(this);
-            mStationNameTextView = itemView.findViewById(R.id.docs_metro);
+            mStationNameTextView = itemView.findViewById(R.id.station_text_view);
         }
 
         public void bind(Station station) {

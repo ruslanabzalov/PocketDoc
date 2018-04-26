@@ -52,14 +52,16 @@ public class SpecialitiesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_docs_types, container, false);
-        mSpecialitiesRecyclerView = view.findViewById(R.id.docs_types_recycler_view);
+        View view =
+                inflater.inflate(R.layout.fragment_specialities_list, container, false);
+        mSpecialitiesRecyclerView = view.findViewById(R.id.specialities_list_recycler_view);
         mSpecialitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
 
     private void specialitiesCall(DocDocApi api, int cityId) {
-        Call<SpecialitiesList> specialities = api.getSpecialities(DocDocService.AUTHORIZATION, cityId);
+        Call<SpecialitiesList> specialities =
+                api.getSpecialities(DocDocService.AUTHORIZATION, cityId);
         specialities.enqueue(new Callback<SpecialitiesList>() {
             @Override
             public void onResponse(@NonNull Call<SpecialitiesList> call,
@@ -71,7 +73,7 @@ public class SpecialitiesFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<SpecialitiesList> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(),
-                        getString(R.string.negative_toast), Toast.LENGTH_LONG).show();
+                        getString(R.string.error_toast), Toast.LENGTH_LONG).show();
                 t.printStackTrace();
             }
         });
@@ -105,9 +107,9 @@ public class SpecialitiesFragment extends Fragment {
         private Speciality mSpeciality;
 
         private SpecialitiesHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_docs_type, parent, false));
+            super(inflater.inflate(R.layout.list_item_speciality, parent, false));
             itemView.setOnClickListener(this);
-            mSpecialityNameTextView = itemView.findViewById(R.id.docs_type);
+            mSpecialityNameTextView = itemView.findViewById(R.id.speciality_text_view);
         }
 
         public void bind(Speciality speciality) {

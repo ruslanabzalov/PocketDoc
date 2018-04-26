@@ -2,13 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_docs"
-        android:icon="@drawable/ic_hospital_black_24dp"
-        android:title="@string/title_docs"/>
+        android:id="@+id/navigation_doctors"
+        android:title="@string/title_doctors"/>
 
     <item
-        android:id="@+id/navigation_treatment"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_medication"/>
-
+        android:id="@+id/navigation_diseases"
+        android:title="@string/title_diseases"/>
 </menu>

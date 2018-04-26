@@ -9,6 +9,10 @@ public class StationsList {
     @SerializedName("MetroList")
     private List<Station> mStations;
 
+    public void setStations(List<Station> stations) {
+        mStations = stations;
+    }
+
     public List<Station> getStations() {
         return mStations;
     }
