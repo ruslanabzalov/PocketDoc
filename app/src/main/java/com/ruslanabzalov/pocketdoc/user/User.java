@@ -1,12 +1,19 @@
 package com.ruslanabzalov.pocketdoc.user;
 
-/**
- * Класс, описывающий пользователя.
- */
-public class User {
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+@Entity
+class User {
+
+    @PrimaryKey
+    private int mId;
+    @ColumnInfo(name = "first_name")
     private String mFirstName;
+    @ColumnInfo(name = "last_name")
     private String mLastName;
+    @ColumnInfo(name = "age")
     private int mAge;
 
     public void setFirstName(String firstName) {

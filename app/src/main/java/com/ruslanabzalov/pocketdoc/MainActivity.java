@@ -6,17 +6,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import com.ruslanabzalov.pocketdoc.doctors.DoctorsParametersFragment;
 import com.ruslanabzalov.pocketdoc.diseases.DiseasesListFragment;
-
-import io.realm.Realm;
+import com.ruslanabzalov.pocketdoc.doctors.DoctorsParametersFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Realm.init(this); // Инициализация Realm.
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = findViewById(R.id.navigation);
 
@@ -29,12 +26,10 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction newTransaction = secondFragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_doctors:
-                    newTransaction.replace(R.id.container, new DoctorsParametersFragment())
-                            .commit();
+                    newTransaction.replace(R.id.container, new DoctorsParametersFragment()).commit();
                     return true;
                 case R.id.navigation_diseases:
-                    newTransaction.replace(R.id.container, new DiseasesListFragment())
-                            .commit();
+                    newTransaction.replace(R.id.container, new DiseasesListFragment()).commit();
                     return true;
             }
             return false;
