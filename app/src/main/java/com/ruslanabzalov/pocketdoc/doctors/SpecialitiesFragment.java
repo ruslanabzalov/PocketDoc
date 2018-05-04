@@ -92,7 +92,7 @@ public class SpecialitiesFragment extends Fragment {
         Intent data = new Intent();
         data.putExtra(EXTRA_DOCS_SPECIALITY_ID, specialityId);
         data.putExtra(EXTRA_DOCS_SPECIALITY_NAME, specialityName);
-        getActivity().setResult(RESULT_OK, data); // Отправка результатов родительской активности.
+        getActivity().setResult(RESULT_OK, data);
         getActivity().finish(); // Завершение текущей активности.
     }
 

@@ -1,6 +1,9 @@
 package com.ruslanabzalov.pocketdoc.doctors;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
 
@@ -22,9 +26,6 @@ public class DoctorsParametersFragment extends Fragment {
     private Button mGetSpecialitiesButton;
     private Button mGetStationsButton;
     private Button mFindDoctorsButton;
-
-    public DoctorsParametersFragment() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,30 @@ public class DoctorsParametersFragment extends Fragment {
         });
         mFindDoctorsButton = view.findViewById(R.id.find_doctors_button);
         mFindDoctorsButton.setOnClickListener((View v) -> {
-            // TODO: Открытие активности, отображающей список врачей.
+            Intent intent = new Intent(getContext(), DoctorsListActivity.class);
+            startActivity(intent);
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isNetworkEnabled()) {
+            Toast.makeText(getContext(), "Подключение отсутствует!", Toast.LENGTH_SHORT).show();
+            mGetSpecialitiesButton.setEnabled(false);
+            mGetStationsButton.setEnabled(false);
+            mFindDoctorsButton.setEnabled(false);
+        } else {
+            mGetSpecialitiesButton.setEnabled(true);
+            mGetStationsButton.setEnabled(true);
+            mFindDoctorsButton.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int resultCode, int requestCode, Intent data) {
+
     }
 
     @Override
@@ -72,5 +94,16 @@ public class DoctorsParametersFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Вспомогательный метод, проверяющий доступность сети.
+     * @return Флаг, указывающий на доступность или недоступность сети.
+     */
+    private boolean isNetworkEnabled() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 }

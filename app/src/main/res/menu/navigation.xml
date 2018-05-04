@@ -3,9 +3,14 @@
 
     <item
         android:id="@+id/navigation_doctors"
-        android:title="@string/title_doctors"/>
+        android:title="@string/title_doctors"
+        android:icon="@drawable/ic_doctors_black_24dp"/>
 
     <item
-        android:id="@+id/navigation_diseases"
-        android:title="@string/title_diseases"/>
+        android:id="@+id/navigation_map"
+        android:title="@string/title_map"/>
+
+    <item
+        android:id="@+id/navigation_user"
+        android:title="@string/title_user"/>
 </menu>

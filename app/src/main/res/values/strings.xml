@@ -3,7 +3,8 @@
     <string name="google_maps_api_key">AIzaSyBn1Ik06YyB6gVq-SptIPp-wJYVN70EjgI</string>
 
     <string name="title_doctors">Поиск врачей</string>
-    <string name="title_diseases">Заболевания</string>
+    <string name="title_map">Карта</string>
+    <string name="title_user">Пользователь</string>
 
     <string name="history_of_visits_item_text">История записей</string>
     <string name="speciality_preview_text">Специальность</string>
