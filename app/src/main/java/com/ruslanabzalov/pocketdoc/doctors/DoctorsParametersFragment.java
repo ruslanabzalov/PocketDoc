@@ -27,6 +27,11 @@ public class DoctorsParametersFragment extends Fragment {
     private Button mGetStationsButton;
     private Button mFindDoctorsButton;
 
+    private String specId;
+    private String specName;
+    private String stationId;
+    private String stationName;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +77,6 @@ public class DoctorsParametersFragment extends Fragment {
             mGetStationsButton.setEnabled(true);
             mFindDoctorsButton.setEnabled(true);
         }
-    }
-
-    @Override
-    public void onActivityResult(int resultCode, int requestCode, Intent data) {
-
     }
 
     @Override
