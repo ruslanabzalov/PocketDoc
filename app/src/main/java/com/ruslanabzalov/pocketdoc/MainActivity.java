@@ -10,15 +10,12 @@ import com.ruslanabzalov.pocketdoc.doctors.DoctorsParametersFragment;
 import com.ruslanabzalov.pocketdoc.map.MapFragment;
 import com.ruslanabzalov.pocketdoc.user.UserInfoFragment;
 
-import io.realm.Realm;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Realm.init(this); // Инициализация Realm.
         BottomNavigationView navigation = findViewById(R.id.navigation);
 
         FragmentManager firstFragmentManager = getSupportFragmentManager();

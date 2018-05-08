@@ -1,19 +1,11 @@
-package com.ruslanabzalov.pocketdoc.database;
+package com.ruslanabzalov.pocketdoc.user;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
+public class User {
 
-public class User extends RealmObject {
-
-    @PrimaryKey
     private int mId;
-    @Required
     private String mFirstName;
     private String mSecondName;
     private int mAge;
-    private RealmList<Record> mRecords;
 
     public String getFirstName() {
         return mFirstName;

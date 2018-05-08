@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
 import com.ruslanabzalov.pocketdoc.docdoc.DocDocApi;
-import com.ruslanabzalov.pocketdoc.docdoc.DocDocService;
+import com.ruslanabzalov.pocketdoc.docdoc.DocDocClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,6 @@ public class SpecialitiesFragment extends Fragment {
     private static final String EXTRA_DOCS_SPECIALITY_NAME
             = "com.ruslanabzalov.pocketdoc.docs.docs_speciality_name";
 
-    /**
-     * Константа, хранящая идентификатор города Москвы.
-     */
     private static final int MOSCOW_ID = 1;
 
     private List<Speciality> mSpecialities = new ArrayList<>();
@@ -45,7 +42,7 @@ public class SpecialitiesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Специализации врачей");
-        DocDocApi api = DocDocService.getClient();
+        DocDocApi api = DocDocClient.createClient();
         specialitiesCall(api, MOSCOW_ID);
     }
 
@@ -61,13 +58,13 @@ public class SpecialitiesFragment extends Fragment {
 
     private void specialitiesCall(DocDocApi api, int cityId) {
         Call<SpecialitiesList> specialities =
-                api.getSpecialities(DocDocService.AUTHORIZATION, cityId);
+                api.getSpecialities(DocDocClient.AUTHORIZATION, cityId);
         specialities.enqueue(new Callback<SpecialitiesList>() {
             @Override
             public void onResponse(@NonNull Call<SpecialitiesList> call,
                                    @NonNull Response<SpecialitiesList> response) {
                 mSpecialities = response.body().getSpecialities();
-                setupAdapter();
+                mSpecialitiesRecyclerView.setAdapter(new SpecialitiesAdapter(mSpecialities));
             }
 
             @Override
@@ -79,26 +76,14 @@ public class SpecialitiesFragment extends Fragment {
         });
     }
 
-    /**
-     * Вспомогательный метод, устанавливающий адаптер RecyclerView.
-     */
-    private void setupAdapter() {
-        if (isAdded()) {
-            mSpecialitiesRecyclerView.setAdapter(new SpecialitiesAdapter(mSpecialities));
-        }
-    }
-
     private void fragmentResult(String specialityId, String specialityName) {
         Intent data = new Intent();
         data.putExtra(EXTRA_DOCS_SPECIALITY_ID, specialityId);
         data.putExtra(EXTRA_DOCS_SPECIALITY_NAME, specialityName);
         getActivity().setResult(RESULT_OK, data);
-        getActivity().finish(); // Завершение текущей активности.
+        getActivity().finish();
     }
 
-    /**
-     * Класс, описывающий холдер RecyclerView.
-     */
     private class SpecialitiesHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
@@ -106,13 +91,13 @@ public class SpecialitiesFragment extends Fragment {
 
         private Speciality mSpeciality;
 
-        private SpecialitiesHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_speciality, parent, false));
+        private SpecialitiesHolder(View view) {
+            super(view);
             itemView.setOnClickListener(this);
             mSpecialityNameTextView = itemView.findViewById(R.id.speciality_text_view);
         }
 
-        public void bind(Speciality speciality) {
+        private void bind(Speciality speciality) {
             mSpeciality = speciality;
             mSpecialityNameTextView.setText(mSpeciality.getName());
         }
@@ -125,9 +110,6 @@ public class SpecialitiesFragment extends Fragment {
         }
     }
 
-    /**
-     * Класс, описывающий адаптер RecyclerView.
-     */
     private class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesHolder> {
 
         private List<Speciality> mSpecialities;
@@ -138,15 +120,15 @@ public class SpecialitiesFragment extends Fragment {
 
         @NonNull
         @Override
-        public SpecialitiesHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new SpecialitiesHolder(layoutInflater, viewGroup);
+        public SpecialitiesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_speciality, parent, false);
+            return new SpecialitiesHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull SpecialitiesHolder specialitiesHolder, int position) {
-            Speciality speciality = mSpecialities.get(position);
-            specialitiesHolder.bind(speciality);
+            specialitiesHolder.bind(mSpecialities.get(position));
         }
 
         @Override

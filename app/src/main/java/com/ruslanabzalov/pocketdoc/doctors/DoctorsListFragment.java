@@ -11,13 +11,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ruslanabzalov.pocketdoc.R;
+import com.ruslanabzalov.pocketdoc.docdoc.DocDocApi;
+import com.ruslanabzalov.pocketdoc.docdoc.DocDocClient;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DoctorsListFragment extends Fragment {
 
     private RecyclerView mDoctorsListRecyclerView;
     private RecyclerView.Adapter mDoctorsListAdapter;
 
-    private String[] mSimpleStringsForTextView = new String[333];
+    private List<Doctor> mDoctorsList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,51 +39,79 @@ public class DoctorsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_doctors_list, container, false);
         mDoctorsListRecyclerView = view.findViewById(R.id.doctors_list_recycler_view);
         mDoctorsListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mDoctorsListRecyclerView.setHasFixedSize(true);
-        mDoctorsListAdapter = new DoctorListAdapter(mSimpleStringsForTextView);
-        mDoctorsListRecyclerView.setAdapter(mDoctorsListAdapter);
+        DocDocApi api = DocDocClient.createClient();
+        getDoctors(api);
         return view;
     }
 
-    public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.ViewHolder> {
+    private void getDoctors(DocDocApi api) {
+        Call<DoctorsList> doctorsListCall = api.getDoctors(
+                // Тестовые данные.
+                DocDocClient.AUTHORIZATION, 0, 500, 1, 87, 168,
+                "strict", "rating", 0, 0, 1, 14
+        );
+        doctorsListCall.enqueue(new Callback<DoctorsList>() {
+            @Override
+            public void onResponse(@NonNull Call<DoctorsList> call,
+                                   @NonNull Response<DoctorsList> response) {
 
-        private String[] mSimpleStringsForTextView;
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-
-            private TextView mSimpleTextView;
-
-            ViewHolder(View view) {
-                super(view);
-                mSimpleTextView = itemView.findViewById(R.id.simple_text_view);
             }
+
+            @Override
+            public void onFailure(@NonNull Call<DoctorsList> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private class DoctorsListViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
+        private TextView mDoctorsNameTextView;
+        private TextView mDoctorsSpecialityTextView;
+        private TextView mDoctorsExperienceTextView;
+
+        DoctorsListViewHolder(View view) {
+            super(view);
+            itemView.setOnClickListener(this);
+//            mDoctorsNameTextView = itemView.findViewById();
+//            mDoctorsSpecialityTextView = itemView.findViewById();
+//            mDoctorsExperienceTextView = itemView.findViewById();
         }
 
-        DoctorListAdapter(String[] simpleStringsForTextView) {
-            mSimpleStringsForTextView = simpleStringsForTextView;
+        @Override
+        public void onClick(View v) {
+            // TODO: Обработка нажатия на определённого врача в списке
+        }
+    }
+
+    private class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListViewHolder> {
+
+        private List<Doctor> mDoctors;
+
+        DoctorsListAdapter(List<Doctor> doctors) {
+            mDoctors = doctors;
         }
 
         @NonNull
         @Override
-        public DoctorListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                               int viewType) {
+        public DoctorsListViewHolder onCreateViewHolder(
+                @NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.simple_text_view, parent, false);
-            return new ViewHolder(view);
+                    .inflate(R.layout.list_item_doctor, parent, false);
+            return new DoctorsListViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.mSimpleTextView.setText("Lol");
+        public void onBindViewHolder(@NonNull DoctorsListViewHolder viewHolder, int position) {
+//            viewHolder.mDoctorsNameTextView.setText(mDoctors.get(position).getName());
+//            viewHolder.mDoctorsSpecialityTextView.setText(mDoctors.get(position).getSpeciality());
+//            viewHolder.mDoctorsExperienceTextView.setText(mDoctors.get(position).getExperience());
         }
 
-        /**
-         * Метод, возвращающий кол-во элементов списка.
-         * @return Кол-во элементов списка.
-         */
         @Override
         public int getItemCount() {
-            return mSimpleStringsForTextView.length;
+            return mDoctors.size();
         }
     }
 }

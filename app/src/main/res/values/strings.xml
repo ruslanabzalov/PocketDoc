@@ -11,7 +11,7 @@
     <string name="station_preview_text">Станция метро</string>
     <string name="find_doctors_button_text">Найти врачей</string>
 
-    <string name="specialities_button_hint">Тип врачей</string>
+    <string name="specialities_button_hint">Специализация</string>
     <string name="stations_button_hint">Станция метро</string>
 
     <string name="error_toast">Ошибка получения данных от сервера!</string>

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
 import com.ruslanabzalov.pocketdoc.docdoc.DocDocApi;
-import com.ruslanabzalov.pocketdoc.docdoc.DocDocService;
+import com.ruslanabzalov.pocketdoc.docdoc.DocDocClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,6 @@ public class StationsFragment extends Fragment {
     private static final String EXTRA_STATION_NAME
             = "com.ruslanabzalov.pocketdoc.docs.docs_metro_name";
 
-    /**
-     * Константа, хранящая идентификатор города Москвы.
-     */
     private static final int MOSCOW_ID = 1;
 
     private RecyclerView mStationsRecyclerView;
@@ -45,7 +42,7 @@ public class StationsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Станции метро");
-        DocDocApi api = DocDocService.getClient();
+        DocDocApi api = DocDocClient.createClient();
         stationsCall(api, MOSCOW_ID);
     }
 
@@ -58,15 +55,6 @@ public class StationsFragment extends Fragment {
         return view;
     }
 
-    /**
-     * Вспомогательный метод, устанавливающий адаптер RecyclerView.
-     */
-    private void setupAdapter() {
-        if (isAdded()) {
-            mStationsRecyclerView.setAdapter(new StationsAdapter(mStations));
-        }
-    }
-
     private void fragmentResult(String stationId, String stationName) {
         Intent data = new Intent();
         data.putExtra(EXTRA_STATION_ID, stationId);
@@ -75,19 +63,14 @@ public class StationsFragment extends Fragment {
         getActivity().finish();
     }
 
-    /**
-     * Вспомогательный метод для получения списка станций метро в определённом городе.
-     * @param api API-интерфейс сервиса DocDoc.
-     * @param cityId Идентификатор города.
-     */
     private void stationsCall(DocDocApi api, int cityId) {
-        Call<StationsList> stations = api.getStations(DocDocService.AUTHORIZATION, cityId);
+        Call<StationsList> stations = api.getStations(DocDocClient.AUTHORIZATION, cityId);
         stations.enqueue(new Callback<StationsList>() {
             @Override
             public void onResponse(@NonNull Call<StationsList> call,
                                    @NonNull Response<StationsList> response) {
                 mStations = response.body().getStations();
-                setupAdapter();
+                mStationsRecyclerView.setAdapter(new StationsAdapter(mStations));
             }
 
             @Override
@@ -99,22 +82,19 @@ public class StationsFragment extends Fragment {
         });
     }
 
-    /**
-     * Класс, описывающий холдер RecyclerView.
-     */
     private class StationsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mStationNameTextView;
 
         private Station mStation;
 
-        private StationsHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_station, parent, false));
+        private StationsHolder(View view) {
+            super(view);
             itemView.setOnClickListener(this);
             mStationNameTextView = itemView.findViewById(R.id.station_text_view);
         }
 
-        public void bind(Station station) {
+        private void bind(Station station) {
             mStation = station;
             mStationNameTextView.setText(mStation.getName());
         }
@@ -127,9 +107,6 @@ public class StationsFragment extends Fragment {
         }
     }
 
-    /**
-     * Класс, описывающий адаптер RecyclerView.
-     */
     private class StationsAdapter extends RecyclerView.Adapter<StationsHolder> {
 
         private List<Station> mStations;
@@ -140,21 +117,17 @@ public class StationsFragment extends Fragment {
 
         @NonNull
         @Override
-        public StationsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new StationsHolder(layoutInflater, viewGroup);
+        public StationsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_station, parent, false);
+            return new StationsHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull StationsHolder stationsHolder, int position) {
-            Station station = mStations.get(position);
-            stationsHolder.bind(station);
+            stationsHolder.bind(mStations.get(position));
         }
 
-        /**
-         * Метод, возвращающий кол-во элементов в RecyclerView.
-         * @return Кол-во элементов в RecyclerView.
-         */
         @Override
         public int getItemCount() {
             return mStations.size();
