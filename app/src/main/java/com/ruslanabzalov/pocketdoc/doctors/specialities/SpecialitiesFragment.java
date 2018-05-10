@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.doctors;
+package com.ruslanabzalov.pocketdoc.doctors.specialities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class SpecialitiesFragment extends Fragment {
 
+    private static final String TAG = "SpecialitiesFragment";
     private static final String EXTRA_DOCS_SPECIALITY_ID
             = "com.ruslanabzalov.pocketdoc.docs.docs_speciality_id";
     private static final String EXTRA_DOCS_SPECIALITY_NAME
@@ -41,7 +43,6 @@ public class SpecialitiesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Специализации врачей");
         DocDocApi api = DocDocClient.createClient();
         specialitiesCall(api, MOSCOW_ID);
     }
@@ -63,25 +64,20 @@ public class SpecialitiesFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<SpecialitiesList> call,
                                    @NonNull Response<SpecialitiesList> response) {
-                mSpecialities = response.body().getSpecialities();
-                mSpecialitiesRecyclerView.setAdapter(new SpecialitiesAdapter(mSpecialities));
+                SpecialitiesList specialitiesList = response.body();
+                if (specialitiesList != null) {
+                    mSpecialities = specialitiesList.getSpecialities();
+                    mSpecialitiesRecyclerView.setAdapter(new SpecialitiesAdapter(mSpecialities));
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<SpecialitiesList> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(),
                         getString(R.string.error_toast), Toast.LENGTH_LONG).show();
-                t.printStackTrace();
+                Log.d(TAG, getString(R.string.error_toast), t);
             }
         });
-    }
-
-    private void fragmentResult(String specialityId, String specialityName) {
-        Intent data = new Intent();
-        data.putExtra(EXTRA_DOCS_SPECIALITY_ID, specialityId);
-        data.putExtra(EXTRA_DOCS_SPECIALITY_NAME, specialityName);
-        getActivity().setResult(RESULT_OK, data);
-        getActivity().finish();
     }
 
     private class SpecialitiesHolder extends RecyclerView.ViewHolder
@@ -106,7 +102,7 @@ public class SpecialitiesFragment extends Fragment {
         public void onClick(View v) {
             String specialityId = mSpeciality.getId();
             String specialityName = mSpeciality.getName();
-            fragmentResult(specialityId, specialityName);
+            setFragmentResult(specialityId, specialityName);
         }
     }
 
@@ -135,5 +131,13 @@ public class SpecialitiesFragment extends Fragment {
         public int getItemCount() {
             return mSpecialities.size();
         }
+    }
+
+    private void setFragmentResult(String specialityId, String specialityName) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_DOCS_SPECIALITY_ID, specialityId);
+        data.putExtra(EXTRA_DOCS_SPECIALITY_NAME, specialityName);
+        getActivity().setResult(RESULT_OK, data);
+        getActivity().finish();
     }
 }

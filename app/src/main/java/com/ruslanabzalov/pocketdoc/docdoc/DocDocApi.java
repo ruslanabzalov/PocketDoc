@@ -1,7 +1,7 @@
 package com.ruslanabzalov.pocketdoc.docdoc;
 
 import com.ruslanabzalov.pocketdoc.doctors.DoctorsList;
-import com.ruslanabzalov.pocketdoc.doctors.SpecialitiesList;
+import com.ruslanabzalov.pocketdoc.doctors.specialities.SpecialitiesList;
 import com.ruslanabzalov.pocketdoc.doctors.StationsList;
 
 import retrofit2.Call;

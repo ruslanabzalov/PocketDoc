@@ -23,9 +23,6 @@ import retrofit2.Response;
 
 public class DoctorsListFragment extends Fragment {
 
-    private RecyclerView mDoctorsListRecyclerView;
-    private RecyclerView.Adapter mDoctorsListAdapter;
-
     private List<Doctor> mDoctorsList = new ArrayList<>();
 
     @Override
@@ -37,10 +34,14 @@ public class DoctorsListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doctors_list, container, false);
-        mDoctorsListRecyclerView = view.findViewById(R.id.doctors_list_recycler_view);
-        mDoctorsListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        DocDocApi api = DocDocClient.createClient();
-        getDoctors(api);
+        RecyclerView doctorsListRecyclerView = view.findViewById(R.id.doctors_list_recycler_view);
+        doctorsListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        for (int i = 0; i < 100; i++) {
+            mDoctorsList.add(new Doctor());
+        }
+//        DocDocApi api = DocDocClient.createClient();
+//        getDoctors(api);
+        doctorsListRecyclerView.setAdapter(new DoctorsListAdapter(mDoctorsList));
         return view;
     }
 
@@ -68,16 +69,16 @@ public class DoctorsListFragment extends Fragment {
             implements View.OnClickListener {
 
         private TextView mDoctorsNameTextView;
-        private TextView mDoctorsSpecialityTextView;
-        private TextView mDoctorsExperienceTextView;
+        private TextView mClinicsNameTextView;
 
         DoctorsListViewHolder(View view) {
             super(view);
             itemView.setOnClickListener(this);
-//            mDoctorsNameTextView = itemView.findViewById();
-//            mDoctorsSpecialityTextView = itemView.findViewById();
-//            mDoctorsExperienceTextView = itemView.findViewById();
+            mDoctorsNameTextView = itemView.findViewById(R.id.doctors_name_text_view);
+            mClinicsNameTextView = itemView.findViewById(R.id.clinics_name_text_view);
         }
+
+//        public void bind(Doctor doctor) {}
 
         @Override
         public void onClick(View v) {
@@ -95,8 +96,7 @@ public class DoctorsListFragment extends Fragment {
 
         @NonNull
         @Override
-        public DoctorsListViewHolder onCreateViewHolder(
-                @NonNull ViewGroup parent, int viewType) {
+        public DoctorsListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_doctor, parent, false);
             return new DoctorsListViewHolder(view);
@@ -104,9 +104,8 @@ public class DoctorsListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull DoctorsListViewHolder viewHolder, int position) {
-//            viewHolder.mDoctorsNameTextView.setText(mDoctors.get(position).getName());
-//            viewHolder.mDoctorsSpecialityTextView.setText(mDoctors.get(position).getSpeciality());
-//            viewHolder.mDoctorsExperienceTextView.setText(mDoctors.get(position).getExperience());
+            viewHolder.mDoctorsNameTextView.setText("Имя доктора");
+            viewHolder.mClinicsNameTextView.setText("Название клиники");
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.ruslanabzalov.pocketdoc.doctors;
 
 import com.google.gson.annotations.SerializedName;
+import com.ruslanabzalov.pocketdoc.doctors.Station;
 
 import java.util.List;
 

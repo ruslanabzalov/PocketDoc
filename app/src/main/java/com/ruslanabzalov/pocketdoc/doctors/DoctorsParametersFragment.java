@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.ruslanabzalov.pocketdoc.R;
@@ -23,8 +24,10 @@ public class DoctorsParametersFragment extends Fragment {
     private static final int REQUEST_CODE_SPECIALITIES = 0;
     private static final int REQUEST_CODE_STATIONS = 1;
 
-    private Button mGetSpecialitiesButton;
-    private Button mGetStationsButton;
+    private Button mDocTypesButton;
+    private Button mSpecialitiesButton;
+    private Button mStationsButton;
+    private Switch mHomeSwitch;
     private Button mFindDoctorsButton;
 
     private String specId;
@@ -35,7 +38,6 @@ public class DoctorsParametersFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(getString(R.string.title_doctors));
         setHasOptionsMenu(true);
     }
 
@@ -44,18 +46,19 @@ public class DoctorsParametersFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =
                 inflater.inflate(R.layout.fragment_doctors_parameters, container, false);
-        mGetSpecialitiesButton = view.findViewById(R.id.specialities_button);
-        mGetSpecialitiesButton.setOnClickListener((View v) -> {
+        mSpecialitiesButton = view.findViewById(R.id.specialities_button);
+        mSpecialitiesButton.setOnClickListener((View v) -> {
             Intent intent =
                     ParametersListActivity.newIntent(getActivity(), "Specialities");
             startActivityForResult(intent, REQUEST_CODE_SPECIALITIES);
         });
-        mGetStationsButton = view.findViewById(R.id.stations_button);
-        mGetStationsButton.setOnClickListener((View v) -> {
+        mStationsButton = view.findViewById(R.id.stations_button);
+        mStationsButton.setOnClickListener((View v) -> {
             Intent intent =
                     ParametersListActivity.newIntent(getActivity(), "Stations");
             startActivityForResult(intent, REQUEST_CODE_STATIONS);
         });
+        mHomeSwitch = view.findViewById(R.id.home_switch);
         mFindDoctorsButton = view.findViewById(R.id.find_doctors_button);
         mFindDoctorsButton.setOnClickListener((View v) -> {
             Intent intent = new Intent(getContext(), DoctorsListActivity.class);
@@ -69,12 +72,12 @@ public class DoctorsParametersFragment extends Fragment {
         super.onResume();
         if (!isNetworkEnabled()) {
             Toast.makeText(getContext(), "Подключение отсутствует!", Toast.LENGTH_SHORT).show();
-            mGetSpecialitiesButton.setEnabled(false);
-            mGetStationsButton.setEnabled(false);
+            mSpecialitiesButton.setEnabled(false);
+            mStationsButton.setEnabled(false);
             mFindDoctorsButton.setEnabled(false);
         } else {
-            mGetSpecialitiesButton.setEnabled(true);
-            mGetStationsButton.setEnabled(true);
+            mSpecialitiesButton.setEnabled(true);
+            mStationsButton.setEnabled(true);
             mFindDoctorsButton.setEnabled(true);
         }
     }

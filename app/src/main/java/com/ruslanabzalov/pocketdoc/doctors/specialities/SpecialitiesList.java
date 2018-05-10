@@ -1,4 +1,4 @@
-package com.ruslanabzalov.pocketdoc.doctors;
+package com.ruslanabzalov.pocketdoc.doctors.specialities;
 
 import com.google.gson.annotations.SerializedName;
 

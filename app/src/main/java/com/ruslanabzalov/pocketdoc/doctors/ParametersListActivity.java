@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.ruslanabzalov.pocketdoc.SingleFragmentActivity;
+import com.ruslanabzalov.pocketdoc.doctors.specialities.SpecialitiesFragment;
 
 public class ParametersListActivity extends SingleFragmentActivity {
 

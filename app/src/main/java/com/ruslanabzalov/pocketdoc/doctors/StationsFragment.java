@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class StationsFragment extends Fragment {
 
+    private static final String TAG = "StationsFragment";
     private static final String EXTRA_STATION_ID
             = "com.ruslanabzalov.pocketdoc.docs.docs_metro_id";
     private static final String EXTRA_STATION_NAME
@@ -41,7 +43,6 @@ public class StationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Станции метро");
         DocDocApi api = DocDocClient.createClient();
         stationsCall(api, MOSCOW_ID);
     }
@@ -53,33 +54,6 @@ public class StationsFragment extends Fragment {
         mStationsRecyclerView = view.findViewById(R.id.stations_list_recycler_view);
         mStationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
-    }
-
-    private void fragmentResult(String stationId, String stationName) {
-        Intent data = new Intent();
-        data.putExtra(EXTRA_STATION_ID, stationId);
-        data.putExtra(EXTRA_STATION_NAME, stationName);
-        getActivity().setResult(RESULT_OK, data);
-        getActivity().finish();
-    }
-
-    private void stationsCall(DocDocApi api, int cityId) {
-        Call<StationsList> stations = api.getStations(DocDocClient.AUTHORIZATION, cityId);
-        stations.enqueue(new Callback<StationsList>() {
-            @Override
-            public void onResponse(@NonNull Call<StationsList> call,
-                                   @NonNull Response<StationsList> response) {
-                mStations = response.body().getStations();
-                mStationsRecyclerView.setAdapter(new StationsAdapter(mStations));
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<StationsList> call, @NonNull Throwable t) {
-                Toast.makeText(getContext(),
-                        getString(R.string.error_toast), Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-            }
-        });
     }
 
     private class StationsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -103,7 +77,7 @@ public class StationsFragment extends Fragment {
         public void onClick(View v) {
             String stationId = mStation.getId();
             String stationName = mStation.getName();
-            fragmentResult(stationId, stationName);
+            setFragmentResult(stationId, stationName);
         }
     }
 
@@ -118,7 +92,8 @@ public class StationsFragment extends Fragment {
         @NonNull
         @Override
         public StationsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
+            View view = LayoutInflater
+                    .from(parent.getContext())
                     .inflate(R.layout.list_item_station, parent, false);
             return new StationsHolder(view);
         }
@@ -132,5 +107,35 @@ public class StationsFragment extends Fragment {
         public int getItemCount() {
             return mStations.size();
         }
+    }
+
+    private void stationsCall(DocDocApi api, int cityId) {
+        Call<StationsList> stations = api.getStations(DocDocClient.AUTHORIZATION, cityId);
+        stations.enqueue(new Callback<StationsList>() {
+            @Override
+            public void onResponse(@NonNull Call<StationsList> call,
+                                   @NonNull Response<StationsList> response) {
+                StationsList stationsList = response.body();
+                if (stationsList != null) {
+                    mStations = stationsList.getStations();
+                    mStationsRecyclerView.setAdapter(new StationsAdapter(mStations));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<StationsList> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), getString(R.string.error_toast), Toast.LENGTH_SHORT)
+                        .show();
+                Log.e(TAG, getString(R.string.error_toast), t);
+            }
+        });
+    }
+
+    private void setFragmentResult(String stationId, String stationName) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_STATION_ID, stationId);
+        data.putExtra(EXTRA_STATION_NAME, stationName);
+        getActivity().setResult(RESULT_OK, data);
+        getActivity().finish();
     }
 }

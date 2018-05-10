@@ -15,4 +15,7 @@
     <string name="stations_button_hint">Станция метро</string>
 
     <string name="error_toast">Ошибка получения данных от сервера!</string>
+    <string name="doctors_photo_image_view_content_description">Фото врача</string>
+    <string name="doctors_type_button_hint_text">Тип врача</string>
+    <string name="home_switch_text">Выезд на дом</string>
 </resources>
