@@ -8,7 +8,8 @@
 
     <string name="history_of_visits_item_text">История записей</string>
     <string name="speciality_preview_text">Специальность</string>
-    <string name="station_preview_text">Станция метро</string>
+    <string name="station_name_preview">Станция метро</string>
+    <string name="line_name_preview">Линия</string>
     <string name="find_doctors_button_text">Найти врачей</string>
 
     <string name="specialities_button_hint">Специализация</string>

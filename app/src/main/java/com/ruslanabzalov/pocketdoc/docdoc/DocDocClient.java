@@ -16,6 +16,8 @@ public class DocDocClient {
     private static final String LOGIN = "partner.13849";
     private static final String PASSWORD = "BIQWlAdw";
 
+    private static DocDocApi sClient;
+
     /**
      * Строка для авторизации.
      */
@@ -24,23 +26,23 @@ public class DocDocClient {
 
     private DocDocClient() {}
 
-    public static DocDocApi createClient() {
-        // Создание пользовательского экземпляра OkHttpClient.
-        final OkHttpClient httpClient = new OkHttpClient.Builder()
-                // Timeout после 60 секунд.
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .build();
+    public static DocDocApi getClient() {
+        if (sClient == null) {
+            final OkHttpClient httpClient = new OkHttpClient.Builder()
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .build();
 
-        // Создание пользовательского экземпляра Retrofit.
-        final Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" +
-                        LOGIN + ":" + PASSWORD +
-                        "@back.docdoc.ru/api/rest/1.0.6/json/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient)
-                .build();
+            final Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://" +
+                            LOGIN + ":" + PASSWORD +
+                            "@back.docdoc.ru/api/rest/1.0.6/json/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient)
+                    .build();
 
-        return retrofit.create(DocDocApi.class);
+            sClient = retrofit.create(DocDocApi.class);
+        }
+        return sClient;
     }
 }

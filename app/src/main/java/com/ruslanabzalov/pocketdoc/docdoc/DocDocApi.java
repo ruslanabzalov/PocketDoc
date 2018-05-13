@@ -1,8 +1,8 @@
 package com.ruslanabzalov.pocketdoc.docdoc;
 
-import com.ruslanabzalov.pocketdoc.doctors.DoctorsList;
-import com.ruslanabzalov.pocketdoc.doctors.specialities.SpecialitiesList;
-import com.ruslanabzalov.pocketdoc.doctors.StationsList;
+import com.ruslanabzalov.pocketdoc.doctors.model.DoctorsList;
+import com.ruslanabzalov.pocketdoc.doctors.model.SpecsList;
+import com.ruslanabzalov.pocketdoc.doctors.model.StationsList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -31,7 +31,7 @@ public interface DocDocApi {
      * @return Список всех специальностей врачей в определённом городе.
      */
     @GET("speciality/city/{id}")
-    Call<SpecialitiesList> getSpecialities(
+    Call<SpecsList> getSpecialities(
             @Header("Authorization") String authorization, @Path("id") int cityId);
 
     /**

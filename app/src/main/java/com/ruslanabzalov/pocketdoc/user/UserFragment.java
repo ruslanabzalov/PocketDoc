@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.ruslanabzalov.pocketdoc.R;
 
-public class UserInfoFragment extends Fragment {
+public class UserFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,6 @@
-package com.ruslanabzalov.pocketdoc.doctors;
+package com.ruslanabzalov.pocketdoc.doctors.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.ruslanabzalov.pocketdoc.doctors.Station;
 
 import java.util.List;
 
@@ -10,11 +9,11 @@ public class StationsList {
     @SerializedName("MetroList")
     private List<Station> mStations;
 
-    public void setStations(List<Station> stations) {
-        mStations = stations;
-    }
-
     public List<Station> getStations() {
         return mStations;
+    }
+
+    public void setStations(List<Station> stations) {
+        mStations = stations;
     }
 }

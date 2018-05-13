@@ -1,6 +1,7 @@
-package com.ruslanabzalov.pocketdoc.doctors;
+package com.ruslanabzalov.pocketdoc.doctors.controller;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,9 +17,12 @@ import android.widget.Toast;
 import com.ruslanabzalov.pocketdoc.R;
 import com.ruslanabzalov.pocketdoc.docdoc.DocDocApi;
 import com.ruslanabzalov.pocketdoc.docdoc.DocDocClient;
+import com.ruslanabzalov.pocketdoc.doctors.model.Station;
+import com.ruslanabzalov.pocketdoc.doctors.model.StationsList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,48 +33,53 @@ import static android.app.Activity.RESULT_OK;
 public class StationsFragment extends Fragment {
 
     private static final String TAG = "StationsFragment";
-    private static final String EXTRA_STATION_ID
-            = "com.ruslanabzalov.pocketdoc.docs.docs_metro_id";
-    private static final String EXTRA_STATION_NAME
-            = "com.ruslanabzalov.pocketdoc.docs.docs_metro_name";
-
+    private static final String EXTRA_STATION_ID = "station_id";
+    private static final String EXTRA_STATION_NAME = "station_name";
     private static final int MOSCOW_ID = 1;
 
     private RecyclerView mStationsRecyclerView;
 
     private List<Station> mStations = new ArrayList<>();
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        DocDocApi api = DocDocClient.createClient();
-        stationsCall(api, MOSCOW_ID);
+    public static String getData(Intent data, String param) {
+        return (param.equals("id"))
+                ? data.getStringExtra(EXTRA_STATION_ID)
+                : data.getStringExtra(EXTRA_STATION_NAME);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stations_list, container, false);
-        mStationsRecyclerView = view.findViewById(R.id.stations_list_recycler_view);
-        mStationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        View view = inflater.inflate(R.layout.fragment_stations, container, false);
+        mStationsRecyclerView = view.findViewById(R.id.stations_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mStationsRecyclerView.setLayoutManager(linearLayoutManager);
+        DocDocApi api = DocDocClient.getClient();
+        stationsCall(api, MOSCOW_ID);
         return view;
     }
 
     private class StationsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mStationNameTextView;
+        private TextView mLineNameTextView;
 
         private Station mStation;
 
         private StationsHolder(View view) {
             super(view);
             itemView.setOnClickListener(this);
-            mStationNameTextView = itemView.findViewById(R.id.station_text_view);
+            mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
+            mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
         }
 
         private void bind(Station station) {
             mStation = station;
             mStationNameTextView.setText(mStation.getName());
+            mLineNameTextView.setText(mStation.getLineName());
+            String lineColor =
+                    String.format(Locale.getDefault(), "#%s", mStation.getLineColor());
+            mLineNameTextView.setTextColor(Color.parseColor(lineColor));
         }
 
         @Override
@@ -118,7 +127,8 @@ public class StationsFragment extends Fragment {
                 StationsList stationsList = response.body();
                 if (stationsList != null) {
                     mStations = stationsList.getStations();
-                    mStationsRecyclerView.setAdapter(new StationsAdapter(mStations));
+                    StationsAdapter stationsAdapter = new StationsAdapter(mStations);
+                    mStationsRecyclerView.setAdapter(stationsAdapter);
                 }
             }
 
