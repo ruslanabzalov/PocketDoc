@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ruslanabzalov.pocketdoc">
+    package="com.pocketdoc.pocketdoc">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".doctors.controller.ParamsActivity"
+            android:name=".doc.controller.ParamsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".doctors.controller.DoctorsActivity"
+            android:name=".doc.controller.DocsActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

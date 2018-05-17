@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:textColor="@android:color/black"
-        android:text="@string/doctors_type_button_hint_text"
+        android:text="@string/doctors_type_button_text_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_margin="8dp"
+        android:hint="@string/doc_type_button_hint"
         app:layout_constraintTop_toBottomOf="@id/doctors_type_button_hint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -36,7 +37,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:textColor="@android:color/black"
-        android:text="@string/specialities_button_hint"
+        android:text="@string/specialities_button_text_view"
         app:layout_constraintTop_toBottomOf="@id/doctors_type_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -47,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:hint="@string/spec_button_hint"
         app:layout_constraintTop_toBottomOf="@id/specialities_button_hint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -59,7 +61,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:textColor="@android:color/black"
-        android:text="@string/stations_button_hint"
+        android:text="@string/stations_button_text_view"
         app:layout_constraintTop_toBottomOf="@id/specialities_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -70,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:hint="@string/station_button_hint"
         app:layout_constraintTop_toBottomOf="@id/stations_button_hint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -95,7 +98,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/find_doctors_button_text"
+        android:hint="@string/find_doctors_button_hint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

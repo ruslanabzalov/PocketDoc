@@ -4,19 +4,22 @@
 
     <string name="title_doctors">Поиск врачей</string>
     <string name="title_map">Карта</string>
-    <string name="title_user">Пользователь</string>
 
     <string name="history_of_visits_item_text">История записей</string>
     <string name="speciality_preview_text">Специальность</string>
     <string name="station_name_preview">Станция метро</string>
     <string name="line_name_preview">Линия</string>
-    <string name="find_doctors_button_text">Найти врачей</string>
 
-    <string name="specialities_button_hint">Специализация</string>
-    <string name="stations_button_hint">Станция метро</string>
+    <string name="doctors_type_button_text_view">Тип врача</string>
+    <string name="specialities_button_text_view">Специализация</string>
+    <string name="stations_button_text_view">Станция метро</string>
+
+    <string name="doc_type_button_hint">Выберите типа врача</string>
+    <string name="spec_button_hint">Выберите специализацию врача</string>
+    <string name="station_button_hint">Выберите станцию метро</string>
+    <string name="home_switch_text">Выезд на дом</string>
+    <string name="find_doctors_button_hint">Найти врачей</string>
 
     <string name="error_toast">Ошибка получения данных от сервера!</string>
     <string name="doctors_photo_image_view_content_description">Фото врача</string>
-    <string name="doctors_type_button_hint_text">Тип врача</string>
-    <string name="home_switch_text">Выезд на дом</string>
 </resources>

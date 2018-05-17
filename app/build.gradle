@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.ruslanabzalov.pocketdoc"
-        minSdkVersion 21
+        applicationId "com.pocketdoc.pocketdoc"
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -38,13 +38,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation "android.arch.persistence.room:runtime:1.1.0"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.1.13"
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-}
-
-repositories {
-    mavenCentral()
 }
