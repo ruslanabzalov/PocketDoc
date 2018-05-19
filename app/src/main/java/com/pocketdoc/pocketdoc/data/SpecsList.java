@@ -1,4 +1,4 @@
-package com.pocketdoc.pocketdoc.doc.model;
+package com.pocketdoc.pocketdoc.data;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package com.pocketdoc.pocketdoc.doc.controller;
+package com.pocketdoc.pocketdoc.doc.docs;
 
 import android.content.Context;
 import android.content.Intent;

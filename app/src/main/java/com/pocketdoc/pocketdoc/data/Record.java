@@ -1,4 +1,4 @@
-package com.pocketdoc.pocketdoc.doc.model;
+package com.pocketdoc.pocketdoc.data;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.PrimaryKey;

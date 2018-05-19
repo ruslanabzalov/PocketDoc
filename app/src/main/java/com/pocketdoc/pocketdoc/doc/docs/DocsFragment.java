@@ -1,4 +1,4 @@
-package com.pocketdoc.pocketdoc.doc.controller;
+package com.pocketdoc.pocketdoc.doc.docs;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.pocketdoc.pocketdoc.R;
 import com.pocketdoc.pocketdoc.api.DocDocApi;
 import com.pocketdoc.pocketdoc.api.DocDocClient;
-import com.pocketdoc.pocketdoc.doc.model.Doc;
-import com.pocketdoc.pocketdoc.doc.model.DocList;
+import com.pocketdoc.pocketdoc.data.Doc;
+import com.pocketdoc.pocketdoc.data.DocList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

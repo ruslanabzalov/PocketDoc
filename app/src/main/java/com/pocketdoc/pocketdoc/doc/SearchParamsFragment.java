@@ -1,4 +1,4 @@
-package com.pocketdoc.pocketdoc.doc.controller;
+package com.pocketdoc.pocketdoc.doc;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +16,9 @@ import android.widget.PopupMenu;
 import android.widget.Switch;
 
 import com.pocketdoc.pocketdoc.R;
+import com.pocketdoc.pocketdoc.doc.docs.DocsActivity;
+import com.pocketdoc.pocketdoc.doc.specs.SpecsFragment;
+import com.pocketdoc.pocketdoc.doc.stations.StationsFragment;
 
 public class SearchParamsFragment extends Fragment implements MenuItem.OnMenuItemClickListener {
 

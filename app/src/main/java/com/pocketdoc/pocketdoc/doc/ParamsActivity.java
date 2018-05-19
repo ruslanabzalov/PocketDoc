@@ -1,10 +1,12 @@
-package com.pocketdoc.pocketdoc.doc.controller;
+package com.pocketdoc.pocketdoc.doc;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.pocketdoc.pocketdoc.SingleFragmentActivity;
+import com.pocketdoc.pocketdoc.doc.specs.SpecsFragment;
+import com.pocketdoc.pocketdoc.doc.stations.StationsFragment;
 
 public class ParamsActivity extends SingleFragmentActivity {
 

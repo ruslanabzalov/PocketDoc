@@ -1,9 +1,9 @@
 package com.pocketdoc.pocketdoc.api;
 
-import com.pocketdoc.pocketdoc.doc.model.CityList;
-import com.pocketdoc.pocketdoc.doc.model.DocList;
-import com.pocketdoc.pocketdoc.doc.model.SpecsList;
-import com.pocketdoc.pocketdoc.doc.model.StationsList;
+import com.pocketdoc.pocketdoc.data.CityList;
+import com.pocketdoc.pocketdoc.data.DocList;
+import com.pocketdoc.pocketdoc.data.SpecsList;
+import com.pocketdoc.pocketdoc.data.StationsList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

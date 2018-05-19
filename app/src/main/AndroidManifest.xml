@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".doc.controller.ParamsActivity"
+            android:name=".doc.ParamsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".doc.controller.DocsActivity"
+            android:name=".doc.docs.DocsActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
