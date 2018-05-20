@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.doc.RecyclerItemOnClickListener;
 import com.ruslan.pocketdoc.data.Spec;
+import com.ruslan.pocketdoc.doc.RecyclerItemOnClickListener;
 
 import java.util.List;
 

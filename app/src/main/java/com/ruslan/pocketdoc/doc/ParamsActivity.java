@@ -2,6 +2,7 @@ package com.ruslan.pocketdoc.doc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.ruslan.pocketdoc.SingleFragmentActivity;
@@ -17,6 +18,7 @@ public class ParamsActivity extends SingleFragmentActivity {
         return new Intent(packageContext, ParamsActivity.class);
     }
 
+    @NonNull
     @Override
     protected Fragment createFragment() {
         return (mTargetFragmentName.equals("Specs") ? new SpecsFragment() : new StationsFragment());

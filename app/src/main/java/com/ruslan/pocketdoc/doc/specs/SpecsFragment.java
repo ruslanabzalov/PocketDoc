@@ -20,7 +20,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class SpecsFragment extends Fragment implements SpecsContract.MvpView {
 
-    private static final String TAG = "SpecsFragment";
     private static final String EXTRA_DOCS_SPECIALITY_ID = "spec_id";
     private static final String EXTRA_DOCS_SPECIALITY_NAME = "spec_name";
 

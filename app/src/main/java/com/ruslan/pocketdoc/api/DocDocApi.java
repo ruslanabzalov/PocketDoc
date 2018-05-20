@@ -2,8 +2,8 @@ package com.ruslan.pocketdoc.api;
 
 import com.ruslan.pocketdoc.data.CityList;
 import com.ruslan.pocketdoc.data.DocList;
-import com.ruslan.pocketdoc.data.SpecsList;
-import com.ruslan.pocketdoc.data.StationsList;
+import com.ruslan.pocketdoc.data.SpecList;
+import com.ruslan.pocketdoc.data.StationList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,12 +16,12 @@ public interface DocDocApi {
     Call<CityList> getCities(@Header("Authorization") String authorization);
 
     @GET("metro/city/{id}")
-    Call<StationsList> getStations(
+    Call<StationList> getStations(
             @Header("Authorization") String authorization, @Path("id") int cityId
     );
 
     @GET("speciality/city/{id}")
-    Call<SpecsList> getSpecs(
+    Call<SpecList> getSpecs(
             @Header("Authorization") String authorization, @Path("id") int cityId
     );
 
