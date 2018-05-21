@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">PocketDoc</string>
-    <string name="google_maps_api_key">AIzaSyBn1Ik06YyB6gVq-SptIPp-wJYVN70EjgI</string>
 
     <string name="title_doctors">Поиск врачей</string>
     <string name="title_map">Карта</string>
 
-    <string name="history_of_visits_item_text">История записей</string>
+    <string name="favorite_doctors_item_text">Избранные врачи</string>
+    <string name="records_history_item_text">История записей</string>
+
     <string name="speciality_preview_text">Специальность</string>
     <string name="station_name_preview">Станция метро</string>
     <string name="line_name_preview">Линия</string>

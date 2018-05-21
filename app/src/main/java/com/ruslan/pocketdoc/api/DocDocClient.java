@@ -26,7 +26,6 @@ public class DocDocClient {
                     .readTimeout(30, TimeUnit.SECONDS)
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .build();
-
             final Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://" +
                             LOGIN + ":" + PASSWORD +
@@ -34,7 +33,6 @@ public class DocDocClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient)
                     .build();
-
             sClient = retrofit.create(DocDocApi.class);
         }
         return sClient;

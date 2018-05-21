@@ -23,15 +23,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".doc.ParamsActivity"
+            android:name=".searching.specialities.SpecialitiesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".doc.docs.DocsActivity"
+            android:name=".searching.stations.StationsActivity"
             android:screenOrientation="portrait" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_api_key" />
+        <activity
+            android:name=".searching.doctors.DoctorsActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
