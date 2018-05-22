@@ -18,8 +18,8 @@ public class DoctorsInteractorImpl implements DoctorsInteractor {
         int moscowId = 1;
         DocDocApi api = DocDocClient.getClient();
         Call<DoctorsList> doctorsListCall = api.getDoctors(
-                DocDocClient.AUTHORIZATION, 0, 500, moscowId, specId, stationId,
-                "strict", "rating", 0, 0, 1, 14
+                0, 500, moscowId, specId, stationId, "strict",
+                "rating", 0, 0, 1, 14
         );
         doctorsListCall.enqueue(new Callback<DoctorsList>() {
             @Override

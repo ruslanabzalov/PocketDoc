@@ -18,24 +18,26 @@ class StationsPresenter implements BasePresenter {
     }
 
     @Override
-    public void onDestroy() {
-        mStationView = null;
-    }
-
-    @Override
-    public void getData() {
+    public void onResume() {
         mStationInteractor.loadData(new BaseInteractor.OnLoadFinishedListener<Station>() {
             @Override
             public void onSuccess(List<Station> stations) {
                 if (mStationView != null) {
-                    mStationView.showList(stations);
+                    mStationView.showItems(stations);
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                mStationView.showLoadErrorMessage(throwable);
+                if (mStationView != null) {
+                    mStationView.showErrorMessage(throwable);
+                }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        mStationView = null;
     }
 }

@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.searching.doctors;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Doctor;
 import com.ruslan.pocketdoc.searching.BasePresenter;
 import com.ruslan.pocketdoc.searching.BaseView;
+import com.ruslan.pocketdoc.searching.doctors.doctor.DoctorActivity;
 
 import java.util.List;
 
@@ -57,8 +59,13 @@ public class DoctorsFragment extends Fragment implements BaseView<Doctor> {
         DoctorsInteractor doctorsInteractor = new DoctorsInteractorImpl();
         mDoctorsPresenter =
                 new DoctorsPresenter(this, doctorsInteractor, mSpecialityId, mStationId);
-        mDoctorsPresenter.getData();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mDoctorsPresenter.onResume();
     }
 
     @Override
@@ -68,19 +75,21 @@ public class DoctorsFragment extends Fragment implements BaseView<Doctor> {
     }
 
     @Override
-    public void showList(List<Doctor> doctors) {
-        DoctorsAdapter doctorsAdapter = new DoctorsAdapter(doctors, this::setFragmentResult);
+    public void showItems(List<Doctor> doctors) {
+        DoctorsAdapter doctorsAdapter = new DoctorsAdapter(doctors, this::startDoctorActivity);
         mDoctorsRecyclerView.setAdapter(doctorsAdapter);
     }
 
     @Override
-    public void showLoadErrorMessage(Throwable throwable) {
+    public void showErrorMessage(Throwable throwable) {
         Toast.makeText(getActivity(),
                 "Ошибка получения данных с сервера: " + throwable.getMessage(),
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void setFragmentResult(Doctor doctor) {
-        // TODO: Start new Activity with doctor information.
+    private void startDoctorActivity(Doctor doctor) {
+        int doctorId = doctor.getId();
+        Intent intent = DoctorActivity.newIntent(getActivity(), doctorId);
+        startActivity(intent);
     }
 }

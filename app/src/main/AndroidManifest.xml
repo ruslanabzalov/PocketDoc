@@ -31,6 +31,9 @@
         <activity
             android:name=".searching.doctors.DoctorsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".searching.doctors.doctor.DoctorActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

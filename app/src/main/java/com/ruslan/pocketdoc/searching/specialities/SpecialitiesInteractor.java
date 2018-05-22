@@ -18,7 +18,7 @@ public class SpecialitiesInteractor implements BaseInteractor<Speciality> {
     public void loadData(OnLoadFinishedListener<Speciality> onLoadFinishedListener) {
         int moscowId = 1;
         DocDocApi api = DocDocClient.getClient();
-        Call<SpecialitiesList> specsListCall = api.getSpecialities(DocDocClient.AUTHORIZATION, moscowId);
+        Call<SpecialitiesList> specsListCall = api.getSpecialities(moscowId);
         specsListCall.enqueue(new Callback<SpecialitiesList>() {
             @Override
             public void onResponse(@NonNull Call<SpecialitiesList> call,

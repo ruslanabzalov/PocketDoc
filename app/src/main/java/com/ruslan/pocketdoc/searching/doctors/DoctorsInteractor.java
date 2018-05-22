@@ -11,5 +11,6 @@ public interface DoctorsInteractor {
         void onFailure(Throwable throwable);
     }
 
-    void loadDoctors(OnLoadFinishedListener onLoadFinishedListener, String specId, String stationId);
+    void loadDoctors(OnLoadFinishedListener onLoadFinishedListener,
+                     String specId, String stationId);
 }

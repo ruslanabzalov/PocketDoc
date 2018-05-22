@@ -47,8 +47,13 @@ public class StationsFragment extends Fragment implements BaseView<Station> {
         mStationsRecyclerView.setLayoutManager(linearLayoutManager);
         BaseInteractor<Station> stationInteractor = new StationsInteractor();
         mStationsPresenter = new StationsPresenter(this, stationInteractor);
-        mStationsPresenter.getData();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mStationsPresenter.onResume();
     }
 
     @Override
@@ -58,13 +63,13 @@ public class StationsFragment extends Fragment implements BaseView<Station> {
     }
 
     @Override
-    public void showList(List<Station> stations) {
+    public void showItems(List<Station> stations) {
         StationsAdapter stationsAdapter = new StationsAdapter(stations, this::setFragmentResult);
         mStationsRecyclerView.setAdapter(stationsAdapter);
     }
 
     @Override
-    public void showLoadErrorMessage(Throwable throwable) {
+    public void showErrorMessage(Throwable throwable) {
         Toast.makeText(getActivity(),
                 "Ошибка получения данных от сервера: " + throwable.getMessage(),
                 Toast.LENGTH_LONG).show();

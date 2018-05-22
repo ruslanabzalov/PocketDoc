@@ -23,26 +23,26 @@ public class DoctorsPresenter implements BasePresenter {
     }
 
     @Override
-    public void onDestroy() {
-        mDoctorsView = null;
-    }
-
-    @Override
-    public void getData() {
+    public void onResume() {
         mDoctorsInteractor.loadDoctors(new DoctorsInteractor.OnLoadFinishedListener() {
             @Override
             public void onSuccess(List<Doctor> doctors) {
                 if (mDoctorsView != null) {
-                    mDoctorsView.showList(doctors);
+                    mDoctorsView.showItems(doctors);
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 if (mDoctorsView != null) {
-                    mDoctorsView.showLoadErrorMessage(throwable);
+                    mDoctorsView.showErrorMessage(throwable);
                 }
             }
         }, mDocsSpecId, mDocsStationId);
+    }
+
+    @Override
+    public void onDestroy() {
+        mDoctorsView = null;
     }
 }

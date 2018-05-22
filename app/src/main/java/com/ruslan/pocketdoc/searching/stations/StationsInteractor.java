@@ -18,7 +18,7 @@ class StationsInteractor implements BaseInteractor<Station> {
     public void loadData(OnLoadFinishedListener<Station> onLoadFinishedListener) {
         int moscowId = 1;
         DocDocApi api = DocDocClient.getClient();
-        Call<StationsList> stationsListCall = api.getStations(DocDocClient.AUTHORIZATION, moscowId);
+        Call<StationsList> stationsListCall = api.getStations(moscowId);
         stationsListCall.enqueue(new Callback<StationsList>() {
             @Override
             public void onResponse(@NonNull Call<StationsList> call,

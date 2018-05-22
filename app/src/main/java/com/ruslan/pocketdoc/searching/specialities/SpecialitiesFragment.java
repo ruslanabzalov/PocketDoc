@@ -47,8 +47,13 @@ public class SpecialitiesFragment extends Fragment implements BaseView<Specialit
         mSpecsRecyclerView.setLayoutManager(linearLayoutManager);
         BaseInteractor<Speciality> specInteractor = new SpecialitiesInteractor();
         mSpecsMvpPresenter = new SpecialitiesPresenter(this, specInteractor);
-        mSpecsMvpPresenter.getData();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSpecsMvpPresenter.onResume();
     }
 
     @Override
@@ -58,13 +63,14 @@ public class SpecialitiesFragment extends Fragment implements BaseView<Specialit
     }
 
     @Override
-    public void showList(List<Speciality> specialities) {
-        SpecialitiesAdapter specialitiesAdapter = new SpecialitiesAdapter(specialities, this::setFragmentResult);
+    public void showItems(List<Speciality> specialities) {
+        SpecialitiesAdapter specialitiesAdapter =
+                new SpecialitiesAdapter(specialities, this::setFragmentResult);
         mSpecsRecyclerView.setAdapter(specialitiesAdapter);
     }
 
     @Override
-    public void showLoadErrorMessage(Throwable throwable) {
+    public void showErrorMessage(Throwable throwable) {
         Toast.makeText(getActivity(),
                 "Ошибка получения данных от сервера: " + throwable.getMessage(),
                 Toast.LENGTH_LONG).show();

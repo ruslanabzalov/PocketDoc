@@ -18,26 +18,26 @@ public class SpecialitiesPresenter implements BasePresenter {
     }
 
     @Override
-    public void onDestroy() {
-        mMvpView = null;
-    }
-
-    @Override
-    public void getData() {
+    public void onResume() {
         mMvpInteractor.loadData(new BaseInteractor.OnLoadFinishedListener<Speciality>() {
             @Override
             public void onSuccess(List<Speciality> specialities) {
                 if (mMvpView != null) {
-                    mMvpView.showList(specialities);
+                    mMvpView.showItems(specialities);
                 }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 if (mMvpView != null) {
-                    mMvpView.showLoadErrorMessage(throwable);
+                    mMvpView.showErrorMessage(throwable);
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        mMvpView = null;
     }
 }

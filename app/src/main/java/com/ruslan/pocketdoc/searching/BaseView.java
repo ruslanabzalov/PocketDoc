@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface BaseView<T> {
 
-    void showList(List<T> t);
+    void showItems(List<T> t);
 
-    void showLoadErrorMessage(Throwable throwable);
+    void showErrorMessage(Throwable throwable);
 }
