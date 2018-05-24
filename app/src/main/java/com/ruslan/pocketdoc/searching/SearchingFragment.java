@@ -12,8 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupMenu;
-import android.widget.Switch;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.searching.doctors.DoctorsActivity;
@@ -22,19 +20,17 @@ import com.ruslan.pocketdoc.searching.specialities.SpecialitiesFragment;
 import com.ruslan.pocketdoc.searching.stations.StationsActivity;
 import com.ruslan.pocketdoc.searching.stations.StationsFragment;
 
-public class SearchingFragment extends Fragment implements MenuItem.OnMenuItemClickListener {
+public class SearchingFragment extends Fragment {
 
     private static final int REQUEST_CODE_SPECIALITIES = 0;
     private static final int REQUEST_CODE_STATIONS = 1;
 
-    private Button mDocTypesButton;
-    private Button mSpecialitiesButton;
-    private Button mStationsButton;
-    private Switch mHomeSwitch;
-    private Button mFindDoctorsButton;
+    private Button mShowSpecialitiesButton;
+    private Button mShowStationsButton;
+    private Button mShowDoctorsButton;
 
-    private String specId;
-    private String specName;
+    private String specialityId;
+    private String specialityName;
     private String stationId;
     private String stationName;
 
@@ -47,27 +43,13 @@ public class SearchingFragment extends Fragment implements MenuItem.OnMenuItemCl
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_searching, container, false);
-        mDocTypesButton = view.findViewById(R.id.doctors_type_button);
-        mDocTypesButton.setOnClickListener((View v) -> showPopup(mDocTypesButton));
-        mDocTypesButton.setEnabled(false);
-        mSpecialitiesButton = view.findViewById(R.id.specialities_button);
-        mSpecialitiesButton.setOnClickListener((View v) -> {
-            Intent intent = new Intent(getActivity(), SpecialitiesActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_SPECIALITIES);
-        });
-        mStationsButton = view.findViewById(R.id.stations_button);
-        mStationsButton.setOnClickListener((View v) -> {
-            Intent intent = new Intent(getActivity(), StationsActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_STATIONS);
-        });
-        mHomeSwitch = view.findViewById(R.id.home_switch);
-        mHomeSwitch.setEnabled(false);
-        mFindDoctorsButton = view.findViewById(R.id.find_doctors_button);
-        mFindDoctorsButton.setOnClickListener((View v) -> {
-            Intent intent = DoctorsActivity.newIntent(getActivity(), specId, stationId);
-            startActivity(intent);
-        });
+        final View view = inflater.inflate(R.layout.fragment_searching, container, false);
+        mShowSpecialitiesButton = view.findViewById(R.id.specialities_button);
+        mShowSpecialitiesButton.setOnClickListener(v -> startSpecialitiesActivity());
+        mShowStationsButton = view.findViewById(R.id.stations_button);
+        mShowStationsButton.setOnClickListener(v -> startStationsActivity());
+        mShowDoctorsButton = view.findViewById(R.id.find_doctors_button);
+        mShowDoctorsButton.setOnClickListener(v -> startDoctorsActivity());
         return view;
     }
 
@@ -76,15 +58,15 @@ public class SearchingFragment extends Fragment implements MenuItem.OnMenuItemCl
         switch (requestCode) {
             case REQUEST_CODE_SPECIALITIES:
                 if (resultCode == Activity.RESULT_OK) {
-                    specId = SpecialitiesFragment.getData(data, "id");
-                    specName = SpecialitiesFragment.getData(data, "name");
+                    specialityId = SpecialitiesFragment.getSpecialitiesFragmentResult(data, "id");
+                    specialityName = SpecialitiesFragment.getSpecialitiesFragmentResult(data, "name");
                     updateUI();
                 }
                 break;
             case REQUEST_CODE_STATIONS:
                 if (resultCode == Activity.RESULT_OK) {
-                    stationId = StationsFragment.getData(data, "id");
-                    stationName = StationsFragment.getData(data, "name");
+                    stationId = StationsFragment.getStationsFragmentResult(data, "id");
+                    stationName = StationsFragment.getStationsFragmentResult(data, "name");
                     updateUI();
                 }
                 break;
@@ -101,41 +83,37 @@ public class SearchingFragment extends Fragment implements MenuItem.OnMenuItemCl
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.favorite_doctors_item:
+                // TODO: Start Activity with favorite doctors.
                 return true;
             case R.id.records_history_item:
+                // TODO: Start Activity with records history.
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.children_doctor:
-                return true;
-            case R.id.adult_doctor:
-                return true;
-            default:
-                return false;
-        }
+    private void startSpecialitiesActivity() {
+        final Intent intent = new Intent(getActivity(), SpecialitiesActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SPECIALITIES);
     }
 
-    private void showPopup(Button docTypesButton) {
-        PopupMenu popupMenu = new PopupMenu(getActivity(), docTypesButton);
-        MenuInflater menuInflater = popupMenu.getMenuInflater();
-        menuInflater.inflate(R.menu.doctors_type_button, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(this::onMenuItemClick);
-        popupMenu.show();
+    private void startStationsActivity() {
+        final Intent intent = new Intent(getActivity(), StationsActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_STATIONS);
     }
 
+    private void startDoctorsActivity() {
+        final Intent intent = DoctorsActivity.newIntent(getActivity(), specialityId, stationId);
+        startActivity(intent);
+    }
 
     private void updateUI() {
         if (stationName != null) {
-            mStationsButton.setText(stationName);
+            mShowStationsButton.setText(stationName);
         }
-        if (specName != null) {
-            mSpecialitiesButton.setText(specName);
+        if (specialityName != null) {
+            mShowSpecialitiesButton.setText(specialityName);
         }
     }
 }

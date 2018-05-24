@@ -15,14 +15,10 @@ public class DoctorFragment extends Fragment {
 
     private int mDoctorId;
 
-    /**
-     * Method of DoctorFragment creation.
-     * @return DoctorsFragment instance.
-     */
     public static Fragment newInstance(int doctorId) {
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putInt(ARG_DOCTOR_ID, doctorId);
-        DoctorFragment doctorFragment = new DoctorFragment();
+        final DoctorFragment doctorFragment = new DoctorFragment();
         doctorFragment.setArguments(args);
         return doctorFragment;
     }
@@ -36,7 +32,7 @@ public class DoctorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_doctor, container, false);
+        final View view = inflater.inflate(R.layout.fragment_doctor, container, false);
         return view;
     }
 }

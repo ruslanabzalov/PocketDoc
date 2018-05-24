@@ -15,13 +15,14 @@ import java.util.List;
 
 public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> {
 
-    private RecyclerItemOnClickListener<Speciality> mSpecRecyclerItemOnClickListener;
+    private RecyclerItemOnClickListener<Speciality> mSpecialityOnClickListener;
 
     private List<Speciality> mSpecialities;
 
-    SpecialitiesAdapter(List<Speciality> specialities, RecyclerItemOnClickListener<Speciality> onClickListener) {
+    SpecialitiesAdapter(List<Speciality> specialities,
+                        RecyclerItemOnClickListener<Speciality> specialityOnClickListener) {
         mSpecialities = specialities;
-        mSpecRecyclerItemOnClickListener = onClickListener;
+        mSpecialityOnClickListener = specialityOnClickListener;
     }
 
     @NonNull
@@ -30,7 +31,7 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> 
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.list_item_speciality, parent, false);
-        return new SpecialityHolder(view, mSpecRecyclerItemOnClickListener);
+        return new SpecialityHolder(view, mSpecialityOnClickListener);
     }
 
     @Override
@@ -44,18 +45,16 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> 
     }
 }
 
-class SpecialityHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-    private RecyclerItemOnClickListener<Speciality> mSpecRecyclerItemOnClickListener;
+class SpecialityHolder extends RecyclerView.ViewHolder {
 
     private TextView mSpecNameTextView;
 
     private Speciality mSpeciality;
 
-    SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> onClickListener) {
+    SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> specialityOnClickListener) {
         super(view);
-        itemView.setOnClickListener(this);
-        mSpecRecyclerItemOnClickListener = onClickListener;
+        itemView.setOnClickListener(v ->
+                specialityOnClickListener.onRecyclerItemClickListener(mSpeciality));
         mSpecNameTextView = itemView.findViewById(R.id.spec_name_text_view);
     }
 
@@ -63,10 +62,5 @@ class SpecialityHolder extends RecyclerView.ViewHolder implements View.OnClickLi
         mSpeciality = speciality;
         String specName = mSpeciality.getName();
         mSpecNameTextView.setText(specName);
-    }
-
-    @Override
-    public void onClick(View v) {
-        mSpecRecyclerItemOnClickListener.onRecyclerItemClickListener(mSpeciality);
     }
 }

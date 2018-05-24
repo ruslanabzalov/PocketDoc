@@ -6,30 +6,6 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/doctors_type_button_hint"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textColor="@android:color/black"
-        android:text="@string/doctors_type_button_text_view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <Button
-        android:id="@+id/doctors_type_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_margin="8dp"
-        android:hint="@string/doc_type_button_hint"
-        app:layout_constraintTop_toBottomOf="@id/doctors_type_button_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
         android:id="@+id/specialities_button_hint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -38,7 +14,7 @@
         android:layout_marginEnd="8dp"
         android:textColor="@android:color/black"
         android:text="@string/specialities_button_text_view"
-        app:layout_constraintTop_toBottomOf="@id/doctors_type_button"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -74,20 +50,6 @@
         android:layout_marginEnd="8dp"
         android:hint="@string/station_button_hint"
         app:layout_constraintTop_toBottomOf="@id/stations_button_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <Switch
-        android:id="@+id/home_switch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="8dp"
-        android:textColor="@android:color/black"
-        android:text="@string/home_switch_text"
-        app:layout_constraintTop_toBottomOf="@+id/stations_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

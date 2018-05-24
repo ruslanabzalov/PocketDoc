@@ -13,16 +13,16 @@ import com.ruslan.pocketdoc.searching.RecyclerItemOnClickListener;
 
 import java.util.List;
 
-public class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
+class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
 
-    private RecyclerItemOnClickListener<Station> mStationRecyclerItemOnClickListener;
+    private RecyclerItemOnClickListener<Station> mStationOnClickListener;
 
     private List<Station> mStations;
 
     StationsAdapter(List<Station> stations,
-                    RecyclerItemOnClickListener<Station> stationRecyclerItemOnClickListener) {
+                    RecyclerItemOnClickListener<Station> stationOnClickListener) {
         mStations = stations;
-        mStationRecyclerItemOnClickListener = stationRecyclerItemOnClickListener;
+        mStationOnClickListener = stationOnClickListener;
     }
 
     @NonNull
@@ -31,7 +31,7 @@ public class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.list_item_station, parent, false);
-        return new StationViewHolder(view, mStationRecyclerItemOnClickListener);
+        return new StationViewHolder(view, mStationOnClickListener);
     }
 
     @Override
@@ -53,12 +53,12 @@ class StationViewHolder extends RecyclerView.ViewHolder {
     private Station mStation;
 
     StationViewHolder(View view,
-                      RecyclerItemOnClickListener<Station> stationRecyclerItemOnClickListener) {
+                      RecyclerItemOnClickListener<Station> stationOnClickListener) {
         super(view);
         mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
         mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
         itemView.setOnClickListener(v ->
-                stationRecyclerItemOnClickListener.onRecyclerItemClickListener(mStation));
+                stationOnClickListener.onRecyclerItemClickListener(mStation));
     }
 
     void bind(Station station) {
