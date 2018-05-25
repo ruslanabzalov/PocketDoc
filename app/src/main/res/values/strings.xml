@@ -22,4 +22,5 @@
     <string name="find_doctors_button_hint">Найти врачей</string>
 
     <string name="load_error_toast">Ошибка получения данных от сервера:</string>
+    <string name="enroll_doctor_button_hint">Записаться</string>
 </resources>

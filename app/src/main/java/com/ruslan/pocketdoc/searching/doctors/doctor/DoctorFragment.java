@@ -6,18 +6,28 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
+import com.ruslan.pocketdoc.data.Doctor;
+import com.squareup.picasso.Picasso;
 
 public class DoctorFragment extends Fragment {
 
-    private static final String ARG_DOCTOR_ID = "doctor_id";
+    private static final String ARG_DOCTOR = "doctor";
 
-    private int mDoctorId;
+    private Doctor mDoctor;
+
+    private ImageView mDoctorPhotoImageView;
+    private TextView mDoctorNameTextView;
+    private TextView mDoctorRatingTextView;
+    private Button mEnrollDoctorButton;
 
     public static Fragment newInstance(int doctorId) {
         final Bundle args = new Bundle();
-        args.putInt(ARG_DOCTOR_ID, doctorId);
+        args.putInt(ARG_DOCTOR, doctorId);
         final DoctorFragment doctorFragment = new DoctorFragment();
         doctorFragment.setArguments(args);
         return doctorFragment;
@@ -26,13 +36,31 @@ public class DoctorFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDoctorId = getArguments().getInt(ARG_DOCTOR_ID, 0);
+        mDoctor = (Doctor) getArguments().getSerializable(ARG_DOCTOR);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_doctor, container, false);
+        initViews(view);
+        showDoctorInformation();
         return view;
+    }
+
+    private void initViews(View view) {
+        mDoctorPhotoImageView = view.findViewById(R.id.doctor_photo_image_view);
+        mDoctorNameTextView = view.findViewById(R.id.doctor_name);
+        mDoctorRatingTextView = view.findViewById(R.id.doctor_rating);
+        mEnrollDoctorButton = view.findViewById(R.id.enroll_doctor_button);
+        mEnrollDoctorButton.setOnClickListener(v -> {
+            // TODO: Open RecordActivity for creating a record.
+        });
+    }
+
+    private void showDoctorInformation() {
+        Picasso.get().load(mDoctor.getPhotoUrl()).into(mDoctorPhotoImageView);
+        mDoctorNameTextView.setText(mDoctor.getName());
+        mDoctorRatingTextView.setText(mDoctor.getRating());
     }
 }

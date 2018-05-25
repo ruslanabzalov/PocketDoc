@@ -30,7 +30,7 @@ public interface DocDocApi {
 
     @GET("doctor/{doctorId}/city/{cityId}/withSlots/{withSlots}/slotsDays{slotsDays}")
     Call<Doctor> getDoctor(
-            @Path("doctorId") int doctorId, @Path("cityId") String cityId,
+            @Path("doctorId") int doctorId, @Path("cityId") int cityId,
             @Path("withSlots") int withSlots, @Path("slotsDays") int slotsDays
     );
 }

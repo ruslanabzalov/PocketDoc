@@ -94,8 +94,7 @@ public class DoctorsFragment extends Fragment {
     }
 
     private void startDoctorActivity(Doctor doctor) {
-        final int doctorId = doctor.getId();
-        final Intent intent = DoctorActivity.newIntent(getActivity(), doctorId);
+        final Intent intent = DoctorActivity.newIntent(getActivity(), doctor);
         startActivity(intent);
     }
 }

@@ -3,7 +3,9 @@ package com.ruslan.pocketdoc.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Doctor {
+import java.io.Serializable;
+
+public class Doctor implements Serializable {
 
     @SerializedName("Id")
     @Expose
