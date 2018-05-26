@@ -15,14 +15,13 @@ import java.util.List;
 
 class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
 
-    private RecyclerItemOnClickListener<Station> mStationOnClickListener;
+    private RecyclerItemOnClickListener<Station> mListener;
 
     private List<Station> mStations;
 
-    StationsAdapter(List<Station> stations,
-                    RecyclerItemOnClickListener<Station> stationOnClickListener) {
+    StationsAdapter(List<Station> stations, RecyclerItemOnClickListener<Station> listener) {
         mStations = stations;
-        mStationOnClickListener = stationOnClickListener;
+        mListener = listener;
     }
 
     @NonNull
@@ -31,7 +30,7 @@ class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.list_item_station, parent, false);
-        return new StationViewHolder(view, mStationOnClickListener);
+        return new StationViewHolder(view, mListener);
     }
 
     @Override
@@ -52,13 +51,11 @@ class StationViewHolder extends RecyclerView.ViewHolder {
 
     private Station mStation;
 
-    StationViewHolder(View view,
-                      RecyclerItemOnClickListener<Station> stationOnClickListener) {
+    StationViewHolder(View view, RecyclerItemOnClickListener<Station> listener) {
         super(view);
         mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
         mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
-        itemView.setOnClickListener(v ->
-                stationOnClickListener.onRecyclerItemClickListener(mStation));
+        itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
     }
 
     void bind(Station station) {

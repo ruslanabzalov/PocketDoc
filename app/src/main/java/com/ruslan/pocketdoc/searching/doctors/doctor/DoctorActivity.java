@@ -19,7 +19,7 @@ public class DoctorActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        final int doctorId = getIntent().getIntExtra(EXTRA_DOCTOR, 0);
-        return DoctorFragment.newInstance(doctorId);
+        final Doctor doctor = (Doctor) getIntent().getSerializableExtra(EXTRA_DOCTOR);
+        return DoctorFragment.newInstance(doctor);
     }
 }

@@ -17,14 +17,13 @@ import java.util.List;
 
 public class DoctorsAdapter extends RecyclerView.Adapter<DoctorViewHolder> {
 
-    private RecyclerItemOnClickListener<Doctor> mDoctorRecyclerItemOnClickListener;
+    private RecyclerItemOnClickListener<Doctor> mListener;
 
     private List<Doctor> mDoctors;
 
-    DoctorsAdapter(List<Doctor> doctors,
-                   RecyclerItemOnClickListener<Doctor> doctorRecyclerItemOnClickListener) {
+    DoctorsAdapter(List<Doctor> doctors, RecyclerItemOnClickListener<Doctor> listener) {
         mDoctors = doctors;
-        mDoctorRecyclerItemOnClickListener = doctorRecyclerItemOnClickListener;
+        mListener = listener;
     }
 
     @NonNull
@@ -33,7 +32,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorViewHolder> {
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.list_item_doctor, parent, false);
-        return new DoctorViewHolder(view, mDoctorRecyclerItemOnClickListener);
+        return new DoctorViewHolder(view, mListener);
     }
 
     @Override
@@ -55,11 +54,9 @@ class DoctorViewHolder extends RecyclerView.ViewHolder {
 
     private Doctor mDoctor;
 
-    DoctorViewHolder(View view,
-                     RecyclerItemOnClickListener<Doctor> doctorRecyclerItemOnClickListener) {
+    DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
         super(view);
-        itemView.setOnClickListener((View v)
-                -> doctorRecyclerItemOnClickListener.onRecyclerItemClickListener(mDoctor));
+        itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
         mDoctorPhotoImageView = itemView.findViewById(R.id.doctor_photo_image_view);
         mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
         mDoctorRatingTextView = itemView.findViewById(R.id.doctor_rating_text_view);

@@ -25,9 +25,9 @@ public class DoctorFragment extends Fragment {
     private TextView mDoctorRatingTextView;
     private Button mEnrollDoctorButton;
 
-    public static Fragment newInstance(int doctorId) {
+    public static Fragment newInstance(Doctor doctor) {
         final Bundle args = new Bundle();
-        args.putInt(ARG_DOCTOR, doctorId);
+        args.putSerializable(ARG_DOCTOR, doctor);
         final DoctorFragment doctorFragment = new DoctorFragment();
         doctorFragment.setArguments(args);
         return doctorFragment;

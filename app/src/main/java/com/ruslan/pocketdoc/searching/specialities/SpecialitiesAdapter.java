@@ -15,14 +15,14 @@ import java.util.List;
 
 public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> {
 
-    private RecyclerItemOnClickListener<Speciality> mSpecialityOnClickListener;
+    private RecyclerItemOnClickListener<Speciality> mListener;
 
     private List<Speciality> mSpecialities;
 
     SpecialitiesAdapter(List<Speciality> specialities,
-                        RecyclerItemOnClickListener<Speciality> specialityOnClickListener) {
+                        RecyclerItemOnClickListener<Speciality> listener) {
         mSpecialities = specialities;
-        mSpecialityOnClickListener = specialityOnClickListener;
+        mListener = listener;
     }
 
     @NonNull
@@ -31,7 +31,7 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> 
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.list_item_speciality, parent, false);
-        return new SpecialityHolder(view, mSpecialityOnClickListener);
+        return new SpecialityHolder(view, mListener);
     }
 
     @Override
@@ -51,10 +51,9 @@ class SpecialityHolder extends RecyclerView.ViewHolder {
 
     private Speciality mSpeciality;
 
-    SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> specialityOnClickListener) {
+    SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> listener) {
         super(view);
-        itemView.setOnClickListener(v ->
-                specialityOnClickListener.onRecyclerItemClickListener(mSpeciality));
+        itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
         mSpecNameTextView = itemView.findViewById(R.id.spec_name_text_view);
     }
 

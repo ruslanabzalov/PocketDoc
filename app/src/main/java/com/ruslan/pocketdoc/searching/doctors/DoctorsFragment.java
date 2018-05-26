@@ -12,23 +12,21 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.api.DocDocApi;
-import com.ruslan.pocketdoc.api.DocDocClient;
 import com.ruslan.pocketdoc.data.Doctor;
-import com.ruslan.pocketdoc.data.DoctorList;
 import com.ruslan.pocketdoc.searching.doctors.doctor.DoctorActivity;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
-public class DoctorsFragment extends Fragment {
+public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
     private static final String ARG_STATION_ID = "station_id";
     private static final int MOSCOW_ID = 1;
 
     private RecyclerView mDoctorsRecyclerView;
+
+    private DoctorsContract.Presenter mDoctorsPresenter;
+    private DoctorsContract.Interactor mDoctorsInteractor;
 
     private String mSpecialityId;
     private String mStationId;
@@ -56,41 +54,35 @@ public class DoctorsFragment extends Fragment {
         mDoctorsRecyclerView = view.findViewById(R.id.doctors_recycler_view);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
+        mDoctorsInteractor = new DoctorsInteractor();
+        mDoctorsPresenter =
+                new DoctorsPresenter(this, mDoctorsInteractor, mSpecialityId, mStationId);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadDoctors();
+        mDoctorsPresenter.getDoctors();
     }
 
-    private void loadDoctors() {
-        final DocDocApi api = DocDocClient.getClient();
-        final Call<DoctorList> doctorsListCall = api.getDoctors(
-                0, 500, MOSCOW_ID, mSpecialityId, mStationId, "strict",
-                "rating", 0, 0, 1, 14
-        );
-        doctorsListCall.enqueue(new Callback<DoctorList>() {
-            @Override
-            public void onResponse(@NonNull Call<DoctorList> call,
-                                   @NonNull Response<DoctorList> response) {
-                final DoctorList doctorList = response.body();
-                if (doctorList != null) {
-                    final DoctorsAdapter doctorsAdapter =
-                            new DoctorsAdapter(doctorList.getDoctorList(),
-                                    DoctorsFragment.this::startDoctorActivity);
-                    mDoctorsRecyclerView.setAdapter(doctorsAdapter);
-                }
-            }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDoctorsPresenter.onDestroy();
+    }
 
-            @Override
-            public void onFailure(@NonNull Call<DoctorList> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(),
-                        getString(R.string.load_error_toast) + t.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    public void showDoctors(List<Doctor> doctorList) {
+        DoctorsAdapter doctorsAdapter = new DoctorsAdapter(doctorList, this::startDoctorActivity);
+        mDoctorsRecyclerView.setAdapter(doctorsAdapter);
+    }
+
+    @Override
+    public void showLoadErrorMessage(Throwable throwable) {
+        Toast.makeText(getActivity(),
+                getString(R.string.load_error_toast) + throwable.getMessage(),
+                Toast.LENGTH_SHORT).show();
     }
 
     private void startDoctorActivity(Doctor doctor) {

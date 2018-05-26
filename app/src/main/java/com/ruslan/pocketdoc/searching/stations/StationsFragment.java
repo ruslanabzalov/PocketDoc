@@ -12,22 +12,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.api.DocDocApi;
-import com.ruslan.pocketdoc.api.DocDocClient;
 import com.ruslan.pocketdoc.data.Station;
-import com.ruslan.pocketdoc.data.StationList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class StationsFragment extends Fragment {
+public class StationsFragment extends Fragment implements StationsContract.View {
 
     private static final String EXTRA_STATION_ID = "station_id";
     private static final String EXTRA_STATION_NAME = "station_name";
-    private static final int MOSCOW_ID = 1;
+
+    private StationsContract.Presenter mStationsPresenter;
+    private StationsContract.Interactor mStationInteractor;
 
     private RecyclerView mStationsRecyclerView;
 
@@ -49,38 +46,35 @@ public class StationsFragment extends Fragment {
         mStationsRecyclerView = view.findViewById(R.id.stations_recycler_view);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mStationsRecyclerView.setLayoutManager(linearLayoutManager);
+        mStationInteractor = new StationsInteractor();
+        mStationsPresenter = new StationsPresenter(this, mStationInteractor);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mStationsPresenter.onDestroy();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadStations();
+        mStationsPresenter.getStations();
     }
 
-    private void loadStations() {
-        final DocDocApi api = DocDocClient.getClient();
-        final Call<StationList> stationsListCall = api.getStations(MOSCOW_ID);
-        stationsListCall.enqueue(new Callback<StationList>() {
-            @Override
-            public void onResponse(@NonNull Call<StationList> call,
-                                   @NonNull Response<StationList> response) {
-                final StationList stationList = response.body();
-                if (stationList != null) {
-                    final StationsAdapter stationsAdapter =
-                            new StationsAdapter(stationList.getStationList(),
-                                    StationsFragment.this::setStationsFragmentResult);
-                    mStationsRecyclerView.setAdapter(stationsAdapter);
-                }
-            }
+    @Override
+    public void showStationList(List<Station> stationList) {
+        final StationsAdapter stationsAdapter =
+                new StationsAdapter(stationList, this::setStationsFragmentResult);
+        mStationsRecyclerView.setAdapter(stationsAdapter);
+    }
 
-            @Override
-            public void onFailure(@NonNull Call<StationList> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(),
-                        getString(R.string.load_error_toast) + t.getMessage(),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+    @Override
+    public void showLoadErrorMessage(Throwable throwable) {
+        Toast.makeText(getActivity(),
+                getString(R.string.load_error_toast) + throwable.getMessage(),
+                Toast.LENGTH_SHORT).show();
     }
 
     private void setStationsFragmentResult(Station station) {
