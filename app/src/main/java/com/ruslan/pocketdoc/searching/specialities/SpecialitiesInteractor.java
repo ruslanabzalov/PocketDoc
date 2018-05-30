@@ -23,7 +23,7 @@ public class SpecialitiesInteractor implements SpecialitiesContract.Interactor {
             public void onResponse(@NonNull Call<SpecialityList> call,
                                    @NonNull Response<SpecialityList> response) {
                 if (response.body() != null) {
-                    listener.onSuccess(response.body().getSpecialityList());
+                    listener.onSuccess(response.body().getSpecialities());
                 }
             }
 

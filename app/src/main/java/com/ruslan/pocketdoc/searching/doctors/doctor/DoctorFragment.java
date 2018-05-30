@@ -59,7 +59,7 @@ public class DoctorFragment extends Fragment {
     }
 
     private void showDoctorInformation() {
-        Picasso.get().load(mDoctor.getPhotoUrl()).into(mDoctorPhotoImageView);
+        Picasso.get().load(mDoctor.getPhoto()).into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(mDoctor.getName());
         mDoctorRatingTextView.setText(mDoctor.getRating());
     }

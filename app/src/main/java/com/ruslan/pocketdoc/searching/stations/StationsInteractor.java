@@ -23,7 +23,7 @@ class StationsInteractor implements StationsContract.Interactor {
             public void onResponse(@NonNull Call<StationList> call,
                                    @NonNull Response<StationList> response) {
                 if (response.body() != null) {
-                    listener.onSuccess(response.body().getStationList());
+                    listener.onSuccess(response.body().getStations());
                 }
             }
 

@@ -27,7 +27,7 @@ class DoctorsInteractor implements DoctorsContract.Interactor {
             public void onResponse(@NonNull Call<DoctorList> call,
                                    @NonNull Response<DoctorList> response) {
                 if (response.body() != null) {
-                    listener.onSuccess(response.body().getDoctorList());
+                    listener.onSuccess(response.body().getDoctors());
                 }
             }
 

@@ -2,6 +2,7 @@ package com.ruslan.pocketdoc.searching.doctors.doctor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.ruslan.pocketdoc.SingleFragmentActivity;
@@ -17,6 +18,7 @@ public class DoctorActivity extends SingleFragmentActivity {
         return intent;
     }
 
+    @NonNull
     @Override
     protected Fragment createFragment() {
         final Doctor doctor = (Doctor) getIntent().getSerializableExtra(EXTRA_DOCTOR);

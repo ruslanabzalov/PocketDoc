@@ -34,7 +34,6 @@
         <activity
             android:name=".searching.doctors.doctor.DoctorActivity"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>
