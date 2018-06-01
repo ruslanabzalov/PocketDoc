@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Station;
+import com.ruslan.pocketdoc.searching.BaseContract;
 
 import java.util.List;
 
@@ -23,10 +25,11 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     private static final String EXTRA_STATION_ID = "station_id";
     private static final String EXTRA_STATION_NAME = "station_name";
 
-    private StationsContract.Presenter mStationsPresenter;
+    private BaseContract.BasePresenter mStationsPresenter;
     private StationsContract.Interactor mStationInteractor;
 
     private RecyclerView mStationsRecyclerView;
+    private ProgressBar mStationsProgressBar;
 
     public static String getStationsFragmentResult(Intent data, String parameter) {
         switch (parameter) {
@@ -42,25 +45,27 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_stations, container, false);
-        mStationsRecyclerView = view.findViewById(R.id.stations_recycler_view);
+        final View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
+        mStationsRecyclerView = rootView.findViewById(R.id.stations_recycler_view);
+        mStationsRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mStationsRecyclerView.setLayoutManager(linearLayoutManager);
+        mStationsProgressBar = rootView.findViewById(R.id.stations_progress_bar);
         mStationInteractor = new StationsInteractor();
         mStationsPresenter = new StationsPresenter(this, mStationInteractor);
-        return view;
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mStationsPresenter.onResume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mStationsPresenter.onDestroy();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mStationsPresenter.getStations();
     }
 
     @Override
@@ -75,6 +80,18 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         Toast.makeText(getActivity(),
                 getString(R.string.load_error_toast) + throwable.getMessage(),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgressBar() {
+        mStationsRecyclerView.setVisibility(View.GONE);
+        mStationsProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mStationsRecyclerView.setVisibility(View.VISIBLE);
+        mStationsProgressBar.setVisibility(View.GONE);
     }
 
     private void setStationsFragmentResult(Station station) {

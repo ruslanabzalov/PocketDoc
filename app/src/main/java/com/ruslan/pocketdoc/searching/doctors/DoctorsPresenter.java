@@ -1,10 +1,11 @@
 package com.ruslan.pocketdoc.searching.doctors;
 
 import com.ruslan.pocketdoc.data.Doctor;
+import com.ruslan.pocketdoc.searching.BaseContract;
 
 import java.util.List;
 
-class DoctorsPresenter implements DoctorsContract.Presenter {
+class DoctorsPresenter implements BaseContract.BasePresenter {
 
     private DoctorsContract.View mDoctorsView;
     private DoctorsContract.Interactor mDoctorsInteractor;
@@ -21,27 +22,28 @@ class DoctorsPresenter implements DoctorsContract.Presenter {
     }
 
     @Override
-    public void onDestroy() {
-        mDoctorsView = null;
+    public void onResume() {
+        if (mDoctorsView != null) {
+            mDoctorsView.showProgressBar();
+            mDoctorsInteractor.loadDoctors(mSpecialityId, mStationId,
+                    new DoctorsContract.Interactor.OnLoadFinishedListener() {
+                        @Override
+                        public void onSuccess(List<Doctor> doctorList) {
+                            mDoctorsView.showDoctors(doctorList);
+                            mDoctorsView.hideProgressBar();
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            mDoctorsView.showLoadErrorMessage(throwable);
+                            mDoctorsView.hideProgressBar();
+                        }
+                    });
+        }
     }
 
     @Override
-    public void getDoctors() {
-        mDoctorsInteractor.loadDoctors(mSpecialityId, mStationId,
-                new DoctorsContract.Interactor.OnLoadFinishedListener() {
-                    @Override
-                    public void onSuccess(List<Doctor> doctorList) {
-                        if (mDoctorsView != null) {
-                            mDoctorsView.showDoctors(doctorList);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        if (mDoctorsView != null) {
-                            mDoctorsView.showLoadErrorMessage(throwable);
-                        }
-                    }
-                });
+    public void onDestroy() {
+        mDoctorsView = null;
     }
 }

@@ -11,10 +11,6 @@ public interface DoctorsContract {
         void showDoctors(List<Doctor> doctorList);
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
-        void getDoctors();
-    }
-
     interface Interactor {
 
         interface OnLoadFinishedListener {

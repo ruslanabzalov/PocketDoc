@@ -11,10 +11,6 @@ interface StationsContract {
         void showStationList(List<Station> stationList);
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
-        void getStations();
-    }
-
     interface Interactor {
 
         interface OnLoadFinishedListener {

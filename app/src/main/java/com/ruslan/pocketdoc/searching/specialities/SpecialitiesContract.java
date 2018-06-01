@@ -10,10 +10,6 @@ interface SpecialitiesContract {
         void showSpecialities(List<Speciality> specialityList);
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
-        void getSpecialities();
-    }
-
     interface Interactor {
 
         interface OnLoadFinishedListener {

@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Speciality;
+import com.ruslan.pocketdoc.searching.BaseContract;
 
 import java.util.List;
 
@@ -23,10 +25,11 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     private static final String EXTRA_SPECIALITY_ID = "speciality_id";
     private static final String EXTRA_SPECIALITY_NAME = "speciality_name";
 
-    private SpecialitiesContract.Presenter mSpecialitiesPresenter;
+    private BaseContract.BasePresenter mSpecialitiesPresenter;
     private SpecialitiesContract.Interactor mSpecialitiesInteractor;
 
     private RecyclerView mSpecialitiesRecyclerView;
+    private ProgressBar mSpecialitiesProgressBar;
 
     public static String getSpecialitiesFragmentResult(Intent data, String parameter) {
         switch(parameter) {
@@ -42,19 +45,21 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_specialities, container, false);
-        mSpecialitiesRecyclerView = view.findViewById(R.id.specs_recycler_view);
+        final View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
+        mSpecialitiesRecyclerView = rootView.findViewById(R.id.specs_recycler_view);
+        mSpecialitiesRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mSpecialitiesRecyclerView.setLayoutManager(linearLayoutManager);
+        mSpecialitiesProgressBar = rootView.findViewById(R.id.specialities_progress_bar);
         mSpecialitiesInteractor = new SpecialitiesInteractor();
         mSpecialitiesPresenter = new SpecialitiesPresenter(this, mSpecialitiesInteractor);
-        return view;
+        return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mSpecialitiesPresenter.getSpecialities();
+        mSpecialitiesPresenter.onResume();
     }
 
     @Override
@@ -75,6 +80,18 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         Toast.makeText(getActivity(),
                 getString(R.string.load_error_toast) + throwable.getMessage(),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgressBar() {
+        mSpecialitiesRecyclerView.setVisibility(View.GONE);
+        mSpecialitiesProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mSpecialitiesRecyclerView.setVisibility(View.VISIBLE);
+        mSpecialitiesProgressBar.setVisibility(View.GONE);
     }
 
     private void setSpecialitiesFragmentResult(Speciality speciality) {

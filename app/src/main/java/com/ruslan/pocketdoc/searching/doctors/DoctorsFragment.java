@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Doctor;
+import com.ruslan.pocketdoc.searching.BaseContract;
 import com.ruslan.pocketdoc.searching.doctors.doctor.DoctorActivity;
 
 import java.util.List;
@@ -21,11 +23,11 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
     private static final String ARG_STATION_ID = "station_id";
-    private static final int MOSCOW_ID = 1;
 
     private RecyclerView mDoctorsRecyclerView;
+    private ProgressBar mDoctorsProgressBar;
 
-    private DoctorsContract.Presenter mDoctorsPresenter;
+    private BaseContract.BasePresenter mDoctorsPresenter;
     private DoctorsContract.Interactor mDoctorsInteractor;
 
     private String mSpecialityId;
@@ -50,20 +52,22 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_doctors, container, false);
-        mDoctorsRecyclerView = view.findViewById(R.id.doctors_recycler_view);
+        final View rootView = inflater.inflate(R.layout.fragment_doctors, container, false);
+        mDoctorsRecyclerView = rootView.findViewById(R.id.doctors_recycler_view);
+        mDoctorsRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
+        mDoctorsProgressBar = rootView.findViewById(R.id.doctors_progress_bar);
         mDoctorsInteractor = new DoctorsInteractor();
         mDoctorsPresenter =
                 new DoctorsPresenter(this, mDoctorsInteractor, mSpecialityId, mStationId);
-        return view;
+        return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mDoctorsPresenter.getDoctors();
+        mDoctorsPresenter.onResume();
     }
 
     @Override
@@ -83,6 +87,18 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         Toast.makeText(getActivity(),
                 getString(R.string.load_error_toast) + throwable.getMessage(),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgressBar() {
+        mDoctorsRecyclerView.setVisibility(View.GONE);
+        mDoctorsProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mDoctorsRecyclerView.setVisibility(View.VISIBLE);
+        mDoctorsProgressBar.setVisibility(View.GONE);
     }
 
     private void startDoctorActivity(Doctor doctor) {

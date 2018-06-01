@@ -65,7 +65,7 @@ class DoctorViewHolder extends RecyclerView.ViewHolder {
     void bind(Doctor doctor) {
         mDoctor = doctor;
         Picasso.get()
-                .load(mDoctor.getPhoto())
+                .load(mDoctor.getPhotoUrl())
                 .into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(mDoctor.getName());
         mDoctorRatingTextView.setText(mDoctor.getRating());

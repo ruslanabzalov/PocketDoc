@@ -1,10 +1,11 @@
 package com.ruslan.pocketdoc.searching.specialities;
 
 import com.ruslan.pocketdoc.data.Speciality;
+import com.ruslan.pocketdoc.searching.BaseContract;
 
 import java.util.List;
 
-class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
+class SpecialitiesPresenter implements BaseContract.BasePresenter {
 
     private SpecialitiesContract.View mSpecialitiesView;
     private SpecialitiesContract.Interactor mSpecialitiesInteractor;
@@ -16,27 +17,28 @@ class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     }
 
     @Override
-    public void onDestroy() {
-        mSpecialitiesView = null;
+    public void onResume() {
+        if (mSpecialitiesView != null) {
+            mSpecialitiesView.showProgressBar();
+            mSpecialitiesInteractor
+                    .loadSpecialities(new SpecialitiesContract.Interactor.OnLoadFinishedListener() {
+                        @Override
+                        public void onSuccess(List<Speciality> specialityList) {
+                            mSpecialitiesView.showSpecialities(specialityList);
+                            mSpecialitiesView.hideProgressBar();
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            mSpecialitiesView.showLoadErrorMessage(throwable);
+                            mSpecialitiesView.hideProgressBar();
+                        }
+                    });
+        }
     }
 
     @Override
-    public void getSpecialities() {
-        mSpecialitiesInteractor
-                .loadSpecialities(new SpecialitiesContract.Interactor.OnLoadFinishedListener() {
-            @Override
-            public void onSuccess(List<Speciality> specialityList) {
-                if (mSpecialitiesView != null) {
-                    mSpecialitiesView.showSpecialities(specialityList);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                if (mSpecialitiesView != null) {
-                    mSpecialitiesView.showLoadErrorMessage(throwable);
-                }
-            }
-        });
+    public void onDestroy() {
+        mSpecialitiesView = null;
     }
 }
