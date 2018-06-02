@@ -1,5 +1,6 @@
-package com.ruslan.pocketdoc.searching.doctors.doctor;
+package com.ruslan.pocketdoc.searching.doctor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Doctor;
+import com.ruslan.pocketdoc.searching.record.NewRecordActivity;
 import com.squareup.picasso.Picasso;
 
 public class DoctorFragment extends Fragment {
@@ -54,7 +56,8 @@ public class DoctorFragment extends Fragment {
         mDoctorRatingTextView = view.findViewById(R.id.doctor_rating);
         mEnrollDoctorButton = view.findViewById(R.id.enroll_doctor_button);
         mEnrollDoctorButton.setOnClickListener(v -> {
-            // TODO: Open RecordActivity for creating a record.
+            Intent intent = NewRecordActivity.newIntent(getActivity(), mDoctor.getId());
+            startActivity(intent);
         });
     }
 

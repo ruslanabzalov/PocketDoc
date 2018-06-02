@@ -23,4 +23,7 @@
 
     <string name="load_error_toast">Ошибка получения данных от сервера:</string>
     <string name="enroll_doctor_button_hint">Записаться</string>
+
+    <string name="ok">Ок</string>
+    <string name="cancel">Отмена</string>
 </resources>

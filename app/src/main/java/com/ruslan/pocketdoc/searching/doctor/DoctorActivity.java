@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.doctors.doctor;
+package com.ruslan.pocketdoc.searching.doctor;
 
 import android.content.Context;
 import android.content.Intent;
