@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Doctor;
-import com.ruslan.pocketdoc.searching.record.NewRecordActivity;
+import com.ruslan.pocketdoc.searching.records.NewRecordActivity;
 import com.squareup.picasso.Picasso;
 
 public class DoctorFragment extends Fragment {

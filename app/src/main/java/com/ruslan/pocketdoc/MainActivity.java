@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean fragmentSelection(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.doctors_searching_item:
+            case R.id.doctors_searching_navigation_item:
                 mFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
                 if (!(mFragment instanceof SearchingFragment)) {
                     mFragmentManager.beginTransaction()
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(R.string.title_doctors);
                 }
                 return true;
-            case R.id.map_item:
+            case R.id.map_navigation_item:
                 mFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
                 if (!(mFragment instanceof MapFragment)) {
                     mFragmentManager.beginTransaction()
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(R.string.title_map);
                 }
                 return true;
-            case R.id.profile_item:
+            case R.id.profile_navigation_item:
                 mFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
                 if (!(mFragment instanceof ProfileFragment)) {
                     mFragmentManager.beginTransaction()

@@ -32,7 +32,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     private ProgressBar mSpecialitiesProgressBar;
 
     public static String getSpecialitiesFragmentResult(Intent data, String parameter) {
-        switch(parameter) {
+        switch (parameter) {
             case "id":
                 return data.getStringExtra(EXTRA_SPECIALITY_ID);
             case "name":
@@ -45,10 +45,10 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
         mSpecialitiesRecyclerView = rootView.findViewById(R.id.specs_recycler_view);
         mSpecialitiesRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mSpecialitiesRecyclerView.setLayoutManager(linearLayoutManager);
         mSpecialitiesProgressBar = rootView.findViewById(R.id.specialities_progress_bar);
         mSpecialitiesInteractor = new SpecialitiesInteractor();

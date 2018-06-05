@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.record;
+package com.ruslan.pocketdoc.searching.records;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

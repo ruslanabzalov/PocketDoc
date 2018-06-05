@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.record;
+package com.ruslan.pocketdoc.searching.records;
 
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;

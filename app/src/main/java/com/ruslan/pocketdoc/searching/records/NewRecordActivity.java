@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.record;
+package com.ruslan.pocketdoc.searching.records;
 
 import android.content.Context;
 import android.content.Intent;

@@ -22,12 +22,10 @@
         </activity>
         <activity
             android:name=".searching.specialities.SpecialitiesActivity"
-            android:label="@string/title_specialities_list"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_specialities_list"/>
         <activity
             android:name=".searching.stations.StationsActivity"
-            android:label="@string/title_stations_list"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_stations_list"/>
         <activity
             android:name=".searching.doctors.DoctorsActivity"
             android:label="@string/title_doctors_list"
@@ -37,10 +35,12 @@
             android:label="@string/title_doctor_info"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".searching.record.NewRecordActivity"
+            android:name=".searching.records.NewRecordActivity"
             android:label="@string/title_record_creation"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".searching.records.history.RecordsHistoryActivity"
+            android:label="@string/title_records_history"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key"/>
