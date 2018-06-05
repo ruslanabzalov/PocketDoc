@@ -13,9 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,19 +22,28 @@
         </activity>
         <activity
             android:name=".searching.specialities.SpecialitiesActivity"
+            android:label="@string/title_specialities_list"
             android:screenOrientation="portrait" />
         <activity
             android:name=".searching.stations.StationsActivity"
+            android:label="@string/title_stations_list"
             android:screenOrientation="portrait" />
         <activity
             android:name=".searching.doctors.DoctorsActivity"
+            android:label="@string/title_doctors_list"
             android:screenOrientation="portrait" />
         <activity
             android:name=".searching.doctor.DoctorActivity"
+            android:label="@string/title_doctor_info"
             android:screenOrientation="portrait" />
         <activity
             android:name=".searching.record.NewRecordActivity"
+            android:label="@string/title_record_creation"
             android:screenOrientation="portrait"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/api_key"/>
     </application>
 
 </manifest>

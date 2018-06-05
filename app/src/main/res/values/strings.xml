@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">PocketDoc</string>
+    <string name="api_key">AIzaSyBn1Ik06YyB6gVq-SptIPp-wJYVN70EjgI</string>
 
     <string name="title_doctors">Поиск врачей</string>
     <string name="title_map">Карта</string>
+    <string name="title_profile">Профиль</string>
 
-    <string name="favorite_doctors_item_text">Избранные врачи</string>
     <string name="records_history_item_text">История записей</string>
+
+    <string name="title_specialities_list">Список специальностей</string>
+    <string name="title_stations_list">Список станций метро</string>
+    <string name="title_doctors_list">Список врачей</string>
+    <string name="title_doctor_info">Информация о враче</string>
+    <string name="title_record_creation">Оформление заявки</string>
 
     <string name="speciality_preview_text">Специальность</string>
     <string name="station_name_preview">Станция метро</string>

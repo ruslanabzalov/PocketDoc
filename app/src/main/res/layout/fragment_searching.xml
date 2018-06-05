@@ -27,7 +27,8 @@
         android:hint="@string/spec_button_hint"
         app:layout_constraintTop_toBottomOf="@id/specialities_button_hint"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <TextView
         android:id="@+id/stations_button_hint"

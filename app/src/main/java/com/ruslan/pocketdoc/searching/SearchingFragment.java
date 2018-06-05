@@ -82,9 +82,6 @@ public class SearchingFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.favorite_doctors_item:
-                // TODO: Start Activity with favorite doctors.
-                return true;
             case R.id.records_history_item:
                 // TODO: Start Activity with records history.
                 return true;

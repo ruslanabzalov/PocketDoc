@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 class NewRecordPresenter implements NewRecordContract.Presenter {
 
     private static final String CALENDAR_DIALOG_FRAGMENT = "session_dialog_fragment";
+
     private NewRecordContract.View mNewRecordView;
 
     NewRecordPresenter(NewRecordContract.View newRecordView) {
