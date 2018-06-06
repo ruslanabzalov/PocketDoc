@@ -16,8 +16,8 @@ public class SpecialitiesInteractor implements SpecialitiesContract.Interactor {
 
     @Override
     public void loadSpecialities(OnLoadFinishedListener listener) {
-        final DocDocApi api = DocDocClient.getClient();
-        final Call<SpecialityList> specialityListCall = api.getSpecialities(MOSCOW_ID);
+        DocDocApi api = DocDocClient.getClient();
+        Call<SpecialityList> specialityListCall = api.getSpecialities(MOSCOW_ID);
         specialityListCall.enqueue(new Callback<SpecialityList>() {
             @Override
             public void onResponse(@NonNull Call<SpecialityList> call,

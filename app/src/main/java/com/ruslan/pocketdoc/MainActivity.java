@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(this::fragmentSelection);
     }
 
+    /**
+     * Восстанавливает заголовок MainActivity в зависимости от текущего закреплённого фрагмента.
+     */
     private void restoreActivityTitle() {
         if (mFragment instanceof SearchingFragment) {
             setTitle(R.string.title_doctors);

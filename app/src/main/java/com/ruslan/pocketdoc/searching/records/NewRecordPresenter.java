@@ -1,11 +1,8 @@
 package com.ruslan.pocketdoc.searching.records;
 
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 
 class NewRecordPresenter implements NewRecordContract.Presenter {
-
-    private static final String CALENDAR_DIALOG_FRAGMENT = "session_dialog_fragment";
 
     private NewRecordContract.View mNewRecordView;
 
@@ -19,12 +16,10 @@ class NewRecordPresenter implements NewRecordContract.Presenter {
     }
 
     @Override
-    public void onCalendarButtonClick(FragmentManager fragmentManager) {
-        openCalendarDialog(fragmentManager);
-    }
-
-    private void openCalendarDialog(FragmentManager fragmentManager) {
-        DialogFragment calendarDialog = new SessionDateDialogFragment();
-        calendarDialog.show(fragmentManager, CALENDAR_DIALOG_FRAGMENT);
+    public void onCalendarButtonClick() {
+        if (mNewRecordView != null) {
+            DialogFragment calendarDialog = new SessionDateDialogFragment();
+            mNewRecordView.showCalendar(calendarDialog);
+        }
     }
 }

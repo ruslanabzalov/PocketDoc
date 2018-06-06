@@ -95,9 +95,9 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     private void setSpecialitiesFragmentResult(Speciality speciality) {
-        final String specialityId = speciality.getId();
-        final String specialityName = speciality.getName();
-        final Intent data = new Intent();
+        String specialityId = speciality.getId();
+        String specialityName = speciality.getName();
+        Intent data = new Intent();
         data.putExtra(EXTRA_SPECIALITY_ID, specialityId);
         data.putExtra(EXTRA_SPECIALITY_NAME, specialityName);
         getActivity().setResult(RESULT_OK, data);

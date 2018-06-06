@@ -28,16 +28,13 @@
             android:label="@string/title_stations_list"/>
         <activity
             android:name=".searching.doctors.DoctorsActivity"
-            android:label="@string/title_doctors_list"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_doctors_list"/>
         <activity
-            android:name=".searching.doctor.DoctorActivity"
-            android:label="@string/title_doctor_info"
-            android:screenOrientation="portrait" />
+            android:name=".searching.doctors.doctor.DoctorActivity"
+            android:label="@string/title_doctor_info"/>
         <activity
             android:name=".searching.records.NewRecordActivity"
-            android:label="@string/title_record_creation"
-            android:screenOrientation="portrait"/>
+            android:label="@string/title_record_creation"/>
         <activity
             android:name=".searching.records.history.RecordsHistoryActivity"
             android:label="@string/title_records_history"/>

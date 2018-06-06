@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.settings_item:
                 // TODO: Start SettingsActivity.
                 return true;

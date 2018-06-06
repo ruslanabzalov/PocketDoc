@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.doctor;
+package com.ruslan.pocketdoc.searching.doctors.doctor;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +12,14 @@ public class DoctorActivity extends SingleFragmentActivity {
     private static final String EXTRA_DOCTOR = "doctor";
 
     public static Intent newIntent(Context context, Doctor doctor) {
-        final Intent intent = new Intent(context, DoctorActivity.class);
+        Intent intent = new Intent(context, DoctorActivity.class);
         intent.putExtra(EXTRA_DOCTOR, doctor);
         return intent;
     }
 
     @Override
     protected Fragment createFragment() {
-        final Doctor doctor = (Doctor) getIntent().getSerializableExtra(EXTRA_DOCTOR);
+        Doctor doctor = (Doctor) getIntent().getSerializableExtra(EXTRA_DOCTOR);
         return DoctorFragment.newInstance(doctor);
     }
 }

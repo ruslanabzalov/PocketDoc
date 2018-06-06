@@ -17,8 +17,8 @@ class DoctorsInteractor implements DoctorsContract.Interactor {
     @Override
     public void loadDoctors(String specialityId, String stationId,
                             OnLoadFinishedListener listener) {
-        final DocDocApi api = DocDocClient.getClient();
-        final Call<DoctorList> doctorListCall = api.getDoctors(
+        DocDocApi api = DocDocClient.getClient();
+        Call<DoctorList> doctorListCall = api.getDoctors(
                 0, 500, MOSCOW_ID, specialityId, stationId, "strict",
                 "rating", 0, 0, 1, 14
         );

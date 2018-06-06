@@ -45,10 +45,10 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
         mStationsRecyclerView = rootView.findViewById(R.id.stations_recycler_view);
         mStationsRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mStationsRecyclerView.setLayoutManager(linearLayoutManager);
         mStationsProgressBar = rootView.findViewById(R.id.stations_progress_bar);
         mStationInteractor = new StationsInteractor();
@@ -70,7 +70,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showStationList(List<Station> stationList) {
-        final StationsAdapter stationsAdapter =
+        StationsAdapter stationsAdapter =
                 new StationsAdapter(stationList, this::setStationsFragmentResult);
         mStationsRecyclerView.setAdapter(stationsAdapter);
     }
@@ -95,9 +95,9 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     private void setStationsFragmentResult(Station station) {
-        final String stationId = station.getId();
-        final String stationName = station.getName();
-        final Intent data = new Intent();
+        String stationId = station.getId();
+        String stationName = station.getName();
+        Intent data = new Intent();
         data.putExtra(EXTRA_STATION_ID, stationId);
         data.putExtra(EXTRA_STATION_NAME, stationName);
         getActivity().setResult(RESULT_OK, data);

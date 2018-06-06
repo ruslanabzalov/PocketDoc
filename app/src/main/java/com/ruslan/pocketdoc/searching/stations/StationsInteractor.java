@@ -16,8 +16,8 @@ class StationsInteractor implements StationsContract.Interactor {
 
     @Override
     public void loadStations(OnLoadFinishedListener listener) {
-        final DocDocApi api = DocDocClient.getClient();
-        final Call<StationList> stationsListCall = api.getStations(MOSCOW_ID);
+        DocDocApi api = DocDocClient.getClient();
+        Call<StationList> stationsListCall = api.getStations(MOSCOW_ID);
         stationsListCall.enqueue(new Callback<StationList>() {
             @Override
             public void onResponse(@NonNull Call<StationList> call,

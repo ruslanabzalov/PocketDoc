@@ -25,12 +25,12 @@ public class DocDocClient {
 
     public static DocDocApi getClient() {
         if (sClient == null) {
-            final OkHttpClient httpClient = new OkHttpClient.Builder()
+            OkHttpClient httpClient = new OkHttpClient.Builder()
                     .addInterceptor(DocDocClient::createCustomInterceptor)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .build();
-            final Retrofit retrofit = new Retrofit.Builder()
+            Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://" + USER_CREDENTIALS + "@back.docdoc.ru/api/rest/1.0.6/json/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient)

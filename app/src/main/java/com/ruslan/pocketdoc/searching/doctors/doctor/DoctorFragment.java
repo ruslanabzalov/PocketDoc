@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.doctor;
+package com.ruslan.pocketdoc.searching.doctors.doctor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,9 +28,9 @@ public class DoctorFragment extends Fragment {
     private Button mEnrollDoctorButton;
 
     public static Fragment newInstance(Doctor doctor) {
-        final Bundle args = new Bundle();
+        Bundle args = new Bundle();
         args.putSerializable(ARG_DOCTOR, doctor);
-        final DoctorFragment doctorFragment = new DoctorFragment();
+        DoctorFragment doctorFragment = new DoctorFragment();
         doctorFragment.setArguments(args);
         return doctorFragment;
     }
@@ -44,7 +44,7 @@ public class DoctorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_doctor, container, false);
+        View view = inflater.inflate(R.layout.fragment_doctor, container, false);
         initViews(view);
         showDoctorInformation();
         return view;

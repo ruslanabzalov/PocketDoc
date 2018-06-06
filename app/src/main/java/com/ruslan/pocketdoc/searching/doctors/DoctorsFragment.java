@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Doctor;
 import com.ruslan.pocketdoc.searching.BaseContract;
-import com.ruslan.pocketdoc.searching.doctor.DoctorActivity;
+import com.ruslan.pocketdoc.searching.doctors.doctor.DoctorActivity;
 
 import java.util.List;
 
@@ -34,10 +34,10 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private String mStationId;
 
     public static Fragment newInstance(String specId, String stationId) {
-        final Bundle arguments = new Bundle();
+        Bundle arguments = new Bundle();
         arguments.putString(ARG_SPECIALITY_ID, specId);
         arguments.putString(ARG_STATION_ID, stationId);
-        final DoctorsFragment fragment = new DoctorsFragment();
+        DoctorsFragment fragment = new DoctorsFragment();
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -45,17 +45,19 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID, null);
-        mStationId = getArguments().getString(ARG_STATION_ID, null);
+        if (getArguments() != null) {
+            mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID, null);
+            mStationId = getArguments().getString(ARG_STATION_ID, null);
+        }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_doctors, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_doctors, container, false);
         mDoctorsRecyclerView = rootView.findViewById(R.id.doctors_recycler_view);
         mDoctorsRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
         mDoctorsProgressBar = rootView.findViewById(R.id.doctors_progress_bar);
         mDoctorsInteractor = new DoctorsInteractor();
@@ -102,7 +104,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     private void startDoctorActivity(Doctor doctor) {
-        final Intent intent = DoctorActivity.newIntent(getActivity(), doctor);
+        Intent intent = DoctorActivity.newIntent(getActivity(), doctor);
         startActivity(intent);
     }
 }
