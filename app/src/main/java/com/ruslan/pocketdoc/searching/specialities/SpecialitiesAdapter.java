@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Speciality;
-import com.ruslan.pocketdoc.searching.RecyclerItemOnClickListener;
+import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 
 import java.util.List;
 

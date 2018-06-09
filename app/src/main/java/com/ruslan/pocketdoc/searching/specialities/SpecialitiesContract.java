@@ -1,12 +1,14 @@
 package com.ruslan.pocketdoc.searching.specialities;
 
 import com.ruslan.pocketdoc.data.Speciality;
-import com.ruslan.pocketdoc.searching.BaseContract;
 
 import java.util.List;
 
 interface SpecialitiesContract {
-    interface View extends BaseContract.BaseView {
+    interface View {
+        void showLoadErrorMessage(Throwable throwable);
+        void showProgressBar();
+        void hideProgressBar();
         void showSpecialities(List<Speciality> specialityList);
     }
 

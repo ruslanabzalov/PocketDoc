@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">PocketDoc</string>
-    <string name="api_key">AIzaSyBn1Ik06YyB6gVq-SptIPp-wJYVN70EjgI</string>
 
     <string name="title_doctors">Поиск врачей</string>
     <string name="title_map">Карта</string>

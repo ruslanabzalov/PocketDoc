@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Doctor;
-import com.ruslan.pocketdoc.searching.RecyclerItemOnClickListener;
+import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

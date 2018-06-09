@@ -1,7 +1,7 @@
 package com.ruslan.pocketdoc.searching.stations;
 
 import com.ruslan.pocketdoc.data.Station;
-import com.ruslan.pocketdoc.searching.BaseContract;
+import com.ruslan.pocketdoc.BaseContract;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ class StationsPresenter implements BaseContract.BasePresenter {
     }
 
     @Override
-    public void onResume() {
+    public void start() {
         mStationsView.showProgressBar();
         if (mStationsView != null) {
             mStationsInteractor.loadStations(new StationsContract.Interactor.OnLoadFinishedListener() {
@@ -37,7 +37,7 @@ class StationsPresenter implements BaseContract.BasePresenter {
     }
 
     @Override
-    public void onDestroy() {
+    public void stop() {
         mStationsView = null;
     }
 }

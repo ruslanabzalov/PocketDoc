@@ -1,7 +1,7 @@
 package com.ruslan.pocketdoc.searching.doctors;
 
 import com.ruslan.pocketdoc.data.Doctor;
-import com.ruslan.pocketdoc.searching.BaseContract;
+import com.ruslan.pocketdoc.BaseContract;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ class DoctorsPresenter implements BaseContract.BasePresenter {
     }
 
     @Override
-    public void onResume() {
+    public void start() {
         if (mDoctorsView != null) {
             mDoctorsView.showProgressBar();
             mDoctorsInteractor.loadDoctors(mSpecialityId, mStationId,
@@ -43,7 +43,7 @@ class DoctorsPresenter implements BaseContract.BasePresenter {
     }
 
     @Override
-    public void onDestroy() {
+    public void stop() {
         mDoctorsView = null;
     }
 }

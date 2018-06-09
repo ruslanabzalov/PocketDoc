@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Station;
-import com.ruslan.pocketdoc.searching.BaseContract;
+import com.ruslan.pocketdoc.BaseContract;
 
 import java.util.List;
 
@@ -59,13 +59,13 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void onResume() {
         super.onResume();
-        mStationsPresenter.onResume();
+        mStationsPresenter.start();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mStationsPresenter.onDestroy();
+        mStationsPresenter.stop();
     }
 
     @Override

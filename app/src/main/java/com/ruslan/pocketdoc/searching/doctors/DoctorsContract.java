@@ -1,13 +1,15 @@
 package com.ruslan.pocketdoc.searching.doctors;
 
 import com.ruslan.pocketdoc.data.Doctor;
-import com.ruslan.pocketdoc.searching.BaseContract;
 
 import java.util.List;
 
 public interface DoctorsContract {
 
-    interface View extends BaseContract.BaseView {
+    interface View {
+        void showLoadErrorMessage(Throwable throwable);
+        void showProgressBar();
+        void hideProgressBar();
         void showDoctors(List<Doctor> doctorList);
     }
 

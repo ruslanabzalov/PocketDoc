@@ -21,7 +21,7 @@ import com.ruslan.pocketdoc.searching.specialities.SpecialitiesFragment;
 import com.ruslan.pocketdoc.searching.stations.StationsActivity;
 import com.ruslan.pocketdoc.searching.stations.StationsFragment;
 
-public class SearchingFragment extends Fragment {
+public class SearchingFragment extends Fragment implements SearchingContract.View {
 
     private static final int REQUEST_CODE_SPECIALITIES = 0;
     private static final int REQUEST_CODE_STATIONS = 1;
@@ -30,6 +30,8 @@ public class SearchingFragment extends Fragment {
     private static final String SPECIALITY_NAME = "speciality_name";
     private static final String STATION_ID = "station_id";
     private static final String STATION_NAME = "station_name";
+
+    private SearchingContract.Presenter mPresenter;
 
     private Button mShowSpecialitiesButton;
     private Button mShowStationsButton;
@@ -50,9 +52,9 @@ public class SearchingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_searching, container, false);
+        mPresenter = new SearchingPresenter(this);
         initViews(rootView);
         restoreButtonsState(savedInstanceState);
-        updateUI();
         return rootView;
     }
 
@@ -74,7 +76,8 @@ public class SearchingFragment extends Fragment {
                             SpecialitiesFragment.getSpecialitiesFragmentResult(data, "id");
                     mSpecialityName =
                             SpecialitiesFragment.getSpecialitiesFragmentResult(data, "name");
-                    updateUI();
+                    mPresenter.checkSelectedParams(mSpecialityId, mStationId);
+                    mPresenter.onSelectSpec(mSpecialityName);
                 }
                 break;
             case REQUEST_CODE_STATIONS:
@@ -83,7 +86,8 @@ public class SearchingFragment extends Fragment {
                             StationsFragment.getStationsFragmentResult(data, "id");
                     mStationName =
                             StationsFragment.getStationsFragmentResult(data, "name");
-                    updateUI();
+                    mPresenter.checkSelectedParams(mSpecialityId, mStationId);
+                    mPresenter.onSelectStation(mStationName);
                 }
                 break;
         }
@@ -99,40 +103,72 @@ public class SearchingFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.records_history_item:
-                startRecordsHistoryActivity();
+                mPresenter.onRecordsHistoryMenuItemClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
     }
 
-    private void initViews(View rootView) {
-        mShowSpecialitiesButton = rootView.findViewById(R.id.specialities_button);
-        mShowSpecialitiesButton.setOnClickListener(v -> startSpecialitiesActivity());
-        mShowStationsButton = rootView.findViewById(R.id.stations_button);
-        mShowStationsButton.setOnClickListener(v -> startStationsActivity());
-        mShowDoctorsButton = rootView.findViewById(R.id.find_doctors_button);
-        mShowDoctorsButton.setOnClickListener(v -> startDoctorsActivity());
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
     }
 
-    private void startSpecialitiesActivity() {
+    @Override
+    public void navigateToSpecs() {
         Intent intent = new Intent(getActivity(), SpecialitiesActivity.class);
         startActivityForResult(intent, REQUEST_CODE_SPECIALITIES);
     }
 
-    private void startStationsActivity() {
+    @Override
+    public void setSpecsButtonText(String specName) {
+        mShowSpecialitiesButton.setText(specName);
+    }
+
+    @Override
+    public void navigateToStations() {
         Intent intent = new Intent(getActivity(), StationsActivity.class);
         startActivityForResult(intent, REQUEST_CODE_STATIONS);
     }
 
-    private void startDoctorsActivity() {
-        Intent intent = DoctorsActivity.newIntent(getActivity(), mSpecialityId, mStationId);
+    @Override
+    public void setStationsButtonText(String stationName) {
+        mShowStationsButton.setText(stationName);
+    }
+
+    @Override
+    public void navigateToDoctors(String specId, String stationId) {
+        Intent intent = DoctorsActivity.newIntent(getActivity(), specId, stationId);
         startActivity(intent);
     }
 
-    private void startRecordsHistoryActivity() {
+    @Override
+    public void navigateToRecordsHistory() {
         Intent intent = new Intent(getActivity(), RecordsHistoryActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void disableDoctorsButton() {
+        if (mShowDoctorsButton.isEnabled()) {
+            mShowDoctorsButton.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void enableDoctorsButton() {
+        mShowDoctorsButton.setEnabled(true);
+    }
+
+    private void initViews(View view) {
+        mShowSpecialitiesButton = view.findViewById(R.id.specialities_button);
+        mShowSpecialitiesButton.setOnClickListener(v -> mPresenter.onSpecsButtonClick());
+        mShowStationsButton = view.findViewById(R.id.stations_button);
+        mShowStationsButton.setOnClickListener(v -> mPresenter.onStationsButtonClick());
+        mShowDoctorsButton = view.findViewById(R.id.find_doctors_button);
+        mShowDoctorsButton.setOnClickListener(v -> mPresenter.onDoctorsButtonClick(mSpecialityId, mStationId));
     }
 
     private void restoreButtonsState(Bundle savedInstanceState) {
@@ -141,15 +177,9 @@ public class SearchingFragment extends Fragment {
             mSpecialityName = savedInstanceState.getString(SPECIALITY_NAME, null);
             mStationId = savedInstanceState.getString(STATION_ID, null);
             mStationName = savedInstanceState.getString(STATION_NAME, null);
-        }
-    }
-
-    private void updateUI() {
-        if (mStationName != null) {
-            mShowStationsButton.setText(mStationName);
-        }
-        if (mSpecialityName != null) {
-            mShowSpecialitiesButton.setText(mSpecialityName);
+            mPresenter.checkSelectedParams(mSpecialityId, mStationId);
+            mPresenter.onSelectSpec(mSpecialityName);
+            mPresenter.onSelectStation(mStationName);
         }
     }
 }

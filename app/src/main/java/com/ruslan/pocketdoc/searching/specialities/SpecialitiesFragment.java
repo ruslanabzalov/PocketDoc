@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Speciality;
-import com.ruslan.pocketdoc.searching.BaseContract;
+import com.ruslan.pocketdoc.BaseContract;
 
 import java.util.List;
 
@@ -59,13 +59,13 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public void onResume() {
         super.onResume();
-        mSpecialitiesPresenter.onResume();
+        mSpecialitiesPresenter.start();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSpecialitiesPresenter.onDestroy();
+        mSpecialitiesPresenter.stop();
     }
 
     @Override

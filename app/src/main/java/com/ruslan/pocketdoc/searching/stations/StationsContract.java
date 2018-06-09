@@ -1,13 +1,15 @@
 package com.ruslan.pocketdoc.searching.stations;
 
 import com.ruslan.pocketdoc.data.Station;
-import com.ruslan.pocketdoc.searching.BaseContract;
 
 import java.util.List;
 
 interface StationsContract {
 
-    interface View extends BaseContract.BaseView {
+    interface View {
+        void showLoadErrorMessage(Throwable throwable);
+        void showProgressBar();
+        void hideProgressBar();
         void showStationList(List<Station> stationList);
     }
 

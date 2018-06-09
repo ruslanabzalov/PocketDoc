@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.Doctor;
-import com.ruslan.pocketdoc.searching.BaseContract;
+import com.ruslan.pocketdoc.BaseContract;
 import com.ruslan.pocketdoc.searching.doctors.doctor.DoctorActivity;
 
 import java.util.List;
@@ -69,13 +69,13 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mDoctorsPresenter.onResume();
+        mDoctorsPresenter.start();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDoctorsPresenter.onDestroy();
+        mDoctorsPresenter.stop();
     }
 
     @Override
