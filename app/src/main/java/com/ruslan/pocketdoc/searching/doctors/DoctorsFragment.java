@@ -13,9 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.Doctor;
+import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.BaseContract;
-import com.ruslan.pocketdoc.searching.doctors.doctor.DoctorActivity;
+import com.ruslan.pocketdoc.searching.doctor.DoctorActivity;
 
 import java.util.List;
 

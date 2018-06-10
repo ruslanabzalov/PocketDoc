@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.data;
+package com.ruslan.pocketdoc.data.stations;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -20,15 +20,31 @@ public class Station {
         return mId;
     }
 
+    public void setId(String id) {
+        mId = id;
+    }
+
     public String getName() {
         return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 
     public String getLineName() {
         return mLineName;
     }
 
+    public void setLineName(String lineName) {
+        mLineName = lineName;
+    }
+
     public String getLineColor() {
         return mLineColor;
+    }
+
+    public void setLineColor(String lineColor) {
+        mLineColor = lineColor;
     }
 }

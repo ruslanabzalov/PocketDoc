@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.data;
+package com.ruslan.pocketdoc.data.stations;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,5 +11,9 @@ public class StationList {
 
     public List<Station> getStations() {
         return mStations;
+    }
+
+    public void setStations(List<Station> stations) {
+        mStations = stations;
     }
 }

@@ -1,6 +1,6 @@
 package com.ruslan.pocketdoc.searching.doctors;
 
-import com.ruslan.pocketdoc.data.Doctor;
+import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.BaseContract;
 
 import java.util.List;

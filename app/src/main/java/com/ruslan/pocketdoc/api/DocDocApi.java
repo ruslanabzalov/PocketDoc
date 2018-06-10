@@ -1,9 +1,9 @@
 package com.ruslan.pocketdoc.api;
 
-import com.ruslan.pocketdoc.data.Doctor;
-import com.ruslan.pocketdoc.data.DoctorList;
-import com.ruslan.pocketdoc.data.SpecialityList;
-import com.ruslan.pocketdoc.data.StationList;
+import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.data.doctors.DoctorList;
+import com.ruslan.pocketdoc.data.specialities.SpecialityList;
+import com.ruslan.pocketdoc.data.stations.StationList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

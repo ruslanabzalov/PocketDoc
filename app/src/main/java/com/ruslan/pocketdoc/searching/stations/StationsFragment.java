@@ -13,46 +13,35 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.Station;
-import com.ruslan.pocketdoc.BaseContract;
+import com.ruslan.pocketdoc.data.stations.Station;
+import com.ruslan.pocketdoc.searching.doctors.DoctorsActivity;
 
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
-
 public class StationsFragment extends Fragment implements StationsContract.View {
 
-    private static final String EXTRA_STATION_ID = "station_id";
-    private static final String EXTRA_STATION_NAME = "station_name";
+    private static final String ARG_SPECIALITY_ID = "speciality_id";
 
-    private BaseContract.BasePresenter mStationsPresenter;
-    private StationsContract.Interactor mStationInteractor;
+    private StationsContract.Presenter mStationsPresenter;
 
     private RecyclerView mStationsRecyclerView;
     private ProgressBar mStationsProgressBar;
 
-    public static String getStationsFragmentResult(Intent data, String parameter) {
-        switch (parameter) {
-            case "id":
-                return data.getStringExtra(EXTRA_STATION_ID);
-            case "name":
-                return data.getStringExtra(EXTRA_STATION_NAME);
-            default:
-                return null;
-        }
+    public static Fragment newInstance(String specialityId) {
+        Bundle args = new Bundle();
+        args.putString(ARG_SPECIALITY_ID, specialityId);
+        StationsFragment fragment = new StationsFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
-        mStationsRecyclerView = rootView.findViewById(R.id.stations_recycler_view);
-        mStationsRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mStationsRecyclerView.setLayoutManager(linearLayoutManager);
-        mStationsProgressBar = rootView.findViewById(R.id.stations_progress_bar);
-        mStationInteractor = new StationsInteractor();
-        mStationsPresenter = new StationsPresenter(this, mStationInteractor);
+        initializeViews(rootView);
+        StationsContract.Interactor interactor = new StationsInteractor();
+        mStationsPresenter = new StationsPresenter(this, interactor);
         return rootView;
     }
 
@@ -71,7 +60,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void showStationList(List<Station> stationList) {
         StationsAdapter stationsAdapter =
-                new StationsAdapter(stationList, this::setStationsFragmentResult);
+                new StationsAdapter(stationList, mStationsPresenter::onStationClick);
         mStationsRecyclerView.setAdapter(stationsAdapter);
     }
 
@@ -94,13 +83,16 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         mStationsProgressBar.setVisibility(View.GONE);
     }
 
-    private void setStationsFragmentResult(Station station) {
-        String stationId = station.getId();
-        String stationName = station.getName();
-        Intent data = new Intent();
-        data.putExtra(EXTRA_STATION_ID, stationId);
-        data.putExtra(EXTRA_STATION_NAME, stationName);
-        getActivity().setResult(RESULT_OK, data);
-        getActivity().finish();
+    @Override
+    public void navigateToDoctorsActivity(String stationId) {
+        Intent intent = DoctorsActivity.newIntent(getActivity(), getArguments().getString(ARG_SPECIALITY_ID), stationId);
+        startActivity(intent);
+    }
+
+    private void initializeViews(View view) {
+        mStationsRecyclerView = view.findViewById(R.id.stations_recycler_view);
+        mStationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mStationsRecyclerView.setHasFixedSize(true);
+        mStationsProgressBar = view.findViewById(R.id.stations_progress_bar);
     }
 }

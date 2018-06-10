@@ -1,11 +1,11 @@
-package com.ruslan.pocketdoc.searching.doctors.doctor;
+package com.ruslan.pocketdoc.searching.doctor;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.ruslan.pocketdoc.SingleFragmentActivity;
-import com.ruslan.pocketdoc.data.Doctor;
+import com.ruslan.pocketdoc.data.doctors.Doctor;
 
 public class DoctorActivity extends SingleFragmentActivity {
 

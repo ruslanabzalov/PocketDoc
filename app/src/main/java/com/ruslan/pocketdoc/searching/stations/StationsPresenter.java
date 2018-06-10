@@ -1,36 +1,35 @@
 package com.ruslan.pocketdoc.searching.stations;
 
-import com.ruslan.pocketdoc.data.Station;
-import com.ruslan.pocketdoc.BaseContract;
+import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
-class StationsPresenter implements BaseContract.BasePresenter {
+class StationsPresenter implements StationsContract.Presenter {
 
-    private StationsContract.View mStationsView;
-    private StationsContract.Interactor mStationsInteractor;
+    private StationsContract.View mView;
+    private StationsContract.Interactor mInteractor;
 
-    StationsPresenter(StationsContract.View stationsView,
-                      StationsContract.Interactor stationsInteractor) {
-        mStationsView = stationsView;
-        mStationsInteractor = stationsInteractor;
+    StationsPresenter(StationsContract.View view,
+                      StationsContract.Interactor interactor) {
+        mView = view;
+        mInteractor = interactor;
     }
 
     @Override
     public void start() {
-        mStationsView.showProgressBar();
-        if (mStationsView != null) {
-            mStationsInteractor.loadStations(new StationsContract.Interactor.OnLoadFinishedListener() {
+        mView.showProgressBar();
+        if (mView != null) {
+            mInteractor.loadStations(new StationsContract.Interactor.OnLoadFinishedListener() {
                 @Override
                 public void onSuccess(List<Station> stationList) {
-                    mStationsView.showStationList(stationList);
-                    mStationsView.hideProgressBar();
+                    mView.showStationList(stationList);
+                    mView.hideProgressBar();
                 }
 
                 @Override
                 public void onFailure(Throwable t) {
-                    mStationsView.showLoadErrorMessage(t);
-                    mStationsView.hideProgressBar();
+                    mView.showLoadErrorMessage(t);
+                    mView.hideProgressBar();
                 }
             });
         }
@@ -38,6 +37,11 @@ class StationsPresenter implements BaseContract.BasePresenter {
 
     @Override
     public void stop() {
-        mStationsView = null;
+        mView = null;
+    }
+
+    @Override
+    public void onStationClick(Station station) {
+        mView.navigateToDoctorsActivity(station.getId());
     }
 }

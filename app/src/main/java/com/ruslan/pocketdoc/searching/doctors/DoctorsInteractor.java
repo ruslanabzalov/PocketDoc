@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.ruslan.pocketdoc.api.DocDocApi;
 import com.ruslan.pocketdoc.api.DocDocClient;
-import com.ruslan.pocketdoc.data.DoctorList;
+import com.ruslan.pocketdoc.data.doctors.DoctorList;
 
 import retrofit2.Call;
 import retrofit2.Callback;

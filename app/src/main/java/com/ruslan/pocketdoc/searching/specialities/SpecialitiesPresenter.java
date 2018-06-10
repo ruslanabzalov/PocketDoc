@@ -1,37 +1,35 @@
 package com.ruslan.pocketdoc.searching.specialities;
 
-import com.ruslan.pocketdoc.data.Speciality;
-import com.ruslan.pocketdoc.BaseContract;
+import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.util.List;
 
-class SpecialitiesPresenter implements BaseContract.BasePresenter {
+class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
-    private SpecialitiesContract.View mSpecialitiesView;
-    private SpecialitiesContract.Interactor mSpecialitiesInteractor;
+    private SpecialitiesContract.View mView;
+    private SpecialitiesContract.Interactor mInteractor;
 
-    SpecialitiesPresenter(SpecialitiesContract.View view,
-                          SpecialitiesContract.Interactor interactor) {
-        mSpecialitiesView = view;
-        mSpecialitiesInteractor = interactor;
+    SpecialitiesPresenter(SpecialitiesContract.View view, SpecialitiesContract.Interactor interactor) {
+        mView = view;
+        mInteractor = interactor;
     }
 
     @Override
     public void start() {
-        if (mSpecialitiesView != null) {
-            mSpecialitiesView.showProgressBar();
-            mSpecialitiesInteractor
+        if (mView != null) {
+            mView.showProgressBar();
+            mInteractor
                     .loadSpecialities(new SpecialitiesContract.Interactor.OnLoadFinishedListener() {
                         @Override
                         public void onSuccess(List<Speciality> specialityList) {
-                            mSpecialitiesView.showSpecialities(specialityList);
-                            mSpecialitiesView.hideProgressBar();
+                            mView.showSpecialities(specialityList);
+                            mView.hideProgressBar();
                         }
 
                         @Override
                         public void onFailure(Throwable throwable) {
-                            mSpecialitiesView.showLoadErrorMessage(throwable);
-                            mSpecialitiesView.hideProgressBar();
+                            mView.showLoadErrorMessage(throwable);
+                            mView.hideProgressBar();
                         }
                     });
         }
@@ -39,6 +37,11 @@ class SpecialitiesPresenter implements BaseContract.BasePresenter {
 
     @Override
     public void stop() {
-        mSpecialitiesView = null;
+        mView = null;
+    }
+
+    @Override
+    public void onSpecialityClick(Speciality speciality) {
+        mView.navigateToStationsListActivity(speciality.getId());
     }
 }

@@ -13,66 +13,47 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.Speciality;
-import com.ruslan.pocketdoc.BaseContract;
+import com.ruslan.pocketdoc.data.specialities.Speciality;
+import com.ruslan.pocketdoc.searching.stations.StationsActivity;
 
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
-
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
-    private static final String EXTRA_SPECIALITY_ID = "speciality_id";
-    private static final String EXTRA_SPECIALITY_NAME = "speciality_name";
+    private SpecialitiesContract.Presenter mPresenter;
 
-    private BaseContract.BasePresenter mSpecialitiesPresenter;
-    private SpecialitiesContract.Interactor mSpecialitiesInteractor;
-
-    private RecyclerView mSpecialitiesRecyclerView;
-    private ProgressBar mSpecialitiesProgressBar;
-
-    public static String getSpecialitiesFragmentResult(Intent data, String parameter) {
-        switch (parameter) {
-            case "id":
-                return data.getStringExtra(EXTRA_SPECIALITY_ID);
-            case "name":
-                return data.getStringExtra(EXTRA_SPECIALITY_NAME);
-            default:
-                return null;
-        }
-    }
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
-        mSpecialitiesRecyclerView = rootView.findViewById(R.id.specs_recycler_view);
-        mSpecialitiesRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mSpecialitiesRecyclerView.setLayoutManager(linearLayoutManager);
-        mSpecialitiesProgressBar = rootView.findViewById(R.id.specialities_progress_bar);
-        mSpecialitiesInteractor = new SpecialitiesInteractor();
-        mSpecialitiesPresenter = new SpecialitiesPresenter(this, mSpecialitiesInteractor);
+        View rootView =
+                inflater.inflate(R.layout.fragment_specialities, container, false);
+        initializeViews(rootView);
+        // TODO: Inject this with Dagger
+        SpecialitiesContract.Interactor interactor = new SpecialitiesInteractor();
+        mPresenter = new SpecialitiesPresenter(this, interactor);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mSpecialitiesPresenter.start();
+        mPresenter.start();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSpecialitiesPresenter.stop();
+        mPresenter.stop();
     }
 
     @Override
     public void showSpecialities(List<Speciality> specialityList) {
         SpecialitiesAdapter specialitiesAdapter =
-                new SpecialitiesAdapter(specialityList, this::setSpecialitiesFragmentResult);
-        mSpecialitiesRecyclerView.setAdapter(specialitiesAdapter);
+                new SpecialitiesAdapter(specialityList, mPresenter::onSpecialityClick);
+        mRecyclerView.setAdapter(specialitiesAdapter);
     }
 
     @Override
@@ -84,23 +65,26 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showProgressBar() {
-        mSpecialitiesRecyclerView.setVisibility(View.GONE);
-        mSpecialitiesProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        mSpecialitiesRecyclerView.setVisibility(View.VISIBLE);
-        mSpecialitiesProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
-    private void setSpecialitiesFragmentResult(Speciality speciality) {
-        String specialityId = speciality.getId();
-        String specialityName = speciality.getName();
-        Intent data = new Intent();
-        data.putExtra(EXTRA_SPECIALITY_ID, specialityId);
-        data.putExtra(EXTRA_SPECIALITY_NAME, specialityName);
-        getActivity().setResult(RESULT_OK, data);
-        getActivity().finish();
+    @Override
+    public void navigateToStationsListActivity(String specialityId) {
+        Intent intent = StationsActivity.newIntent(getActivity(), specialityId);
+        startActivity(intent);
+    }
+
+    private void initializeViews(View view) {
+        mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setHasFixedSize(true);
+        mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.records.history;
+package com.ruslan.pocketdoc.searching.history;
 
 import android.support.v4.app.Fragment;
 

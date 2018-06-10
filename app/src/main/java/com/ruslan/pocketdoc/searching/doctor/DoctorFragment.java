@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc.searching.doctors.doctor;
+package com.ruslan.pocketdoc.searching.doctor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.Doctor;
+import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.searching.records.NewRecordActivity;
 import com.squareup.picasso.Picasso;
 
