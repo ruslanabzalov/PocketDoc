@@ -1,18 +1,30 @@
 package com.ruslan.pocketdoc.data.stations;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "station")
 public class Station {
 
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     @SerializedName("Id")
     private String mId;
 
+    @ColumnInfo(name = "name")
     @SerializedName("Name")
     private String mName;
 
+    @ColumnInfo(name = "line_name")
     @SerializedName("LineName")
     private String mLineName;
 
+    @ColumnInfo(name = "line_color")
     @SerializedName("LineColor")
     private String mLineColor;
 

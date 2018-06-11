@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,23 +24,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".searching.specialities.SpecialitiesActivity"
-            android:label="@string/title_specialities_list" />
-        <activity
-            android:name=".searching.stations.StationsActivity"
-            android:label="@string/title_stations_list" />
-        <activity
-            android:name=".searching.doctors.DoctorsActivity"
-            android:label="@string/title_doctors_list" />
-        <activity
-            android:name=".searching.doctor.DoctorActivity"
-            android:label="@string/title_doctor_info" />
-        <activity
-            android:name=".searching.records.NewRecordActivity"
-            android:label="@string/title_record_creation" />
-        <activity
-            android:name=".searching.history.RecordsHistoryActivity"
-            android:label="@string/title_records_history" />
+            android:name=".history.RecordsHistoryActivity"
+            android:label="@string/title_records_history_activity"
+            android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/api_key"/>
     </application>
 
 </manifest>

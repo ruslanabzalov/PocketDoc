@@ -1,36 +1,21 @@
 <resources>
     <string name="app_name">PocketDoc</string>
+    <string name="api_key">AIzaSyBn1Ik06YyB6gVq-SptIPp-wJYVN70EjgI</string>
 
-    <string name="title_doctors">Поиск врачей</string>
-    <string name="title_map">Карта</string>
-    <string name="title_profile">Профиль</string>
+    <string name="main_activity_title">Поиск врачей</string>
+    <string name="tab_title_doctors">Врачи</string>
+    <string name="tab_title_clinics">Клиники</string>
 
-    <string name="records_history_item_text">История записей</string>
-
-    <string name="title_specialities_list">Список специальностей</string>
-    <string name="title_stations_list">Список станций метро</string>
-    <string name="title_doctors_list">Список врачей</string>
-    <string name="title_doctor_info">Информация о враче</string>
-    <string name="title_record_creation">Оформление заявки</string>
-    <string name="title_records_history">История записей</string>
+    <string name="title_records_history_activity">История записей</string>
 
     <string name="speciality_preview_text">Специальность</string>
     <string name="station_name_preview">Станция метро</string>
     <string name="line_name_preview">Линия</string>
 
-    <string name="doctors_type_button_text_view">Тип врача</string>
-    <string name="specialities_button_text_view">Специализация</string>
-    <string name="stations_button_text_view">Станция метро</string>
-
-    <string name="doc_type_button_hint">Выберите типа врача</string>
-    <string name="spec_button_hint">Выберите специализацию врача</string>
-    <string name="station_button_hint">Выберите станцию метро</string>
-    <string name="home_switch_text">Выезд на дом</string>
-    <string name="find_doctors_button_hint">Найти врачей</string>
-
-    <string name="load_error_toast">Ошибка получения данных от сервера:</string>
     <string name="enroll_doctor_button_hint">Записаться</string>
 
-    <string name="ok">Ок</string>
-    <string name="cancel">Отмена</string>
+    <string name="load_error_toast">Ошибка получения данных от сервера:</string>
+
+    <string name="positive_calendar_dialog_button">Ок</string>
+    <string name="negative_calendar_dialog_button">Отмена</string>
 </resources>

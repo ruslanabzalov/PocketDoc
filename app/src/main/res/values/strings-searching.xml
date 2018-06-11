@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="doctors_navigation_item_title">Поиск врачей</string>
-    <string name="map_navigation_item_title">Карта</string>
-    <string name="profile_navigation_item_title">Профиль</string>
-</resources>

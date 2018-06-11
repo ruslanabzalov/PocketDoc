@@ -3,12 +3,14 @@ package com.ruslan.pocketdoc.data.specialities;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "speciality")
 public class Speciality {
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
     @SerializedName("Id")
