@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.ruslan.pocketdoc.clinics.ClinicsMapFragment;
+import com.ruslan.pocketdoc.data.AppDatabaseImpl;
 import com.ruslan.pocketdoc.history.RecordsHistoryActivity;
 import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
@@ -25,12 +26,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle(R.string.main_activity_title);
 
+        AppDatabaseImpl.initDatabase(getApplicationContext());
+
         mFragmentManager = getSupportFragmentManager();
         if (mFragmentManager.findFragmentById(R.id.main_activity_fragment_container) == null) {
             mFragmentManager.beginTransaction()
                     .add(R.id.main_activity_fragment_container, new SpecialitiesFragment())
                     .commit();
         }
+        mFragmentManager.addOnBackStackChangedListener(this::enableUpButton);
 
         TabLayout tabLayout = findViewById(R.id.main_tab_layout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     case 1:
                         if (!(fragment instanceof ClinicsMapFragment)) {
+                            clearBackStack();
                             replaceCurrentFragment(new ClinicsMapFragment());
                         }
                 }
@@ -53,10 +58,24 @@ public class MainActivity extends AppCompatActivity {
             public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+                Fragment fragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
+                switch (tab.getPosition()) {
+                    case 0:
+                        if (!(fragment instanceof SpecialitiesFragment)) {
+                            clearBackStack();
+                            replaceCurrentFragment(new SpecialitiesFragment());
+                        }
+                }
+            }
         });
     }
 
+    /**
+     * Метод создания меню в Action Bar.
+     * @param menu Меню.
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -75,10 +94,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Метод, обрабатывающий нажатие на кнопку Up.
+     * @return
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        mFragmentManager.popBackStack();
+        return true;
+    }
+
+    /**
+     * Метод отображения кнопки Up.
+     */
+    private void enableUpButton() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
+        }
+    }
+
+    /**
+     * Метод замены текущего фрагмента на новый.
+     * @param newFragment Новый фрагмент.
+     */
     private void replaceCurrentFragment(Fragment newFragment) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, newFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit();
+    }
+
+    /**
+     * Метод очистки стека транзакций.
+     */
+    private void clearBackStack() {
+        int backStackCount = mFragmentManager.getBackStackEntryCount();
+        while (backStackCount > 0) {
+            mFragmentManager.popBackStack();
+            backStackCount--;
+        }
     }
 }

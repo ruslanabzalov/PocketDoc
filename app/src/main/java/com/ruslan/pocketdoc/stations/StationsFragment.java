@@ -41,8 +41,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
         initializeViews(rootView);
-        StationsContract.Interactor interactor = new StationsInteractor();
-        mStationsPresenter = new StationsPresenter(this, interactor);
+        mStationsPresenter = new StationsPresenter(this);
         return rootView;
     }
 

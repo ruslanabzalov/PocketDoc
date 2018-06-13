@@ -1,5 +1,7 @@
 package com.ruslan.pocketdoc.stations;
 
+import com.ruslan.pocketdoc.data.DataSource;
+import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
@@ -7,28 +9,27 @@ import java.util.List;
 class StationsPresenter implements StationsContract.Presenter {
 
     private StationsContract.View mView;
-    private StationsContract.Interactor mInteractor;
+    private Repository mRepository;
 
-    StationsPresenter(StationsContract.View view,
-                      StationsContract.Interactor interactor) {
+    StationsPresenter(StationsContract.View view) {
         mView = view;
-        mInteractor = interactor;
+        mRepository = Repository.getInstance();
     }
 
     @Override
     public void start() {
         mView.showProgressBar();
         if (mView != null) {
-            mInteractor.loadStations(new StationsContract.Interactor.OnLoadFinishedListener() {
+            mRepository.getStations(new DataSource.OnLoadFinishedListener<Station>() {
                 @Override
-                public void onSuccess(List<Station> stationList) {
-                    mView.showStationList(stationList);
+                public void onSuccess(List<Station> items) {
+                    mView.showStationList(items);
                     mView.hideProgressBar();
                 }
 
                 @Override
-                public void onFailure(Throwable t) {
-                    mView.showLoadErrorMessage(t);
+                public void onFailure(Throwable throwable) {
+                    mView.showLoadErrorMessage(throwable);
                     mView.hideProgressBar();
                 }
             });

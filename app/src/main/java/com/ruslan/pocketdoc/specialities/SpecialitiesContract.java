@@ -24,16 +24,4 @@ interface SpecialitiesContract {
 
         void onSpecialityClick(Speciality speciality);
     }
-
-    interface Interactor {
-
-        interface OnLoadFinishedListener {
-
-            void onSuccess(List<Speciality> specialityList);
-
-            void onFailure(Throwable throwable);
-        }
-
-        void loadSpecialities(OnLoadFinishedListener listener);
-    }
 }

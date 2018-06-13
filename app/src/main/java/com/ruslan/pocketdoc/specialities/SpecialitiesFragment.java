@@ -32,11 +32,10 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         View rootView =
                 inflater.inflate(R.layout.fragment_specialities, container, false);
         initializeViews(rootView);
-        // TODO: Inject this with Dagger
-        SpecialitiesContract.Interactor interactor = new SpecialitiesInteractor();
-        mPresenter = new SpecialitiesPresenter(this, interactor);
+        mPresenter = new SpecialitiesPresenter(this);
         return rootView;
     }
+
 
     @Override
     public void onResume() {
