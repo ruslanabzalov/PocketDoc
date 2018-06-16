@@ -10,11 +10,10 @@ class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     private SpecialitiesContract.View mView;
     private Repository mRepository;
-//    private SpecialitiesContract.Interactor mInteractor;
 
-    SpecialitiesPresenter(SpecialitiesContract.View view) {
+    SpecialitiesPresenter(SpecialitiesContract.View view, Repository repository) {
         mView = view;
-        mRepository = Repository.getInstance();
+        mRepository = repository;
     }
 
     @Override

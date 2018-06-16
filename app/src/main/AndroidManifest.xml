@@ -26,10 +26,12 @@
         <activity
             android:name=".history.RecordsHistoryActivity"
             android:label="@string/title_records_history_activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/api_key"/>
+            android:value="@string/api_key" />
+
     </application>
 
 </manifest>

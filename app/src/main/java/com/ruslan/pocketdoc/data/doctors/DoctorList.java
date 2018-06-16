@@ -12,8 +12,4 @@ public class DoctorList {
     public List<Doctor> getDoctors() {
         return mDoctors;
     }
-
-    public void setDoctors(List<Doctor> doctors) {
-        mDoctors = doctors;
-    }
 }

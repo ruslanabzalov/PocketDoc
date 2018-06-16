@@ -11,26 +11,28 @@ import retrofit2.http.Path;
 
 public interface DocDocApi {
 
-    @GET("metro/city/{id}")
-    Call<StationList> getStations(@Path("id") int cityId);
+    @GET("metro/city/1")
+    Call<StationList> getStations();
 
-    @GET("speciality/city/{id}")
-    Call<SpecialityList> getSpecialities(@Path("id") int cityId);
+    @GET("speciality/city/1")
+    Call<SpecialityList> getSpecialities();
 
-    @GET("doctor/list/start/{start}/count/{count}/city/{cityId}/speciality/{specId}/" +
+    @GET("doctor/list/start/{start}/count/{count}/city/1/speciality/{specId}/" +
             "stations/{stationId}/near/{near}/order/{order}/deti/{deti}/na-dom/{na-dom}/" +
             "withSlots/{withSlots}/slotsDays/{slotsDays}")
     Call<DoctorList> getDoctors(
-            @Path("start") int start, @Path("count") int count, @Path("cityId") int cityId,
-            @Path("specId") String specId, @Path("stationId") String stationId,
-            @Path("near") String near, @Path("order") String order, @Path("deti") int children,
-            @Path("na-dom") int home, @Path("withSlots") int withSlots,
-            @Path("slotsDays") int slotsDays
+            @Path("start") int start, @Path("count") int count, @Path("specId") String specId,
+            @Path("stationId") String stationId, @Path("near") String near,
+            @Path("order") String order, @Path("deti") int children, @Path("na-dom") int home,
+            @Path("withSlots") int withSlots, @Path("slotsDays") int slotsDays
     );
 
     @GET("doctor/{doctorId}/city/{cityId}/withSlots/{withSlots}/slotsDays{slotsDays}")
     Call<Doctor> getDoctor(
-            @Path("doctorId") int doctorId, @Path("cityId") int cityId,
-            @Path("withSlots") int withSlots, @Path("slotsDays") int slotsDays
+            @Path("doctorId") int doctorId, @Path("withSlots") int withSlots,
+            @Path("slotsDays") int slotsDays
     );
+
+    @GET("clinic/count/city/1/type/1,2,3")
+    Call<Integer> getClinicsNumber();
 }

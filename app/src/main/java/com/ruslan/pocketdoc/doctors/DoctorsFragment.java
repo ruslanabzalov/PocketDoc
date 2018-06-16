@@ -29,7 +29,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private ProgressBar mDoctorsProgressBar;
 
     private BaseContract.BasePresenter mDoctorsPresenter;
-    private DoctorsContract.Interactor mDoctorsInteractor;
 
     private String mSpecialityId;
     private String mStationId;
@@ -61,9 +60,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
         mDoctorsProgressBar = rootView.findViewById(R.id.doctors_progress_bar);
-        mDoctorsInteractor = new DoctorsInteractor();
-        mDoctorsPresenter =
-                new DoctorsPresenter(this, mDoctorsInteractor, mSpecialityId, mStationId);
+        mDoctorsPresenter = new DoctorsPresenter(this, mSpecialityId, mStationId);
         return rootView;
     }
 

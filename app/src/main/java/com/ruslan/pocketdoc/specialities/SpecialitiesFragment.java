@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
+import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.stations.StationsFragment;
 
@@ -32,7 +33,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         View rootView =
                 inflater.inflate(R.layout.fragment_specialities, container, false);
         initializeViews(rootView);
-        mPresenter = new SpecialitiesPresenter(this);
+        mPresenter = new SpecialitiesPresenter(this, Repository.getInstance(getContext()));
         return rootView;
     }
 

@@ -1,5 +1,8 @@
 package com.ruslan.pocketdoc.data;
 
+import android.content.Context;
+
+import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
@@ -12,14 +15,14 @@ public class Repository {
     private RemoteDataSourceImpl mRemoteDataSource;
     private LocalDataSourceImpl mLocalDataSource;
 
-    private Repository() {
+    private Repository(Context context) {
         mRemoteDataSource = RemoteDataSourceImpl.getInstance();
-        mLocalDataSource = LocalDataSourceImpl.getInstance();
+        mLocalDataSource = LocalDataSourceImpl.getInstance(context);
     }
 
-    public static Repository getInstance() {
+    public static Repository getInstance(Context context) {
         if (sRepository == null) {
-            sRepository = new Repository();
+            sRepository = new Repository(context);
         }
         return sRepository;
     }
@@ -76,6 +79,23 @@ public class Repository {
                         listener.onFailure(throwable);
                     }
                 });
+            }
+        });
+    }
+
+    public void getDoctors(String specialityId, String stationId,
+                           DataSource.OnLoadFinishedListener<Doctor> listener) {
+        mRemoteDataSource.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
+            @Override
+            public void onSuccess(List<Doctor> items) {
+                if (items.size() != 0) {
+                    listener.onSuccess(items);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                listener.onFailure(throwable);
             }
         });
     }

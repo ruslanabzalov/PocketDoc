@@ -19,8 +19,7 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> {
 
     private List<Speciality> mSpecialities;
 
-    SpecialitiesAdapter(List<Speciality> specialities,
-                        RecyclerItemOnClickListener<Speciality> listener) {
+    SpecialitiesAdapter(List<Speciality> specialities, RecyclerItemOnClickListener<Speciality> listener) {
         mSpecialities = specialities;
         mListener = listener;
     }

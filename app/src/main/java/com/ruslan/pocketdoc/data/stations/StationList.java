@@ -12,8 +12,4 @@ public class StationList {
     public List<Station> getStations() {
         return mStations;
     }
-
-    public void setStations(List<Station> stations) {
-        mStations = stations;
-    }
 }

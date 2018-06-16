@@ -13,6 +13,12 @@ public interface StationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertStations(List<Station> stations);
 
+    @Query("SELECT COUNT(*) FROM station")
+    int countAll();
+
     @Query("SELECT * FROM station")
     List<Station> getAllStations();
+
+    @Query("DELETE FROM station")
+    void clearTable();
 }

@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.data;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -17,14 +18,14 @@ public class LocalDataSourceImpl implements LocalDataSource {
     private AppDatabase mDatabase;
     private ExecutorService mExecutorService;
 
-    private LocalDataSourceImpl() {
-        mDatabase = AppDatabaseImpl.getInstance();
+    private LocalDataSourceImpl(Context context) {
+        mDatabase = AppDatabase.getInstance(context);
         mExecutorService = Executors.newCachedThreadPool();
     }
 
-    public static LocalDataSourceImpl getInstance() {
+    public static LocalDataSourceImpl getInstance(Context context) {
         if (sLocalDatabase == null) {
-            sLocalDatabase = new LocalDataSourceImpl();
+            sLocalDatabase = new LocalDataSourceImpl(context);
         }
         return sLocalDatabase;
     }
@@ -51,11 +52,14 @@ public class LocalDataSourceImpl implements LocalDataSource {
     public void getStations(OnLoadFinishedListener<Station> listener) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mExecutorService.execute(() -> {
-            List<Station> stations = mDatabase.stationDao().getAllStations();
-            if (stations.size() == 0) {
+            int size = mDatabase.stationDao().countAll();
+            if (size == 0) {
                 mainHandler.post(() -> listener.onFailure(new Throwable()));
             } else {
-                mainHandler.post(() -> listener.onSuccess(stations));
+                mainHandler.post(() -> {
+                    List<Station> stations = mDatabase.stationDao().getAllStations();
+                    listener.onSuccess(stations);
+                });
             }
         });
     }

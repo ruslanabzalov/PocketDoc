@@ -24,16 +24,4 @@ interface StationsContract {
 
         void onStationClick(Station station);
     }
-
-    interface Interactor {
-
-        interface OnLoadFinishedListener {
-
-            void onSuccess(List<Station> stationList);
-
-            void onFailure(Throwable t);
-        }
-
-        void loadStations(OnLoadFinishedListener listener);
-    }
 }

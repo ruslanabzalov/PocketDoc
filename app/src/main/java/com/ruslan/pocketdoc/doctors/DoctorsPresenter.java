@@ -1,22 +1,23 @@
 package com.ruslan.pocketdoc.doctors;
 
-import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.BaseContract;
+import com.ruslan.pocketdoc.data.DataSource;
+import com.ruslan.pocketdoc.data.Repository;
+import com.ruslan.pocketdoc.data.doctors.Doctor;
 
 import java.util.List;
 
 class DoctorsPresenter implements BaseContract.BasePresenter {
 
     private DoctorsContract.View mDoctorsView;
-    private DoctorsContract.Interactor mDoctorsInteractor;
+    private Repository mRepository;
 
     private String mSpecialityId;
     private String mStationId;
 
-    DoctorsPresenter(DoctorsContract.View view, DoctorsContract.Interactor interactor,
-                     String specialityId, String stationId) {
+    DoctorsPresenter(DoctorsContract.View view, String specialityId, String stationId) {
         mDoctorsView = view;
-        mDoctorsInteractor = interactor;
+        //mRepository = Repository.getInstance();
         mSpecialityId = specialityId;
         mStationId = stationId;
     }
@@ -25,20 +26,19 @@ class DoctorsPresenter implements BaseContract.BasePresenter {
     public void start() {
         if (mDoctorsView != null) {
             mDoctorsView.showProgressBar();
-            mDoctorsInteractor.loadDoctors(mSpecialityId, mStationId,
-                    new DoctorsContract.Interactor.OnLoadFinishedListener() {
-                        @Override
-                        public void onSuccess(List<Doctor> doctorList) {
-                            mDoctorsView.showDoctors(doctorList);
-                            mDoctorsView.hideProgressBar();
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            mDoctorsView.showLoadErrorMessage(throwable);
-                            mDoctorsView.hideProgressBar();
-                        }
-                    });
+//            mRepository.getDoctors(mSpecialityId, mStationId, new DataSource.OnLoadFinishedListener<Doctor>() {
+//                @Override
+//                public void onSuccess(List<Doctor> items) {
+//                    mDoctorsView.showDoctors(items);
+//                    mDoctorsView.hideProgressBar();
+//                }
+//
+//                @Override
+//                public void onFailure(Throwable throwable) {
+//                    mDoctorsView.showLoadErrorMessage(throwable);
+//                    mDoctorsView.hideProgressBar();
+//                }
+//            });
         }
     }
 

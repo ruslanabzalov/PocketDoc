@@ -2,7 +2,6 @@ package com.ruslan.pocketdoc.records;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -37,8 +36,8 @@ public class SessionDateDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setMessage("Выберите дату приёма")
                 .setView(dialogView)
-                .setPositiveButton(R.string.positive_calendar_dialog_button, this::onPositiveButtonClick)
-                .setNegativeButton(R.string.negative_calendar_dialog_button, this::onNegativeButtonClick);
+                .setPositiveButton(R.string.positive_calendar_dialog_button, (dialog, which) -> onPositiveButtonClick())
+                .setNegativeButton(R.string.negative_calendar_dialog_button, (dialog, which) -> onNegativeButtonClick());
         return builder.create();
     }
 
@@ -59,13 +58,13 @@ public class SessionDateDialogFragment extends DialogFragment {
         mDate = String.format(Locale.getDefault(), "%d:%d:%d", year, monthOfYear + 1, dayOfMonth);
     }
 
-    private void onPositiveButtonClick(DialogInterface dialogInterface, int which) {
+    private void onPositiveButtonClick() {
         Intent data = new Intent();
         data.putExtra(DATE_PICKER_DATE, mDate);
         getTargetFragment().onActivityResult(CALENDAR_DIALOG_REQUEST, Activity.RESULT_OK, data);
     }
 
-    private void onNegativeButtonClick(DialogInterface dialogInterface, int which) {
+    private void onNegativeButtonClick() {
         dismiss();
     }
 }

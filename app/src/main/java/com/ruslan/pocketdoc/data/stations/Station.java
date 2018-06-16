@@ -28,11 +28,12 @@ public class Station {
     @SerializedName("LineColor")
     private String mLineColor;
 
+    @NonNull
     public String getId() {
         return mId;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         mId = id;
     }
 

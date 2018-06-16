@@ -13,6 +13,12 @@ public interface SpecialityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSpecialities(List<Speciality> specialities);
 
+    @Query("SELECT COUNT(*) FROM speciality")
+    int countAll();
+
     @Query("SELECT * FROM speciality")
     List<Speciality> getAllSpecialities();
+
+    @Query("DELETE FROM speciality")
+    void clearTable();
 }

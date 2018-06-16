@@ -5,7 +5,7 @@ import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
-public interface LocalDataSource extends DataSource {
+interface LocalDataSource extends DataSource {
 
     void saveSpecialities(List<Speciality> specialities);
 
