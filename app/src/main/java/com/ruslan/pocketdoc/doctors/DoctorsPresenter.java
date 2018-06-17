@@ -15,9 +15,9 @@ class DoctorsPresenter implements BaseContract.BasePresenter {
     private String mSpecialityId;
     private String mStationId;
 
-    DoctorsPresenter(DoctorsContract.View view, String specialityId, String stationId) {
+    DoctorsPresenter(DoctorsContract.View view, Repository repository, String specialityId, String stationId) {
         mDoctorsView = view;
-        //mRepository = Repository.getInstance();
+        mRepository = repository;
         mSpecialityId = specialityId;
         mStationId = stationId;
     }
@@ -26,19 +26,19 @@ class DoctorsPresenter implements BaseContract.BasePresenter {
     public void start() {
         if (mDoctorsView != null) {
             mDoctorsView.showProgressBar();
-//            mRepository.getDoctors(mSpecialityId, mStationId, new DataSource.OnLoadFinishedListener<Doctor>() {
-//                @Override
-//                public void onSuccess(List<Doctor> items) {
-//                    mDoctorsView.showDoctors(items);
-//                    mDoctorsView.hideProgressBar();
-//                }
-//
-//                @Override
-//                public void onFailure(Throwable throwable) {
-//                    mDoctorsView.showLoadErrorMessage(throwable);
-//                    mDoctorsView.hideProgressBar();
-//                }
-//            });
+            mRepository.getDoctors(mSpecialityId, mStationId, new DataSource.OnLoadFinishedListener<Doctor>() {
+                @Override
+                public void onSuccess(List<Doctor> items) {
+                    mDoctorsView.showDoctors(items);
+                    mDoctorsView.hideProgressBar();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mDoctorsView.showLoadErrorMessage(throwable);
+                    mDoctorsView.hideProgressBar();
+                }
+            });
         }
     }
 

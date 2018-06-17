@@ -6,43 +6,43 @@ import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
-class StationsPresenter {//implements StationsContract.Presenter {
-//
-//    private StationsContract.View mView;
-//    private Repository mRepository;
-//
-//    StationsPresenter(StationsContract.View view) {
-//        mView = view;
-//        mRepository = Repository.getInstance();
-//    }
-//
-//    @Override
-//    public void start() {
-//        mView.showProgressBar();
-//        if (mView != null) {
-//            mRepository.getStations(new DataSource.OnLoadFinishedListener<Station>() {
-//                @Override
-//                public void onSuccess(List<Station> items) {
-//                    mView.showStationList(items);
-//                    mView.hideProgressBar();
-//                }
-//
-//                @Override
-//                public void onFailure(Throwable throwable) {
-//                    mView.showLoadErrorMessage(throwable);
-//                    mView.hideProgressBar();
-//                }
-//            });
-//        }
-//    }
-//
-//    @Override
-//    public void stop() {
-//        mView = null;
-//    }
-//
-//    @Override
-//    public void onStationClick(Station station) {
-//        mView.navigateToDoctorsList(station.getId());
-//    }
+class StationsPresenter implements StationsContract.Presenter {
+
+    private StationsContract.View mView;
+    private Repository mRepository;
+
+    StationsPresenter(StationsContract.View view, Repository repository) {
+        mView = view;
+        mRepository = repository;
+    }
+
+    @Override
+    public void start() {
+        mView.showProgressBar();
+        if (mView != null) {
+            mRepository.getStations(new DataSource.OnLoadFinishedListener<Station>() {
+                @Override
+                public void onSuccess(List<Station> items) {
+                    mView.showStationList(items);
+                    mView.hideProgressBar();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mView.showLoadErrorMessage(throwable);
+                    mView.hideProgressBar();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void stop() {
+        mView = null;
+    }
+
+    @Override
+    public void onStationClick(Station station) {
+        mView.navigateToDoctorsList(station.getId());
+    }
 }

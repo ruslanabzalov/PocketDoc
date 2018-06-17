@@ -52,14 +52,11 @@ public class LocalDataSourceImpl implements LocalDataSource {
     public void getStations(OnLoadFinishedListener<Station> listener) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mExecutorService.execute(() -> {
-            int size = mDatabase.stationDao().countAll();
-            if (size == 0) {
+            List<Station> stations = mDatabase.stationDao().getAllStations();
+            if (stations.size() == 0) {
                 mainHandler.post(() -> listener.onFailure(new Throwable()));
             } else {
-                mainHandler.post(() -> {
-                    List<Station> stations = mDatabase.stationDao().getAllStations();
-                    listener.onSuccess(stations);
-                });
+                mainHandler.post(() -> listener.onSuccess(stations));
             }
         });
     }

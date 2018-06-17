@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
+import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.BaseContract;
 import com.ruslan.pocketdoc.doctor.DoctorFragment;
@@ -60,7 +61,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
         mDoctorsProgressBar = rootView.findViewById(R.id.doctors_progress_bar);
-        mDoctorsPresenter = new DoctorsPresenter(this, mSpecialityId, mStationId);
+        mDoctorsPresenter = new DoctorsPresenter(this, Repository.getInstance(getContext().getApplicationContext()), mSpecialityId, mStationId);
         return rootView;
     }
 

@@ -2,14 +2,16 @@ package com.ruslan.pocketdoc.data;
 
 import android.support.annotation.NonNull;
 
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.api.DocDocApi;
-import com.ruslan.pocketdoc.api.DocDocService;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.Station;
 import com.ruslan.pocketdoc.data.stations.StationList;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,10 +21,11 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
 
     private static RemoteDataSourceImpl sRemoteDatabase = null;
 
-    private DocDocApi mApi;
+    @Inject
+    DocDocApi mApi;
 
     private RemoteDataSourceImpl() {
-        mApi = DocDocService.getApi();
+        App.getComponent().inject(this);
     }
 
     public static RemoteDataSourceImpl getInstance() {
