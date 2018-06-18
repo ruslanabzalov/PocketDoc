@@ -19,16 +19,16 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE = null;
 
-    public static AppDatabase getInstance(Context context) {
-        if (INSTANCE == null) {
-            synchronized(AppDatabase.class) {
-                INSTANCE = Room.databaseBuilder(context, AppDatabase.class, "pocketdoc-db").build();
-            }
-        }
-        return INSTANCE;
-    }
-
-    public static void destroyInstance() {
-        INSTANCE = null;
-    }
+//    public static AppDatabase getInstance(Context context) {
+//        if (INSTANCE == null) {
+//            synchronized(AppDatabase.class) {
+//                INSTANCE = Room.databaseBuilder(context, AppDatabase.class, "pocketdoc-db").build();
+//            }
+//        }
+//        return INSTANCE;
+//    }
+//
+//    public static void destroyInstance() {
+//        INSTANCE = null;
+//    }
 }

@@ -61,7 +61,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
         mDoctorsProgressBar = rootView.findViewById(R.id.doctors_progress_bar);
-        mDoctorsPresenter = new DoctorsPresenter(this, Repository.getInstance(getContext().getApplicationContext()), mSpecialityId, mStationId);
+        mDoctorsPresenter = new DoctorsPresenter(this, mSpecialityId, mStationId);
         return rootView;
     }
 

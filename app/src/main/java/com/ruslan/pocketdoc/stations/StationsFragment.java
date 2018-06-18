@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.stations.Station;
 import com.ruslan.pocketdoc.doctors.DoctorsFragment;
 
@@ -42,7 +41,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
         initializeViews(rootView);
-        mStationsPresenter = new StationsPresenter(this, Repository.getInstance(getActivity().getApplicationContext()));
+        mStationsPresenter = new StationsPresenter(this);
         return rootView;
     }
 

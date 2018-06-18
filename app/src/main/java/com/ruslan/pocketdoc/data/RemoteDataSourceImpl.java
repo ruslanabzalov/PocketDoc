@@ -19,20 +19,11 @@ import retrofit2.Response;
 
 public class RemoteDataSourceImpl implements RemoteDataSource {
 
-    private static RemoteDataSourceImpl sRemoteDatabase = null;
-
     @Inject
     DocDocApi mApi;
 
-    private RemoteDataSourceImpl() {
+    public RemoteDataSourceImpl() {
         App.getComponent().inject(this);
-    }
-
-    public static RemoteDataSourceImpl getInstance() {
-        if (sRemoteDatabase == null) {
-            sRemoteDatabase = new RemoteDataSourceImpl();
-        }
-        return sRemoteDatabase;
     }
 
     @Override

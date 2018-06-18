@@ -1,7 +1,9 @@
-package com.ruslan.pocketdoc.api;
+package com.ruslan.pocketdoc.di;
 
 import android.support.annotation.NonNull;
 import android.util.Base64;
+
+import com.ruslan.pocketdoc.api.DocDocApi;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

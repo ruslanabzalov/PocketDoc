@@ -1,19 +1,24 @@
 package com.ruslan.pocketdoc.stations;
 
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.DataSource;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
-class StationsPresenter implements StationsContract.Presenter {
+import javax.inject.Inject;
+
+public class StationsPresenter implements StationsContract.Presenter {
 
     private StationsContract.View mView;
-    private Repository mRepository;
 
-    StationsPresenter(StationsContract.View view, Repository repository) {
+    @Inject
+    Repository mRepository;
+
+    public StationsPresenter(StationsContract.View view) {
         mView = view;
-        mRepository = repository;
+        App.getComponent().inject(this);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         View rootView =
                 inflater.inflate(R.layout.fragment_specialities, container, false);
         initializeViews(rootView);
-        mPresenter = new SpecialitiesPresenter(this, Repository.getInstance(getContext()));
+        mPresenter = new SpecialitiesPresenter(this);
         return rootView;
     }
 

@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.doctors;
 
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.BaseContract;
 import com.ruslan.pocketdoc.data.DataSource;
 import com.ruslan.pocketdoc.data.Repository;
@@ -7,19 +8,23 @@ import com.ruslan.pocketdoc.data.doctors.Doctor;
 
 import java.util.List;
 
-class DoctorsPresenter implements BaseContract.BasePresenter {
+import javax.inject.Inject;
+
+public class DoctorsPresenter implements BaseContract.BasePresenter {
 
     private DoctorsContract.View mDoctorsView;
-    private Repository mRepository;
+
+    @Inject
+    Repository mRepository;
 
     private String mSpecialityId;
     private String mStationId;
 
-    DoctorsPresenter(DoctorsContract.View view, Repository repository, String specialityId, String stationId) {
+    public DoctorsPresenter(DoctorsContract.View view, String specialityId, String stationId) {
         mDoctorsView = view;
-        mRepository = repository;
         mSpecialityId = specialityId;
         mStationId = stationId;
+        App.getComponent().inject(this);
     }
 
     @Override

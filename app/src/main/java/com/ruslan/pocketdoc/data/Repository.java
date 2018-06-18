@@ -1,30 +1,24 @@
 package com.ruslan.pocketdoc.data;
 
-import android.content.Context;
-
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class Repository {
 
-    private static Repository sRepository = null;
+    @Inject
+    RemoteDataSourceImpl mRemoteDataSource;
 
-    private RemoteDataSourceImpl mRemoteDataSource;
-    private LocalDataSourceImpl mLocalDataSource;
+    @Inject
+    LocalDataSourceImpl mLocalDataSource;
 
-    private Repository(Context context) {
-        mRemoteDataSource = RemoteDataSourceImpl.getInstance();
-        mLocalDataSource = LocalDataSourceImpl.getInstance(context);
-    }
-
-    public static Repository getInstance(Context context) {
-        if (sRepository == null) {
-            sRepository = new Repository(context);
-        }
-        return sRepository;
+    public Repository() {
+        App.getComponent().inject(this);
     }
 
     public void getSpecialities(DataSource.OnLoadFinishedListener<Speciality> listener) {

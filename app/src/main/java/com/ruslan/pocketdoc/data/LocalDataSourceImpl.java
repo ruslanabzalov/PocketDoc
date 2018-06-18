@@ -1,44 +1,39 @@
 package com.ruslan.pocketdoc.data;
 
-import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import javax.inject.Inject;
 
 public class LocalDataSourceImpl implements LocalDataSource {
 
-    private static LocalDataSourceImpl sLocalDatabase;
+    @Inject
+    AppDatabase mDatabase;
 
-    private AppDatabase mDatabase;
-    private ExecutorService mExecutorService;
+    @Inject
+    ExecutorService mExecutorService;
 
-    private LocalDataSourceImpl(Context context) {
-        mDatabase = AppDatabase.getInstance(context);
-        mExecutorService = Executors.newCachedThreadPool();
-    }
+    @Inject
+    Handler mHandler;
 
-    public static LocalDataSourceImpl getInstance(Context context) {
-        if (sLocalDatabase == null) {
-            sLocalDatabase = new LocalDataSourceImpl(context);
-        }
-        return sLocalDatabase;
+    public LocalDataSourceImpl() {
+        App.getComponent().inject(this);
     }
 
     @Override
     public void getSpecialities(OnLoadFinishedListener<Speciality> listener) {
-        Handler mainHandler = new Handler(Looper.getMainLooper());
         mExecutorService.execute(() -> {
             List<Speciality> specialities = mDatabase.specialityDao().getAllSpecialities();
             if (specialities.size() == 0) {
-                mainHandler.post(() -> listener.onFailure(new Throwable()));
+                mHandler.post(() -> listener.onFailure(new Throwable()));
             } else {
-                mainHandler.post(() -> listener.onSuccess(specialities));
+                mHandler.post(() -> listener.onSuccess(specialities));
             }
         });
     }
@@ -50,13 +45,12 @@ public class LocalDataSourceImpl implements LocalDataSource {
 
     @Override
     public void getStations(OnLoadFinishedListener<Station> listener) {
-        Handler mainHandler = new Handler(Looper.getMainLooper());
         mExecutorService.execute(() -> {
             List<Station> stations = mDatabase.stationDao().getAllStations();
             if (stations.size() == 0) {
-                mainHandler.post(() -> listener.onFailure(new Throwable()));
+                mHandler.post(() -> listener.onFailure(new Throwable()));
             } else {
-                mainHandler.post(() -> listener.onSuccess(stations));
+                mHandler.post(() -> listener.onSuccess(stations));
             }
         });
     }
