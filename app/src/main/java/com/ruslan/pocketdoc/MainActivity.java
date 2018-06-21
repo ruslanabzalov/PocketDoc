@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
             mFragmentManager.beginTransaction()
                     .add(R.id.main_activity_fragment_container, specialitiesFragment)
+                    .addToBackStack(null)
                     .commit();
         }
         mFragmentManager.addOnBackStackChangedListener(this::enableUpButton);
@@ -42,14 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (tab.getPosition()) {
                     case 0:
                         if (!(fragment instanceof SpecialitiesFragment)) {
+                            clearBackStack();
                             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
-                            replaceCurrentFragment(specialitiesFragment);
+                            addFragment(specialitiesFragment);
                         }
                     case 1:
                         if (!(fragment instanceof ClinicsMapFragment)) {
                             clearBackStack();
                             ClinicsMapFragment clinicsMapFragment = new ClinicsMapFragment();
-                            replaceCurrentFragment(clinicsMapFragment);
+                            addFragment(clinicsMapFragment);
                         }
                 }
             }
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         if (!(fragment instanceof SpecialitiesFragment)) {
                             clearBackStack();
                             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
-                            replaceCurrentFragment(specialitiesFragment);
+                            addFragment(specialitiesFragment);
                         }
                 }
             }
@@ -93,17 +94,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         mFragmentManager.popBackStack();
-        return true;
+        return super.onSupportNavigateUp();
     }
 
     private void enableUpButton() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 1);
     }
 
-    private void replaceCurrentFragment(Fragment newFragment) {
+    private void addFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, newFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .add(R.id.main_activity_fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 

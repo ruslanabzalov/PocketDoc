@@ -16,38 +16,40 @@ public class StationsPresenter implements StationsContract.Presenter {
     @Inject
     Repository mRepository;
 
-    public StationsPresenter(StationsContract.View view) {
-        mView = view;
+    public StationsPresenter() {
         App.getComponent().inject(this);
     }
 
     @Override
-    public void start() {
-        mView.showProgressBar();
-        if (mView != null) {
-            mRepository.getStations(new DataSource.OnLoadFinishedListener<Station>() {
-                @Override
-                public void onSuccess(List<Station> items) {
-                    mView.showStationList(items);
-                    mView.hideProgressBar();
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    mView.showLoadErrorMessage(throwable);
-                    mView.hideProgressBar();
-                }
-            });
-        }
+    public void attachView(StationsContract.View view) {
+        mView = view;
     }
 
     @Override
-    public void stop() {
+    public void detach() {
         mView = null;
     }
 
     @Override
+    public void loadStations() {
+        mView.showProgressBar();
+        mRepository.getStations(new DataSource.OnLoadFinishedListener<Station>() {
+            @Override
+            public void onSuccess(List<Station> stations) {
+                mView.showStations(stations);
+                mView.hideProgressBar();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                mView.showErrorMessage(throwable);
+                mView.hideProgressBar();
+            }
+        });
+    }
+
+    @Override
     public void onStationClick(Station station) {
-        mView.navigateToDoctorsList(station.getId());
+        mView.showDoctorsListUi(station.getId());
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,9 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
-import com.ruslan.pocketdoc.BaseContract;
 import com.ruslan.pocketdoc.doctor.DoctorFragment;
 
 import java.util.List;
@@ -29,7 +26,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private RecyclerView mDoctorsRecyclerView;
     private ProgressBar mDoctorsProgressBar;
 
-    private BaseContract.BasePresenter mDoctorsPresenter;
+    private DoctorsContract.Presenter mDoctorsPresenter;
 
     private String mSpecialityId;
     private String mStationId;
@@ -61,20 +58,21 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
         mDoctorsProgressBar = rootView.findViewById(R.id.doctors_progress_bar);
-        mDoctorsPresenter = new DoctorsPresenter(this, mSpecialityId, mStationId);
+        mDoctorsPresenter = new DoctorsPresenter(mSpecialityId, mStationId);
+        mDoctorsPresenter.attachView(this);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mDoctorsPresenter.start();
+        mDoctorsPresenter.loadDoctors();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDoctorsPresenter.stop();
+        mDoctorsPresenter.detach();
     }
 
     @Override
@@ -84,7 +82,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
-    public void showLoadErrorMessage(Throwable throwable) {
+    public void showErrorMessage(Throwable throwable) {
         Toast.makeText(getActivity(),
                 getString(R.string.load_error_toast) + throwable.getMessage(),
                 Toast.LENGTH_SHORT).show();
@@ -106,7 +104,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctor))
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(null)
                 .commit();
     }

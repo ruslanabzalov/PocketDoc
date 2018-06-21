@@ -16,38 +16,40 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     @Inject
     Repository mRepository;
 
-    public SpecialitiesPresenter(SpecialitiesContract.View view) {
+    public SpecialitiesPresenter() {
         App.getComponent().inject(this);
+    }
+
+    @Override
+    public void attachView(SpecialitiesContract.View view) {
         mView = view;
     }
 
     @Override
-    public void start() {
-        if (mView != null) {
-            mView.showProgressBar();
-            mRepository.getSpecialities(new DataSource.OnLoadFinishedListener<Speciality>() {
-                @Override
-                public void onSuccess(List<Speciality> items) {
-                    mView.showSpecialities(items);
-                    mView.hideProgressBar();
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    mView.showLoadErrorMessage(throwable);
-                    mView.hideProgressBar();
-                }
-            });
-        }
-    }
-
-    @Override
-    public void stop() {
+    public void detach() {
         mView = null;
     }
 
     @Override
+    public void loadSpecialities() {
+        mView.showProgressBar();
+        mRepository.getSpecialities(new DataSource.OnLoadFinishedListener<Speciality>() {
+            @Override
+            public void onSuccess(List<Speciality> specialities) {
+                mView.showSpecialities(specialities);
+                mView.hideProgressBar();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                mView.showErrorMessage(throwable);
+                mView.hideProgressBar();
+            }
+        });
+    }
+
+    @Override
     public void onSpecialityClick(Speciality speciality) {
-        mView.navigateToStationsList(speciality.getId());
+        mView.showStationListUi(speciality.getId());
     }
 }

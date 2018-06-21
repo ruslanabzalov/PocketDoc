@@ -7,20 +7,16 @@ import java.util.List;
 
 interface SpecialitiesContract {
 
-    interface View {
+    interface View extends BaseContract.BaseView {
 
-        void showLoadErrorMessage(Throwable throwable);
+        void showSpecialities(List<Speciality> specialities);
 
-        void showProgressBar();
-
-        void hideProgressBar();
-
-        void showSpecialities(List<Speciality> specialityList);
-
-        void navigateToStationsList(String specialityId);
+        void showStationListUi(String specialityId);
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
+    interface Presenter extends BaseContract.BasePresenter<View> {
+
+        void loadSpecialities();
 
         void onSpecialityClick(Speciality speciality);
     }

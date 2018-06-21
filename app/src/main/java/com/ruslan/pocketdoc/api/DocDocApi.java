@@ -17,11 +17,11 @@ public interface DocDocApi {
     @GET("speciality/city/1")
     Call<SpecialityList> getSpecialities();
 
-    @GET("doctor/list/start/{start}/count/{count}/city/1/speciality/{specId}/" +
+    @GET("doctor/list/attachView/{attachView}/count/{count}/city/1/speciality/{specId}/" +
             "stations/{stationId}/near/{near}/order/{order}/deti/{deti}/na-dom/{na-dom}/" +
             "withSlots/{withSlots}/slotsDays/{slotsDays}")
     Call<DoctorList> getDoctors(
-            @Path("start") int start, @Path("count") int count, @Path("specId") String specId,
+            @Path("attachView") int start, @Path("count") int count, @Path("specId") String specId,
             @Path("stationId") String stationId, @Path("near") String near,
             @Path("order") String order, @Path("deti") int children, @Path("na-dom") int home,
             @Path("withSlots") int withSlots, @Path("slotsDays") int slotsDays

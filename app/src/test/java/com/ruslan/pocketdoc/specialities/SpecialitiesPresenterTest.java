@@ -28,6 +28,6 @@ public class SpecialitiesPresenterTest {
         Speciality speciality = new Speciality();
         String specialityId = speciality.getId();
         mPresenter.onSpecialityClick(speciality);
-        Mockito.verify(mView).navigateToStationsList(specialityId);
+        Mockito.verify(mView).showStationListUi(specialityId);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class DoctorsPresenter implements BaseContract.BasePresenter {
+public class DoctorsPresenter implements DoctorsContract.Presenter {
 
     private DoctorsContract.View mDoctorsView;
 
@@ -20,35 +20,38 @@ public class DoctorsPresenter implements BaseContract.BasePresenter {
     private String mSpecialityId;
     private String mStationId;
 
-    public DoctorsPresenter(DoctorsContract.View view, String specialityId, String stationId) {
-        mDoctorsView = view;
+    public DoctorsPresenter(String specialityId, String stationId) {
         mSpecialityId = specialityId;
         mStationId = stationId;
         App.getComponent().inject(this);
     }
 
     @Override
-    public void start() {
-        if (mDoctorsView != null) {
-            mDoctorsView.showProgressBar();
-            mRepository.getDoctors(mSpecialityId, mStationId, new DataSource.OnLoadFinishedListener<Doctor>() {
-                @Override
-                public void onSuccess(List<Doctor> items) {
-                    mDoctorsView.showDoctors(items);
-                    mDoctorsView.hideProgressBar();
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    mDoctorsView.showLoadErrorMessage(throwable);
-                    mDoctorsView.hideProgressBar();
-                }
-            });
-        }
+    public void attachView(DoctorsContract.View view) {
+        mDoctorsView = view;
     }
 
     @Override
-    public void stop() {
+    public void detach() {
         mDoctorsView = null;
+    }
+
+    @Override
+    public void loadDoctors() {
+        mDoctorsView.showProgressBar();
+        mRepository.getDoctors(mSpecialityId, mStationId, new DataSource.OnLoadFinishedListener<Doctor>() {
+            @Override
+            public void onSuccess(List<Doctor> items) {
+                mDoctorsView.showDoctors(items);
+                mDoctorsView.hideProgressBar();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                mDoctorsView.showErrorMessage(throwable);
+                mDoctorsView.hideProgressBar();
+            }
+        });
+
     }
 }

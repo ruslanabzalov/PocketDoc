@@ -7,20 +7,16 @@ import java.util.List;
 
 interface StationsContract {
 
-    interface View {
+    interface View extends BaseContract.BaseView {
 
-        void showLoadErrorMessage(Throwable throwable);
+        void showStations(List<Station> stations);
 
-        void showProgressBar();
-
-        void hideProgressBar();
-
-        void showStationList(List<Station> stationList);
-
-        void navigateToDoctorsList(String stationId);
+        void showDoctorsListUi(String stationId);
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
+    interface Presenter extends BaseContract.BasePresenter<View> {
+
+        void loadStations();
 
         void onStationClick(Station station);
     }

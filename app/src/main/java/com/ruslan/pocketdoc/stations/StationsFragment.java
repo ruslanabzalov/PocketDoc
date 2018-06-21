@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,31 +40,32 @@ public class StationsFragment extends Fragment implements StationsContract.View 
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
         initializeViews(rootView);
-        mStationsPresenter = new StationsPresenter(this);
+        mStationsPresenter = new StationsPresenter();
+        mStationsPresenter.attachView(this);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mStationsPresenter.start();
+        mStationsPresenter.loadStations();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mStationsPresenter.stop();
+        mStationsPresenter.detach();
     }
 
     @Override
-    public void showStationList(List<Station> stationList) {
+    public void showStations(List<Station> stationList) {
         StationsAdapter stationsAdapter =
                 new StationsAdapter(stationList, mStationsPresenter::onStationClick);
         mStationsRecyclerView.setAdapter(stationsAdapter);
     }
 
     @Override
-    public void showLoadErrorMessage(Throwable throwable) {
+    public void showErrorMessage(Throwable throwable) {
         Toast.makeText(getActivity(),
                 getString(R.string.load_error_toast) + throwable.getMessage(),
                 Toast.LENGTH_SHORT).show();
@@ -84,12 +84,11 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
-    public void navigateToDoctorsList(String stationId) {
+    public void showDoctorsListUi(String stationId) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container,
                         DoctorsFragment.newInstance(getArguments().getString(ARG_SPECIALITY_ID), stationId))
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(null)
                 .commit();
     }
