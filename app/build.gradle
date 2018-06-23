@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
+
 apply plugin: 'kotlin-android'
+
 apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.ruslan.pocketdoc"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -25,7 +27,6 @@ android {
 }
 
 dependencies {
-
     def support_version = "27.1.1"
     def arch_version = "1.1.1"
     def play_services_version = "15.0.1"
@@ -33,7 +34,7 @@ dependencies {
     def retrofit_version = "2.4.0"
     def test_version = "1.0.2"
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support Library
     implementation "com.android.support:appcompat-v7:$support_version"

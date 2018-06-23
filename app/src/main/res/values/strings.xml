@@ -1,8 +1,6 @@
 <resources>
-
-    <!-- Main string resources -->
     <string name="app_name">PocketDoc</string>
-    <string name="api_key">AIzaSyBn1Ik06YyB6gVq-SptIPp-wJYVN70EjgI</string>
+    <string name="api_key">AIzaSyAZ8sxlIntlKz_VHG2DW17JxIvVPwtJGxw</string>
 
     <string name="main_activity_title">Поиск врачей</string>
     <string name="tab_title_doctors">Врачи</string>
@@ -20,5 +18,4 @@
 
     <string name="positive_calendar_dialog_button">Ок</string>
     <string name="negative_calendar_dialog_button">Отмена</string>
-    <string name="title_activity_main2">Main2Activity</string>
 </resources>
