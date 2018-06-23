@@ -27,6 +27,7 @@
         <activity
             android:name=".history.RecordsHistoryActivity"
             android:label="@string/title_records_history_activity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

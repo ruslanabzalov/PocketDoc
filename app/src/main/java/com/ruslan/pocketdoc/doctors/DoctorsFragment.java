@@ -23,10 +23,10 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private static final String ARG_SPECIALITY_ID = "speciality_id";
     private static final String ARG_STATION_ID = "station_id";
 
-    private RecyclerView mDoctorsRecyclerView;
-    private ProgressBar mDoctorsProgressBar;
+    private DoctorsContract.Presenter mPresenter;
 
-    private DoctorsContract.Presenter mDoctorsPresenter;
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     private String mSpecialityId;
     private String mStationId;
@@ -35,9 +35,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         Bundle arguments = new Bundle();
         arguments.putString(ARG_SPECIALITY_ID, specId);
         arguments.putString(ARG_STATION_ID, stationId);
-        DoctorsFragment fragment = new DoctorsFragment();
-        fragment.setArguments(arguments);
-        return fragment;
+        DoctorsFragment doctorsFragment = new DoctorsFragment();
+        doctorsFragment.setArguments(arguments);
+        return doctorsFragment;
     }
 
     @Override
@@ -53,32 +53,28 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_doctors, container, false);
-        mDoctorsRecyclerView = rootView.findViewById(R.id.doctors_recycler_view);
-        mDoctorsRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mDoctorsRecyclerView.setLayoutManager(linearLayoutManager);
-        mDoctorsProgressBar = rootView.findViewById(R.id.doctors_progress_bar);
-        mDoctorsPresenter = new DoctorsPresenter(mSpecialityId, mStationId);
-        mDoctorsPresenter.attachView(this);
+        initViews(rootView);
+        mPresenter = new DoctorsPresenter();
+        mPresenter.attachView(this);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mDoctorsPresenter.loadDoctors();
+        mPresenter.loadDoctors(mSpecialityId, mStationId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDoctorsPresenter.detach();
+        mPresenter.detachView();
     }
 
     @Override
-    public void showDoctors(List<Doctor> doctorList) {
-        DoctorsAdapter doctorsAdapter = new DoctorsAdapter(doctorList, this::startDoctorActivity);
-        mDoctorsRecyclerView.setAdapter(doctorsAdapter);
+    public void showDoctors(List<Doctor> doctors) {
+        DoctorsAdapter adapter = new DoctorsAdapter(doctors, mPresenter::onDoctorClick);
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -90,21 +86,30 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     @Override
     public void showProgressBar() {
-        mDoctorsRecyclerView.setVisibility(View.GONE);
-        mDoctorsProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        mDoctorsRecyclerView.setVisibility(View.VISIBLE);
-        mDoctorsProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
-    private void startDoctorActivity(Doctor doctor) {
+    @Override
+    public void showDoctorInfoUi(Doctor doctor) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctor))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void initViews(View view) {
+        mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mProgressBar = view.findViewById(R.id.doctors_progress_bar);
     }
 }

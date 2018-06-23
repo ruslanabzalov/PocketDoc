@@ -33,8 +33,9 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SpecialityHolder specialityHolder, int position) {
-        specialityHolder.bind(mSpecialities.get(position));
+    public void onBindViewHolder(@NonNull SpecialityHolder holder, int position) {
+        Speciality speciality = mSpecialities.get(position);
+        holder.bind(speciality);
     }
 
     @Override
@@ -45,19 +46,19 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> {
 
 class SpecialityHolder extends RecyclerView.ViewHolder {
 
-    private TextView mSpecNameTextView;
+    private TextView mSpecialityNameTextView;
 
     private Speciality mSpeciality;
 
     SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> listener) {
         super(view);
         itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
-        mSpecNameTextView = itemView.findViewById(R.id.spec_name_text_view);
+        mSpecialityNameTextView = itemView.findViewById(R.id.spec_name_text_view);
     }
 
     void bind(Speciality speciality) {
         mSpeciality = speciality;
-        String specName = mSpeciality.getName();
-        mSpecNameTextView.setText(specName);
+        String specialityName = mSpeciality.getName();
+        mSpecialityNameTextView.setText(specialityName);
     }
 }

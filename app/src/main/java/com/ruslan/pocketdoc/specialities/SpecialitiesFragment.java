@@ -28,14 +28,12 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView =
-                inflater.inflate(R.layout.fragment_specialities, container, false);
-        initializeViews(rootView);
+        View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
+        initViews(rootView);
         mPresenter = new SpecialitiesPresenter();
         mPresenter.attachView(this);
         return rootView;
     }
-
 
     @Override
     public void onResume() {
@@ -46,14 +44,13 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detach();
+        mPresenter.detachView();
     }
 
     @Override
-    public void showSpecialities(List<Speciality> specialityList) {
-        SpecialitiesAdapter specialitiesAdapter =
-                new SpecialitiesAdapter(specialityList, mPresenter::onSpecialityClick);
-        mRecyclerView.setAdapter(specialitiesAdapter);
+    public void showSpecialities(List<Speciality> specialities) {
+        SpecialitiesAdapter adapter = new SpecialitiesAdapter(specialities, mPresenter::onSpecialityClick);
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -84,9 +81,10 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 .commit();
     }
 
-    private void initializeViews(View view) {
+    private void initViews(View view) {
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }

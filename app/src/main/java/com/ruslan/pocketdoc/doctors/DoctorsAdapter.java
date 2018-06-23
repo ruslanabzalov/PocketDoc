@@ -36,7 +36,8 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull DoctorViewHolder holder, int position) {
-        holder.bind(mDoctors.get(position));
+        Doctor doctor = mDoctors.get(position);
+        holder.bind(doctor);
     }
 
     @Override

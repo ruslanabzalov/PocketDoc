@@ -16,9 +16,11 @@ import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.records.NewRecordFragment;
 import com.squareup.picasso.Picasso;
 
-public class DoctorFragment extends Fragment {
+public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private static final String ARG_DOCTOR = "doctor";
+
+    private DoctorContract.Presenter mPresenter;
 
     private Doctor mDoctor;
 
@@ -46,28 +48,56 @@ public class DoctorFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doctor, container, false);
         initViews(view);
-        showDoctorInformation();
+        mPresenter = new DoctorPresenter();
+        mPresenter.attachView(this);
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.displayDoctor(mDoctor);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
+    }
+
+    @Override
+    public void showDoctorInfo(Doctor doctor) {
+        Picasso.get()
+                .load(doctor.getPhotoUrl())
+                .into(mDoctorPhotoImageView);
+        mDoctorNameTextView.setText(doctor.getName());
+        mDoctorRatingTextView.setText(doctor.getRating());
+    }
+
+    @Override
+    public void showNewRecordUi() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_activity_fragment_container,
+                        NewRecordFragment.newInstance(mDoctor.getId()))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void showErrorMessage(Throwable throwable) {}
+
+    @Override
+    public void showProgressBar() {}
+
+    @Override
+    public void hideProgressBar() {}
 
     private void initViews(View view) {
         mDoctorPhotoImageView = view.findViewById(R.id.doctor_photo_image_view);
         mDoctorNameTextView = view.findViewById(R.id.doctor_name);
         mDoctorRatingTextView = view.findViewById(R.id.doctor_rating);
         mEnrollDoctorButton = view.findViewById(R.id.enroll_doctor_button);
-        mEnrollDoctorButton.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_activity_fragment_container,
-                            NewRecordFragment.newInstance(mDoctor.getId()))
-                    .addToBackStack(null)
-                    .commit();
-        });
-    }
-
-    private void showDoctorInformation() {
-        Picasso.get().load(mDoctor.getPhotoUrl()).into(mDoctorPhotoImageView);
-        mDoctorNameTextView.setText(mDoctor.getName());
-        mDoctorRatingTextView.setText(mDoctor.getRating());
+        mEnrollDoctorButton.setOnClickListener(v -> showNewRecordUi());
     }
 }

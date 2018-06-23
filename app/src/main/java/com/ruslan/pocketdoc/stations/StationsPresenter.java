@@ -26,7 +26,7 @@ public class StationsPresenter implements StationsContract.Presenter {
     }
 
     @Override
-    public void detach() {
+    public void detachView() {
         mView = null;
     }
 
@@ -50,6 +50,7 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     @Override
     public void onStationClick(Station station) {
-        mView.showDoctorsListUi(station.getId());
+        String stationId = station.getId();
+        mView.showDoctorsListUi(stationId);
     }
 }

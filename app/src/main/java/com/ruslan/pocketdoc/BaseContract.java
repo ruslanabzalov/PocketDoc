@@ -15,6 +15,6 @@ public interface BaseContract {
 
         void attachView(V view);
 
-        void detach();
+        void detachView();
     }
 }

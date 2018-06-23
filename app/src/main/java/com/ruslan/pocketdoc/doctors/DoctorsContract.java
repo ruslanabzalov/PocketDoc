@@ -10,10 +10,14 @@ interface DoctorsContract {
     interface View extends BaseContract.BaseView {
 
         void showDoctors(List<Doctor> doctorList);
+
+        void showDoctorInfoUi(Doctor doctor);
     }
 
     interface Presenter extends BaseContract.BasePresenter<View> {
 
-        void loadDoctors();
+        void loadDoctors(String specialityId, String stationId);
+
+        void onDoctorClick(Doctor doctor);
     }
 }

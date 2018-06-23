@@ -12,4 +12,9 @@ public class RecordsHistoryActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         return new RecordsHistoryFragment();
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

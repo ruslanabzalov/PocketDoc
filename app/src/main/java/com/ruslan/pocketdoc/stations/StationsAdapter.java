@@ -34,7 +34,8 @@ class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull StationViewHolder holder, int position) {
-        holder.bind(mStations.get(position));
+        Station station = mStations.get(position);
+        holder.bind(station);
     }
 
     @Override
@@ -52,9 +53,9 @@ class StationViewHolder extends RecyclerView.ViewHolder {
 
     StationViewHolder(View view, RecyclerItemOnClickListener<Station> listener) {
         super(view);
+        itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
         mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
         mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
-        itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
     }
 
     void bind(Station station) {

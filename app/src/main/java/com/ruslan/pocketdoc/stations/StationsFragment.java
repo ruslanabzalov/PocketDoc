@@ -22,46 +22,45 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
 
-    private StationsContract.Presenter mStationsPresenter;
+    private StationsContract.Presenter mPresenter;
 
-    private RecyclerView mStationsRecyclerView;
-    private ProgressBar mStationsProgressBar;
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     public static Fragment newInstance(String specialityId) {
         Bundle args = new Bundle();
         args.putString(ARG_SPECIALITY_ID, specialityId);
-        StationsFragment fragment = new StationsFragment();
-        fragment.setArguments(args);
-        return fragment;
+        StationsFragment stationsFragment = new StationsFragment();
+        stationsFragment.setArguments(args);
+        return stationsFragment;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
-        initializeViews(rootView);
-        mStationsPresenter = new StationsPresenter();
-        mStationsPresenter.attachView(this);
+        initViews(rootView);
+        mPresenter = new StationsPresenter();
+        mPresenter.attachView(this);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mStationsPresenter.loadStations();
+        mPresenter.loadStations();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mStationsPresenter.detach();
+        mPresenter.detachView();
     }
 
     @Override
-    public void showStations(List<Station> stationList) {
-        StationsAdapter stationsAdapter =
-                new StationsAdapter(stationList, mStationsPresenter::onStationClick);
-        mStationsRecyclerView.setAdapter(stationsAdapter);
+    public void showStations(List<Station> stations) {
+        StationsAdapter adapter = new StationsAdapter(stations, mPresenter::onStationClick);
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -73,14 +72,14 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showProgressBar() {
-        mStationsRecyclerView.setVisibility(View.GONE);
-        mStationsProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        mStationsRecyclerView.setVisibility(View.VISIBLE);
-        mStationsProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -93,10 +92,11 @@ public class StationsFragment extends Fragment implements StationsContract.View 
                 .commit();
     }
 
-    private void initializeViews(View view) {
-        mStationsRecyclerView = view.findViewById(R.id.stations_recycler_view);
-        mStationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mStationsRecyclerView.setHasFixedSize(true);
-        mStationsProgressBar = view.findViewById(R.id.stations_progress_bar);
+    private void initViews(View view) {
+        mRecyclerView = view.findViewById(R.id.stations_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mProgressBar = view.findViewById(R.id.stations_progress_bar);
     }
 }

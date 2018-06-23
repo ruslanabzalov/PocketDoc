@@ -26,7 +26,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     }
 
     @Override
-    public void detach() {
+    public void detachView() {
         mView = null;
     }
 
@@ -50,6 +50,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     @Override
     public void onSpecialityClick(Speciality speciality) {
-        mView.showStationListUi(speciality.getId());
+        String specialityId = speciality.getId();
+        mView.showStationListUi(specialityId);
     }
 }

@@ -1,7 +1,6 @@
 package com.ruslan.pocketdoc.doctors;
 
 import com.ruslan.pocketdoc.App;
-import com.ruslan.pocketdoc.BaseContract;
 import com.ruslan.pocketdoc.data.DataSource;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
@@ -12,46 +11,45 @@ import javax.inject.Inject;
 
 public class DoctorsPresenter implements DoctorsContract.Presenter {
 
-    private DoctorsContract.View mDoctorsView;
+    private DoctorsContract.View mView;
 
     @Inject
     Repository mRepository;
 
-    private String mSpecialityId;
-    private String mStationId;
-
-    public DoctorsPresenter(String specialityId, String stationId) {
-        mSpecialityId = specialityId;
-        mStationId = stationId;
+    public DoctorsPresenter() {
         App.getComponent().inject(this);
     }
 
     @Override
     public void attachView(DoctorsContract.View view) {
-        mDoctorsView = view;
+        mView = view;
     }
 
     @Override
-    public void detach() {
-        mDoctorsView = null;
+    public void detachView() {
+        mView = null;
     }
 
     @Override
-    public void loadDoctors() {
-        mDoctorsView.showProgressBar();
-        mRepository.getDoctors(mSpecialityId, mStationId, new DataSource.OnLoadFinishedListener<Doctor>() {
+    public void loadDoctors(String specialityId, String stationId) {
+        mView.showProgressBar();
+        mRepository.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
             @Override
             public void onSuccess(List<Doctor> items) {
-                mDoctorsView.showDoctors(items);
-                mDoctorsView.hideProgressBar();
+                mView.showDoctors(items);
+                mView.hideProgressBar();
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                mDoctorsView.showErrorMessage(throwable);
-                mDoctorsView.hideProgressBar();
+                mView.showErrorMessage(throwable);
+                mView.hideProgressBar();
             }
         });
+    }
 
+    @Override
+    public void onDoctorClick(Doctor doctor) {
+        mView.showDoctorInfoUi(doctor);
     }
 }
