@@ -1,17 +1,12 @@
 package com.ruslan.pocketdoc;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.ruslan.pocketdoc.clinics.ClinicsMapFragment;
-import com.ruslan.pocketdoc.history.RecordsHistoryActivity;
 import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -71,24 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_records_history:
-                Intent intent = new Intent(this, RecordsHistoryActivity.class);
-                startActivity(intent);
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override

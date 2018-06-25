@@ -1,12 +1,17 @@
 package com.ruslan.pocketdoc.specialities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
+import com.ruslan.pocketdoc.history.RecordsHistoryActivity;
 import com.ruslan.pocketdoc.stations.StationsFragment;
 
 import java.util.List;
@@ -22,8 +28,15 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     private SpecialitiesContract.Presenter mPresenter;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -48,8 +61,29 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_specialities, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_refresh_specialities:
+                mPresenter.onMenuItemRefreshClick();
+                return true;
+            case R.id.item_records_history:
+                mPresenter.onMenuItemRecordsHistoryClick();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void showSpecialities(List<Speciality> specialities) {
         SpecialitiesAdapter adapter = new SpecialitiesAdapter(specialities, mPresenter::onSpecialityClick);
+        adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -73,6 +107,11 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     @Override
+    public void hideRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void showStationListUi(String specialityId) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -81,7 +120,15 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 .commit();
     }
 
+    @Override
+    public void showRecordsHistoryListUi() {
+        Intent intent = new Intent(getActivity(), RecordsHistoryActivity.class);
+        startActivity(intent);
+    }
+
     private void initViews(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);

@@ -9,6 +9,8 @@ interface StationsContract {
 
     interface View extends BaseContract.BaseView {
 
+        void hideRefreshing();
+
         void showStations(List<Station> stations);
 
         void showDoctorsListUi(String stationId);
@@ -18,6 +20,10 @@ interface StationsContract {
 
         void loadStations();
 
+        void updateStations(boolean isMenuRefreshing);
+
         void onStationClick(Station station);
+
+        void onMenuItemRefreshClick();
     }
 }

@@ -1,12 +1,19 @@
 <resources>
+    <!--Main strings-->
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyAZ8sxlIntlKz_VHG2DW17JxIvVPwtJGxw</string>
 
+    <!--MainActivity & tabs titles-->
     <string name="main_activity_title">Поиск врачей</string>
     <string name="tab_title_doctors">Врачи</string>
     <string name="tab_title_clinics">Клиники</string>
 
+    <!--Menu items (SpecialitiesFragment)-->
+    <string name="item_refresh_specialities">Обновить список специальностей</string>
     <string name="title_records_history_activity">История записей</string>
+
+    <!--Menu item (StationsFragment)-->
+    <string name="item_refresh_stations">Обновить список станций метро</string>
 
     <string name="speciality_preview_text">Специальность</string>
     <string name="station_name_preview">Станция метро</string>

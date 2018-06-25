@@ -33,7 +33,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     @Override
     public void loadSpecialities() {
         mView.showProgressBar();
-        mRepository.getSpecialities(new DataSource.OnLoadFinishedListener<Speciality>() {
+        mRepository.getSpecialities(false, new DataSource.OnLoadFinishedListener<Speciality>() {
             @Override
             public void onSuccess(List<Speciality> specialities) {
                 mView.showSpecialities(specialities);
@@ -49,8 +49,52 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     }
 
     @Override
+    public void updateSpecialities(boolean isMenuRefreshing) {
+        if (isMenuRefreshing) {
+            mView.showProgressBar();
+            mRepository.getSpecialities(true, new DataSource.OnLoadFinishedListener<Speciality>() {
+                @Override
+                public void onSuccess(List<Speciality> specialities) {
+                    mView.showSpecialities(specialities);
+                    mView.hideProgressBar();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideProgressBar();
+                }
+            });
+        } else {
+            mRepository.getSpecialities(true, new DataSource.OnLoadFinishedListener<Speciality>() {
+                @Override
+                public void onSuccess(List<Speciality> specialities) {
+                    mView.showSpecialities(specialities);
+                    mView.hideRefreshing();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideRefreshing();
+                }
+            });
+        }
+    }
+
+    @Override
     public void onSpecialityClick(Speciality speciality) {
         String specialityId = speciality.getId();
         mView.showStationListUi(specialityId);
+    }
+
+    @Override
+    public void onMenuItemRefreshClick() {
+        updateSpecialities(true);
+    }
+
+    @Override
+    public void onMenuItemRecordsHistoryClick() {
+        mView.showRecordsHistoryListUi();
     }
 }

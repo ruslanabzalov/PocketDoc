@@ -33,7 +33,7 @@ public class StationsPresenter implements StationsContract.Presenter {
     @Override
     public void loadStations() {
         mView.showProgressBar();
-        mRepository.getStations(new DataSource.OnLoadFinishedListener<Station>() {
+        mRepository.getStations(false, new DataSource.OnLoadFinishedListener<Station>() {
             @Override
             public void onSuccess(List<Station> stations) {
                 mView.showStations(stations);
@@ -49,8 +49,47 @@ public class StationsPresenter implements StationsContract.Presenter {
     }
 
     @Override
+    public void updateStations(boolean isMenuRefreshing) {
+        if (isMenuRefreshing) {
+            mView.showProgressBar();
+            mRepository.getStations(true, new DataSource.OnLoadFinishedListener<Station>() {
+                @Override
+                public void onSuccess(List<Station> stations) {
+                    mView.showStations(stations);
+                    mView.hideProgressBar();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideProgressBar();
+                }
+            });
+        } else {
+            mRepository.getStations(true, new DataSource.OnLoadFinishedListener<Station>() {
+                @Override
+                public void onSuccess(List<Station> stations) {
+                    mView.showStations(stations);
+                    mView.hideRefreshing();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideRefreshing();
+                }
+            });
+        }
+    }
+
+    @Override
     public void onStationClick(Station station) {
         String stationId = station.getId();
         mView.showDoctorsListUi(stationId);
+    }
+
+    @Override
+    public void onMenuItemRefreshClick() {
+        updateStations(true);
     }
 }

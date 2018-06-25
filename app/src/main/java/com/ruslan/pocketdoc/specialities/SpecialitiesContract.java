@@ -9,15 +9,25 @@ interface SpecialitiesContract {
 
     interface View extends BaseContract.BaseView {
 
+        void hideRefreshing();
+
         void showSpecialities(List<Speciality> specialities);
 
         void showStationListUi(String specialityId);
+
+        void showRecordsHistoryListUi();
     }
 
     interface Presenter extends BaseContract.BasePresenter<View> {
 
         void loadSpecialities();
 
+        void updateSpecialities(boolean isMenuRefreshing);
+
         void onSpecialityClick(Speciality speciality);
+
+        void onMenuItemRefreshClick();
+
+        void onMenuItemRecordsHistoryClick();
     }
 }
