@@ -1,7 +1,7 @@
 <resources>
     <!--Main strings-->
     <string name="app_name">PocketDoc</string>
-    <string name="api_key">AIzaSyAZ8sxlIntlKz_VHG2DW17JxIvVPwtJGxw</string>
+    <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
 
     <!--MainActivity & tabs titles-->
     <string name="main_activity_title">Поиск врачей</string>
@@ -14,6 +14,15 @@
 
     <!--Menu item (StationsFragment)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
+
+    <!--Menu items (DoctorsFragment)-->
+    <string name="item_refresh_doctors">Обновить список докторов</string>
+
+    <!--Menu items (ClinicsMapFragment)-->
+    <string name="item_show_all_clinics">Показать все медицинские центры</string>
+    <string name="item_show_clinics">Показать клиники</string>
+    <string name="item_show_diagnostics">Показать диагностические центры</string>
+    <string name="item_refresh_clinics">Обновить список клиник</string>
 
     <string name="speciality_preview_text">Специальность</string>
     <string name="station_name_preview">Станция метро</string>

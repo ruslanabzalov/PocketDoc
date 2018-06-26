@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -25,6 +29,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private DoctorsContract.Presenter mPresenter;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
 
@@ -43,6 +48,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID, null);
             mStationId = getArguments().getString(ARG_STATION_ID, null);
@@ -72,6 +78,22 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_doctors, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_refresh_doctors:
+                mPresenter.updateDoctors(mSpecialityId, mStationId, true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void showDoctors(List<Doctor> doctors) {
         DoctorsAdapter adapter = new DoctorsAdapter(doctors, mPresenter::onDoctorClick);
         mRecyclerView.setAdapter(adapter);
@@ -97,6 +119,11 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
+    public void hideRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void showDoctorInfoUi(Doctor doctor) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -106,6 +133,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     private void initViews(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.doctors_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateDoctors(mSpecialityId, mStationId, false));
         mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);

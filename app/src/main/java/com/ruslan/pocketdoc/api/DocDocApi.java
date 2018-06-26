@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.api;
 
+import com.ruslan.pocketdoc.data.clinics.ClinicList;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.SpecialityList;
@@ -33,6 +34,9 @@ public interface DocDocApi {
             @Path("slotsDays") int slotsDays
     );
 
-    @GET("clinic/count/city/1/type/1,2,3")
+    @GET("clinic/count/city/1/type/1,2")
     Call<Integer> getClinicsNumber();
+
+    @GET("clinic/list/start/0/count/500/city/1/type/1,2")
+    Call<ClinicList> getClinics();
 }

@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.di;
 
+import com.ruslan.pocketdoc.clinics.ClinicsPresenter;
 import com.ruslan.pocketdoc.data.LocalDataSourceImpl;
 import com.ruslan.pocketdoc.data.RemoteDataSourceImpl;
 import com.ruslan.pocketdoc.data.Repository;
@@ -26,4 +27,6 @@ public interface AppComponent {
     void inject(StationsPresenter presenter);
 
     void inject(DoctorsPresenter presenter);
+
+    void inject(ClinicsPresenter presenter);
 }

@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.data;
 
+import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
@@ -18,5 +19,5 @@ public interface DataSource {
 
     void getStations(OnLoadFinishedListener<Station> listener);
 
-    // TODO: Добавить методы для получения и сохранения списка клиник.
+    void getClinics(OnLoadFinishedListener<Clinic> listener);
 }

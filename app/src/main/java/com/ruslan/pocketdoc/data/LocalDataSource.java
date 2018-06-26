@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.data;
 
+import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
@@ -11,6 +12,5 @@ interface LocalDataSource extends DataSource {
 
     void saveStations(List<Station> stations);
 
-    // TODO: Добавить метод для получения списка сохранённых записей, а также метод для сохранения одной записи.
-
+    void saveClinics(List<Clinic> clinics);
 }

@@ -35,8 +35,8 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         mView.showProgressBar();
         mRepository.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
             @Override
-            public void onSuccess(List<Doctor> items) {
-                mView.showDoctors(items);
+            public void onSuccess(List<Doctor> doctors) {
+                mView.showDoctors(doctors);
                 mView.hideProgressBar();
             }
 
@@ -46,6 +46,40 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                 mView.hideProgressBar();
             }
         });
+    }
+
+    @Override
+    public void updateDoctors(String specialityId, String stationId, boolean isMenuUpdate) {
+        if (isMenuUpdate) {
+            mView.showProgressBar();
+            mRepository.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
+                @Override
+                public void onSuccess(List<Doctor> doctors) {
+                    mView.showDoctors(doctors);
+                    mView.hideProgressBar();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideProgressBar();
+                }
+            });
+        } else {
+            mRepository.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
+                @Override
+                public void onSuccess(List<Doctor> doctors) {
+                    mView.showDoctors(doctors);
+                    mView.hideRefreshing();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideRefreshing();
+                }
+            });
+        }
     }
 
     @Override

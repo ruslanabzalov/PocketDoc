@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.api.DocDocApi;
+import com.ruslan.pocketdoc.data.clinics.Clinic;
+import com.ruslan.pocketdoc.data.clinics.ClinicList;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
@@ -79,6 +81,24 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
 
             @Override
             public void onFailure(@NonNull Call<DoctorList> call, @NonNull Throwable t) {
+                listener.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void getClinics(OnLoadFinishedListener<Clinic> listener) {
+        Call<ClinicList> clinicListCall = mApi.getClinics();
+        clinicListCall.enqueue(new Callback<ClinicList>() {
+            @Override
+            public void onResponse(@NonNull Call<ClinicList> call, @NonNull Response<ClinicList> response) {
+                if (response.body() != null) {
+                    listener.onSuccess(response.body().getClinics());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ClinicList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });

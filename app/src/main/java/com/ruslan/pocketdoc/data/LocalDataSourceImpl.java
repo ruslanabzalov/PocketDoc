@@ -3,6 +3,7 @@ package com.ruslan.pocketdoc.data;
 import android.os.Handler;
 
 import com.ruslan.pocketdoc.App;
+import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
@@ -58,5 +59,22 @@ public class LocalDataSourceImpl implements LocalDataSource {
     @Override
     public void saveStations(List<Station> stations) {
         mExecutorService.execute(() -> mDatabase.stationDao().insertStations(stations));
+    }
+
+    @Override
+    public void getClinics(OnLoadFinishedListener<Clinic> listener) {
+        mExecutorService.execute(() -> {
+            List<Clinic> clinics = mDatabase.clinicsDao().getAllClinics();
+            if (clinics.size() != 0) {
+                mHandler.post(() -> listener.onSuccess(clinics));
+            } else {
+                mHandler.post(() -> listener.onFailure(new Throwable()));
+            }
+        });
+    }
+
+    @Override
+    public void saveClinics(List<Clinic> clinics) {
+        mExecutorService.execute(() -> mDatabase.clinicsDao().insertClinics(clinics));
     }
 }

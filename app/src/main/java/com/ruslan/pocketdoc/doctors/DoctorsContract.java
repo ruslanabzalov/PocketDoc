@@ -9,6 +9,8 @@ interface DoctorsContract {
 
     interface View extends BaseContract.BaseView {
 
+        void hideRefreshing();
+
         void showDoctors(List<Doctor> doctorList);
 
         void showDoctorInfoUi(Doctor doctor);
@@ -17,6 +19,8 @@ interface DoctorsContract {
     interface Presenter extends BaseContract.BasePresenter<View> {
 
         void loadDoctors(String specialityId, String stationId);
+
+        void updateDoctors(String specialityId, String stationId, boolean isMenuUpdate);
 
         void onDoctorClick(Doctor doctor);
     }

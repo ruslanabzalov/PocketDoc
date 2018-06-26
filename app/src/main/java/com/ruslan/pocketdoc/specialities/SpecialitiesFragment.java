@@ -62,7 +62,6 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_specialities, menu);
     }
 

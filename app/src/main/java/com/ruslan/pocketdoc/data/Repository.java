@@ -1,6 +1,7 @@
 package com.ruslan.pocketdoc.data;
 
 import com.ruslan.pocketdoc.App;
+import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
@@ -124,5 +125,50 @@ public class Repository {
                 listener.onFailure(throwable);
             }
         });
+    }
+
+    public void getClinics(boolean forceUpdate, DataSource.OnLoadFinishedListener<Clinic> listener) {
+        if (forceUpdate) {
+            mRemoteDataSource.getClinics(new DataSource.OnLoadFinishedListener<Clinic>() {
+                @Override
+                public void onSuccess(List<Clinic> clinics) {
+                    if (clinics.size() != 0) {
+                        listener.onSuccess(clinics);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    listener.onFailure(throwable);
+                }
+            });
+        } else {
+            mLocalDataSource.getClinics(new DataSource.OnLoadFinishedListener<Clinic>() {
+                @Override
+                public void onSuccess(List<Clinic> clinics) {
+                    if (clinics.size() != 0) {
+                        listener.onSuccess(clinics);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mRemoteDataSource.getClinics(new DataSource.OnLoadFinishedListener<Clinic>() {
+                        @Override
+                        public void onSuccess(List<Clinic> clinics) {
+                            if (clinics.size() != 0) {
+                                mLocalDataSource.saveClinics(clinics);
+                                listener.onSuccess(clinics);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            listener.onFailure(throwable);
+                        }
+                    });
+                }
+            });
+        }
     }
 }
