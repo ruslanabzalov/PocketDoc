@@ -65,7 +65,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
     public void getDoctors(String specialityId, String stationId, OnLoadFinishedListener<Doctor> listener) {
         Call<DoctorList> doctorListCall = mApi.getDoctors(
                 0, 500, specialityId, stationId, "strict",
-                "rating", 0, 0, 1, 14
+                "rating", 0, 0//, 1, 14
         );
         doctorListCall.enqueue(new Callback<DoctorList>() {
             @Override

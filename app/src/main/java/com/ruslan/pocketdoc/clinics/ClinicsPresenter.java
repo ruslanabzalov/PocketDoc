@@ -35,12 +35,16 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
         mRepository.getClinics(false, new DataSource.OnLoadFinishedListener<Clinic>() {
             @Override
             public void onSuccess(List<Clinic> clinics) {
-                mView.showClinics(clinics);
+                if (mView != null) {
+                    mView.showClinics(clinics);
+                }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                mView.showErrorMessage(throwable);
+                if (mView != null) {
+                    mView.showErrorMessage(throwable);
+                }
             }
         });
     }
@@ -50,12 +54,16 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
         mRepository.getClinics(true, new DataSource.OnLoadFinishedListener<Clinic>() {
             @Override
             public void onSuccess(List<Clinic> clinics) {
-                mView.showClinics(clinics);
+                if (mView != null) {
+                    mView.showClinics(clinics);
+                }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                mView.showErrorMessage(throwable);
+                if (mView != null) {
+                    mView.showErrorMessage(throwable);
+                }
             }
         });
     }

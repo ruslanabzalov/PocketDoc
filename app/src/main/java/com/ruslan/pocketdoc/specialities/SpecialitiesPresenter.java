@@ -36,14 +36,18 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         mRepository.getSpecialities(false, new DataSource.OnLoadFinishedListener<Speciality>() {
             @Override
             public void onSuccess(List<Speciality> specialities) {
-                mView.showSpecialities(specialities);
-                mView.hideProgressBar();
+                if (mView != null) {
+                    mView.showSpecialities(specialities);
+                    mView.hideProgressBar();
+                }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                mView.showErrorMessage(throwable);
-                mView.hideProgressBar();
+                if (mView != null) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideProgressBar();
+                }
             }
         });
     }
@@ -55,28 +59,36 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
             mRepository.getSpecialities(true, new DataSource.OnLoadFinishedListener<Speciality>() {
                 @Override
                 public void onSuccess(List<Speciality> specialities) {
-                    mView.showSpecialities(specialities);
-                    mView.hideProgressBar();
+                    if (mView != null) {
+                        mView.showSpecialities(specialities);
+                        mView.hideProgressBar();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideProgressBar();
+                    if (mView != null) {
+                        mView.showErrorMessage(throwable);
+                        mView.hideProgressBar();
+                    }
                 }
             });
         } else {
             mRepository.getSpecialities(true, new DataSource.OnLoadFinishedListener<Speciality>() {
                 @Override
                 public void onSuccess(List<Speciality> specialities) {
-                    mView.showSpecialities(specialities);
-                    mView.hideRefreshing();
+                    if (mView != null) {
+                        mView.showSpecialities(specialities);
+                        mView.hideRefreshing();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideRefreshing();
+                    if (mView != null) {
+                        mView.showErrorMessage(throwable);
+                        mView.hideRefreshing();
+                    }
                 }
             });
         }

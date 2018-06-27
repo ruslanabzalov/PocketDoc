@@ -36,14 +36,18 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         mRepository.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
             @Override
             public void onSuccess(List<Doctor> doctors) {
-                mView.showDoctors(doctors);
-                mView.hideProgressBar();
+                if (mView != null) {
+                    mView.showDoctors(doctors);
+                    mView.hideProgressBar();
+                }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                mView.showErrorMessage(throwable);
-                mView.hideProgressBar();
+                if (mView != null) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideProgressBar();
+                }
             }
         });
     }
@@ -55,28 +59,36 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
             mRepository.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
                 @Override
                 public void onSuccess(List<Doctor> doctors) {
-                    mView.showDoctors(doctors);
-                    mView.hideProgressBar();
+                    if (mView != null) {
+                        mView.showDoctors(doctors);
+                        mView.hideProgressBar();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideProgressBar();
+                    if (mView != null) {
+                        mView.showErrorMessage(throwable);
+                        mView.hideProgressBar();
+                    }
                 }
             });
         } else {
             mRepository.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
                 @Override
                 public void onSuccess(List<Doctor> doctors) {
-                    mView.showDoctors(doctors);
-                    mView.hideRefreshing();
+                    if (mView != null) {
+                        mView.showDoctors(doctors);
+                        mView.hideRefreshing();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideRefreshing();
+                    if (mView != null) {
+                        mView.showErrorMessage(throwable);
+                        mView.hideRefreshing();
+                    }
                 }
             });
         }

@@ -36,14 +36,18 @@ public class StationsPresenter implements StationsContract.Presenter {
         mRepository.getStations(false, new DataSource.OnLoadFinishedListener<Station>() {
             @Override
             public void onSuccess(List<Station> stations) {
-                mView.showStations(stations);
-                mView.hideProgressBar();
+                if (mView != null) {
+                    mView.showStations(stations);
+                    mView.hideProgressBar();
+                }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                mView.showErrorMessage(throwable);
-                mView.hideProgressBar();
+                if (mView != null) {
+                    mView.showErrorMessage(throwable);
+                    mView.hideProgressBar();
+                }
             }
         });
     }
@@ -55,28 +59,36 @@ public class StationsPresenter implements StationsContract.Presenter {
             mRepository.getStations(true, new DataSource.OnLoadFinishedListener<Station>() {
                 @Override
                 public void onSuccess(List<Station> stations) {
-                    mView.showStations(stations);
-                    mView.hideProgressBar();
+                    if (mView != null) {
+                        mView.showStations(stations);
+                        mView.hideProgressBar();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideProgressBar();
+                    if (mView != null) {
+                        mView.showErrorMessage(throwable);
+                        mView.hideProgressBar();
+                    }
                 }
             });
         } else {
             mRepository.getStations(true, new DataSource.OnLoadFinishedListener<Station>() {
                 @Override
                 public void onSuccess(List<Station> stations) {
-                    mView.showStations(stations);
-                    mView.hideRefreshing();
+                    if (mView != null) {
+                        mView.showStations(stations);
+                        mView.hideRefreshing();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideRefreshing();
+                    if (mView != null) {
+                        mView.showErrorMessage(throwable);
+                        mView.hideRefreshing();
+                    }
                 }
             });
         }
