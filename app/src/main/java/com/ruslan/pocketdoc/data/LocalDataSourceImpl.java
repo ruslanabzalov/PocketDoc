@@ -65,10 +65,10 @@ public class LocalDataSourceImpl implements LocalDataSource {
     public void getClinics(OnLoadFinishedListener<Clinic> listener) {
         mExecutorService.execute(() -> {
             List<Clinic> clinics = mDatabase.clinicsDao().getAllClinics();
-            if (clinics.size() != 0) {
-                mHandler.post(() -> listener.onSuccess(clinics));
-            } else {
+            if (clinics.size() == 0) {
                 mHandler.post(() -> listener.onFailure(new Throwable()));
+            } else {
+                mHandler.post(() -> listener.onSuccess(clinics));
             }
         });
     }

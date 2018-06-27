@@ -22,8 +22,6 @@ interface StationsContract {
 
         void updateStations(boolean isMenuRefreshing);
 
-        void onStationClick(Station station);
-
-        void onMenuItemRefreshClick();
+        void chooseStation(Station station);
     }
 }

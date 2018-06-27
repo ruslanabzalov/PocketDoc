@@ -32,6 +32,8 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
 
+    private String mSpecialityId;
+
     public static Fragment newInstance(String specialityId) {
         Bundle args = new Bundle();
         args.putString(ARG_SPECIALITY_ID, specialityId);
@@ -44,6 +46,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID);
     }
 
     @Override
@@ -77,7 +80,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_refresh_stations:
-                mPresenter.onMenuItemRefreshClick();
+                mPresenter.updateStations(true);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,7 +89,8 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showStations(List<Station> stations) {
-        StationsAdapter adapter = new StationsAdapter(stations, mPresenter::onStationClick);
+        StationsAdapter adapter = new StationsAdapter(stations, mPresenter::chooseStation);
+        adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -117,9 +121,9 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void showDoctorsListUi(String stationId) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment doctorsFragment = DoctorsFragment.newInstance(mSpecialityId, stationId);
         fragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container,
-                        DoctorsFragment.newInstance(getArguments().getString(ARG_SPECIALITY_ID), stationId))
+                .replace(R.id.main_activity_fragment_container, doctorsFragment)
                 .addToBackStack(null)
                 .commit();
     }

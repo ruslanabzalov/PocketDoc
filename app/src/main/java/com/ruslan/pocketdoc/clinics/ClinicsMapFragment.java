@@ -1,7 +1,6 @@
 package com.ruslan.pocketdoc.clinics;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,16 +21,12 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
 
     private ClinicsContract.Presenter mPresenter;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mPresenter = new ClinicsPresenter();
         mPresenter.attachView(this);
-        mSwipeRefreshLayout = new SwipeRefreshLayout(getActivity());
-        mSwipeRefreshLayout.setEnabled(false);
     }
 
     @Override
@@ -64,7 +59,7 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_refresh_clinics:
-                // TODO: Refresh all clinics.
+                mPresenter.updateClinics();
                 return true;
             case R.id.item_show_clinics:
                 // TODO: Show only simple clinics.
@@ -93,12 +88,8 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
     }
 
     @Override
-    public void showProgressBar() {
-        mSwipeRefreshLayout.setEnabled(true);
-    }
+    public void showProgressBar() {}
 
     @Override
-    public void hideProgressBar() {
-        mSwipeRefreshLayout.setEnabled(false);
-    }
+    public void hideProgressBar() {}
 }

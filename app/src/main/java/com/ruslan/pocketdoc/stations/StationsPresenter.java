@@ -83,13 +83,8 @@ public class StationsPresenter implements StationsContract.Presenter {
     }
 
     @Override
-    public void onStationClick(Station station) {
+    public void chooseStation(Station station) {
         String stationId = station.getId();
         mView.showDoctorsListUi(stationId);
-    }
-
-    @Override
-    public void onMenuItemRefreshClick() {
-        updateStations(true);
     }
 }

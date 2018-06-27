@@ -32,7 +32,6 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
 
     @Override
     public void loadClinics() {
-        mView.showProgressBar();
         mRepository.getClinics(false, new DataSource.OnLoadFinishedListener<Clinic>() {
             @Override
             public void onSuccess(List<Clinic> clinics) {
@@ -48,6 +47,16 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
 
     @Override
     public void updateClinics() {
+        mRepository.getClinics(true, new DataSource.OnLoadFinishedListener<Clinic>() {
+            @Override
+            public void onSuccess(List<Clinic> clinics) {
+                mView.showClinics(clinics);
+            }
 
+            @Override
+            public void onFailure(Throwable throwable) {
+                mView.showErrorMessage(throwable);
+            }
+        });
     }
 }

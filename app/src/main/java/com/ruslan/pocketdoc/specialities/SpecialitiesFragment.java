@@ -69,10 +69,10 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_refresh_specialities:
-                mPresenter.onMenuItemRefreshClick();
+                mPresenter.updateSpecialities(true);
                 return true;
             case R.id.item_records_history:
-                mPresenter.onMenuItemRecordsHistoryClick();
+                mPresenter.openRecordsHistory();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,7 +81,8 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showSpecialities(List<Speciality> specialities) {
-        SpecialitiesAdapter adapter = new SpecialitiesAdapter(specialities, mPresenter::onSpecialityClick);
+        SpecialitiesAdapter adapter =
+                new SpecialitiesAdapter(specialities, mPresenter::chooseSpeciality);
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
     }

@@ -35,9 +35,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
             @Override
             public void onResponse(@NonNull Call<SpecialityList> call,
                                    @NonNull Response<SpecialityList> response) {
-                if (response.body() != null) {
-                    listener.onSuccess(response.body().getSpecialities());
-                }
+                listener.onSuccess(response.body().getSpecialities());
             }
 
             @Override
@@ -53,9 +51,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         stationListCall.enqueue(new Callback<StationList>() {
             @Override
             public void onResponse(@NonNull Call<StationList> call, @NonNull Response<StationList> response) {
-                if (response.body() != null) {
-                    listener.onSuccess(response.body().getStations());
-                }
+                listener.onSuccess(response.body().getStations());
             }
 
             @Override
@@ -74,9 +70,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         doctorListCall.enqueue(new Callback<DoctorList>() {
             @Override
             public void onResponse(@NonNull Call<DoctorList> call, @NonNull Response<DoctorList> response) {
-                if (response.body() != null) {
-                    listener.onSuccess(response.body().getDoctors());
-                }
+                listener.onSuccess(response.body().getDoctors());
             }
 
             @Override
@@ -92,9 +86,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         clinicListCall.enqueue(new Callback<ClinicList>() {
             @Override
             public void onResponse(@NonNull Call<ClinicList> call, @NonNull Response<ClinicList> response) {
-                if (response.body() != null) {
-                    listener.onSuccess(response.body().getClinics());
-                }
+                listener.onSuccess(response.body().getClinics());
             }
 
             @Override

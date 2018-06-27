@@ -24,10 +24,8 @@ interface SpecialitiesContract {
 
         void updateSpecialities(boolean isMenuRefreshing);
 
-        void onSpecialityClick(Speciality speciality);
+        void openRecordsHistory();
 
-        void onMenuItemRefreshClick();
-
-        void onMenuItemRecordsHistoryClick();
+        void chooseSpeciality(Speciality speciality);
     }
 }

@@ -83,18 +83,13 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     }
 
     @Override
-    public void onSpecialityClick(Speciality speciality) {
+    public void openRecordsHistory() {
+        mView.showRecordsHistoryListUi();
+    }
+
+    @Override
+    public void chooseSpeciality(Speciality speciality) {
         String specialityId = speciality.getId();
         mView.showStationListUi(specialityId);
-    }
-
-    @Override
-    public void onMenuItemRefreshClick() {
-        updateSpecialities(true);
-    }
-
-    @Override
-    public void onMenuItemRecordsHistoryClick() {
-        mView.showRecordsHistoryListUi();
     }
 }

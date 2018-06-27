@@ -32,6 +32,7 @@ public class DocDocServiceModule {
         return new OkHttpClient.Builder()
                 .addInterceptor(this::customInterceptor)
                 .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build();
     }
 

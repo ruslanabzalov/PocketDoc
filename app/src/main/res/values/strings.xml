@@ -11,6 +11,7 @@
     <!--Menu items (SpecialitiesFragment)-->
     <string name="item_refresh_specialities">Обновить список специальностей</string>
     <string name="title_records_history_activity">История записей</string>
+    <string name="speciality_preview">Специальность</string>
 
     <!--Menu item (StationsFragment)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
@@ -24,7 +25,6 @@
     <string name="item_show_diagnostics">Показать диагностические центры</string>
     <string name="item_refresh_clinics">Обновить список клиник</string>
 
-    <string name="speciality_preview_text">Специальность</string>
     <string name="station_name_preview">Станция метро</string>
     <string name="line_name_preview">Линия</string>
 

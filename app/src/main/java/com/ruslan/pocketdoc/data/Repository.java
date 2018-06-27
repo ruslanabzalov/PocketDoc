@@ -27,10 +27,8 @@ public class Repository {
             mRemoteDataSource.getSpecialities(new DataSource.OnLoadFinishedListener<Speciality>() {
                 @Override
                 public void onSuccess(List<Speciality> specialities) {
-                    if (specialities.size() != 0) {
-                        mLocalDataSource.saveSpecialities(specialities);
-                        listener.onSuccess(specialities);
-                    }
+                    mLocalDataSource.saveSpecialities(specialities);
+                    listener.onSuccess(specialities);
                 }
 
                 @Override
@@ -52,8 +50,8 @@ public class Repository {
                         public void onSuccess(List<Speciality> specialities) {
                             if (specialities.size() != 0) {
                                 mLocalDataSource.saveSpecialities(specialities);
-                                listener.onSuccess(specialities);
                             }
+                            listener.onSuccess(specialities);
                         }
 
                         @Override
@@ -71,10 +69,8 @@ public class Repository {
             mRemoteDataSource.getStations(new DataSource.OnLoadFinishedListener<Station>() {
                 @Override
                 public void onSuccess(List<Station> stations) {
-                    if (stations.size() != 0) {
-                        mLocalDataSource.saveStations(stations);
-                        listener.onSuccess(stations);
-                    }
+                    mLocalDataSource.saveStations(stations);
+                    listener.onSuccess(stations);
                 }
 
                 @Override
@@ -96,8 +92,8 @@ public class Repository {
                         public void onSuccess(List<Station> items) {
                             if (items.size() != 0) {
                                 mLocalDataSource.saveStations(items);
-                                listener.onSuccess(items);
                             }
+                            listener.onSuccess(items);
                         }
 
                         @Override
@@ -115,9 +111,7 @@ public class Repository {
         mRemoteDataSource.getDoctors(specialityId, stationId, new DataSource.OnLoadFinishedListener<Doctor>() {
             @Override
             public void onSuccess(List<Doctor> doctors) {
-                if (doctors.size() != 0) {
-                    listener.onSuccess(doctors);
-                }
+                listener.onSuccess(doctors);
             }
 
             @Override
@@ -132,9 +126,8 @@ public class Repository {
             mRemoteDataSource.getClinics(new DataSource.OnLoadFinishedListener<Clinic>() {
                 @Override
                 public void onSuccess(List<Clinic> clinics) {
-                    if (clinics.size() != 0) {
-                        listener.onSuccess(clinics);
-                    }
+                    listener.onSuccess(clinics);
+                    mLocalDataSource.saveClinics(clinics);
                 }
 
                 @Override
@@ -146,9 +139,7 @@ public class Repository {
             mLocalDataSource.getClinics(new DataSource.OnLoadFinishedListener<Clinic>() {
                 @Override
                 public void onSuccess(List<Clinic> clinics) {
-                    if (clinics.size() != 0) {
-                        listener.onSuccess(clinics);
-                    }
+                    listener.onSuccess(clinics);
                 }
 
                 @Override
@@ -158,8 +149,8 @@ public class Repository {
                         public void onSuccess(List<Clinic> clinics) {
                             if (clinics.size() != 0) {
                                 mLocalDataSource.saveClinics(clinics);
-                                listener.onSuccess(clinics);
                             }
+                            listener.onSuccess(clinics);
                         }
 
                         @Override
