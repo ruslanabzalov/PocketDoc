@@ -36,7 +36,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     @Override
     public void loadSpecialities() {
         mView.showProgressBar();
-        mRepository.getSpecialities()
+        mRepository.getSpecialities(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<SpecialityList>() {
@@ -65,7 +65,62 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     }
 
     @Override
-    public void updateSpecialities(boolean isMenuRefreshing) {}
+    public void updateSpecialities(boolean isMenuRefreshing) {
+        if (isMenuRefreshing) {
+            mView.showProgressBar();
+            mRepository.getSpecialities(true)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<SpecialityList>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {}
+
+                        @Override
+                        public void onNext(SpecialityList specialityList) {
+                            if (mView != null) {
+                                mView.showSpecialities(specialityList.getSpecialities());
+                                mView.hideProgressBar();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (mView != null) {
+                                mView.showErrorMessage(e);
+                                mView.hideProgressBar();
+                            }
+                        }
+
+                        @Override
+                        public void onComplete() {}
+                    });
+        } else {
+            mRepository.getSpecialities(true)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<SpecialityList>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {}
+
+                        @Override
+                        public void onNext(SpecialityList specialityList) {
+                            if (mView != null) {
+                                mView.showSpecialities(specialityList.getSpecialities());
+                                mView.hideRefreshing();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            mView.showErrorMessage(e);
+                            mView.hideRefreshing();
+                        }
+
+                        @Override
+                        public void onComplete() {}
+                    });
+        }
+    }
 
     @Override
     public void openRecordsHistory() {

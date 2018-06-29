@@ -20,7 +20,7 @@ interface DoctorsContract {
 
         void loadDoctors(String specialityId, String stationId);
 
-        void updateDoctors(String specialityId, String stationId, boolean isMenuUpdate);
+        void updateDoctors(String specialityId, String stationId, boolean isMenuRefreshing);
 
         void chooseDoctor(Doctor doctor);
     }

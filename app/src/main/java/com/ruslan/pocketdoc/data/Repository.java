@@ -22,19 +22,19 @@ public class Repository {
         App.getComponent().inject(this);
     }
 
-    public Observable<SpecialityList> getSpecialities() {
+    public Observable<SpecialityList> getSpecialities(boolean forceUpdate) {
         return mRemoteDataSource.getSpecialities();
     }
 
-    public Observable<StationList> getStations() {
+    public Observable<StationList> getStations(boolean forceUpdate) {
         return mRemoteDataSource.getStations();
     }
 
-    public Observable<DoctorList> getDoctors(String specialityId, String stationId) {
+    public Observable<DoctorList> getDoctors(String specialityId, String stationId, boolean forceUpdate) {
         return mRemoteDataSource.getDoctors(specialityId, stationId);
     }
 
-    public Observable<ClinicList> getClinics() {
+    public Observable<ClinicList> getClinics(boolean forceUpdate) {
         return mRemoteDataSource.getClinics();
     }
 }
