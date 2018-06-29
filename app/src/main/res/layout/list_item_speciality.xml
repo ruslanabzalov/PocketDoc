@@ -6,6 +6,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:textColor="@color/colorTextViewText"
     android:textSize="18sp"
-    tools:text="@string/speciality_preview"/>
+    tools:text="@string/speciality_name_preview"/>

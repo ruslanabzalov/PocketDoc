@@ -22,6 +22,6 @@ interface DoctorsContract {
 
         void updateDoctors(String specialityId, String stationId, boolean isMenuUpdate);
 
-        void onDoctorClick(Doctor doctor);
+        void chooseDoctor(Doctor doctor);
     }
 }

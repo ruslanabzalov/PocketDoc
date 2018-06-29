@@ -6,8 +6,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.ruslan.pocketdoc.data.AppDatabase;
-import com.ruslan.pocketdoc.data.LocalDataSourceImpl;
-import com.ruslan.pocketdoc.data.RemoteDataSourceImpl;
+import com.ruslan.pocketdoc.data.LocalDataSource;
+import com.ruslan.pocketdoc.data.RemoteDataSource;
 import com.ruslan.pocketdoc.data.Repository;
 
 import java.util.concurrent.ExecutorService;
@@ -41,14 +41,14 @@ public class DataSourceModule {
 
     @Provides
     @Singleton
-    public RemoteDataSourceImpl provideRemoteDataSource() {
-        return new RemoteDataSourceImpl();
+    public RemoteDataSource provideRemoteDataSource() {
+        return new RemoteDataSource();
     }
 
     @Provides
     @Singleton
-    public LocalDataSourceImpl provideLocalDataSource() {
-        return new LocalDataSourceImpl();
+    public LocalDataSource provideLocalDataSource() {
+        return new LocalDataSource();
     }
 
     @Provides

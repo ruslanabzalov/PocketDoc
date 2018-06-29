@@ -13,17 +13,24 @@
     <string name="title_records_history_activity">История записей</string>
 
     <!--Preview (SpecialitiesFragment)-->
-    <string name="speciality_preview">Специальность</string>
+    <string name="speciality_name_preview">Специальность</string>
 
     <!--Menu item (StationsFragment)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
 
-    <!--Preview (StationsFragment)-->
+    <!--Previews (StationsFragment)-->
     <string name="station_name_preview">Станция метро</string>
     <string name="line_name_preview">Линия</string>
 
-    <!--Menu items (DoctorsFragment)-->
+    <!--Menu item (DoctorsFragment)-->
     <string name="item_refresh_doctors">Обновить список докторов</string>
+
+    <!--Previews (DoctorsFragment)-->
+    <string name="doctor_name_preview">Имя врача</string>
+    <string name="doctor_rating_preview">Рейтинг врача</string>
+
+    <!--Content description (DoctorsFragment)-->
+    <string name="doctor_photo_content_description">Фотография врача</string>
 
     <!--Menu items (ClinicsMapFragment)-->
     <string name="item_show_all_clinics">Показать все медицинские центры</string>

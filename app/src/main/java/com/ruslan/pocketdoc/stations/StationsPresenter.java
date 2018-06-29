@@ -1,13 +1,13 @@
 package com.ruslan.pocketdoc.stations;
 
 import com.ruslan.pocketdoc.App;
-import com.ruslan.pocketdoc.data.DataSource;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.stations.Station;
 
-import java.util.List;
-
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class StationsPresenter implements StationsContract.Presenter {
 
@@ -32,66 +32,18 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     @Override
     public void loadStations() {
-        mView.showProgressBar();
-        mRepository.getStations(false, new DataSource.OnLoadFinishedListener<Station>() {
-            @Override
-            public void onSuccess(List<Station> stations) {
-                if (mView != null) {
-                    mView.showStations(stations);
-                    mView.hideProgressBar();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                if (mView != null) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideProgressBar();
-                }
-            }
-        });
+        mRepository.getStations()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stationList -> mView.showStations(stationList.getStations()));
     }
 
     @Override
     public void updateStations(boolean isMenuRefreshing) {
-        if (isMenuRefreshing) {
-            mView.showProgressBar();
-            mRepository.getStations(true, new DataSource.OnLoadFinishedListener<Station>() {
-                @Override
-                public void onSuccess(List<Station> stations) {
-                    if (mView != null) {
-                        mView.showStations(stations);
-                        mView.hideProgressBar();
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    if (mView != null) {
-                        mView.showErrorMessage(throwable);
-                        mView.hideProgressBar();
-                    }
-                }
-            });
-        } else {
-            mRepository.getStations(true, new DataSource.OnLoadFinishedListener<Station>() {
-                @Override
-                public void onSuccess(List<Station> stations) {
-                    if (mView != null) {
-                        mView.showStations(stations);
-                        mView.hideRefreshing();
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    if (mView != null) {
-                        mView.showErrorMessage(throwable);
-                        mView.hideRefreshing();
-                    }
-                }
-            });
-        }
+        mRepository.getStations()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stationList -> mView.showStations(stationList.getStations()));
     }
 
     @Override

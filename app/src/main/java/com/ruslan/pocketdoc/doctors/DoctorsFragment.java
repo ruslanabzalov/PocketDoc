@@ -49,10 +49,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (getArguments() != null) {
-            mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID, null);
-            mStationId = getArguments().getString(ARG_STATION_ID, null);
-        }
+        mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID, null);
+        mStationId = getArguments().getString(ARG_STATION_ID, null);
     }
 
     @Override
@@ -95,7 +93,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     @Override
     public void showDoctors(List<Doctor> doctors) {
-        DoctorsAdapter adapter = new DoctorsAdapter(doctors, mPresenter::onDoctorClick);
+        DoctorsAdapter adapter = new DoctorsAdapter(doctors, mPresenter::chooseDoctor);
         mRecyclerView.setAdapter(adapter);
     }
 

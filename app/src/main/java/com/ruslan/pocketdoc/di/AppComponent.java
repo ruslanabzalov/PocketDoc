@@ -1,8 +1,8 @@
 package com.ruslan.pocketdoc.di;
 
 import com.ruslan.pocketdoc.clinics.ClinicsPresenter;
-import com.ruslan.pocketdoc.data.LocalDataSourceImpl;
-import com.ruslan.pocketdoc.data.RemoteDataSourceImpl;
+import com.ruslan.pocketdoc.data.LocalDataSource;
+import com.ruslan.pocketdoc.data.RemoteDataSource;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.doctors.DoctorsPresenter;
 import com.ruslan.pocketdoc.specialities.SpecialitiesPresenter;
@@ -16,9 +16,9 @@ import dagger.Component;
 @Component(modules = {ContextModule.class, DocDocServiceModule.class, DataSourceModule.class})
 public interface AppComponent {
 
-    void inject(RemoteDataSourceImpl remoteDataSource);
+    void inject(RemoteDataSource remoteDataSource);
 
-    void inject(LocalDataSourceImpl localDataSource);
+    void inject(LocalDataSource localDataSource);
 
     void inject(Repository repository);
 

@@ -1,13 +1,12 @@
 package com.ruslan.pocketdoc.clinics;
 
 import com.ruslan.pocketdoc.App;
-import com.ruslan.pocketdoc.data.DataSource;
 import com.ruslan.pocketdoc.data.Repository;
-import com.ruslan.pocketdoc.data.clinics.Clinic;
-
-import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class ClinicsPresenter implements ClinicsContract.Presenter {
 
@@ -32,39 +31,21 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
 
     @Override
     public void loadClinics() {
-        mRepository.getClinics(false, new DataSource.OnLoadFinishedListener<Clinic>() {
-            @Override
-            public void onSuccess(List<Clinic> clinics) {
-                if (mView != null) {
-                    mView.showClinics(clinics);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                if (mView != null) {
-                    mView.showErrorMessage(throwable);
-                }
-            }
-        });
+        mRepository.getClinics()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(clinicList -> {
+                    if (mView != null) {
+                        mView.showClinics(clinicList.getClinics());
+                    }
+                });
     }
 
     @Override
     public void updateClinics() {
-        mRepository.getClinics(true, new DataSource.OnLoadFinishedListener<Clinic>() {
-            @Override
-            public void onSuccess(List<Clinic> clinics) {
-                if (mView != null) {
-                    mView.showClinics(clinics);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                if (mView != null) {
-                    mView.showErrorMessage(throwable);
-                }
-            }
-        });
+        mRepository.getClinics()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(clinicList -> mView.showClinics(clinicList.getClinics()));
     }
 }

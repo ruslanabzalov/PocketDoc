@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.ruslan.pocketdoc.clinics.ClinicsMapFragment;
 import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle(R.string.main_activity_title);
+        Toolbar toolbar = findViewById(R.id.main_activity_toolbar);
+        setSupportActionBar(toolbar);
 
         mFragmentManager = getSupportFragmentManager();
         if (mFragmentManager.findFragmentById(R.id.main_activity_fragment_container) == null) {

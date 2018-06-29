@@ -1,13 +1,16 @@
 package com.ruslan.pocketdoc.specialities;
 
 import com.ruslan.pocketdoc.App;
-import com.ruslan.pocketdoc.data.DataSource;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
-
-import java.util.List;
+import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
@@ -33,66 +36,36 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     @Override
     public void loadSpecialities() {
         mView.showProgressBar();
-        mRepository.getSpecialities(false, new DataSource.OnLoadFinishedListener<Speciality>() {
-            @Override
-            public void onSuccess(List<Speciality> specialities) {
-                if (mView != null) {
-                    mView.showSpecialities(specialities);
-                    mView.hideProgressBar();
-                }
-            }
+        mRepository.getSpecialities()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SpecialityList>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                if (mView != null) {
-                    mView.showErrorMessage(throwable);
-                    mView.hideProgressBar();
-                }
-            }
-        });
+                    @Override
+                    public void onNext(SpecialityList specialityList) {
+                        if (mView != null) {
+                            mView.showSpecialities(specialityList.getSpecialities());
+                            mView.hideProgressBar();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (mView != null) {
+                            mView.showErrorMessage(e);
+                            mView.hideProgressBar();
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {}
+                });
     }
 
     @Override
-    public void updateSpecialities(boolean isMenuRefreshing) {
-        if (isMenuRefreshing) {
-            mView.showProgressBar();
-            mRepository.getSpecialities(true, new DataSource.OnLoadFinishedListener<Speciality>() {
-                @Override
-                public void onSuccess(List<Speciality> specialities) {
-                    if (mView != null) {
-                        mView.showSpecialities(specialities);
-                        mView.hideProgressBar();
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    if (mView != null) {
-                        mView.showErrorMessage(throwable);
-                        mView.hideProgressBar();
-                    }
-                }
-            });
-        } else {
-            mRepository.getSpecialities(true, new DataSource.OnLoadFinishedListener<Speciality>() {
-                @Override
-                public void onSuccess(List<Speciality> specialities) {
-                    if (mView != null) {
-                        mView.showSpecialities(specialities);
-                        mView.hideRefreshing();
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    if (mView != null) {
-                        mView.showErrorMessage(throwable);
-                        mView.hideRefreshing();
-                    }
-                }
-            });
-        }
-    }
+    public void updateSpecialities(boolean isMenuRefreshing) {}
 
     @Override
     public void openRecordsHistory() {
