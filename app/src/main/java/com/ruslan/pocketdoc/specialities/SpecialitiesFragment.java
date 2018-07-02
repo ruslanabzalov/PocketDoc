@@ -30,6 +30,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private SpecialitiesAdapter mAdapter;
     private ProgressBar mProgressBar;
 
     @Override
@@ -81,10 +82,15 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showSpecialities(List<Speciality> specialities) {
-        SpecialitiesAdapter adapter =
-                new SpecialitiesAdapter(specialities, mPresenter::chooseSpeciality);
-        adapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(adapter);
+        if (mAdapter == null) {
+            mAdapter = new SpecialitiesAdapter(specialities, mPresenter::chooseSpeciality);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.updateDataSet(specialities);
+            if (mRecyclerView.getAdapter() == null) {
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        }
     }
 
     @Override
@@ -128,11 +134,11 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     private void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
         mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

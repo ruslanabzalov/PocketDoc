@@ -112,8 +112,10 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
                         @Override
                         public void onError(Throwable e) {
-                            mView.showErrorMessage(e);
-                            mView.hideRefreshing();
+                            if (mView != null) {
+                                mView.showErrorMessage(e);
+                                mView.hideRefreshing();
+                            }
                         }
 
                         @Override
@@ -129,7 +131,6 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     @Override
     public void chooseSpeciality(Speciality speciality) {
-        String specialityId = speciality.getId();
-        mView.showStationListUi(specialityId);
+        mView.showStationListUi(speciality.getId());
     }
 }

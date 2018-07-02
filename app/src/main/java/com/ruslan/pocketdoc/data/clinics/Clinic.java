@@ -78,7 +78,6 @@ public class Clinic {
 
 //    private List<Schedule> mSchedules;
 
-
     @NonNull
     public int getId() {
         return mId;

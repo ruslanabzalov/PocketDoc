@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-class DoctorsAdapter extends RecyclerView.Adapter<DoctorViewHolder> {
+class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
     private RecyclerItemOnClickListener<Doctor> mListener;
 
@@ -44,30 +44,33 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorViewHolder> {
     public int getItemCount() {
         return mDoctors.size();
     }
-}
 
-class DoctorViewHolder extends RecyclerView.ViewHolder {
+    static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
-    private ImageView mDoctorPhotoImageView;
-    private TextView mDoctorNameTextView;
-    private TextView mDoctorRatingTextView;
+        private ImageView mDoctorPhotoImageView;
+        private TextView mDoctorNameTextView;
+        private TextView mDoctorRatingTextView;
+        private TextView mDoctorExperienceTextView;
 
-    private Doctor mDoctor;
+        private Doctor mDoctor;
 
-    DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
-        super(view);
-        itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
-        mDoctorPhotoImageView = itemView.findViewById(R.id.doctor_photo_image_view);
-        mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
-        mDoctorRatingTextView = itemView.findViewById(R.id.doctor_rating_text_view);
-    }
+        DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
+            super(view);
+            itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
+            mDoctorPhotoImageView = itemView.findViewById(R.id.doctor_photo_image_view);
+            mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
+            mDoctorRatingTextView = itemView.findViewById(R.id.doctor_rating_text_view);
+            mDoctorExperienceTextView = itemView.findViewById(R.id.doctor_experience_text_view);
+        }
 
-    void bind(Doctor doctor) {
-        mDoctor = doctor;
-        Picasso.get()
-                .load(mDoctor.getPhotoUrl())
-                .into(mDoctorPhotoImageView);
-        mDoctorNameTextView.setText(mDoctor.getName());
-        mDoctorRatingTextView.setText(mDoctor.getRating());
+        void bind(Doctor doctor) {
+            mDoctor = doctor;
+            Picasso.get()
+                    .load(mDoctor.getPhotoUrl())
+                    .into(mDoctorPhotoImageView);
+            mDoctorNameTextView.setText("Имя врача: " + mDoctor.getName());
+            mDoctorRatingTextView.setText("Рейтинг врача " + mDoctor.getRating() + "/5");
+            mDoctorExperienceTextView.setText("Стаж работы: " + mDoctor.getExperience());
+        }
     }
 }

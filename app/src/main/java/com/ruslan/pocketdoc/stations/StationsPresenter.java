@@ -126,7 +126,6 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     @Override
     public void chooseStation(Station station) {
-        String stationId = station.getId();
-        mView.showDoctorsListUi(stationId);
+        mView.showDoctorsListUi(station.getId());
     }
 }

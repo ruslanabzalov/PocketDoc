@@ -132,6 +132,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.doctors_refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateDoctors(mSpecialityId, mStationId, false));
         mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());

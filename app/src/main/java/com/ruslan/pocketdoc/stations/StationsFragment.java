@@ -30,6 +30,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private StationsAdapter mAdapter;
     private ProgressBar mProgressBar;
 
     private String mSpecialityId;
@@ -89,9 +90,15 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showStations(List<Station> stations) {
-        StationsAdapter adapter = new StationsAdapter(stations, mPresenter::chooseStation);
-        adapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(adapter);
+        if (mAdapter == null) {
+            mAdapter = new StationsAdapter(stations, mPresenter::chooseStation);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.updateDataSet(stations);
+            if (mRecyclerView.getAdapter() == null) {
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        }
     }
 
     @Override
@@ -130,11 +137,11 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     private void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.stations_refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateStations(false));
         mRecyclerView = view.findViewById(R.id.stations_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
         mProgressBar = view.findViewById(R.id.stations_progress_bar);
     }
 }

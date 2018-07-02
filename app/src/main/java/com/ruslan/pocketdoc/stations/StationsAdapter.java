@@ -13,7 +13,7 @@ import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 
 import java.util.List;
 
-class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
+class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHolder> {
 
     private RecyclerItemOnClickListener<Station> mListener;
 
@@ -42,25 +42,30 @@ class StationsAdapter extends RecyclerView.Adapter<StationViewHolder> {
     public int getItemCount() {
         return mStations.size();
     }
-}
 
-class StationViewHolder extends RecyclerView.ViewHolder {
-
-    private TextView mStationNameTextView;
-    private TextView mLineNameTextView;
-
-    private Station mStation;
-
-    StationViewHolder(View view, RecyclerItemOnClickListener<Station> listener) {
-        super(view);
-        itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
-        mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
-        mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
+    void updateDataSet(List<Station> stations) {
+        mStations = stations;
+        notifyDataSetChanged();
     }
 
-    void bind(Station station) {
-        mStation = station;
-        mStationNameTextView.setText(mStation.getName());
-        mLineNameTextView.setText(mStation.getLineName());
+    static class StationViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mStationNameTextView;
+        private TextView mLineNameTextView;
+
+        private Station mStation;
+
+        StationViewHolder(View view, RecyclerItemOnClickListener<Station> listener) {
+            super(view);
+            itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
+            mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
+            mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
+        }
+
+        void bind(Station station) {
+            mStation = station;
+            mStationNameTextView.setText(mStation.getName());
+            mLineNameTextView.setText(mStation.getLineName());
+        }
     }
 }

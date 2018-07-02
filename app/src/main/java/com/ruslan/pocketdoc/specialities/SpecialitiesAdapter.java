@@ -13,7 +13,7 @@ import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 
 import java.util.List;
 
-class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> {
+class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.SpecialityHolder> {
 
     private RecyclerItemOnClickListener<Speciality> mListener;
 
@@ -42,23 +42,27 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialityHolder> {
     public int getItemCount() {
         return mSpecialities.size();
     }
-}
 
-class SpecialityHolder extends RecyclerView.ViewHolder {
-
-    private TextView mSpecialityNameTextView;
-
-    private Speciality mSpeciality;
-
-    SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> listener) {
-        super(view);
-        itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
-        mSpecialityNameTextView = itemView.findViewById(R.id.spec_name_text_view);
+    void updateDataSet(List<Speciality> specialities) {
+        mSpecialities = specialities;
+        notifyDataSetChanged();
     }
 
-    void bind(Speciality speciality) {
-        mSpeciality = speciality;
-        String specialityName = mSpeciality.getName();
-        mSpecialityNameTextView.setText(specialityName);
+    static class SpecialityHolder extends RecyclerView.ViewHolder {
+
+        private TextView mSpecialityNameTextView;
+
+        private Speciality mSpeciality;
+
+        SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> listener) {
+            super(view);
+            itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
+            mSpecialityNameTextView = itemView.findViewById(R.id.spec_name_text_view);
+        }
+
+        void bind(Speciality speciality) {
+            mSpeciality = speciality;
+            mSpecialityNameTextView.setText(speciality.getName());
+        }
     }
 }
