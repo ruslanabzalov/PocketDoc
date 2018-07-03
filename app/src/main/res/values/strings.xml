@@ -3,8 +3,14 @@
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
 
-    <!--MainActivity & tabs titles-->
-    <string name="main_activity_title">Поиск врачей</string>
+    <!--MainActivity, fragments titles & tabs titles-->
+    <string name="specialities_title">Список специальностей</string>
+    <string name="clinics_title">Карта клиник</string>
+    <string name="records_history_title">История записей</string>
+    <string name="stations_title">Список станций метро</string>
+    <string name="doctors_title">Список врачей</string>
+    <string name="doctor_title">Информация о враче</string>
+    <string name="new_record_title">Оформление заявки</string>
     <string name="tab_title_doctors">Врачи</string>
     <string name="tab_title_clinics">Клиники</string>
 
@@ -15,11 +21,17 @@
     <!--Preview (SpecialitiesFragment)-->
     <string name="speciality_name_preview">Специальность</string>
 
+    <!--Menu items (ClinicsMapFragment)-->
+    <string name="item_show_all_clinics">Все мед. центры</string>
+    <string name="item_show_clinics">Клиники</string>
+    <string name="item_show_diagnostics">Диагностические центры</string>
+    <string name="item_refresh_clinics">Обновить список клиник</string>
+
     <!--Menu item (StationsFragment)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
 
     <!--Previews (StationsFragment)-->
-    <string name="station_name_preview">Станция метро</string>
+    <string name="station_name_preview">Станция</string>
     <string name="line_name_preview">Линия</string>
 
     <!--Menu item (DoctorsFragment)-->
@@ -33,16 +45,8 @@
     <!--Content description (DoctorsFragment)-->
     <string name="doctor_photo_content_description">Фотография врача</string>
 
-    <!--Menu items (ClinicsMapFragment)-->
-    <string name="item_show_all_clinics">Показать все медицинские центры</string>
-    <string name="item_show_clinics">Показать клиники</string>
-    <string name="item_show_diagnostics">Показать диагностические центры</string>
-    <string name="item_refresh_clinics">Обновить список клиник</string>
-
+    <!--DoctorFragment-->
     <string name="enroll_doctor_button_hint">Записаться</string>
 
     <string name="load_error_toast">Ошибка получения данных от сервера:</string>
-
-    <string name="positive_calendar_dialog_button">Ок</string>
-    <string name="negative_calendar_dialog_button">Отмена</string>
 </resources>

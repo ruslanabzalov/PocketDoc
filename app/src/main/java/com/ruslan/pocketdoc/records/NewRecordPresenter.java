@@ -9,17 +9,4 @@ class NewRecordPresenter implements NewRecordContract.Presenter {
     NewRecordPresenter(NewRecordContract.View newRecordView) {
         mNewRecordView = newRecordView;
     }
-
-    @Override
-    public void onDestroy() {
-        mNewRecordView = null;
-    }
-
-    @Override
-    public void onCalendarButtonClick() {
-        if (mNewRecordView != null) {
-            DialogFragment calendarDialog = new SessionDateDialogFragment();
-            mNewRecordView.showCalendar(calendarDialog);
-        }
-    }
 }

@@ -40,12 +40,16 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.doctor_title);
         mDoctor = (Doctor) getArguments().getSerializable(ARG_DOCTOR);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (!getActivity().getTitle().equals(getString(R.string.doctor_title))) {
+            getActivity().setTitle(R.string.doctor_title);
+        }
         View view = inflater.inflate(R.layout.fragment_doctor, container, false);
         initViews(view);
         mPresenter = new DoctorPresenter();

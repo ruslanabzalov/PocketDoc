@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle(R.string.main_activity_title);
         Toolbar toolbar = findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
 
@@ -27,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
             mFragmentManager.beginTransaction()
                     .add(R.id.main_activity_fragment_container, specialitiesFragment)
-                    .addToBackStack(null)
                     .commit();
         }
         mFragmentManager.addOnBackStackChangedListener(this::enableUpButton);
@@ -42,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
                         if (!(fragment instanceof SpecialitiesFragment)) {
                             clearBackStack();
                             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
-                            addFragment(specialitiesFragment);
+                            replaceFragment(specialitiesFragment);
                         }
                     case 1:
                         if (!(fragment instanceof ClinicsMapFragment)) {
                             clearBackStack();
                             ClinicsMapFragment clinicsMapFragment = new ClinicsMapFragment();
-                            addFragment(clinicsMapFragment);
+                            replaceFragment(clinicsMapFragment);
                         }
                 }
             }
@@ -64,20 +62,11 @@ public class MainActivity extends AppCompatActivity {
                         if (!(fragment instanceof SpecialitiesFragment)) {
                             clearBackStack();
                             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
-                            addFragment(specialitiesFragment);
+                            replaceFragment(specialitiesFragment);
                         }
                 }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mFragmentManager.getBackStackEntryCount() == 1) {
-            finish();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -87,13 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enableUpButton() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 1);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
     }
 
-    private void addFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
-                .add(R.id.main_activity_fragment_container, fragment)
-                .addToBackStack(null)
+                .replace(R.id.main_activity_fragment_container, fragment)
                 .commit();
     }
 

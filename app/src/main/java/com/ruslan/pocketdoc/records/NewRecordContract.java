@@ -4,12 +4,7 @@ import android.support.v4.app.DialogFragment;
 
 interface NewRecordContract {
 
-    interface View {
-        void showCalendar(DialogFragment dialogFragment);
-    }
+    interface View {}
 
-    interface Presenter {
-        void onDestroy();
-        void onCalendarButtonClick();
-    }
+    interface Presenter {}
 }

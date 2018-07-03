@@ -24,6 +24,7 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.clinics_title);
         setHasOptionsMenu(true);
         mPresenter = new ClinicsPresenter();
         mPresenter.attachView(this);

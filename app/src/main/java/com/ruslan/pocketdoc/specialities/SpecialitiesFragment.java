@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,12 +37,17 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.specialities_title);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (!getActivity().getTitle().equals(getString(R.string.specialities_title))) {
+            getActivity().setTitle(R.string.specialities_title);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
         initViews(rootView);
         mPresenter = new SpecialitiesPresenter();
@@ -139,6 +145,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), linearLayoutManager.getOrientation()));
         mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

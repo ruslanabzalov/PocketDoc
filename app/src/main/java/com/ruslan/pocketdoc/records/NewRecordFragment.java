@@ -23,7 +23,6 @@ public class NewRecordFragment extends Fragment implements NewRecordContract.Vie
 
     private EditText mUserNameEditText;
     private EditText mUserPhoneEditText;
-    private Button mShowCalendarButton;
     private Button mCreateRecordButton;
 
     private FragmentManager mFragmentManager;
@@ -43,12 +42,9 @@ public class NewRecordFragment extends Fragment implements NewRecordContract.Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mDoctorId = getArguments().getInt(ARG_DOCTOR_ID, 0);
-        }
-        if (getActivity() != null) {
-            mFragmentManager = getActivity().getSupportFragmentManager();
-        }
+        getActivity().setTitle(R.string.new_record_title);
+        mDoctorId = getArguments().getInt(ARG_DOCTOR_ID, 0);
+        mFragmentManager = getActivity().getSupportFragmentManager();
     }
 
     @Override
@@ -61,27 +57,13 @@ public class NewRecordFragment extends Fragment implements NewRecordContract.Vie
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mShowCalendarButton.setText(SessionDateDialogFragment.getSessionDateDialogFragmentResult(data));
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
-        mNewRecordPresenter.onDestroy();
-    }
-
-    @Override
-    public void showCalendar(DialogFragment dialogFragment) {
-        dialogFragment.setTargetFragment(this, CALENDAR_DIALOG_REQUEST);
-        dialogFragment.show(mFragmentManager, CALENDAR_DIALOG_FRAGMENT);
     }
 
     private void initViews(View view) {
         mUserNameEditText = view.findViewById(R.id.user_name_edit_text);
         mUserPhoneEditText = view.findViewById(R.id.user_phone_edit_text);
-        mShowCalendarButton = view.findViewById(R.id.session_date_button);
-        mShowCalendarButton.setOnClickListener(v -> mNewRecordPresenter.onCalendarButtonClick());
         mCreateRecordButton = view.findViewById(R.id.create_record_button);
     }
 }

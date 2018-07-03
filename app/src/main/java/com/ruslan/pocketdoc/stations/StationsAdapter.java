@@ -64,8 +64,21 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
 
         void bind(Station station) {
             mStation = station;
-            mStationNameTextView.setText(mStation.getName());
-            mLineNameTextView.setText(mStation.getLineName());
+            String stationName =
+                    String.format("%s %s",
+                            itemView.getResources().getString(R.string.station_name_preview),
+                            mStation.getName());
+            String stationLineName;
+            if (mStation.getLineName().contains("кольцо")) {
+                stationLineName = mStation.getLineName();
+            } else {
+                stationLineName =
+                        String.format("%s %s",
+                                mStation.getLineName(),
+                                itemView.getResources().getString(R.string.line_name_preview).toLowerCase());
+            }
+            mStationNameTextView.setText(stationName);
+            mLineNameTextView.setText(stationLineName);
         }
     }
 }

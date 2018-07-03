@@ -48,6 +48,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.doctors_title);
         setHasOptionsMenu(true);
         mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID, null);
         mStationId = getArguments().getString(ARG_STATION_ID, null);
@@ -56,6 +57,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (!getActivity().getTitle().equals(getString(R.string.doctors_title))) {
+            getActivity().setTitle(R.string.doctors_title);
+        }
         View rootView = inflater.inflate(R.layout.fragment_doctors, container, false);
         initViews(rootView);
         mPresenter = new DoctorsPresenter();

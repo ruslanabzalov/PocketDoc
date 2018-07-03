@@ -44,6 +44,8 @@ dependencies {
     // Architecture Components
     implementation "android.arch.persistence.room:runtime:$arch_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
+    implementation "android.arch.persistence.room:rxjava2:$arch_version"
+    testImplementation "android.arch.persistence.room:testing:$arch_version"
 
     // Google Play Services (Maps & Location)
     implementation "com.google.android.gms:play-services-maps:$play_services_version"
