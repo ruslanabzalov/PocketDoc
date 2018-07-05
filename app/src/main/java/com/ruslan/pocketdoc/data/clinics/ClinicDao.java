@@ -7,6 +7,8 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface ClinicDao {
 
@@ -17,7 +19,7 @@ public interface ClinicDao {
     int countAll();
 
     @Query("SELECT * FROM clinics")
-    List<Clinic> getAllClinics();
+    Flowable<List<Clinic>> getAllClinics();
 
     @Query("DELETE FROM clinics")
     void clearTable();

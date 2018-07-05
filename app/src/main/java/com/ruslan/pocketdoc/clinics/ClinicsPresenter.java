@@ -2,16 +2,16 @@ package com.ruslan.pocketdoc.clinics;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
-import com.ruslan.pocketdoc.data.clinics.ClinicList;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ClinicsPresenter implements ClinicsContract.Presenter {
+
+    private Disposable mDisposable;
 
     @Inject
     Repository mRepository;
@@ -30,61 +30,44 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
+        mDisposable.dispose();
     }
 
     @Override
     public void loadClinics() {
-        mRepository.getClinics(false)
+        mDisposable = mRepository.getClinics(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ClinicList>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {}
-
-                    @Override
-                    public void onNext(ClinicList clinicList) {
-                        if (mView != null) {
-                            mView.showClinics(clinicList.getClinics());
+                .subscribe(
+                        clinics -> {
+                            if (mView != null) {
+                                mView.showClinics(clinics);
+                            }
+                        },
+                        throwable -> {
+                            if (mView != null) {
+                                mView.showErrorMessage(throwable);
+                            }
                         }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mView != null) {
-                            mView.showErrorMessage(e);
-                        }
-                    }
-
-                    @Override
-                    public void onComplete() {}
-                });
+                );
     }
 
     @Override
     public void updateClinics() {
-        mRepository.getClinics(true)
+        mDisposable = mRepository.getClinics(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ClinicList>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {}
-
-                    @Override
-                    public void onNext(ClinicList clinicList) {
-                        if (mView != null) {
-                            mView.showClinics(clinicList.getClinics());
+                .subscribe(
+                        clinics -> {
+                            if (mView != null) {
+                                mView.showClinics(clinics);
+                            }
+                        },
+                        throwable -> {
+                            if (mView != null) {
+                                mView.showErrorMessage(throwable);
+                            }
                         }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mView != null) {
-                            mView.showErrorMessage(e);
-                        }
-                    }
-
-                    @Override
-                    public void onComplete() {}
-                });
+                );
     }
 }

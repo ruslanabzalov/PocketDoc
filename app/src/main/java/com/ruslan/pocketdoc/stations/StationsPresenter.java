@@ -3,11 +3,11 @@ package com.ruslan.pocketdoc.stations;
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.stations.Station;
-import com.ruslan.pocketdoc.data.stations.StationList;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -15,6 +15,8 @@ import io.reactivex.schedulers.Schedulers;
 public class StationsPresenter implements StationsContract.Presenter {
 
     private StationsContract.View mView;
+
+    private Disposable mDisposable;
 
     @Inject
     Repository mRepository;
@@ -31,101 +33,81 @@ public class StationsPresenter implements StationsContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
+        mDisposable.dispose();
     }
 
     @Override
     public void loadStations() {
         mView.showProgressBar();
-        mRepository.getStations(false)
+        mDisposable = mRepository.getStations(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<StationList>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {}
-
-                    @Override
-                    public void onNext(StationList stationList) {
-                        if (mView != null) {
-                            mView.showStations(stationList.getStations());
-                            mView.hideProgressBar();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mView != null) {
-                            mView.showErrorMessage(e);
-                            mView.hideProgressBar();
-                        }
-                    }
-
-                    @Override
-                    public void onComplete() {}
-                });
+                .subscribe(
+                        this::showList,
+                        this::showError
+                );
     }
 
     @Override
     public void updateStations(boolean isMenuRefreshing) {
         if (isMenuRefreshing) {
             mView.showProgressBar();
-            mRepository.getStations(true)
+            mDisposable = mRepository.getStations(true)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<StationList>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {}
-
-                        @Override
-                        public void onNext(StationList stationList) {
-                            if (mView != null) {
-                                mView.showStations(stationList.getStations());
-                                mView.hideProgressBar();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            if (mView != null) {
-                                mView.showErrorMessage(e);
-                                mView.hideProgressBar();
-                            }
-                        }
-
-                        @Override
-                        public void onComplete() {}
-                    });
+                    .subscribe(
+                            stations -> showRefreshingList(stations, true),
+                            throwable -> showRefreshingError(throwable, true)
+                    );
         } else {
-            mRepository.getStations(true)
+            mDisposable = mRepository.getStations(true)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<StationList>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {}
-
-                        @Override
-                        public void onNext(StationList stationList) {
-                            if (mView != null) {
-                                mView.showStations(stationList.getStations());
-                                mView.hideRefreshing();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            if (mView != null) {
-                                mView.showErrorMessage(e);
-                                mView.hideRefreshing();
-                            }
-                        }
-
-                        @Override
-                        public void onComplete() {}
-                    });
+                    .subscribe(
+                            stations -> showRefreshingList(stations, false),
+                            throwable -> showRefreshingError(throwable, false)
+                    );
         }
     }
 
     @Override
     public void chooseStation(Station station) {
         mView.showDoctorsListUi(station.getId());
+    }
+
+    private void showList(List<Station> stations) {
+        if (mView != null) {
+            mView.showStations(stations);
+            mView.hideProgressBar();
+        }
+    }
+
+    private void showError(Throwable throwable) {
+        if (mView != null) {
+            mView.showErrorMessage(throwable);
+            mView.hideProgressBar();
+        }
+    }
+
+    private void showRefreshingList(List<Station> stations, boolean isMenuRefreshing) {
+        if (mView != null) {
+            mView.showStations(stations);
+            if (isMenuRefreshing) {
+                mView.hideProgressBar();
+            } else {
+                mView.hideRefreshing();
+            }
+        }
+    }
+
+    private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
+        if (mView != null) {
+            mView.showErrorMessage(throwable);
+            if (isMenuRefreshing) {
+                mView.hideProgressBar();
+            } else {
+                mView.hideRefreshing();
+            }
+        }
     }
 }

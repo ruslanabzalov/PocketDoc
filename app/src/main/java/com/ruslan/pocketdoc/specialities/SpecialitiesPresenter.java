@@ -4,6 +4,8 @@ import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -37,98 +39,35 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     @Override
     public void loadSpecialities() {
         mView.showProgressBar();
-        mDisposable = mRepository.getSpecsFromDb()
+        mDisposable = mRepository.getSpecialities(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        specialities -> {
-                            if (mView != null) {
-                                mView.showSpecialities(specialities);
-                                mView.hideProgressBar();
-                            }
-                        }
+                        this::showList,
+                        this::showError
                 );
-//        mDisposable = mRepository.getSpecialities(false)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .map(SpecialityList::getSpecialities)
-//                .doOnNext(specialities -> mRepository.saveSpecialities(specialities))
-//                .subscribe(
-//                        specialities -> {
-//                            if (mView != null) {
-//                                mView.showSpecialities(specialities);
-//                                mView.hideProgressBar();
-//                            }
-//                        },
-//                        throwable -> {
-//                            if (mView != null) {
-//                                mView.showErrorMessage(throwable);
-//                                mView.hideProgressBar();
-//                            }
-//                        }
-//                );
     }
 
     @Override
     public void updateSpecialities(boolean isMenuRefreshing) {
-//        if (isMenuRefreshing) {
-//            mView.showProgressBar();
-//            mRepository.getSpecialities(true)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .map(SpecialityList::getSpecialities)
-//                    .doOnNext(specialities -> mRepository.saveSpecialities(specialities))
-//                    .subscribe(new Observer<List<Speciality>>() {
-//                        @Override
-//                        public void onSubscribe(Disposable d) {}
-//
-//                        @Override
-//                        public void onNext(List<Speciality> specialities) {
-//                            if (mView != null) {
-//                                mView.showSpecialities(specialities);
-//                                mView.hideProgressBar();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//                            if (mView != null) {
-//                                mView.showErrorMessage(e);
-//                                mView.hideProgressBar();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {}
-//                    });
-//        } else {
-//            mRepository.getSpecialities(true)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Observer<SpecialityList>() {
-//                        @Override
-//                        public void onSubscribe(Disposable d) {}
-//
-//                        @Override
-//                        public void onNext(SpecialityList specialityList) {
-//                            if (mView != null) {
-//                                mView.showSpecialities(specialityList.getSpecialities());
-//                                mView.hideRefreshing();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//                            if (mView != null) {
-//                                mView.showErrorMessage(e);
-//                                mView.hideRefreshing();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {}
-//                    });
-//        }
+        if (isMenuRefreshing) {
+            mView.showProgressBar();
+            mDisposable = mRepository.getSpecialities(true)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            specialities -> showRefreshingList(specialities, true),
+                            throwable -> showRefreshingError(throwable, true)
+                    );
+        } else {
+            mDisposable = mRepository.getSpecialities(true)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            specialities -> showRefreshingList(specialities, false),
+                            throwable -> showRefreshingError(throwable, false)
+                    );
+        }
     }
 
     @Override
@@ -139,5 +78,41 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     @Override
     public void chooseSpeciality(Speciality speciality) {
         mView.showStationListUi(speciality.getId());
+    }
+
+    private void showList(List<Speciality> specialities) {
+        if (mView != null) {
+            mView.showSpecialities(specialities);
+            mView.hideProgressBar();
+        }
+    }
+
+    private void showError(Throwable throwable) {
+        if (mView != null) {
+            mView.showErrorMessage(throwable);
+            mView.hideProgressBar();
+        }
+    }
+
+    private void showRefreshingList(List<Speciality> specialities, boolean isMenuRefreshing) {
+        if (mView != null) {
+            mView.showSpecialities(specialities);
+            if (isMenuRefreshing) {
+                mView.hideProgressBar();
+            } else {
+                mView.hideRefreshing();
+            }
+        }
+    }
+
+    private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
+        if (mView != null) {
+            mView.showErrorMessage(throwable);
+            if (isMenuRefreshing) {
+                mView.hideProgressBar();
+            } else {
+                mView.hideRefreshing();
+            }
+        }
     }
 }

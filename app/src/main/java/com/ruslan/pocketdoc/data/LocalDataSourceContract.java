@@ -8,15 +8,18 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 
-interface LocalDataSourceContract extends DataSourceContract {
+interface LocalDataSourceContract {
 
     Flowable<List<Speciality>> getSpecialities();
 
     Completable saveSpecialities(List<Speciality> specialities);
 
-    void saveStations(List<Station> stations);
+    Flowable<List<Station>> getStations();
 
-    void saveClinics(List<Clinic> clinics);
+    Completable saveStations(List<Station> stations);
+
+    Flowable<List<Clinic>> getClinics();
+
+    Completable saveClinics(List<Clinic> clinics);
 }

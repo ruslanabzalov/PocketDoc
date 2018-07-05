@@ -63,10 +63,10 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
                 mPresenter.updateClinics();
                 return true;
             case R.id.item_show_clinics:
-                // TODO: Show only simple clinics.
+                // TODO: Отобразить на карте только клиники.
                 return true;
             case R.id.item_show_diagnostics:
-                // TODO: Show only diagnostics.
+                // TODO: Отобразить на карте только диагностиечкие центры.
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

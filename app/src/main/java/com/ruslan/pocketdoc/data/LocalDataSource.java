@@ -2,11 +2,8 @@ package com.ruslan.pocketdoc.data;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
-import com.ruslan.pocketdoc.data.clinics.ClinicList;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
-import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.Station;
-import com.ruslan.pocketdoc.data.stations.StationList;
 
 import java.util.List;
 
@@ -14,7 +11,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 
 public class LocalDataSource implements LocalDataSourceContract {
 
@@ -36,18 +32,22 @@ public class LocalDataSource implements LocalDataSourceContract {
     }
 
     @Override
-    public Observable<StationList> getStations() {
-        return null;
+    public Flowable<List<Station>> getStations() {
+        return mDatabase.stationDao().getAllStations();
     }
 
     @Override
-    public void saveStations(List<Station> stations) {}
-
-    @Override
-    public Observable<ClinicList> getClinics() {
-        return null;
+    public Completable saveStations(List<Station> stations) {
+        return Completable.fromAction(() -> mDatabase.stationDao().insertStations(stations));
     }
 
     @Override
-    public void saveClinics(List<Clinic> clinics) {}
+    public Flowable<List<Clinic>> getClinics() {
+        return mDatabase.clinicsDao().getAllClinics();
+    }
+
+    @Override
+    public Completable saveClinics(List<Clinic> clinics) {
+        return Completable.fromAction(() -> mDatabase.clinicsDao().insertClinics(clinics));
+    }
 }

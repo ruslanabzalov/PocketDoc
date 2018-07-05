@@ -10,7 +10,6 @@ import com.ruslan.pocketdoc.data.stations.StationList;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 
 public class RemoteDataSource implements RemoteDataSourceContract {
 
@@ -27,17 +26,17 @@ public class RemoteDataSource implements RemoteDataSourceContract {
     }
 
     @Override
-    public Observable<StationList> getStations() {
+    public Flowable<StationList> getStations() {
         return mApi.getStations();
     }
 
     @Override
-    public Observable<DoctorList> getDoctors(String specialityId, String stationId) {
+    public Flowable<DoctorList> getDoctors(String specialityId, String stationId) {
         return mApi.getDoctors(specialityId, stationId);
     }
 
     @Override
-    public Observable<ClinicList> getClinics() {
+    public Flowable<ClinicList> getClinics() {
         return mApi.getClinics();
     }
 }
