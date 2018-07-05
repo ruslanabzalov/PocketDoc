@@ -6,9 +6,15 @@ import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+
 interface LocalDataSourceContract extends DataSourceContract {
 
-    void saveSpecialities(List<Speciality> specialities);
+    Flowable<List<Speciality>> getSpecialities();
+
+    Completable saveSpecialities(List<Speciality> specialities);
 
     void saveStations(List<Station> stations);
 

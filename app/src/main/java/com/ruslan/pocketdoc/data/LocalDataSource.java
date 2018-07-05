@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public class LocalDataSource implements LocalDataSourceContract {
@@ -24,12 +26,14 @@ public class LocalDataSource implements LocalDataSourceContract {
     }
 
     @Override
-    public Observable<SpecialityList> getSpecialities() {
-        return null;
+    public Flowable<List<Speciality>> getSpecialities() {
+        return mDatabase.specialityDao().getAllSpecialities();
     }
 
     @Override
-    public void saveSpecialities(List<Speciality> specialities) {}
+    public Completable saveSpecialities(List<Speciality> specialities) {
+        return Completable.fromAction(() -> mDatabase.specialityDao().insertSpecialities(specialities));
+    }
 
     @Override
     public Observable<StationList> getStations() {

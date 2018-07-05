@@ -38,6 +38,7 @@
     <string name="item_refresh_doctors">Обновить список докторов</string>
 
     <!--Previews (DoctorsFragment)-->
+    <string name="doctor_speciality_preview">Специальность врача</string>
     <string name="doctor_name_preview">Имя врача</string>
     <string name="doctor_rating_preview">Рейтинг врача</string>
     <string name="doctor_experience_preview">Стаж врача</string>

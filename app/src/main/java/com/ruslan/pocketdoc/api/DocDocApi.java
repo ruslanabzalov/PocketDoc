@@ -5,6 +5,7 @@ import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.StationList;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -19,7 +20,7 @@ public interface DocDocApi {
      * @return Список специальностей врачей в Москве.
      */
     @GET("speciality/city/1")
-    Observable<SpecialityList> getSpecialities();
+    Flowable<SpecialityList> getSpecialities();
 
     /**
      * Метод получения списка станций метро в Москве.
@@ -29,13 +30,13 @@ public interface DocDocApi {
     Observable<StationList> getStations();
 
     /**
-     * Метод получения списка врачей в Москве по определённым параметрам.
-     * @param specialityId
-     * @param stationId
-     * @return Список врачей.
+     * Метод получения списка врачей в Москве по идентификаторам специальности и станции метро.
+     * @param specialityId Идентификатор специальности.
+     * @param stationId Идентификатор станции метро.
+     * @return Список врачей определённой специальности около определённой станции метро.
      */
     @GET("doctor/list/start/0/count/500/city/1/speciality/{specialityId}/" +
-            "stations/{stationId}/near/strict/order/rating/deti/0/na-dom/0/withSlots/0")
+            "stations/{stationId}/near/strict/order/-rating/deti/0/na-dom/0/withSlots/0")
     Observable<DoctorList> getDoctors(
             @Path("specialityId") String specialityId, @Path("stationId") String stationId
     );

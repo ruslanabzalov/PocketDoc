@@ -8,8 +8,6 @@ import io.reactivex.Observable;
 
 public interface DataSourceContract {
 
-    Observable<SpecialityList> getSpecialities();
-
     Observable<StationList> getStations();
 
     Observable<ClinicList> getClinics();

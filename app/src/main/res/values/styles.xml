@@ -3,13 +3,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:windowBackground">@color/white</item>
     </style>
 
-
-
-    <style name="ListTextView" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="DoctorCard" parent="CardView.Light">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardMaxElevation">2dp</item>
+        <item name="cardCornerRadius">4dp</item>
     </style>
 </resources>

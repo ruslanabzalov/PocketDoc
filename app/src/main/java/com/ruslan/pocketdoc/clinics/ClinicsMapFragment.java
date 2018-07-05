@@ -68,9 +68,6 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
             case R.id.item_show_diagnostics:
                 // TODO: Show only diagnostics.
                 return true;
-            case R.id.item_show_all_clinics:
-                // TODO: Show all clinics.
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

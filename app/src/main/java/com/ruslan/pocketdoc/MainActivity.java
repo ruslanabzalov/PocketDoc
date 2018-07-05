@@ -39,14 +39,12 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         if (!(fragment instanceof SpecialitiesFragment)) {
                             clearBackStack();
-                            SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
-                            replaceFragment(specialitiesFragment);
+                            replaceFragment(new SpecialitiesFragment());
                         }
                     case 1:
                         if (!(fragment instanceof ClinicsMapFragment)) {
                             clearBackStack();
-                            ClinicsMapFragment clinicsMapFragment = new ClinicsMapFragment();
-                            replaceFragment(clinicsMapFragment);
+                            replaceFragment(new ClinicsMapFragment());
                         }
                 }
             }
@@ -61,8 +59,12 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         if (!(fragment instanceof SpecialitiesFragment)) {
                             clearBackStack();
-                            SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
-                            replaceFragment(specialitiesFragment);
+                            replaceFragment(new SpecialitiesFragment());
+                        }
+                    case 1:
+                        if (!(fragment instanceof ClinicsMapFragment)) {
+                            clearBackStack();
+                            replaceFragment(new ClinicsMapFragment());
                         }
                 }
             }

@@ -1,8 +1,10 @@
 package com.ruslan.pocketdoc.data.doctors;
 
 import com.google.gson.annotations.SerializedName;
+import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Doctor implements Serializable {
 
@@ -29,6 +31,9 @@ public class Doctor implements Serializable {
 
     @SerializedName("Price")
     private int mPrice;
+
+    @SerializedName("Specialities")
+    private List<Speciality> mSpecialities;
 
     public int getId() {
         return mId;
@@ -92,5 +97,13 @@ public class Doctor implements Serializable {
 
     public void setPrice(int price) {
         mPrice = price;
+    }
+
+    public List<Speciality> getSpecialities() {
+        return mSpecialities;
+    }
+
+    public void setSpecialities(List<Speciality> specialities) {
+        mSpecialities = specialities;
     }
 }

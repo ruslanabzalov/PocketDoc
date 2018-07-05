@@ -9,6 +9,7 @@ import com.ruslan.pocketdoc.data.stations.StationList;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public class RemoteDataSource implements RemoteDataSourceContract {
@@ -21,7 +22,7 @@ public class RemoteDataSource implements RemoteDataSourceContract {
     }
 
     @Override
-    public Observable<SpecialityList> getSpecialities() {
+    public Flowable<SpecialityList> getSpecialities() {
         return mApi.getSpecialities();
     }
 

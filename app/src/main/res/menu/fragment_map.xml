@@ -19,10 +19,4 @@
         android:title="@string/item_show_diagnostics"
         app:showAsAction="never"/>
 
-
-    <item
-        android:id="@+id/item_show_all_clinics"
-        android:title="@string/item_show_all_clinics"
-        app:showAsAction="never"/>
-
 </menu>
