@@ -13,6 +13,7 @@
     <string name="new_record_title">Оформление заявки</string>
     <string name="tab_title_doctors">Врачи</string>
     <string name="tab_title_clinics">Клиники</string>
+    <string name="clinic_title">Информация о клинике</string>
 
     <!--Menu items (SpecialitiesFragment)-->
     <string name="item_refresh_specialities">Обновить список специальностей</string>
@@ -49,5 +50,6 @@
     <!--DoctorFragment-->
     <string name="enroll_doctor_button_hint">Записаться</string>
 
+    <!--Other strings-->
     <string name="load_error_toast">Ошибка получения данных от сервера:</string>
 </resources>

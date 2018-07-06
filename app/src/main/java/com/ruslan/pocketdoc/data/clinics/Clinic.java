@@ -57,7 +57,7 @@ public class Clinic {
     private String mIsDiagnostic;
 
     @ColumnInfo(name = "is_clinic")
-    @SerializedName("IsClinic")
+    @SerializedName("isClinic")
     private String mIsClinic;
 
     @ColumnInfo(name = "phone")

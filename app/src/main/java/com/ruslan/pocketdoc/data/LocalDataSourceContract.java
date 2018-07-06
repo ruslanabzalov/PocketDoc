@@ -21,5 +21,9 @@ interface LocalDataSourceContract {
 
     Flowable<List<Clinic>> getClinics();
 
+    Flowable<List<Clinic>> getOnlyClinics();
+
+    Flowable<List<Clinic>> getOnlyDiagnostics();
+
     Completable saveClinics(List<Clinic> clinics);
 }

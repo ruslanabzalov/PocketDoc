@@ -108,6 +108,14 @@ public class Repository {
         }
     }
 
+    public Flowable<List<Clinic>> getOnlyClinics() {
+        return mLocalDataSource.getOnlyClinics();
+    }
+
+    public Flowable<List<Clinic>> getOnlyDiagnostics() {
+        return mLocalDataSource.getOnlyDiagnostics();
+    }
+
     private void saveClinics(List<Clinic> clinics) {
         mLocalDataSource.saveClinics(clinics)
                 .subscribeOn(Schedulers.io())

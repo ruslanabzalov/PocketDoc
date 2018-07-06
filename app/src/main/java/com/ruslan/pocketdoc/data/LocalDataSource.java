@@ -47,6 +47,16 @@ public class LocalDataSource implements LocalDataSourceContract {
     }
 
     @Override
+    public Flowable<List<Clinic>> getOnlyClinics() {
+        return mDatabase.clinicsDao().getClinicsOrDiagnostics("no");
+    }
+
+    @Override
+    public Flowable<List<Clinic>> getOnlyDiagnostics() {
+        return mDatabase.clinicsDao().getClinicsOrDiagnostics("yes");
+    }
+
+    @Override
     public Completable saveClinics(List<Clinic> clinics) {
         return Completable.fromAction(() -> mDatabase.clinicsDao().insertClinics(clinics));
     }

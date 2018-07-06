@@ -21,6 +21,9 @@ public interface ClinicDao {
     @Query("SELECT * FROM clinics")
     Flowable<List<Clinic>> getAllClinics();
 
+    @Query("SELECT * FROM clinics WHERE is_diagnostic LIKE :isDiagnostic")
+    Flowable<List<Clinic>> getClinicsOrDiagnostics(String isDiagnostic);
+
     @Query("DELETE FROM clinics")
     void clearTable();
 }

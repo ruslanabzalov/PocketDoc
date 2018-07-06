@@ -7,12 +7,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClinicsMapFragment extends SupportMapFragment implements ClinicsContract.View {
@@ -20,6 +23,10 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
     private final static LatLng MOSCOW = new LatLng(55.751244, 37.618423);
 
     private ClinicsContract.Presenter mPresenter;
+
+    private GoogleMap mGoogleMap;
+
+    private List<Clinic> mClinics = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,13 +42,14 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
         super.onResume();
         mPresenter.loadClinics();
         getMapAsync((googleMap -> {
-            googleMap.setMinZoomPreference(10f);
-            googleMap.setMaxZoomPreference(18f);
+            mGoogleMap = googleMap;
+            mGoogleMap.setMinZoomPreference(10f);
+            mGoogleMap.setMaxZoomPreference(18f);
             CameraPosition moscowPosition = new CameraPosition.Builder()
                     .target(MOSCOW)
                     .zoom(10f)
                     .build();
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(moscowPosition));
+            mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(moscowPosition));
         }));
     }
 
@@ -50,6 +58,9 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
         super.onDestroy();
         mPresenter.detachView();
     }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {}
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -61,12 +72,15 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
         switch (item.getItemId()) {
             case R.id.item_refresh_clinics:
                 mPresenter.updateClinics();
+                mGoogleMap.clear();
                 return true;
             case R.id.item_show_clinics:
-                // TODO: Отобразить на карте только клиники.
+                mPresenter.getOnlyClinics();
+                mGoogleMap.clear();
                 return true;
             case R.id.item_show_diagnostics:
-                // TODO: Отобразить на карте только диагностиечкие центры.
+                mPresenter.getOnlyDiagnostics();
+                mGoogleMap.clear();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -74,9 +88,18 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
     }
 
     @Override
+    public void showSuccessLoadingMessage() {
+        Toast.makeText(getActivity(), "Клиники успешно загружены!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showClinics(List<Clinic> clinics) {
-        if (clinics.size() != 0) {
-            Toast.makeText(getActivity(), "Клиники загружены!", Toast.LENGTH_SHORT).show();
+        for (Clinic clinic : clinics) {
+            mGoogleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.parseDouble(clinic.getLatitude()),
+                            Double.parseDouble(clinic.getLongitude())))
+                    .title(clinic.getName())
+            );
         }
     }
 
@@ -90,4 +113,7 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
 
     @Override
     public void hideProgressBar() {}
+
+    @Override
+    public void showClinicInfoUi(int clinicId) {}
 }

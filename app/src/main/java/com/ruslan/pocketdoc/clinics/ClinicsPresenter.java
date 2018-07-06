@@ -2,6 +2,7 @@ package com.ruslan.pocketdoc.clinics;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
+import com.ruslan.pocketdoc.data.clinics.Clinic;
 
 import javax.inject.Inject;
 
@@ -41,7 +42,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.showClinics(clinics);
+                                mView.showSuccessLoadingMessage();
                             }
                         },
                         throwable -> {
@@ -54,7 +55,26 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
 
     @Override
     public void updateClinics() {
-        mDisposable = mRepository.getClinics(false)
+        mDisposable = mRepository.getClinics(true)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        clinics -> {
+                            if (mView != null) {
+                                mView.showSuccessLoadingMessage();
+                            }
+                        },
+                        throwable -> {
+                            if (mView != null) {
+                                mView.showErrorMessage(throwable);
+                            }
+                        }
+                );
+    }
+
+    @Override
+    public void getOnlyClinics() {
+        mDisposable = mRepository.getOnlyClinics()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -69,5 +89,29 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                             }
                         }
                 );
+    }
+
+    @Override
+    public void getOnlyDiagnostics() {
+        mDisposable = mRepository.getOnlyDiagnostics()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        clinics -> {
+                            if (mView != null) {
+                                mView.showClinics(clinics);
+                            }
+                        },
+                        throwable -> {
+                            if (mView != null) {
+                                mView.showErrorMessage(throwable);
+                            }
+                        }
+                );
+    }
+
+    @Override
+    public void chooseClinic(Clinic clinic) {
+        mView.showClinicInfoUi(clinic.getId());
     }
 }
