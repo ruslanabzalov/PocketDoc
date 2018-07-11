@@ -1,8 +1,10 @@
 package com.ruslan.pocketdoc.specialities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,8 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.ruslan.pocketdoc.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.history.RecordsHistoryActivity;
@@ -26,6 +28,8 @@ import com.ruslan.pocketdoc.stations.StationsFragment;
 import java.util.List;
 
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
+
+    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 888;
 
     private SpecialitiesContract.Presenter mPresenter;
 
@@ -68,6 +72,18 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            mPresenter.updateSpecialities(true);
+        }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            if (mAdapter == null) {
+                getActivity().onBackPressed();
+            }
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_specialities, menu);
     }
@@ -101,9 +117,9 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showErrorMessage(Throwable throwable) {
-        Toast.makeText(getActivity(),
-                getString(R.string.load_error_toast) + throwable.getMessage(),
-                Toast.LENGTH_SHORT).show();
+        DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
+        loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+        loadingErrorDialogFragment.show(getActivity().getSupportFragmentManager(), null);
     }
 
     @Override

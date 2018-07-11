@@ -10,6 +10,10 @@ import android.support.v7.widget.Toolbar;
 import com.ruslan.pocketdoc.clinics.ClinicsMapFragment;
 import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
+
+/**
+ * Класс, описывающий основную активность приложения.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.main_activity_fragment_container, specialitiesFragment)
                     .commit();
         }
-        mFragmentManager.addOnBackStackChangedListener(this::enableUpButton);
+        mFragmentManager.addOnBackStackChangedListener(this::changeUpButtonState);
 
         TabLayout tabLayout = findViewById(R.id.main_tab_layout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -41,11 +45,13 @@ public class MainActivity extends AppCompatActivity {
                             clearBackStack();
                             replaceFragment(new SpecialitiesFragment());
                         }
+                        break;
                     case 1:
                         if (!(fragment instanceof ClinicsMapFragment)) {
                             clearBackStack();
                             replaceFragment(new ClinicsMapFragment());
                         }
+                        break;
                 }
             }
 
@@ -61,11 +67,13 @@ public class MainActivity extends AppCompatActivity {
                             clearBackStack();
                             replaceFragment(new SpecialitiesFragment());
                         }
+                        break;
                     case 1:
                         if (!(fragment instanceof ClinicsMapFragment)) {
                             clearBackStack();
                             replaceFragment(new ClinicsMapFragment());
                         }
+                        break;
                 }
             }
         });
@@ -77,16 +85,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
-    private void enableUpButton() {
+    /**
+     * Метод включения или отключения кнопки Up.
+     */
+    private void changeUpButtonState() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
     }
 
+
+    /**
+     * Метод замены текущего фрагмента новым.
+     * @param fragment Новый фрагмент.
+     */
     private void replaceFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, fragment)
                 .commit();
     }
 
+    /**
+     * Метод очистки обратного стека.
+     */
     private void clearBackStack() {
         int backStackCount = mFragmentManager.getBackStackEntryCount();
         while (backStackCount > 0) {

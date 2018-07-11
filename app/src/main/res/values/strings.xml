@@ -23,7 +23,6 @@
     <string name="speciality_name_preview">Специальность</string>
 
     <!--Menu items (ClinicsMapFragment)-->
-    <string name="item_show_all_clinics">Все мед. центры</string>
     <string name="item_show_clinics">Клиники</string>
     <string name="item_show_diagnostics">Диагностические центры</string>
     <string name="item_refresh_clinics">Обновить список клиник</string>
@@ -50,6 +49,13 @@
     <!--DoctorFragment-->
     <string name="enroll_doctor_button_hint">Записаться</string>
 
+    <!--LoadingErrorDialogFragment-->
+    <string name="loading_error_dialog_message">Ошибка загрузки данных с сервера!\nВозможно, нет подключения к интернету.</string>
+    <string name="loading_error_image_description">Ошибка</string>
+
     <!--Other strings-->
     <string name="load_error_toast">Ошибка получения данных от сервера:</string>
+    <string name="loading_error_title">Сообщение об ошибке</string>
+    <string name="loading_error_neutral_button_text">Попробовать снова</string>
+    <string name="loading_error_negative_button_text">Отмена</string>
 </resources>

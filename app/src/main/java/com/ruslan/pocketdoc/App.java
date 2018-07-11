@@ -8,6 +8,10 @@ import com.ruslan.pocketdoc.di.DaggerAppComponent;
 import com.ruslan.pocketdoc.di.DocDocServiceModule;
 import com.ruslan.pocketdoc.di.DataSourceModule;
 
+/**
+ * Основной класс приложения, создаваемый при старте приложения.
+ * Необходим для создания графа зависимостей Dagger.
+ */
 public class App extends Application {
 
     private static AppComponent sComponent;
@@ -22,6 +26,10 @@ public class App extends Application {
         sComponent = buildComponent();
     }
 
+    /**
+     * Метод создания графа зависимостей с помощью Dagger.
+     * @return Компонент Dagger.
+     */
     private AppComponent buildComponent() {
         return DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))
