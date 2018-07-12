@@ -53,10 +53,8 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         if (!getActivity().getTitle().equals(getString(R.string.doctor_title))) {
             getActivity().setTitle(R.string.doctor_title);
         }
-
         View rootView = inflater.inflate(R.layout.fragment_doctor, container, false);
         initViews(rootView);
-
         mPresenter = new DoctorPresenter();
         mPresenter.attachView(this);
         return rootView;
@@ -71,7 +69,14 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
+        // Если текущий фрагмент находится в обратном стеке,
+        // то mPresenter зануляется при пересоздании активности.
+        // При замене другого фрагмента на ClinicsMapFragment (во время чистки обратного стека)
+        // mPresenter снова пытается занулиться, из-за чего возникает NPE.
+        // По этой причине здесь необходима проверка на null!
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
     }
 
     @Override

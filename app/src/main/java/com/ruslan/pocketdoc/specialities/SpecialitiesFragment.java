@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,8 @@ import java.util.List;
 
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
+    private static final String TAG = "SpecialitiesFragment";
+
     private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 888;
 
     private SpecialitiesContract.Presenter mPresenter;
@@ -41,17 +44,13 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.specialities_title);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (!getActivity().getTitle().equals(getString(R.string.specialities_title))) {
-            getActivity().setTitle(R.string.specialities_title);
-        }
-
+        getActivity().setTitle(R.string.specialities_title);
         View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
         initViews(rootView);
         mPresenter = new SpecialitiesPresenter();
@@ -77,7 +76,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
             mPresenter.updateSpecialities(true);
         }
         if (resultCode == Activity.RESULT_CANCELED) {
-            if (mAdapter == null) {
+            if (mRecyclerView.getAdapter() == null) {
                 getActivity().onBackPressed();
             }
         }
@@ -95,7 +94,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 mPresenter.updateSpecialities(true);
                 return true;
             case R.id.item_records_history:
-                mPresenter.openRecordsHistory();
+                showRecordsHistoryListUi();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -104,19 +103,26 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showSpecialities(List<Speciality> specialities) {
+        // Так как при возврате из обратного стека все переменные экземпляра текущего фрагмента сохраняются,
+        // mAdapter может быть не равен null.
+        // Adapter экземпляра mRecyclerView может быть равен null, потому что после восстановления
+        // текущего фрагмента из стека, вновь вызывается метод onCreateView, в котором этот экземпляр
+        // создаётся заново.
         if (mAdapter == null) {
             mAdapter = new SpecialitiesAdapter(specialities, mPresenter::chooseSpeciality);
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.updateDataSet(specialities);
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
+            } else {
+                mAdapter.updateDataSet(specialities);
             }
         }
     }
 
     @Override
     public void showErrorMessage(Throwable throwable) {
+        Log.d(TAG, throwable.getMessage());
         DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
         loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
         loadingErrorDialogFragment.show(getActivity().getSupportFragmentManager(), null);

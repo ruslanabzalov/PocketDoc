@@ -1,7 +1,10 @@
 package com.ruslan.pocketdoc.stations;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,8 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.ruslan.pocketdoc.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.stations.Station;
 import com.ruslan.pocketdoc.doctors.DoctorsFragment;
@@ -26,6 +29,8 @@ import java.util.List;
 public class StationsFragment extends Fragment implements StationsContract.View {
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
+
+    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 888;
 
     private StationsContract.Presenter mPresenter;
 
@@ -47,7 +52,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.stations_title);
         setHasOptionsMenu(true);
         mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID);
     }
@@ -55,13 +59,9 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (!getActivity().getTitle().equals(getString(R.string.stations_title))) {
-            getActivity().setTitle(R.string.stations_title);
-        }
-
+        getActivity().setTitle(R.string.stations_title);
         View rootView = inflater.inflate(R.layout.fragment_stations, container, false);
         initViews(rootView);
-
         mPresenter = new StationsPresenter();
         mPresenter.attachView(this);
         return rootView;
@@ -76,7 +76,26 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
+        // Если текущий фрагмент находится в обратном стеке,
+        // то mPresenter зануляется при пересоздании активности.
+        // При замене другого фрагмента на ClinicsMapFragment (во время чистки обратного стека)
+        // mPresenter снова пытается занулиться, из-за чего возникает NPE.
+        // По этой причине здесь необходима проверка на null!
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            mPresenter.updateStations(true);
+        }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            if (mAdapter == null) {
+                getActivity().onBackPressed();
+            }
+        }
     }
 
     @Override
@@ -101,18 +120,19 @@ public class StationsFragment extends Fragment implements StationsContract.View 
             mAdapter = new StationsAdapter(stations, mPresenter::chooseStation);
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.updateDataSet(stations);
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
+            } else {
+                mAdapter.updateDataSet(stations);
             }
         }
     }
 
     @Override
     public void showErrorMessage(Throwable throwable) {
-        Toast.makeText(getActivity(),
-                getString(R.string.load_error_toast) + throwable.getMessage(),
-                Toast.LENGTH_SHORT).show();
+        DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
+        loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+        loadingErrorDialogFragment.show(getActivity().getSupportFragmentManager(), null);
     }
 
     @Override

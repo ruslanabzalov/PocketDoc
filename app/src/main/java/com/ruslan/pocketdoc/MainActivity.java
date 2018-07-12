@@ -10,10 +10,6 @@ import android.support.v7.widget.Toolbar;
 import com.ruslan.pocketdoc.clinics.ClinicsMapFragment;
 import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
-
-/**
- * Класс, описывающий основную активность приложения.
- */
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
@@ -24,13 +20,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
-
         mFragmentManager = getSupportFragmentManager();
         if (mFragmentManager.findFragmentById(R.id.main_activity_fragment_container) == null) {
             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
             mFragmentManager.beginTransaction()
                     .add(R.id.main_activity_fragment_container, specialitiesFragment)
                     .commit();
+        } else {
+            // Если активность пересоздаётся, то отобразить (или не отобразить) кнопку Up
+            // в зависимости от размера обратного стека.
+            changeUpButtonState();
         }
         mFragmentManager.addOnBackStackChangedListener(this::changeUpButtonState);
 
@@ -85,27 +84,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
-    /**
-     * Метод включения или отключения кнопки Up.
-     */
     private void changeUpButtonState() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
     }
 
-
-    /**
-     * Метод замены текущего фрагмента новым.
-     * @param fragment Новый фрагмент.
-     */
     private void replaceFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, fragment)
                 .commit();
     }
 
-    /**
-     * Метод очистки обратного стека.
-     */
     private void clearBackStack() {
         int backStackCount = mFragmentManager.getBackStackEntryCount();
         while (backStackCount > 0) {

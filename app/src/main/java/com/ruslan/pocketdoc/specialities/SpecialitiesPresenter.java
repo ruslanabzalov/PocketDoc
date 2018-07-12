@@ -71,11 +71,6 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     }
 
     @Override
-    public void openRecordsHistory() {
-        mView.showRecordsHistoryListUi();
-    }
-
-    @Override
     public void chooseSpeciality(Speciality speciality) {
         mView.showStationListUi(speciality.getId());
     }

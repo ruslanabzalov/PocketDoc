@@ -45,6 +45,11 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
         return mDoctors.size();
     }
 
+    public void updateDataSet(List<Doctor> doctors) {
+        mDoctors = doctors;
+        notifyDataSetChanged();
+    }
+
     static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mDoctorSpecialityTextView;

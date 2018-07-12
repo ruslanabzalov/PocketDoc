@@ -31,6 +31,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private DoctorsAdapter mAdapter;
     private ProgressBar mProgressBar;
 
     private String mSpecialityId;
@@ -76,7 +77,14 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
+        // Если текущий фрагмент находится в обратном стеке,
+        // то mPresenter зануляется при пересоздании активности.
+        // При замене другого фрагмента на ClinicsMapFragment (во время чистки обратного стека)
+        // mPresenter снова пытается занулиться, из-за чего возникает NPE.
+        // По этой причине здесь необходима проверка на null!
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
     }
 
     @Override
@@ -97,8 +105,16 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     @Override
     public void showDoctors(List<Doctor> doctors) {
-        DoctorsAdapter adapter = new DoctorsAdapter(doctors, mPresenter::chooseDoctor);
-        mRecyclerView.setAdapter(adapter);
+        if (mAdapter == null) {
+            mAdapter = new DoctorsAdapter(doctors, mPresenter::chooseDoctor);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            if (mRecyclerView.getAdapter() == null) {
+                mRecyclerView.setAdapter(mAdapter);
+            } else {
+                mAdapter.updateDataSet(doctors);
+            }
+        }
     }
 
     @Override

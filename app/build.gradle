@@ -51,7 +51,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$play_services_version"
     implementation "com.google.android.gms:play-services-location:$play_services_version"
 
-    // Dagger
+    // Dagger 2
     implementation "com.google.dagger:dagger:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
@@ -76,4 +76,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:rules:$test_version"
     implementation "org.mockito:mockito-core:2.18.3"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+
+    // Circle ImageView
+    implementation "de.hdodenhof:circleimageview:2.2.0"
 }

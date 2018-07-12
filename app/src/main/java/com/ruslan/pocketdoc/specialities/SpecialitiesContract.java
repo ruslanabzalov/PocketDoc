@@ -24,8 +24,6 @@ interface SpecialitiesContract {
 
         void updateSpecialities(boolean isMenuRefreshing);
 
-        void openRecordsHistory();
-
         void chooseSpeciality(Speciality speciality);
     }
 }
