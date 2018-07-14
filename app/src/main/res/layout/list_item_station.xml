@@ -9,15 +9,26 @@
     android:focusable="true"
     android:background="?attr/selectableItemBackground">
 
+    <ImageView
+        android:id="@+id/metro_indicator"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/metro_indicator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <TextView
         android:id="@+id/station_name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:padding="8dp"
         android:textSize="16sp"
         android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/metro_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/station_name_preview"/>
 
@@ -25,12 +36,13 @@
         android:id="@+id/line_name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:padding="8dp"
         android:textSize="16sp"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/station_name_text_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/metro_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/line_name_preview" />
 

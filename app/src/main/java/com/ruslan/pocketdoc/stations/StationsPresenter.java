@@ -77,6 +77,8 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     private void showList(List<Station> stations) {
         if (mView != null) {
+
+            // Почему-то вызывается метод showStations(stations) после обновления списка.
             mView.showStations(stations);
             mView.hideProgressBar();
         }

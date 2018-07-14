@@ -5,11 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.stations.Station;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
+import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
 
         private TextView mStationNameTextView;
         private TextView mLineNameTextView;
+        private ImageView mLineIndicator;
 
         private Station mStation;
 
@@ -60,14 +62,17 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
             itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
             mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
             mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
+            mLineIndicator = itemView.findViewById(R.id.metro_indicator);
         }
 
         void bind(Station station) {
             mStation = station;
+
             String stationName =
                     String.format("%s %s",
                             itemView.getResources().getString(R.string.station_name_preview),
                             mStation.getName());
+
             String stationLineName;
             if (mStation.getLineName().contains("кольцо")) {
                 stationLineName = mStation.getLineName();
@@ -78,7 +83,11 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
                                 itemView.getResources().getString(R.string.line_name_preview).toLowerCase());
             }
             mStationNameTextView.setText(stationName);
+
             mLineNameTextView.setText(stationLineName);
+
+            // TODO: Изменить цвет индикатора линии метро.
+
         }
     }
 }

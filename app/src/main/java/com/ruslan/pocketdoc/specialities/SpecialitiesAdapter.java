@@ -57,7 +57,7 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
         SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> listener) {
             super(view);
             itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
-            mSpecialityNameTextView = itemView.findViewById(R.id.spec_name_text_view);
+            mSpecialityNameTextView = itemView.findViewById(R.id.speciality_name_text_view);
         }
 
         void bind(Speciality speciality) {

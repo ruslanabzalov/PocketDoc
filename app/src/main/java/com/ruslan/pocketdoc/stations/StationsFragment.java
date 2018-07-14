@@ -1,6 +1,7 @@
 package com.ruslan.pocketdoc.stations;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.ruslan.pocketdoc.DatePickerDialogFragment;
 import com.ruslan.pocketdoc.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.stations.Station;
@@ -70,7 +72,9 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadStations();
+        if (mRecyclerView.getAdapter() == null) {
+            mPresenter.loadStations();
+        }
     }
 
     @Override
@@ -154,12 +158,17 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showDoctorsListUi(String stationId) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        Fragment doctorsFragment = DoctorsFragment.newInstance(mSpecialityId, stationId);
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, doctorsFragment)
-                .addToBackStack(null)
-                .commit();
+        DialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mSpecialityId, stationId);
+        datePickerDialogFragment.setTargetFragment(this, 999);
+        datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), null);
+
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        Fragment doctorsFragment = DoctorsFragment.newInstance(mSpecialityId, stationId);
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.main_activity_fragment_container, doctorsFragment)
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .addToBackStack(null)
+//                .commit();
     }
 
     private void initViews(View view) {

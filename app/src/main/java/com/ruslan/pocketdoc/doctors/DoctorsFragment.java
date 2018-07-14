@@ -71,7 +71,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadDoctors(mSpecialityId, mStationId);
+        if (mRecyclerView.getAdapter() == null) {
+            mPresenter.loadDoctors(mSpecialityId, mStationId);
+        }
     }
 
     @Override

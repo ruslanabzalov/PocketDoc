@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity">
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,9 +24,12 @@
         </activity>
         <activity
             android:name=".history.RecordsHistoryActivity"
-            android:label="@string/title_records_history_activity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".clinic.ClinicActivity" />
+        <activity
+            android:name=".clinic.ClinicActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -1,6 +1,7 @@
 package com.ruslan.pocketdoc.specialities;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -61,7 +62,9 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadSpecialities();
+        if (mRecyclerView.getAdapter() == null) {
+            mPresenter.loadSpecialities();
+        }
     }
 
     @Override
@@ -103,19 +106,21 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showSpecialities(List<Speciality> specialities) {
-        // Так как при возврате из обратного стека все переменные экземпляра текущего фрагмента сохраняются,
-        // mAdapter может быть не равен null.
-        // Adapter экземпляра mRecyclerView может быть равен null, потому что после восстановления
-        // текущего фрагмента из стека, вновь вызывается метод onCreateView, в котором этот экземпляр
-        // создаётся заново.
+        // Так как при возврате фрагмента из обратного стека все переменные экземпляра
+        // текущего фрагмента сохраняются, mAdapter может быть не равен null.
         if (mAdapter == null) {
             mAdapter = new SpecialitiesAdapter(specialities, mPresenter::chooseSpeciality);
             mRecyclerView.setAdapter(mAdapter);
         } else {
+            // Adapter экземпляра mRecyclerView может быть равен null, потому что после восстановления
+            // текущего фрагмента из стека, вновь вызывается метод onCreateView,
+            // в котором этот экземпляр mRecyclerView пересоздаётся.
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
             } else {
-                mAdapter.updateDataSet(specialities);
+                if (specialities.size() != mAdapter.getItemCount()) {
+                    mAdapter.updateDataSet(specialities);
+                }
             }
         }
     }
@@ -150,6 +155,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, StationsFragment.newInstance(specialityId))
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
     }
@@ -167,7 +173,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), linearLayoutManager.getOrientation()));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), linearLayoutManager.getOrientation()));
         mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.main_activity_fragment_container, specialitiesFragment)
                     .commit();
         } else {
-            // Если активность пересоздаётся, то отобразить (или не отобразить) кнопку Up
+            // Если активность пересоздаётся, то отобразить (или не отображать) кнопку Up
             // в зависимости от размера обратного стека.
             changeUpButtonState();
         }
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
     }
 
