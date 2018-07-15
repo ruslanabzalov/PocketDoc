@@ -154,7 +154,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, StationsFragment.newInstance(specialityId))
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(null)
                 .commit();
     }

@@ -56,7 +56,6 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
     static class StationViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mStationNameTextView;
-        private TextView mLineNameTextView;
         private ImageView mLineIndicator;
 
         private Station mStation;
@@ -65,31 +64,13 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
             super(view);
             itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
             mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
-            mLineNameTextView = itemView.findViewById(R.id.line_name_text_view);
             mLineIndicator = itemView.findViewById(R.id.metro_indicator);
         }
 
         void bind(Station station) {
             mStation = station;
-
-            String stationName =
-                    String.format("%s %s",
-                            itemView.getResources().getString(R.string.station_name_preview),
-                            mStation.getName());
-
-            String stationLineName;
-            if (mStation.getLineName().contains("кольцо")) {
-                stationLineName = mStation.getLineName();
-            } else {
-                stationLineName =
-                        String.format("%s %s",
-                                mStation.getLineName(),
-                                itemView.getResources().getString(R.string.line_name_preview).toLowerCase());
-            }
+            String stationName = mStation.getName();
             mStationNameTextView.setText(stationName);
-
-            mLineNameTextView.setText(stationLineName);
-
             Drawable lineIndicatorDrawable = mLineIndicator.getDrawable();
             int lineColor = Color.parseColor("#" + mStation.getLineColor());
             // TODO: Узнать побольше о классе PorterDuffColorFilter!

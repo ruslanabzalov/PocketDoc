@@ -30,6 +30,9 @@
     <!--Menu item (StationsFragment)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
 
+    <!--lis_item_station-->
+    <string name="station_line_indicator_content_description">Индикатор линии метро</string>
+
     <!--Previews (StationsFragment)-->
     <string name="station_name_preview">Станция</string>
     <string name="line_name_preview">Линия</string>
@@ -47,7 +50,7 @@
     <!--Menu item (DoctorsFragment)-->
     <string name="item_refresh_doctors">Обновить список докторов</string>
 
-    <!--list_item_doctor-->
+    <!--list_item_doctor & fragment_doctor-->
     <string name="doctor_photo_content_description">Фотография врача</string>
     <string name="doctor_speciality_label">Специальность</string>
     <string name="doctor_speciality_preview">Специальность врача</string>
@@ -59,13 +62,19 @@
     <string name="doctor_rating_preview">Рейтинг врача</string>
     <string name="doctor_price_label">Стоимость</string>
     <string name="doctor_price_preview">Стоимость посещения</string>
+    <string name="doctor_description_label">Подробное описание</string>
+    <string name="doctor_description_preview">Подробное описание врача</string>
+    <string name="doctor_create_record_button_hint">Записаться</string>
 
-    <!--DoctorFragment-->
-    <string name="enroll_doctor_button_hint">Записаться</string>
+    <!--dialog_fragment_create_record-->
+    <string name="dialog_fragment_create_record_title">Оформление заявки</string>
+    <string name="user_name_edit_text_hint">Введите имя</string>
+    <string name="user_phone_edit_text_hint">Введите номер телефона</string>
+    <string name="create_record_button_hint">Оформить заявку</string>
 
-    <!--LoadingErrorDialogFragment-->
+    <!--dialog_fragment_loading_error-->
     <string name="loading_error_dialog_message">Ошибка загрузки данных с сервера!\nВозможно, нет подключения к интернету.</string>
-    <string name="loading_error_image_description">Ошибка</string>
+    <string name="loading_error_image_description">Ошибка загрузки данных</string>
 
     <!--Other strings-->
     <string name="load_error_toast">Ошибка получения данных от сервера:</string>

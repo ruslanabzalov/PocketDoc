@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
@@ -16,9 +17,11 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
+public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
     private RecyclerItemOnClickListener<Doctor> mListener;
 
@@ -53,7 +56,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
         notifyDataSetChanged();
     }
 
-    static class DoctorViewHolder extends RecyclerView.ViewHolder {
+    public static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView mDoctorPhotoImageView;
         private TextView mDoctorSpecialityTextView;
@@ -64,16 +67,19 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
 
         private Doctor mDoctor;
 
+        @Inject
+        Picasso mPicasso;
+
         DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
             super(view);
+            App.getComponent().inject(this);
             itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
             initViews();
         }
 
         void bind(Doctor doctor) {
             mDoctor = doctor;
-            Picasso.get()
-                    .load(mDoctor.getPhotoUrl())
+            mPicasso.load(mDoctor.getPhotoUrl())
                     .into(mDoctorPhotoImageView);
 
             if (mDoctor.getSpecialities().size() >= 1) {
@@ -85,10 +91,14 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
             } else {
                 mDoctorSpecialityTextView.setText(mDoctor.getSpecialities().get(0).getName());
             }
+
             mDoctorNameTextView.setText(mDoctor.getName());
+
             float doctorRating = Float.parseFloat(mDoctor.getRating());
             mDoctorRating.setRating(doctorRating);
+
             mDoctorExperienceTextView.setText(mDoctor.getExperience() + " лет");
+
             String doctorPrice = String.format(Locale.getDefault(), "%d\u20bd", mDoctor.getPrice());
             mDoctorPriceTextView.setText(doctorPrice);
         }

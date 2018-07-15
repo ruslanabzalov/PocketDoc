@@ -2,8 +2,8 @@ package com.ruslan.pocketdoc.doctor;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
-import com.ruslan.pocketdoc.records.NewRecordFragment;
+import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 public class DoctorFragment extends Fragment implements DoctorContract.View {
 
@@ -30,7 +33,10 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private TextView mDoctorExperienceTextView;
     private TextView mDoctorPriceTextView;
     private TextView mDoctorDescriptionTextView;
-    private Button mEnrollDoctorButton;
+    private Button mCreateRecordButton;
+
+    @Inject
+    Picasso mPicasso;
 
     public static Fragment newInstance(Doctor doctor) {
         Bundle args = new Bundle();
@@ -43,6 +49,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.getComponent().inject(this);
         getActivity().setTitle(R.string.doctor_title);
         mDoctor = (Doctor) getArguments().getSerializable(ARG_DOCTOR);
     }
@@ -81,8 +88,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     @Override
     public void showDoctorInfo(Doctor doctor) {
-        Picasso.get()
-                .load(doctor.getPhotoUrl().replace("_small", ""))
+        mPicasso.load(doctor.getPhotoUrl().replace("_small", ""))
                 .into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(doctor.getName());
         mDoctorSpecialityTextView.setText(mDoctor.getSpecialities().get(0).getName());
@@ -93,11 +99,8 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     @Override
     public void showNewRecordUi() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, NewRecordFragment.newInstance(mDoctor.getId()))
-                .addToBackStack(null)
-                .commit();
+        DialogFragment createRecordDialogFragment = new CreateRecordDialogFragment();
+        createRecordDialogFragment.show(getActivity().getSupportFragmentManager(), null);
     }
 
     @Override
@@ -116,7 +119,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);
         mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
         mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
-        mEnrollDoctorButton = rootView.findViewById(R.id.create_record);
-        mEnrollDoctorButton.setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
+        mCreateRecordButton = rootView.findViewById(R.id.create_record);
+        mCreateRecordButton.setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
     }
 }

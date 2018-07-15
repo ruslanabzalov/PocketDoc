@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,18 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.ruslan.pocketdoc.dialogs.DatePickerDialogFragment;
-import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.stations.Station;
+import com.ruslan.pocketdoc.dialogs.DatePickerDialogFragment;
+import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 
 import java.util.List;
 
 public class StationsFragment extends Fragment implements StationsContract.View {
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
-
-    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 888;
 
     private StationsContract.Presenter mPresenter;
 
@@ -132,7 +129,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void showErrorMessage(Throwable throwable) {
         DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-        loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
         loadingErrorDialogFragment.show(getActivity().getSupportFragmentManager(), null);
     }
 
@@ -156,16 +152,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void showDoctorsListUi(String stationId) {
         DialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mSpecialityId, stationId);
-        datePickerDialogFragment.setTargetFragment(this, 999);
         datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), null);
-
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        Fragment doctorsFragment = DoctorsFragment.newInstance(mSpecialityId, stationId);
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.main_activity_fragment_container, doctorsFragment)
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//                .addToBackStack(null)
-//                .commit();
     }
 
     private void initViews(View view) {
@@ -175,7 +162,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         mRecyclerView = view.findViewById(R.id.stations_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), linearLayoutManager.getOrientation()));
         mProgressBar = view.findViewById(R.id.stations_progress_bar);
     }
 }

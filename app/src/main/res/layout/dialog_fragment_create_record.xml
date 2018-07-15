@@ -5,39 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/user_name_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Имя"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
     <EditText
         android:id="@+id/user_name_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:inputType="textCapSentences"
-        android:hint="Введите имя"
-        app:layout_constraintTop_toBottomOf="@id/user_name_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/user_phone_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Номер телефона"
-        app:layout_constraintTop_toBottomOf="@id/user_name_edit_text"
+        android:inputType="textCapSentences"
+        android:hint="@string/user_name_edit_text_hint"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -45,16 +22,17 @@
         android:id="@+id/user_phone_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:inputType="phone"
-        android:hint="Введите номер телефона"
-        app:layout_constraintTop_toBottomOf="@id/user_phone_label"
+        android:hint="@string/user_phone_edit_text_hint"
+        app:layout_constraintTop_toBottomOf="@id/user_name_edit_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <ProgressBar
-        android:id="@+id/record_creation_progress_bar"
+        android:id="@+id/create_record_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -67,10 +45,12 @@
         android:id="@+id/create_record_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:hint="Оформить заявку"
+        android:hint="@string/create_record_button_hint"
+        app:layout_constraintTop_toBottomOf="@id/user_phone_edit_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

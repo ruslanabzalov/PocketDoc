@@ -14,9 +14,9 @@
         <ImageView
             android:id="@+id/photo_image_view"
             android:layout_width="0dp"
-            android:layout_height="400dp"
+            android:layout_height="350dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Фотография доктора"
+            android:contentDescription="@string/doctor_photo_content_description"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -30,7 +30,7 @@
             android:layout_marginEnd="8dp"
             android:padding="8dp"
             android:textSize="16sp"
-            android:text="Ф.И.О."
+            android:text="@string/doctor_name_label"
             app:layout_constraintTop_toBottomOf="@id/photo_image_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -41,13 +41,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/name_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Имя врача"/>
+            tools:text="@string/doctor_name_preview"/>
 
         <TextView
             android:id="@+id/speciality_label"
@@ -58,7 +59,7 @@
             android:layout_marginEnd="8dp"
             android:padding="8dp"
             android:textSize="16sp"
-            android:text="Специальность"
+            android:text="@string/doctor_speciality_label"
             app:layout_constraintTop_toBottomOf="@id/name_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -69,13 +70,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/speciality_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Специальность врача"/>
+            tools:text="@string/doctor_speciality_preview"/>
 
         <TextView
             android:id="@+id/experience_label"
@@ -86,7 +88,7 @@
             android:layout_marginEnd="8dp"
             android:padding="8dp"
             android:textSize="16sp"
-            android:text="Стаж работы"
+            android:text="@string/doctor_experience_label"
             app:layout_constraintTop_toBottomOf="@id/speciality_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -97,13 +99,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/experience_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Стаж работы врача"/>
+            tools:text="@string/doctor_experience_preview"/>
 
         <TextView
             android:id="@+id/price_label"
@@ -114,7 +117,7 @@
             android:layout_marginEnd="8dp"
             android:padding="8dp"
             android:textSize="16sp"
-            android:text="Стоимость посещения"
+            android:text="@string/doctor_price_label"
             app:layout_constraintTop_toBottomOf="@id/experience_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -125,13 +128,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/price_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Стоимость посещения врача"/>
+            tools:text="@string/doctor_price_preview"/>
 
         <TextView
             android:id="@+id/desc_label"
@@ -142,7 +146,7 @@
             android:layout_marginEnd="8dp"
             android:padding="8dp"
             android:textSize="16sp"
-            android:text="Описание"
+            android:text="@string/doctor_description_label"
             app:layout_constraintTop_toBottomOf="@id/price_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -153,13 +157,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/desc_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Описание врача"/>
+            tools:text="@string/doctor_description_preview"/>
 
         <Button
             android:id="@+id/create_record"
@@ -169,7 +174,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="Записаться"
+            android:hint="@string/doctor_create_record_button_hint"
             app:layout_constraintTop_toBottomOf="@id/desc_text_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

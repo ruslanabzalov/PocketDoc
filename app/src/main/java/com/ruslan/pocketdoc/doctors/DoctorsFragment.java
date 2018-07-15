@@ -1,5 +1,6 @@
 package com.ruslan.pocketdoc.doctors;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -157,6 +158,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     public void showDoctorInfoUi(Doctor doctor) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctor))
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(null)
                 .commit();
     }
