@@ -1,13 +1,11 @@
 package com.ruslan.pocketdoc.stations;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,11 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.ruslan.pocketdoc.DatePickerDialogFragment;
-import com.ruslan.pocketdoc.LoadingErrorDialogFragment;
+import com.ruslan.pocketdoc.dialogs.DatePickerDialogFragment;
+import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.stations.Station;
-import com.ruslan.pocketdoc.doctors.DoctorsFragment;
 
 import java.util.List;
 

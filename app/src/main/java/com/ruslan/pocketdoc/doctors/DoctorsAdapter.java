@@ -11,9 +11,12 @@ import android.widget.TextView;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
@@ -45,13 +48,14 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
         return mDoctors.size();
     }
 
-    public void updateDataSet(List<Doctor> doctors) {
+    void updateDataSet(List<Doctor> doctors) {
         mDoctors = doctors;
         notifyDataSetChanged();
     }
 
     static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
+        private CircleImageView mDoctorPhotoImageView;
         private TextView mDoctorSpecialityTextView;
         private TextView mDoctorNameTextView;
         private RatingBar mDoctorRating;
@@ -68,6 +72,10 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
 
         void bind(Doctor doctor) {
             mDoctor = doctor;
+            Picasso.get()
+                    .load(mDoctor.getPhotoUrl())
+                    .into(mDoctorPhotoImageView);
+
             if (mDoctor.getSpecialities().size() >= 1) {
                 StringBuilder doctorSpecialities = new StringBuilder(mDoctor.getSpecialities().get(0).getName());
                 for (int i = 1; i < mDoctor.getSpecialities().size(); i++) {
@@ -86,6 +94,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
         }
 
         private void initViews() {
+            mDoctorPhotoImageView = itemView.findViewById(R.id.doctor_photo_image_view);
             mDoctorSpecialityTextView = itemView.findViewById(R.id.doctor_speciality_text_view);
             mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
             mDoctorRating = itemView.findViewById(R.id.doctor_rating_bar);

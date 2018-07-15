@@ -2,6 +2,7 @@ package com.ruslan.pocketdoc.doctors;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.dialogs.NoDoctorsDialogFragment;
 import com.ruslan.pocketdoc.doctor.DoctorFragment;
 
 import java.util.List;
@@ -33,6 +35,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private RecyclerView mRecyclerView;
     private DoctorsAdapter mAdapter;
     private ProgressBar mProgressBar;
+
+    private FragmentManager mFragmentManager;
 
     private String mSpecialityId;
     private String mStationId;
@@ -51,6 +55,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.doctors_title);
         setHasOptionsMenu(true);
+        mFragmentManager = getActivity().getSupportFragmentManager();
         mSpecialityId = getArguments().getString(ARG_SPECIALITY_ID, null);
         mStationId = getArguments().getString(ARG_STATION_ID, null);
     }
@@ -108,8 +113,13 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void showDoctors(List<Doctor> doctors) {
         if (mAdapter == null) {
-            mAdapter = new DoctorsAdapter(doctors, mPresenter::chooseDoctor);
-            mRecyclerView.setAdapter(mAdapter);
+            if (doctors.size() == 0) {
+                DialogFragment noDoctorsDialogFragment = new NoDoctorsDialogFragment();
+                noDoctorsDialogFragment.show(mFragmentManager, null);
+            } else {
+                mAdapter = new DoctorsAdapter(doctors, mPresenter::chooseDoctor);
+                mRecyclerView.setAdapter(mAdapter);
+            }
         } else {
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
@@ -145,8 +155,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     @Override
     public void showDoctorInfoUi(Doctor doctor) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
+        mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctor))
                 .addToBackStack(null)
                 .commit();
@@ -155,7 +164,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.doctors_refresh);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateDoctors(mSpecialityId, mStationId, false));
+        mSwipeRefreshLayout.setOnRefreshListener(
+                () -> mPresenter.updateDoctors(mSpecialityId, mStationId, false)
+        );
         mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);

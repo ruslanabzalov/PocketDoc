@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc;
+package com.ruslan.pocketdoc.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.ruslan.pocketdoc.R;
 
 public class LoadingErrorDialogFragment extends DialogFragment {
 

@@ -1,4 +1,4 @@
-package com.ruslan.pocketdoc;
+package com.ruslan.pocketdoc.dialogs;
 
 import android.app.Dialog;
 import android.app.FragmentTransaction;
@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 
+import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.doctors.DoctorsFragment;
 
 import java.util.Calendar;

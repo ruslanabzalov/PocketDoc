@@ -40,17 +40,25 @@
     <string name="date_picker_dialog_fragment_negative_button_text">Отмена</string>
     <string name="date_picker_dialog_text_view">Записаться на приём к врачу онлайн можно только на ближайшие 2 недели!</string>
 
+    <!--NoDoctorsDialogFragment-->
+    <string name="no_doctors_dialog_message">Отсутствуют врачи с заданными харакетристиками!</string>
+    <string name="no_doctors_dialog_positive_button_text">Закрыть</string>
+
     <!--Menu item (DoctorsFragment)-->
     <string name="item_refresh_doctors">Обновить список докторов</string>
 
-    <!--Previews (DoctorsFragment)-->
-    <string name="doctor_speciality_preview">Специальность врача</string>
-    <string name="doctor_name_preview">Имя врача</string>
-    <string name="doctor_rating_preview">Рейтинг врача</string>
-    <string name="doctor_experience_preview">Стаж врача</string>
-
-    <!--Content description (DoctorsFragment)-->
+    <!--list_item_doctor-->
     <string name="doctor_photo_content_description">Фотография врача</string>
+    <string name="doctor_speciality_label">Специальность</string>
+    <string name="doctor_speciality_preview">Специальность врача</string>
+    <string name="doctor_name_label">Ф.И.О.</string>
+    <string name="doctor_name_preview">Имя врача</string>
+    <string name="doctor_experience_label">Стаж работы</string>
+    <string name="doctor_experience_preview">Стаж врача</string>
+    <string name="doctor_rating_label">Рейтинг</string>
+    <string name="doctor_rating_preview">Рейтинг врача</string>
+    <string name="doctor_price_label">Стоимость</string>
+    <string name="doctor_price_preview">Стоимость посещения</string>
 
     <!--DoctorFragment-->
     <string name="enroll_doctor_button_hint">Записаться</string>

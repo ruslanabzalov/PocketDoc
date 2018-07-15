@@ -76,4 +76,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:rules:$test_version"
     implementation "org.mockito:mockito-core:2.18.3"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+
+    // CircleImageView
+    implementation "de.hdodenhof:circleimageview:2.2.0"
 }

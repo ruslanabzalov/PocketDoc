@@ -1,5 +1,9 @@
 package com.ruslan.pocketdoc.stations;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -86,8 +90,11 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
 
             mLineNameTextView.setText(stationLineName);
 
-            // TODO: Изменить цвет индикатора линии метро.
-
+            Drawable lineIndicatorDrawable = mLineIndicator.getDrawable();
+            int lineColor = Color.parseColor("#" + mStation.getLineColor());
+            // TODO: Узнать побольше о классе PorterDuffColorFilter!
+            lineIndicatorDrawable.setColorFilter(new PorterDuffColorFilter(lineColor, PorterDuff.Mode.SRC_IN));
+            mLineIndicator.setBackground(lineIndicatorDrawable);
         }
     }
 }
