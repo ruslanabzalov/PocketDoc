@@ -27,14 +27,18 @@ import com.ruslan.pocketdoc.history.RecordsHistoryActivity;
 import com.ruslan.pocketdoc.stations.StationsFragment;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
     private static final String TAG = "SpecialitiesFragment";
+    private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT = "LoadingErrorDialogFragment";
 
-    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 888;
+    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 111;
 
     private SpecialitiesContract.Presenter mPresenter;
+
+    private FragmentManager mFragmentManager;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
@@ -45,23 +49,29 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        getActivity().setTitle(R.string.specialities_title);
-        View rootView = inflater.inflate(R.layout.fragment_specialities, container, false);
-        initViews(rootView);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Objects.requireNonNull(getActivity()).setTitle(R.string.specialities_title);
+        View view = inflater.inflate(R.layout.fragment_specialities, container, false);
+        mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
+        mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mProgressBar = view.findViewById(R.id.specialities_progress_bar);
         mPresenter = new SpecialitiesPresenter();
         mPresenter.attachView(this);
-        return rootView;
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (mRecyclerView.getAdapter() == null) {
+            // Выполняется только при создании или пересоздании фрагмента.
             mPresenter.loadSpecialities();
         }
     }
@@ -79,7 +89,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         }
         if (resultCode == Activity.RESULT_CANCELED) {
             if (mRecyclerView.getAdapter() == null) {
-                getActivity().onBackPressed();
+                Objects.requireNonNull(getActivity()).onBackPressed();
             }
         }
     }
@@ -105,20 +115,19 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showSpecialities(List<Speciality> specialities) {
-        // Так как при возврате фрагмента из обратного стека все переменные экземпляра
-        // текущего фрагмента сохраняются, mAdapter может быть не равен null.
+        // Выполняется только при создании или пересоздании фрагмента.
         if (mAdapter == null) {
             mAdapter = new SpecialitiesAdapter(specialities, mPresenter::chooseSpeciality);
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            // Adapter экземпляра mRecyclerView может быть равен null, потому что после восстановления
-            // текущего фрагмента из стека, вновь вызывается метод onCreateView,
-            // в котором этот экземпляр mRecyclerView пересоздаётся.
+            // Выполняется при возврате из обратного стека.
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
             } else {
-                if (specialities.size() != mAdapter.getItemCount()) {
+                // Выполняется при обновлении списка.
+                if (specialities.size() != mRecyclerView.getAdapter().getItemCount()) {
                     mAdapter.updateDataSet(specialities);
+                    mRecyclerView.setAdapter(mAdapter);
                 }
             }
         }
@@ -127,9 +136,13 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public void showErrorMessage(Throwable throwable) {
         Log.d(TAG, throwable.getMessage());
-        DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-        loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
-        loadingErrorDialogFragment.show(getActivity().getSupportFragmentManager(), null);
+        // Если LoadingErrorDialogFragment уже отображался перед сменой ориентации устройства,
+        // то этот же DialogFragment не пересоздаётся заново, а продолжает отображаться.
+        if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
+            DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
+            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG_FRAGMENT);
+        }
     }
 
     @Override
@@ -151,10 +164,9 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showStationListUi(String specialityId) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
+        mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, StationsFragment.newInstance(specialityId))
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
     }
@@ -163,16 +175,5 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     public void showRecordsHistoryListUi() {
         Intent intent = new Intent(getActivity(), RecordsHistoryActivity.class);
         startActivity(intent);
-    }
-
-    private void initViews(View view) {
-        mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
-        mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), linearLayoutManager.getOrientation()));
-        mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

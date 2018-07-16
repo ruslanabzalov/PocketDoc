@@ -16,12 +16,12 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     private StationsContract.View mView;
 
-    private Disposable mDisposable;
-
     @Inject
     Repository mRepository;
 
-    public StationsPresenter() {
+    private Disposable mDisposable;
+
+    StationsPresenter() {
         App.getComponent().inject(this);
     }
 
@@ -42,10 +42,7 @@ public class StationsPresenter implements StationsContract.Presenter {
         mDisposable = mRepository.getStations(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        this::showList,
-                        this::showError
-                );
+                .subscribe(this::showList, this::showError);
     }
 
     @Override
@@ -77,8 +74,6 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     private void showList(List<Station> stations) {
         if (mView != null) {
-
-            // Почему-то вызывается метод showStations(stations) после обновления списка.
             mView.showStations(stations);
             mView.hideProgressBar();
         }

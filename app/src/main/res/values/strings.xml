@@ -79,6 +79,6 @@
     <!--Other strings-->
     <string name="load_error_toast">Ошибка получения данных от сервера:</string>
     <string name="loading_error_title">Сообщение об ошибке</string>
-    <string name="loading_error_neutral_button_text">Попробовать снова</string>
+    <string name="loading_error_positive_button_text">Попробовать снова</string>
     <string name="loading_error_negative_button_text">Отмена</string>
 </resources>

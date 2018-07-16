@@ -2,7 +2,6 @@ package com.ruslan.pocketdoc.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -13,45 +12,46 @@ import android.view.View;
 
 import com.ruslan.pocketdoc.R;
 
-public class LoadingErrorDialogFragment extends DialogFragment {
+import java.util.Objects;
 
-    private Dialog mLoadingErrorDialog;
+public class LoadingErrorDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View loadingErrorDialogView = inflater.inflate(R.layout.dialog_fragment_loading_error, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(loadingErrorDialogView)
                 .setTitle(R.string.loading_error_title)
-                .setNeutralButton(R.string.loading_error_neutral_button_text, this::loadAgain)
-                .setNegativeButton(R.string.loading_error_negative_button_text, this::closeDialog);
-        mLoadingErrorDialog = builder.create();
-        mLoadingErrorDialog.setCanceledOnTouchOutside(false);
-        return mLoadingErrorDialog;
+                .setPositiveButton(R.string.loading_error_positive_button_text,(dialogInterface, i) -> loadAgain())
+                .setNegativeButton(R.string.loading_error_negative_button_text, (dialogInterface, i) -> closeDialog());
+        Dialog loadingErrorDialog = builder.create();
+        loadingErrorDialog.setCanceledOnTouchOutside(false);
+        loadingErrorDialog.setOnKeyListener(
+                (dialogInterface, i, keyEvent) -> isBackPressed(i, keyEvent));
+        return loadingErrorDialog;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mLoadingErrorDialog.setOnKeyListener((this::isBackPressed));
+    private void loadAgain() {
+        dismiss();
+        Objects.requireNonNull(getTargetFragment())
+                .onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, null);
     }
 
-    private void loadAgain(DialogInterface dialogInterface, int i) {
-        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, null);
+    private void closeDialog() {
+        dismiss();
+        Objects.requireNonNull(getTargetFragment())
+                .onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
     }
 
-    private void closeDialog(DialogInterface dialogInterface, int i) {
-        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
-    }
-
-    private boolean isBackPressed(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+    private boolean isBackPressed(int i, KeyEvent keyEvent) {
         if (i == KeyEvent.KEYCODE_BACK) {
-            // Код выполняется дважды без проверки на KeyEvent.ACTION_DOWN!
+            // Код почему-то выполняется дважды без проверки на KeyEvent.ACTION_DOWN!
             if (keyEvent.getAction() != KeyEvent.ACTION_DOWN) {
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
-                dialogInterface.dismiss();
+                dismiss();
+                Objects.requireNonNull(getTargetFragment())
+                        .onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
                 return true;
             } else {
                 return false;

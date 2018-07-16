@@ -9,8 +9,6 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="cardElevation">2dp</item>
-        <item name="cardMaxElevation">2dp</item>
         <item name="cardCornerRadius">4dp</item>
     </style>
 </resources>

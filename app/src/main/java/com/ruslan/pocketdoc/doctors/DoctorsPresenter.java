@@ -16,12 +16,12 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
 
     private DoctorsContract.View mView;
 
-    private Disposable mDisposable;
-
     @Inject
     Repository mRepository;
 
-    public DoctorsPresenter() {
+    private Disposable mDisposable;
+
+    DoctorsPresenter() {
         App.getComponent().inject(this);
     }
 
@@ -42,10 +42,7 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         mDisposable = mRepository.getDoctors(specialityId, stationId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        this::showList,
-                        this::showError
-                );
+                .subscribe(this::showList, this::showError);
     }
 
     @Override

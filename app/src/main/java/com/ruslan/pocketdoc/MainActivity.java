@@ -29,28 +29,21 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         } else {
             // Если активность пересоздаётся, то отобразить (или не отображать) кнопку Up
-            // в зависимости от размера обратного стека.
-            changeUpButtonState();
+            // в зависимости от величины обратного стека.
+            checkUpButton();
         }
-        mFragmentManager.addOnBackStackChangedListener(this::changeUpButtonState);
-
+        mFragmentManager.addOnBackStackChangedListener(this::checkUpButton);
         TabLayout tabLayout = findViewById(R.id.main_tab_layout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Fragment fragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
                 switch (tab.getPosition()) {
                     case 0:
-                        if (!(fragment instanceof SpecialitiesFragment)) {
-                            clearBackStack();
-                            replaceFragment(new SpecialitiesFragment());
-                        }
+                        replaceFragment(new SpecialitiesFragment());
                         break;
                     case 1:
-                        if (!(fragment instanceof ClinicsMapFragment)) {
-                            clearBackStack();
-                            replaceFragment(new ClinicsMapFragment());
-                        }
+                        clearBackStack();
+                        replaceFragment(new ClinicsMapFragment());
                         break;
                 }
             }
@@ -65,13 +58,6 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         if (!(fragment instanceof SpecialitiesFragment)) {
                             clearBackStack();
-                            replaceFragment(new SpecialitiesFragment());
-                        }
-                        break;
-                    case 1:
-                        if (!(fragment instanceof ClinicsMapFragment)) {
-                            clearBackStack();
-                            replaceFragment(new ClinicsMapFragment());
                         }
                         break;
                 }
@@ -82,17 +68,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         mFragmentManager.popBackStack();
-        return super.onSupportNavigateUp();
+        return true;
     }
 
-    private void changeUpButtonState() {
+    private void checkUpButton() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
     }
 
     private void replaceFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
     }
 

@@ -27,8 +27,7 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
     @NonNull
     @Override
     public SpecialityHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_speciality, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_speciality, parent, false);
         return new SpecialityHolder(view, mListener);
     }
 

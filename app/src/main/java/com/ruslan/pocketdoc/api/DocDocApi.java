@@ -17,14 +17,11 @@ public interface DocDocApi {
     @GET("metro/city/1")
     Flowable<StationList> getStations();
 
-    @GET("doctor/list/start/0/count/500/city/1/speciality/{specialityId}/" +
-            "stations/{stationId}/near/strict/order/-rating/deti/0/na-dom/0/withSlots/1/slotsDays/14")
+    @GET("doctor/list/start/0/count/500/city/1/speciality/{specialityId}/stations/{stationId}" +
+            "/near/strict/order/-rating/deti/0/na-dom/0/withSlots/1/slotsDays/14")
     Flowable<DoctorList> getDoctors(
             @Path("specialityId") String specialityId, @Path("stationId") String stationId
     );
-
-    @GET("clinic/count/city/1/type/1,2")
-    Flowable<Integer> getClinicsNumber();
 
     @GET("clinic/list/start/0/count/500/city/1/type/1,2")
     Flowable<ClinicList> getClinics();

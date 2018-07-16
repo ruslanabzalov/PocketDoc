@@ -16,12 +16,12 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     private SpecialitiesContract.View mView;
 
-    private Disposable mDisposable;
-
     @Inject
     Repository mRepository;
 
-    public SpecialitiesPresenter() {
+    private Disposable mDisposable;
+
+    SpecialitiesPresenter() {
         App.getComponent().inject(this);
     }
 
@@ -42,10 +42,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         mDisposable = mRepository.getSpecialities(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        this::showList,
-                        this::showError
-                );
+                .subscribe(this::showList, this::showError);
     }
 
     @Override

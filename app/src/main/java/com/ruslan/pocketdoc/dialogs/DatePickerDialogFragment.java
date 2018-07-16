@@ -84,7 +84,7 @@ public class DatePickerDialogFragment extends DialogFragment {
         Fragment doctorsFragment = DoctorsFragment.newInstance(mSpecialityId, mStationId);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, doctorsFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
         dialogInterface.dismiss();
