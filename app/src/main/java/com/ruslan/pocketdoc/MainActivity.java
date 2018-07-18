@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import com.ruslan.pocketdoc.clinics.ClinicsMapFragment;
 import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
@@ -72,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUpButton() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
+        Objects.requireNonNull(getSupportActionBar())
+                .setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
     }
 
     private void replaceFragment(Fragment fragment) {

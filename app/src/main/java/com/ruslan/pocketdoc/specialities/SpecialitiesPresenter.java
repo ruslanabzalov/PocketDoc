@@ -53,7 +53,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            specialities -> showRefreshingList(specialities, true),
+                            specialities -> showUpdatedList(specialities, true),
                             throwable -> showRefreshingError(throwable, true)
                     );
         } else {
@@ -61,7 +61,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            specialities -> showRefreshingList(specialities, false),
+                            specialities -> showUpdatedList(specialities, false),
                             throwable -> showRefreshingError(throwable, false)
                     );
         }
@@ -86,7 +86,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         }
     }
 
-    private void showRefreshingList(List<Speciality> specialities, boolean isMenuRefreshing) {
+    private void showUpdatedList(List<Speciality> specialities, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showSpecialities(specialities);
             if (isMenuRefreshing) {

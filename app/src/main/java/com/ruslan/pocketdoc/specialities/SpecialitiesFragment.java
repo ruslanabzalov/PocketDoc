@@ -50,6 +50,8 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        mPresenter = new SpecialitiesPresenter();
+        mPresenter.attachView(this);
     }
 
     @Override
@@ -62,8 +64,6 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProgressBar = view.findViewById(R.id.specialities_progress_bar);
-        mPresenter = new SpecialitiesPresenter();
-        mPresenter.attachView(this);
         return view;
     }
 

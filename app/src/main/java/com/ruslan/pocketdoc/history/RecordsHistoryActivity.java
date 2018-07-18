@@ -17,7 +17,6 @@ public class RecordsHistoryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.records_history_activity_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.findFragmentById(R.id.records_history_fragment_container) == null) {
             fragmentManager.beginTransaction()

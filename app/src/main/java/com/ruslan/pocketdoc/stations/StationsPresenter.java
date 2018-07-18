@@ -33,7 +33,10 @@ public class StationsPresenter implements StationsContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
-        mDisposable.dispose();
+        // Может быть null при смене конфигурации в следующем фрагменте.
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 
     @Override
@@ -53,7 +56,7 @@ public class StationsPresenter implements StationsContract.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            stations -> showRefreshingList(stations, true),
+                            stations -> showUpdatedList(stations, true),
                             throwable -> showRefreshingError(throwable, true)
                     );
         } else {
@@ -61,7 +64,7 @@ public class StationsPresenter implements StationsContract.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            stations -> showRefreshingList(stations, false),
+                            stations -> showUpdatedList(stations, false),
                             throwable -> showRefreshingError(throwable, false)
                     );
         }
@@ -69,7 +72,7 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     @Override
     public void chooseStation(Station station) {
-        mView.showDoctorsListUi(station.getId());
+        mView.showDatePickerDialog(station.getId());
     }
 
     private void showList(List<Station> stations) {
@@ -86,7 +89,7 @@ public class StationsPresenter implements StationsContract.Presenter {
         }
     }
 
-    private void showRefreshingList(List<Station> stations, boolean isMenuRefreshing) {
+    private void showUpdatedList(List<Station> stations, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showStations(stations);
             if (isMenuRefreshing) {

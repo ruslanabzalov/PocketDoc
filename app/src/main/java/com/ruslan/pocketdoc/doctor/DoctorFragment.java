@@ -17,15 +17,20 @@ import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private static final String ARG_DOCTOR = "doctor";
+    private static final String ARG_DATE = "date";
 
     private DoctorContract.Presenter mPresenter;
 
-    private Doctor mDoctor;
+    @Inject
+    Picasso mPicasso;
 
     private ImageView mDoctorPhotoImageView;
     private TextView mDoctorNameTextView;
@@ -35,14 +40,16 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private TextView mDoctorDescriptionTextView;
     private Button mCreateRecordButton;
 
-    @Inject
-    Picasso mPicasso;
+    private Doctor mDoctor;
+    private Date mDate;
+    private boolean isDisplayed = false;
 
-    public static Fragment newInstance(Doctor doctor) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_DOCTOR, doctor);
+    public static Fragment newInstance(Doctor doctor, Date date) {
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(ARG_DOCTOR, doctor);
+        arguments.putSerializable(ARG_DATE, date);
         DoctorFragment doctorFragment = new DoctorFragment();
-        doctorFragment.setArguments(args);
+        doctorFragment.setArguments(arguments);
         return doctorFragment;
     }
 
@@ -50,40 +57,40 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getComponent().inject(this);
-        getActivity().setTitle(R.string.doctor_title);
-        mDoctor = (Doctor) getArguments().getSerializable(ARG_DOCTOR);
+        mDoctor = (Doctor) Objects.requireNonNull(getArguments()).getSerializable(ARG_DOCTOR);
+        mDate = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
+        mPresenter = new DoctorPresenter();
+        mPresenter.attachView(this);
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if (!getActivity().getTitle().equals(getString(R.string.doctor_title))) {
-            getActivity().setTitle(R.string.doctor_title);
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Objects.requireNonNull(getActivity()).setTitle(R.string.doctor_title);
         View rootView = inflater.inflate(R.layout.fragment_doctor, container, false);
-        initViews(rootView);
-        mPresenter = new DoctorPresenter();
-        mPresenter.attachView(this);
+        mDoctorPhotoImageView = rootView.findViewById(R.id.photo_image_view);
+        mDoctorNameTextView = rootView.findViewById(R.id.name_text_view);
+        mDoctorSpecialityTextView = rootView.findViewById(R.id.speciality_text_view);
+        mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);
+        mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
+        mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
+        mCreateRecordButton = rootView.findViewById(R.id.create_record);
+        mCreateRecordButton.setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.displayDoctor(mDoctor);
+        if (!isDisplayed) {
+            mPresenter.displayDoctor(mDoctor);
+            isDisplayed = true;
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Если текущий фрагмент находится в обратном стеке,
-        // то mPresenter зануляется при пересоздании активности.
-        // При замене другого фрагмента на ClinicsMapFragment (во время чистки обратного стека)
-        // mPresenter снова пытается занулиться, из-за чего возникает NPE.
-        // По этой причине здесь необходима проверка на null!
-        if (mPresenter != null) {
-            mPresenter.detachView();
-        }
+        mPresenter.detachView();
     }
 
     @Override
@@ -111,15 +118,4 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     @Override
     public void hideProgressBar() {}
-
-    private void initViews(View rootView) {
-        mDoctorPhotoImageView = rootView.findViewById(R.id.photo_image_view);
-        mDoctorNameTextView = rootView.findViewById(R.id.name_text_view);
-        mDoctorSpecialityTextView = rootView.findViewById(R.id.speciality_text_view);
-        mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);
-        mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
-        mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
-        mCreateRecordButton = rootView.findViewById(R.id.create_record);
-        mCreateRecordButton.setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
-    }
 }

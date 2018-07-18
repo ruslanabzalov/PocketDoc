@@ -26,6 +26,7 @@ import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.dialogs.NoDoctorsDialogFragment;
 import com.ruslan.pocketdoc.doctor.DoctorFragment;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +37,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
     private static final String ARG_STATION_ID = "station_id";
+    private static final String ARG_DATE = "date";
 
     private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 333;
     private static final int NO_DOCTORS_DIALOG_REQUEST_CODE = 444;
@@ -51,11 +53,13 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private String mSpecialityId;
     private String mStationId;
+    private Date mDate;
 
-    public static Fragment newInstance(String specId, String stationId) {
+    public static Fragment newInstance(String specId, String stationId, Date date) {
         Bundle arguments = new Bundle();
         arguments.putString(ARG_SPECIALITY_ID, specId);
         arguments.putString(ARG_STATION_ID, stationId);
+        arguments.putSerializable(ARG_DATE, date);
         DoctorsFragment doctorsFragment = new DoctorsFragment();
         doctorsFragment.setArguments(arguments);
         return doctorsFragment;
@@ -68,6 +72,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mSpecialityId = Objects.requireNonNull(getArguments()).getString(ARG_SPECIALITY_ID);
         mStationId = Objects.requireNonNull(getArguments()).getString(ARG_STATION_ID);
+        mDate = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
+        mPresenter = new DoctorsPresenter();
+        mPresenter.attachView(this);
     }
 
     @Override
@@ -80,8 +87,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProgressBar = view.findViewById(R.id.doctors_progress_bar);
-        mPresenter = new DoctorsPresenter();
-        mPresenter.attachView(this);
         return view;
     }
 
@@ -97,12 +102,25 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Если текущий фрагмент находится в обратном стеке,то mPresenter зануляется при пересоздании активности.
-        // При замене другого фрагмента на ClinicsMapFragment (во время чистки обратного стека)
-        // mPresenter снова пытается занулиться, из-за чего возникает NullPointerException.
-        // По этой причине здесь необходима проверка на null!
-        if (mPresenter != null) {
-            mPresenter.detachView();
+        mPresenter.detachView();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case LOADING_ERROR_DIALOG_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    mPresenter.updateDoctors(mSpecialityId, mStationId, true);
+                }
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    if (mRecyclerView.getAdapter() == null) {
+                        Objects.requireNonNull(getActivity()).onBackPressed();
+                    }
+                }
+                break;
+            case NO_DOCTORS_DIALOG_REQUEST_CODE:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                break;
         }
     }
 
@@ -119,23 +137,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case LOADING_ERROR_DIALOG_REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    mPresenter.updateDoctors(mSpecialityId, mStationId, true);
-                }
-                if (resultCode == Activity.RESULT_CANCELED) {
-                    Objects.requireNonNull(getActivity()).onBackPressed();
-                }
-                break;
-            case NO_DOCTORS_DIALOG_REQUEST_CODE:
-                Objects.requireNonNull(getActivity()).onBackPressed();
-                break;
         }
     }
 
@@ -197,7 +198,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void showDoctorInfoUi(Doctor doctor) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctor))
+                .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctor, mDate))
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();

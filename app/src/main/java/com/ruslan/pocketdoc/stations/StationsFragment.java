@@ -48,10 +48,10 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     private String mSpecialityId;
 
     public static Fragment newInstance(String specialityId) {
-        Bundle args = new Bundle();
-        args.putString(ARG_SPECIALITY_ID, specialityId);
+        Bundle arguments = new Bundle();
+        arguments.putString(ARG_SPECIALITY_ID, specialityId);
         StationsFragment stationsFragment = new StationsFragment();
-        stationsFragment.setArguments(args);
+        stationsFragment.setArguments(arguments);
         return stationsFragment;
     }
 
@@ -61,6 +61,8 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         setHasOptionsMenu(true);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mSpecialityId = Objects.requireNonNull(getArguments()).getString(ARG_SPECIALITY_ID);
+        mPresenter = new StationsPresenter();
+        mPresenter.attachView(this);
     }
 
     @Override
@@ -73,8 +75,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         mRecyclerView = view.findViewById(R.id.stations_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProgressBar = view.findViewById(R.id.stations_progress_bar);
-        mPresenter = new StationsPresenter();
-        mPresenter.attachView(this);
         return view;
     }
 
@@ -90,12 +90,18 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Если текущий фрагмент находится в обратном стеке,то mPresenter зануляется при пересоздании активности.
-        // При замене другого фрагмента на ClinicsMapFragment (во время чистки обратного стека)
-        // mPresenter снова пытается занулиться, из-за чего возникает NullPointerException.
-        // По этой причине здесь необходима проверка на null!
-        if (mPresenter != null) {
-            mPresenter.detachView();
+        mPresenter.detachView();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            mPresenter.updateStations(true);
+        }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            if (mRecyclerView.getAdapter() == null) {
+                Objects.requireNonNull(getActivity()).onBackPressed();
+            }
         }
     }
 
@@ -112,18 +118,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            mPresenter.updateStations(true);
-        }
-        if (resultCode == Activity.RESULT_CANCELED) {
-            if (mAdapter == null) {
-                Objects.requireNonNull(getActivity()).onBackPressed();
-            }
         }
     }
 
@@ -177,7 +171,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
-    public void showDoctorsListUi(String stationId) {
+    public void showDatePickerDialog(String stationId) {
         DialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mSpecialityId, stationId);
         datePickerDialogFragment.show(mFragmentManager, null);
     }

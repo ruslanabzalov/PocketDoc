@@ -2,9 +2,15 @@ package com.ruslan.pocketdoc.clinics;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,13 +26,15 @@ import com.ruslan.pocketdoc.data.clinics.Clinic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class ClinicsMapFragment extends SupportMapFragment implements ClinicsContract.View {
+public class ClinicsMapFragment extends Fragment implements ClinicsContract.View {
 
     private final static LatLng MOSCOW = new LatLng(55.751244, 37.618423);
 
     private ClinicsContract.Presenter mPresenter;
 
+    private FragmentManager mFragmentManager;
     private GoogleMap mGoogleMap;
 
     private List<Clinic> mClinics = new ArrayList<>();
@@ -34,17 +42,18 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.clinics_title);
         setHasOptionsMenu(true);
         mPresenter = new ClinicsPresenter();
         mPresenter.attachView(this);
+        mFragmentManager = getChildFragmentManager();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.loadClinics();
-        getMapAsync((googleMap -> {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Objects.requireNonNull(getActivity()).setTitle(R.string.clinics_title);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        SupportMapFragment supportMapFragment = (SupportMapFragment) mFragmentManager.findFragmentById(R.id.map);
+        supportMapFragment.getMapAsync((googleMap -> {
             mGoogleMap = googleMap;
             mGoogleMap.setMinZoomPreference(10f);
             mGoogleMap.setMaxZoomPreference(18f);
@@ -53,9 +62,15 @@ public class ClinicsMapFragment extends SupportMapFragment implements ClinicsCon
                     .zoom(10f)
                     .build();
             mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(moscowPosition));
-
             mGoogleMap.setOnMarkerClickListener(this::isMarkerClicked);
         }));
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadClinics();
     }
 
     @Override

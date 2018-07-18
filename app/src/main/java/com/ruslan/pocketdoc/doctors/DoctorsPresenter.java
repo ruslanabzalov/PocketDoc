@@ -33,7 +33,10 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
-        mDisposable.dispose();
+        // Может быть null при смене конфигурации в следующем фрагменте.
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 
     @Override
@@ -53,7 +56,7 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            doctors -> showRefreshingList(doctors, true),
+                            doctors -> showUpdatedList(doctors, true),
                             throwable -> showRefreshingError(throwable, true)
                     );
         } else {
@@ -61,7 +64,7 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            doctors -> showRefreshingList(doctors, false),
+                            doctors -> showUpdatedList(doctors, false),
                             throwable -> showRefreshingError(throwable, false)
                     );
         }
@@ -86,7 +89,7 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         }
     }
 
-    private void showRefreshingList(List<Doctor> doctors, boolean isMenuRefreshing) {
+    private void showUpdatedList(List<Doctor> doctors, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showDoctors(doctors);
             if (isMenuRefreshing) {

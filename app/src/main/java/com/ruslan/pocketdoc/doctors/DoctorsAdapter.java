@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
+import com.ruslan.pocketdoc.Utils;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 
 import java.util.List;
@@ -85,7 +86,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             mDoctorNameTextView.setText(mDoctor.getName());
             float doctorRating = Float.parseFloat(mDoctor.getRating());
             mDoctorRating.setRating(doctorRating);
-            mDoctorExperienceTextView.setText(mDoctor.getExperience() + " лет");
+            mDoctorExperienceTextView.setText(Utils.getCorrectExperienceString(mDoctor.getExperience()));
             String doctorPrice = String.format(Locale.getDefault(), "%d\u20bd", mDoctor.getPrice());
             mDoctorPriceTextView.setText(doctorPrice);
         }
