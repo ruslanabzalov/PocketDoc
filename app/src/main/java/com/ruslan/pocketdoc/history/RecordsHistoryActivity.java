@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 import com.ruslan.pocketdoc.R;
 
+import java.util.Objects;
+
 public class RecordsHistoryActivity extends AppCompatActivity {
 
     @Override
@@ -16,7 +18,7 @@ public class RecordsHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_records_history);
         Toolbar toolbar = findViewById(R.id.records_history_activity_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.findFragmentById(R.id.records_history_fragment_container) == null) {
             fragmentManager.beginTransaction()

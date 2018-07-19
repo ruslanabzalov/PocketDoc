@@ -5,7 +5,7 @@ import com.ruslan.pocketdoc.data.LocalDataSource;
 import com.ruslan.pocketdoc.data.RemoteDataSource;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.doctor.DoctorFragment;
-import com.ruslan.pocketdoc.doctors.DoctorsAdapter;
+import com.ruslan.pocketdoc.doctor.DoctorPresenter;
 import com.ruslan.pocketdoc.doctors.DoctorsPresenter;
 import com.ruslan.pocketdoc.specialities.SpecialitiesPresenter;
 import com.ruslan.pocketdoc.stations.StationsPresenter;
@@ -36,7 +36,7 @@ public interface AppComponent {
 
     void inject(ClinicsPresenter presenter);
 
-    void inject(DoctorsAdapter.DoctorViewHolder viewHolder);
-
     void inject(DoctorFragment fragment);
+
+    void inject(DoctorPresenter presenter);
 }

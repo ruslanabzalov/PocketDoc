@@ -14,7 +14,7 @@ interface DoctorContract {
 
     interface Presenter extends BaseContract.BasePresenter<View> {
 
-        void displayDoctor(Doctor doctor);
+        void loadDoctorInfo(int doctorId);
 
         void onCreateRecordButtonClick();
     }

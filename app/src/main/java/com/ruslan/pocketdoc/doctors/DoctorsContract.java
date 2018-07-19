@@ -13,7 +13,7 @@ interface DoctorsContract {
 
         void showDoctors(List<Doctor> doctorList);
 
-        void showDoctorInfoUi(Doctor doctor);
+        void showDoctorInfoUi(int doctorId);
     }
 
     interface Presenter extends BaseContract.BasePresenter<View> {

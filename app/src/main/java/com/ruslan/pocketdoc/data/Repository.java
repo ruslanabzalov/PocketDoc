@@ -89,6 +89,10 @@ public class Repository {
                 .map(DoctorList::getDoctors);
     }
 
+    public Flowable<Doctor> getDoctorInfo(int doctorId) {
+        return mRemoteDataSource.getDoctor(doctorId);
+    }
+
     public Flowable<List<Clinic>> getClinics(boolean forceUpdate) {
         if (forceUpdate) {
             return mRemoteDataSource.getClinics()

@@ -8,16 +8,14 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 import com.ruslan.pocketdoc.Utils;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 
 import java.util.List;
-import java.util.Locale;
 
-public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
+class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
     private RecyclerItemOnClickListener<Doctor> mListener;
 
@@ -51,7 +49,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
         notifyDataSetChanged();
     }
 
-    public static class DoctorViewHolder extends RecyclerView.ViewHolder {
+    static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mDoctorSpecialityTextView;
         private TextView mDoctorNameTextView;
@@ -63,7 +61,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
 
         DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
             super(view);
-            App.getComponent().inject(this);
             itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
             mDoctorSpecialityTextView = itemView.findViewById(R.id.doctor_speciality_text_view);
             mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
@@ -74,21 +71,11 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
 
         void bind(Doctor doctor) {
             mDoctor = doctor;
-            if (mDoctor.getSpecialities().size() >= 1) {
-                StringBuilder doctorSpecialities = new StringBuilder(mDoctor.getSpecialities().get(0).getName());
-                for (int i = 1; i < mDoctor.getSpecialities().size(); i++) {
-                    doctorSpecialities.append(", ").append(mDoctor.getSpecialities().get(i).getName());
-                }
-                mDoctorSpecialityTextView.setText(doctorSpecialities.toString());
-            } else {
-                mDoctorSpecialityTextView.setText(mDoctor.getSpecialities().get(0).getName());
-            }
+            mDoctorSpecialityTextView.setText(Utils.getCorrectSpecialitiesString(mDoctor.getSpecialities()));
             mDoctorNameTextView.setText(mDoctor.getName());
-            float doctorRating = Float.parseFloat(mDoctor.getRating());
-            mDoctorRating.setRating(doctorRating);
+            mDoctorRating.setRating(Float.parseFloat(mDoctor.getRating()));
             mDoctorExperienceTextView.setText(Utils.getCorrectExperienceString(mDoctor.getExperience()));
-            String doctorPrice = String.format(Locale.getDefault(), "%d\u20bd", mDoctor.getPrice());
-            mDoctorPriceTextView.setText(doctorPrice);
+            mDoctorPriceTextView.setText(Utils.getCorrectPriceString(mDoctor.getPrice()));
         }
     }
 }

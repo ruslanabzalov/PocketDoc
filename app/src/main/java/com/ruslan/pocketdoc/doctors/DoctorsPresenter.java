@@ -72,7 +72,7 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
 
     @Override
     public void chooseDoctor(Doctor doctor) {
-        mView.showDoctorInfoUi(doctor);
+        mView.showDoctorInfoUi(doctor.getId());
     }
 
     private void showList(List<Doctor> doctors) {

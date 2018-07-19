@@ -1,36 +1,46 @@
 package com.ruslan.pocketdoc.clinic;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ruslan.pocketdoc.R;
+import com.ruslan.pocketdoc.data.clinics.Clinic;
+
+import java.util.Objects;
 
 public class ClinicFragment extends Fragment {
+
+    private static String ARG_CLINIC = "clinic";
+
+    private Clinic mClinic;
+
+    public static Fragment newInstance(Clinic clinic) {
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(ARG_CLINIC, clinic);
+        Fragment clinicFragment = new ClinicFragment();
+        clinicFragment.setArguments(arguments);
+        return clinicFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.clinic_title);
+        mClinic = (Clinic) Objects.requireNonNull(getArguments()).getSerializable(ARG_CLINIC);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Objects.requireNonNull(getActivity()).setTitle(R.string.clinic_title);
         View rootView = inflater.inflate(R.layout.fragment_clinic_info, container, false);
-        initViews(rootView);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // TODO: Отобразить информацию о клинике.
-    }
-
-    private void initViews(View view) {
-        // TODO: Инициализация необходимых View-элементов.
     }
 }

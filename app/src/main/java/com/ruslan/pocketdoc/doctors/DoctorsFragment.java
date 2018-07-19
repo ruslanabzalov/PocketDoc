@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
@@ -33,11 +34,12 @@ import java.util.Objects;
 public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private static final String TAG = "DoctorsFragment";
-    private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT = "LoadingErrorDialogFragment";
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
     private static final String ARG_STATION_ID = "station_id";
     private static final String ARG_DATE = "date";
+
+    private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT = "LoadingErrorDialogFragment";
 
     private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 333;
     private static final int NO_DOCTORS_DIALOG_REQUEST_CODE = 444;
@@ -196,9 +198,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
-    public void showDoctorInfoUi(Doctor doctor) {
+    public void showDoctorInfoUi(int doctorId) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctor, mDate))
+                .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctorId, mDate))
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
