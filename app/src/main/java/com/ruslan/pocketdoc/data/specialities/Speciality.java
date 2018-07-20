@@ -26,6 +26,10 @@ public class Speciality implements Serializable {
     @SerializedName("BranchName")
     private String mBranchName;
 
+    public Speciality(@NonNull String id) {
+        mId = id;
+    }
+
     @NonNull
     public String getId() {
         return mId;

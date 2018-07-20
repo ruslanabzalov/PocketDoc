@@ -11,8 +11,8 @@ public class Utils {
             return specialities.get(0).getName();
         } else {
             StringBuilder stringBuilder = new StringBuilder(specialities.get(0).getName());
-            for (Speciality speciality : specialities) {
-                stringBuilder.append(", ").append(speciality.getName());
+            for (int i = 1; i < specialities.size(); i++) {
+                stringBuilder.append(", ").append(specialities.get(i).getName().toLowerCase());
             }
             return stringBuilder.toString();
         }
@@ -21,11 +21,11 @@ public class Utils {
     public static String getCorrectExperienceString(int age) {
         if (age == 0) {
             return "Нет опыта";
-        } else if ((age > 10 && age < 20) || (age % 10 == 0)) {
+        } else if (age > 10 && age < 20) {
             return age + " лет";
-        } else if (age == 1 || age % 10 == 1) {
+        } else if (age % 10 == 1) {
             return age + " год";
-        } else if ((age > 1 && age < 5) || (age % 10 > 1 && age % 10 < 5)) {
+        } else if (age % 10 > 1 && age % 10 < 5) {
             return age + " года";
         } else {
             return age + " лет";

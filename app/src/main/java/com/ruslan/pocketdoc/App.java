@@ -23,7 +23,7 @@ public class App extends Application {
         sComponent = buildComponent();
     }
 
-    private AppComponent buildComponent() {
+    protected AppComponent buildComponent() {
         return DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))
                 .docDocServiceModule(new DocDocServiceModule())

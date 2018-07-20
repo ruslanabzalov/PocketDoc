@@ -58,7 +58,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private int mDoctorId;
     private Date mPreferredDate;
-    private boolean isDisplayed = false;
+    private boolean isDoctorInfoDisplayed = false;
 
     public static Fragment newInstance(int doctorId, Date date) {
         Bundle arguments = new Bundle();
@@ -99,7 +99,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        if (!isDisplayed) {
+        if (!isDoctorInfoDisplayed) {
             mPresenter.loadDoctorInfo(mDoctorId);
         }
     }
@@ -112,14 +112,13 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     @Override
     public void showDoctorInfo(Doctor doctor) {
-        mPicasso.load(doctor.getPhotoUrl().replace("_small", ""))
-                .into(mDoctorPhotoImageView);
+        mPicasso.load(doctor.getPhotoUrl().replace("_small", "")).into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(doctor.getName());
         mDoctorSpecialityTextView.setText(Utils.getCorrectSpecialitiesString(doctor.getSpecialities()));
         mDoctorExperienceTextView.setText(Utils.getCorrectExperienceString(doctor.getExperience()));
         mDoctorPriceTextView.setText(Utils.getCorrectPriceString(doctor.getPrice()));
         mDoctorDescriptionTextView.setText(doctor.getDescription());
-        isDisplayed = true;
+        isDoctorInfoDisplayed = true;
     }
 
     @Override
