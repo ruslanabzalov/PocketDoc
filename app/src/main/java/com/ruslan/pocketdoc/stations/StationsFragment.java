@@ -66,15 +66,11 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.stations_title);
         View view = inflater.inflate(R.layout.fragment_stations, container, false);
-        mSwipeRefreshLayout = view.findViewById(R.id.stations_refresh);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateStations(false));
-        mRecyclerView = view.findViewById(R.id.stations_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mProgressBar = view.findViewById(R.id.stations_progress_bar);
+        initViews(view);
         return view;
     }
 
@@ -143,12 +139,13 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showErrorMessage(Throwable throwable) {
-        Log.d(TAG, throwable.getMessage());
+        Log.e(TAG, Log.getStackTraceString(throwable));
         // Если LoadingErrorDialogFragment уже отображался перед сменой ориентации устройства,
         // то этот же DialogFragment не пересоздаётся заново, а продолжает отображаться.
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment
+                    .setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
             loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG_FRAGMENT);
         }
     }
@@ -171,8 +168,19 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
-    public void showDatePickerDialog(String stationId) {
-        DialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mSpecialityId, stationId);
+    public void showCalendarUi(String stationId) {
+        DialogFragment datePickerDialogFragment =
+                DatePickerDialogFragment.newInstance(mSpecialityId, stationId);
         datePickerDialogFragment.show(mFragmentManager, null);
+    }
+
+    private void initViews(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.stations_refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mSwipeRefreshLayout
+                .setOnRefreshListener(() -> mPresenter.updateStations(false));
+        mRecyclerView = view.findViewById(R.id.stations_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mProgressBar = view.findViewById(R.id.stations_progress_bar);
     }
 }

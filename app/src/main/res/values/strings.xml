@@ -70,7 +70,7 @@
     <string name="dialog_fragment_create_record_title">Оформление заявки</string>
     <string name="user_name_edit_text_hint">Введите имя</string>
     <string name="user_phone_edit_text_hint">Введите номер телефона</string>
-    <string name="create_record_button_hint">Оформить заявку</string>
+    <string name="create_record_button_text">Оформить заявку</string>
 
     <!--dialog_fragment_loading_error-->
     <string name="loading_error_dialog_message">Ошибка загрузки данных с сервера!\nВозможно, нет подключения к интернету.</string>

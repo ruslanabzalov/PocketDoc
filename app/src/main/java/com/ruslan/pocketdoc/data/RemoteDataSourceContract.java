@@ -1,7 +1,7 @@
 package com.ruslan.pocketdoc.data;
 
 import com.ruslan.pocketdoc.data.clinics.ClinicList;
-import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.data.doctors.DoctorInfo;
 import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.StationList;
@@ -16,7 +16,7 @@ interface RemoteDataSourceContract {
 
     Flowable<DoctorList> getDoctors(String specialityId, String stationId);
 
-    Flowable<Doctor> getDoctor(int doctorId);
+    Flowable<DoctorInfo> getDoctor(int doctorId);
 
     Flowable<ClinicList> getClinics();
 }

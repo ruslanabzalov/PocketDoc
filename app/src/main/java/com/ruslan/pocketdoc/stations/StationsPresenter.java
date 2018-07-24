@@ -72,7 +72,7 @@ public class StationsPresenter implements StationsContract.Presenter {
 
     @Override
     public void chooseStation(Station station) {
-        mView.showDatePickerDialog(station.getId());
+        mView.showCalendarUi(station.getId());
     }
 
     private void showList(List<Station> stations) {

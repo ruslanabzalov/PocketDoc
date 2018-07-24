@@ -13,7 +13,7 @@ interface SpecialitiesContract {
 
         void showSpecialities(List<Speciality> specialities);
 
-        void showStationListUi(String specialityId);
+        void showStationsUi(String specialityId);
 
         void showRecordsHistoryListUi();
     }

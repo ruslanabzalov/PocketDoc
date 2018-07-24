@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "station")
+@Entity(tableName = "stations")
 public class Station {
 
     @NonNull
@@ -27,6 +27,12 @@ public class Station {
     @ColumnInfo(name = "line_color")
     @SerializedName("LineColor")
     private String mLineColor;
+
+    // TODO: Добавить возможность сохранения списка идентификаторов районов.
+
+    public Station(@NonNull String id) {
+        mId = id;
+    }
 
     @NonNull
     public String getId() {

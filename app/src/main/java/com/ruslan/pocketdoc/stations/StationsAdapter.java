@@ -32,7 +32,8 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
     @NonNull
     @Override
     public StationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_station, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_station, parent, false);
         return new StationViewHolder(view, mListener);
     }
 
@@ -73,7 +74,8 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
             Drawable lineIndicatorDrawable = mLineIndicator.getDrawable();
             int lineColor = Color.parseColor("#" + mStation.getLineColor());
             // TODO: Узнать побольше о классе PorterDuffColorFilter!
-            lineIndicatorDrawable.setColorFilter(new PorterDuffColorFilter(lineColor, PorterDuff.Mode.SRC_IN));
+            lineIndicatorDrawable
+                    .setColorFilter(new PorterDuffColorFilter(lineColor, PorterDuff.Mode.SRC_IN));
             mLineIndicator.setBackground(lineIndicatorDrawable);
         }
     }

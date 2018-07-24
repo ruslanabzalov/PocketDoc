@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
         mFragmentManager = getSupportFragmentManager();
+        TabLayout tabLayout = findViewById(R.id.main_tab_layout);
         if (mFragmentManager.findFragmentById(R.id.main_activity_fragment_container) == null) {
             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
             mFragmentManager.beginTransaction()
@@ -33,9 +34,14 @@ public class MainActivity extends AppCompatActivity {
             // Если активность пересоздаётся, то отобразить (или не отображать) кнопку Up
             // в зависимости от величины обратного стека.
             checkUpButton();
+            Fragment currentFragment =
+                    mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
+            if (currentFragment instanceof ClinicsMapFragment) {
+                TabLayout.Tab currentTab = tabLayout.getTabAt(1);
+                Objects.requireNonNull(currentTab).select();
+            }
         }
         mFragmentManager.addOnBackStackChangedListener(this::checkUpButton);
-        TabLayout tabLayout = findViewById(R.id.main_tab_layout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -55,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Fragment fragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
+                Fragment fragment =
+                        mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
                 switch (tab.getPosition()) {
                     case 0:
                         if (!(fragment instanceof SpecialitiesFragment)) {

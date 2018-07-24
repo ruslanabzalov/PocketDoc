@@ -11,7 +11,7 @@ public interface BaseContract {
         void hideProgressBar();
     }
 
-    interface BasePresenter<V> {
+    interface BasePresenter<V extends BaseView> {
 
         void attachView(V view);
 

@@ -3,7 +3,7 @@ package com.ruslan.pocketdoc.data;
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.api.DocDocApi;
 import com.ruslan.pocketdoc.data.clinics.ClinicList;
-import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.data.doctors.DoctorInfo;
 import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.StationList;
@@ -37,7 +37,7 @@ public class RemoteDataSource implements RemoteDataSourceContract {
     }
 
     @Override
-    public Flowable<Doctor> getDoctor(int doctorId) {
+    public Flowable<DoctorInfo> getDoctor(int doctorId) {
         return mApi.getDoctor(doctorId);
     }
 

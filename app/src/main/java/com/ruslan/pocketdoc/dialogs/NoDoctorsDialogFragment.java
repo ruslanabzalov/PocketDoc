@@ -12,12 +12,14 @@ import android.view.KeyEvent;
 
 import com.ruslan.pocketdoc.R;
 
+import java.util.Objects;
+
 public class NoDoctorsDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                 .setMessage(R.string.no_doctors_dialog_message)
                 .setPositiveButton(R.string.no_doctors_dialog_positive_button_text, this::backToStationsListUi);
         Dialog noDoctorsDialog = builder.create();
@@ -27,7 +29,7 @@ public class NoDoctorsDialogFragment extends DialogFragment {
     }
 
     private void backToStationsListUi(DialogInterface dialogInterface, int i) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         fragmentManager.popBackStack();
         dialogInterface.dismiss();
     }
@@ -36,7 +38,8 @@ public class NoDoctorsDialogFragment extends DialogFragment {
         if (i == KeyEvent.KEYCODE_BACK) {
             // Код почему-то выполняется дважды без проверки на KeyEvent.ACTION_DOWN!
             if (keyEvent.getAction() != KeyEvent.ACTION_DOWN) {
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
+                Objects.requireNonNull(getTargetFragment())
+                        .onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
                 dialogInterface.dismiss();
                 return true;
             } else {

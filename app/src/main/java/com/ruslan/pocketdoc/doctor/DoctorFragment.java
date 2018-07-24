@@ -1,7 +1,10 @@
 package com.ruslan.pocketdoc.doctor;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -47,6 +50,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     @Inject
     Picasso mPicasso;
 
+    private ConstraintLayout mDoctorRootViewGroup;
     private ProgressBar mDoctorProgressBar;
     private ImageView mDoctorPhotoImageView;
     private TextView mDoctorNameTextView;
@@ -81,18 +85,11 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.doctor_title);
         View rootView = inflater.inflate(R.layout.fragment_doctor, container, false);
-        mDoctorProgressBar = rootView.findViewById(R.id.doctor_progress_bar);
-        mDoctorPhotoImageView = rootView.findViewById(R.id.photo_image_view);
-        mDoctorNameTextView = rootView.findViewById(R.id.name_text_view);
-        mDoctorSpecialityTextView = rootView.findViewById(R.id.speciality_text_view);
-        mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);
-        mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
-        mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
-        mCreateRecordButton = rootView.findViewById(R.id.create_record);
-        mCreateRecordButton.setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
+        initViews(rootView);
         return rootView;
     }
 
@@ -111,6 +108,22 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case LOADING_ERROR_DIALOG_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    mPresenter.loadDoctorInfo(mDoctorId);
+                }
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    Objects.requireNonNull(getActivity()).onBackPressed();
+                }
+                break;
+            case CREATE_RECORD_DIALOG_REQUEST_CODE:
+                break;
+        }
+    }
+
+    @Override
     public void showDoctorInfo(Doctor doctor) {
         mPicasso.load(doctor.getPhotoUrl().replace("_small", "")).into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(doctor.getName());
@@ -123,40 +136,60 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     @Override
     public void showNewRecordUi() {
-        DialogFragment createRecordDialogFragment = new CreateRecordDialogFragment();
-        createRecordDialogFragment.setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);
-        createRecordDialogFragment.show(mFragmentManager, TAG_CREATE_RECORD_DIALOG);
+        if (mFragmentManager.findFragmentByTag(TAG_CREATE_RECORD_DIALOG) == null) {
+            DialogFragment createRecordDialogFragment = new CreateRecordDialogFragment();
+            createRecordDialogFragment.setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);
+            createRecordDialogFragment.show(mFragmentManager, TAG_CREATE_RECORD_DIALOG);
+        }
     }
 
     @Override
     public void showErrorMessage(Throwable throwable) {
+        changeAllViewsVisibility(false, mDoctorRootViewGroup);
         Log.d(TAG, throwable.getMessage());
-        DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-        loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
-        loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG);
+        if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG) == null) {
+            DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
+            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG);
+        }
     }
 
     @Override
     public void showProgressBar() {
+        changeAllViewsVisibility(false, mDoctorRootViewGroup);
         mDoctorProgressBar.setVisibility(View.VISIBLE);
-        mDoctorPhotoImageView.setVisibility(View.GONE);
-        mDoctorNameTextView.setVisibility(View.GONE);
-        mDoctorSpecialityTextView.setVisibility(View.GONE);
-        mDoctorExperienceTextView.setVisibility(View.GONE);
-        mDoctorPriceTextView.setVisibility(View.GONE);
-        mDoctorDescriptionTextView.setVisibility(View.GONE);
-        mCreateRecordButton.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgressBar() {
+        changeAllViewsVisibility(true, mDoctorRootViewGroup);
         mDoctorProgressBar.setVisibility(View.GONE);
-        mDoctorPhotoImageView.setVisibility(View.VISIBLE);
-        mDoctorNameTextView.setVisibility(View.VISIBLE);
-        mDoctorSpecialityTextView.setVisibility(View.VISIBLE);
-        mDoctorExperienceTextView.setVisibility(View.VISIBLE);
-        mDoctorPriceTextView.setVisibility(View.VISIBLE);
-        mDoctorDescriptionTextView.setVisibility(View.VISIBLE);
-        mCreateRecordButton.setVisibility(View.VISIBLE);
+    }
+
+    private void changeAllViewsVisibility(boolean enable, ViewGroup viewGroup) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View child = viewGroup.getChildAt(i);
+            if (enable) {
+                child.setVisibility(View.VISIBLE);
+            } else {
+                child.setVisibility(View.GONE);
+            }
+            if (child instanceof ViewGroup) {
+                changeAllViewsVisibility(enable, (ViewGroup) child);
+            }
+        }
+    }
+
+    private void initViews(View rootView) {
+        mDoctorRootViewGroup = rootView.findViewById(R.id.doctor_root_view_group);
+        mDoctorProgressBar = rootView.findViewById(R.id.doctor_progress_bar);
+        mDoctorPhotoImageView = rootView.findViewById(R.id.photo_image_view);
+        mDoctorNameTextView = rootView.findViewById(R.id.name_text_view);
+        mDoctorSpecialityTextView = rootView.findViewById(R.id.speciality_text_view);
+        mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);
+        mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
+        mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
+        mCreateRecordButton = rootView.findViewById(R.id.create_record);
+        mCreateRecordButton.setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
     }
 }

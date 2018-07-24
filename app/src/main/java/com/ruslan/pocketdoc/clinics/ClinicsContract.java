@@ -1,22 +1,31 @@
 package com.ruslan.pocketdoc.clinics;
 
-import com.ruslan.pocketdoc.BaseContract;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 
 import java.util.List;
 
 interface ClinicsContract {
 
-    interface View extends BaseContract.BaseView {
+    interface View {
+
+        void showProgressBar();
+
+        void hideProgressBar();
 
         void showSuccessLoadingMessage();
+
+        void showErrorDialog(Throwable throwable);
 
         void showClinics(List<Clinic> clinics);
 
         void showClinicInfoUi(int clinicId);
     }
 
-    interface Presenter extends BaseContract.BasePresenter<View> {
+    interface Presenter<V extends View> {
+
+        void attachView(V view);
+
+        void detachView();
 
         void loadClinics();
 

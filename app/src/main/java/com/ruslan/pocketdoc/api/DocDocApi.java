@@ -2,7 +2,7 @@ package com.ruslan.pocketdoc.api;
 
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.clinics.ClinicList;
-import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.data.doctors.DoctorInfo;
 import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.doctors.slots.SlotList;
 import com.ruslan.pocketdoc.data.specialities.SpecialityList;
@@ -22,10 +22,12 @@ public interface DocDocApi {
 
     @GET("doctor/list/start/0/count/500/city/1/speciality/{specialityId}/stations/{stationId}" +
             "/near/strict/order/-rating/deti/0/na-dom/0/withSlots/1/slotsDays/1")
-    Flowable<DoctorList> getDoctors(@Path("specialityId") String specialityId, @Path("stationId") String stationId);
+    Flowable<DoctorList> getDoctors(
+            @Path("specialityId") String specialityId, @Path("stationId") String stationId
+    );
 
     @GET("doctor/{doctorId}/city/1/withSlots/1/slotsDays/1")
-    Flowable<Doctor> getDoctor(@Path("doctorId") int doctorId);
+    Flowable<DoctorInfo> getDoctor(@Path("doctorId") int doctorId);
 
     @GET("clinic/list/start/0/count/500/city/1/type/1,2")
     Flowable<ClinicList> getClinics();

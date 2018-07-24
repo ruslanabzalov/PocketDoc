@@ -15,12 +15,12 @@ public interface SpecialityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSpecialities(List<Speciality> specialities);
 
-    @Query("SELECT COUNT(*) FROM speciality")
+    @Query("SELECT COUNT(*) FROM specialities")
     int countAll();
 
-    @Query("SELECT * FROM speciality")
+    @Query("SELECT id, name FROM specialities ORDER BY name")
     Flowable<List<Speciality>> getAllSpecialities();
 
-    @Query("DELETE FROM speciality")
+    @Query("DELETE FROM specialities")
     void clearTable();
 }

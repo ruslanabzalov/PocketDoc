@@ -13,7 +13,7 @@ interface StationsContract {
 
         void showStations(List<Station> stations);
 
-        void showDatePickerDialog(String stationId);
+        void showCalendarUi(String stationId);
     }
 
     interface Presenter extends BaseContract.BasePresenter<View> {

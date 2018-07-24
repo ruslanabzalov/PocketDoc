@@ -78,8 +78,8 @@ dependencies {
     // Testing
     testImplementation "junit:junit:4.12"
     implementation "org.mockito:mockito-core:2.18.3"
+    testImplementation "org.robolectric:robolectric:3.8"
     androidTestImplementation "com.android.support.test:runner:$test_version"
     androidTestImplementation "com.android.support.test:rules:$test_version"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
-    testImplementation "org.robolectric:robolectric:3.8"
 }

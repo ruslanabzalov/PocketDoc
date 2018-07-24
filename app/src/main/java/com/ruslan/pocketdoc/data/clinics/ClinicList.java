@@ -6,8 +6,19 @@ import java.util.List;
 
 public class ClinicList {
 
+    @SerializedName("Total")
+    private int mTotal;
+
     @SerializedName("ClinicList")
     private List<Clinic> mClinics;
+
+    public int getTotal() {
+        return mTotal;
+    }
+
+    public void setTotal(int total) {
+        mTotal = total;
+    }
 
     public List<Clinic> getClinics() {
         return mClinics;

@@ -12,4 +12,8 @@ public class SpecialityList {
     public List<Speciality> getSpecialities() {
         return mSpecialities;
     }
+
+    public void setSpecialities(List<Speciality> specialities) {
+        mSpecialities = specialities;
+    }
 }

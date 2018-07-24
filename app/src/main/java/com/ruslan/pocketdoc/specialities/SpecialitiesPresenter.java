@@ -69,7 +69,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     @Override
     public void chooseSpeciality(Speciality speciality) {
-        mView.showStationListUi(speciality.getId());
+        mView.showStationsUi(speciality.getId());
     }
 
     private void showList(List<Speciality> specialities) {

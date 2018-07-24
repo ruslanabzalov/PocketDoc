@@ -7,10 +7,8 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-@Entity(tableName = "speciality")
-public class Speciality implements Serializable {
+@Entity(tableName = "specialities")
+public class Speciality {
 
     @NonNull
     @PrimaryKey
@@ -21,6 +19,18 @@ public class Speciality implements Serializable {
     @ColumnInfo(name = "name")
     @SerializedName("Name")
     private String mName;
+
+    @ColumnInfo(name = "name_genitive")
+    @SerializedName("NameGenitive")
+    private String mNameGenitive;
+
+    @ColumnInfo(name = "name_plural")
+    @SerializedName("NamePlural")
+    private String mNamePlural;
+
+    @ColumnInfo(name = "name_plural_genitive")
+    @SerializedName("NamePluralGenitive")
+    private String mNamePluralGenitive;
 
     @ColumnInfo(name = "branch_name")
     @SerializedName("BranchName")
@@ -45,6 +55,30 @@ public class Speciality implements Serializable {
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public String getNameGenitive() {
+        return mNameGenitive;
+    }
+
+    public void setNameGenitive(String nameGenitive) {
+        mNameGenitive = nameGenitive;
+    }
+
+    public String getNamePlural() {
+        return mNamePlural;
+    }
+
+    public void setNamePlural(String namePlural) {
+        mNamePlural = namePlural;
+    }
+
+    public String getNamePluralGenitive() {
+        return mNamePluralGenitive;
+    }
+
+    public void setNamePluralGenitive(String namePluralGenitive) {
+        mNamePluralGenitive = namePluralGenitive;
     }
 
     public String getBranchName() {

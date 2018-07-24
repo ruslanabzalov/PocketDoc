@@ -55,15 +55,11 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.specialities_title);
         View view = inflater.inflate(R.layout.fragment_specialities, container, false);
-        mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
-        mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mProgressBar = view.findViewById(R.id.specialities_progress_bar);
+        initViews(view);
         return view;
     }
 
@@ -71,7 +67,6 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     public void onResume() {
         super.onResume();
         if (mRecyclerView.getAdapter() == null) {
-            // Выполняется только при создании или пересоздании фрагмента.
             mPresenter.loadSpecialities();
         }
     }
@@ -115,16 +110,13 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showSpecialities(List<Speciality> specialities) {
-        // Выполняется только при создании или пересоздании фрагмента.
         if (mAdapter == null) {
             mAdapter = new SpecialitiesAdapter(specialities, mPresenter::chooseSpeciality);
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            // Выполняется при возврате из обратного стека.
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
             } else {
-                // Выполняется при обновлении списка.
                 if (specialities.size() != mRecyclerView.getAdapter().getItemCount()) {
                     mAdapter.updateDataSet(specialities);
                     mRecyclerView.setAdapter(mAdapter);
@@ -135,12 +127,11 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showErrorMessage(Throwable throwable) {
-        Log.d(TAG, throwable.getMessage());
-        // Если LoadingErrorDialogFragment уже отображался перед сменой ориентации устройства,
-        // то этот же DialogFragment не пересоздаётся заново, а продолжает отображаться.
+        Log.e(TAG, throwable.getMessage(), throwable);
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment
+                    .setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
             loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG_FRAGMENT);
         }
     }
@@ -163,9 +154,10 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     @Override
-    public void showStationListUi(String specialityId) {
+    public void showStationsUi(String specialityId) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, StationsFragment.newInstance(specialityId))
+                .replace(R.id.main_activity_fragment_container,
+                        StationsFragment.newInstance(specialityId))
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
@@ -175,5 +167,15 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     public void showRecordsHistoryListUi() {
         Intent intent = new Intent(getActivity(), RecordsHistoryActivity.class);
         startActivity(intent);
+    }
+
+    private void initViews(@NonNull View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mSwipeRefreshLayout
+                .setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
+        mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

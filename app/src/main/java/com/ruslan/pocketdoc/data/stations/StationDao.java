@@ -15,12 +15,12 @@ public interface StationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertStations(List<Station> stations);
 
-    @Query("SELECT COUNT(*) FROM station")
+    @Query("SELECT COUNT(*) FROM stations")
     int countAll();
 
-    @Query("SELECT * FROM station")
+    @Query("SELECT * FROM stations ORDER BY name")
     Flowable<List<Station>> getAllStations();
 
-    @Query("DELETE FROM station")
+    @Query("DELETE FROM stations")
     void clearTable();
 }

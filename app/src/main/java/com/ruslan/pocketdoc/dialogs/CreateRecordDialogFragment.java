@@ -10,15 +10,16 @@ import android.view.View;
 
 import com.ruslan.pocketdoc.R;
 
+import java.util.Objects;
+
 public class CreateRecordDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View rootView = inflater.inflate(R.layout.dialog_fragment_create_record, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dialog_fragment_create_record_title)
                 .setView(rootView);
         Dialog createRecordDialog = builder.create();

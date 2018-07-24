@@ -30,9 +30,12 @@ public class UtilsTest {
 
     @Test
     public void correctSpecialitiesStringTest() {
-        assertEquals("Хирург", Utils.getCorrectSpecialitiesString(Arrays.asList(mOneSpeciality)));
-        assertEquals("Терапевт, уролог", Utils.getCorrectSpecialitiesString(Arrays.asList(mTwoSpecialities)));
-        assertEquals("Уролог, хирург, терапевт", Utils.getCorrectSpecialitiesString(Arrays.asList(mThreeSpecialities)));
+        assertEquals("Хирург",
+                Utils.getCorrectSpecialitiesString(Arrays.asList(mOneSpeciality)));
+        assertEquals("Терапевт, уролог",
+                Utils.getCorrectSpecialitiesString(Arrays.asList(mTwoSpecialities)));
+        assertEquals("Уролог, хирург, терапевт",
+                Utils.getCorrectSpecialitiesString(Arrays.asList(mThreeSpecialities)));
     }
 
     @Test

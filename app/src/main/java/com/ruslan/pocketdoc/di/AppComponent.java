@@ -15,11 +15,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules =
-        {
-                ContextModule.class, DocDocServiceModule.class, DataSourceModule.class,
-                UtilsModule.class
-        })
+@Component(modules = {ContextModule.class, DocDocServiceModule.class, DataSourceModule.class, UtilsModule.class})
 public interface AppComponent {
 
     void inject(RemoteDataSource remoteDataSource);

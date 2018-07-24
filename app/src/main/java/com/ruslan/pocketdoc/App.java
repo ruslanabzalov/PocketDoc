@@ -20,11 +20,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sComponent = buildComponent();
-    }
-
-    protected AppComponent buildComponent() {
-        return DaggerAppComponent.builder()
+        sComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))
                 .docDocServiceModule(new DocDocServiceModule())
                 .dataSourceModule(new DataSourceModule())

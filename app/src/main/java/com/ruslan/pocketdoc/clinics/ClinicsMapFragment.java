@@ -24,7 +24,6 @@ import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.clinic.ClinicActivity;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,8 +35,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
 
     private FragmentManager mFragmentManager;
     private GoogleMap mGoogleMap;
-
-    private List<Clinic> mClinics = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +110,11 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     }
 
     @Override
+    public void showErrorDialog(Throwable throwable) {
+        Toast.makeText(getActivity(), "Клиники загружены не были!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showClinics(List<Clinic> clinics) {
         for (Clinic clinic : clinics) {
             mGoogleMap.addMarker(new MarkerOptions()
@@ -121,11 +123,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                     .title(clinic.getName())
             );
         }
-    }
-
-    @Override
-    public void showErrorMessage(Throwable throwable) {
-        Toast.makeText(getActivity(), "Клиники загружены не были!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

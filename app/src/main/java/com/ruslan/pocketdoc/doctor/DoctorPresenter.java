@@ -33,14 +33,28 @@ public class DoctorPresenter implements DoctorContract.Presenter {
 
     @Override
     public void loadDoctorInfo(int doctorId) {
+        mView.showProgressBar();
         mDisposable = mRepository.getDoctorInfo(doctorId)
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::showDoctorInfo, this::showError);
     }
 
     @Override
     public void onCreateRecordButtonClick() {
         mView.showNewRecordUi();
+    }
+
+    private void showDoctorInfo(Doctor doctor) {
+        if (mView != null) {
+            mView.showDoctorInfo(doctor);
+            mView.hideProgressBar();
+        }
+    }
+
+    private void showError(Throwable throwable) {
+        if (mView != null) {
+            mView.showErrorMessage(throwable);
+        }
     }
 }

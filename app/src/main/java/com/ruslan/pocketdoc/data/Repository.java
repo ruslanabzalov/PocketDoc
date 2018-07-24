@@ -84,13 +84,13 @@ public class Repository {
     }
 
     public Flowable<List<Doctor>> getDoctors(String specialityId, String stationId) {
-        // TODO: Подумать над загрузкой > 500 клиник.
         return mRemoteDataSource.getDoctors(specialityId, stationId)
                 .map(DoctorList::getDoctors);
     }
 
     public Flowable<Doctor> getDoctorInfo(int doctorId) {
-        return mRemoteDataSource.getDoctor(doctorId);
+        return mRemoteDataSource.getDoctor(doctorId)
+                .map(doctorInfo -> doctorInfo.getDoctor().get(0));
     }
 
     public Flowable<List<Clinic>> getClinics(boolean forceUpdate) {

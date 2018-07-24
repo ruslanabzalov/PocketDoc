@@ -47,7 +47,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                         },
                         throwable -> {
                             if (mView != null) {
-                                mView.showErrorMessage(throwable);
+                                mView.showErrorDialog(throwable);
                             }
                         }
                 );
@@ -66,7 +66,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                         },
                         throwable -> {
                             if (mView != null) {
-                                mView.showErrorMessage(throwable);
+                                mView.showErrorDialog(throwable);
                             }
                         }
                 );
@@ -85,7 +85,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                         },
                         throwable -> {
                             if (mView != null) {
-                                mView.showErrorMessage(throwable);
+                                mView.showErrorDialog(throwable);
                             }
                         }
                 );
@@ -104,7 +104,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                         },
                         throwable -> {
                             if (mView != null) {
-                                mView.showErrorMessage(throwable);
+                                mView.showErrorDialog(throwable);
                             }
                         }
                 );
