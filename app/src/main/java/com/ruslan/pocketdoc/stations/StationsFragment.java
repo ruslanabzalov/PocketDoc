@@ -138,7 +138,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
-    public void showErrorMessage(Throwable throwable) {
+    public void showErrorDialog(Throwable throwable) {
         Log.e(TAG, Log.getStackTraceString(throwable));
         // Если LoadingErrorDialogFragment уже отображался перед сменой ориентации устройства,
         // то этот же DialogFragment не пересоздаётся заново, а продолжает отображаться.

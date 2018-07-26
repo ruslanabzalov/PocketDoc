@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
@@ -169,7 +168,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
-    public void showErrorMessage(Throwable throwable) {
+    public void showErrorDialog(Throwable throwable) {
         Log.d(TAG, throwable.getMessage());
         // Если LoadingErrorDialogFragment уже отображался перед сменой ориентации устройства,
         // то этот же DialogFragment не пересоздаётся заново, а продолжает отображаться.

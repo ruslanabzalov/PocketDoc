@@ -30,6 +30,8 @@ public class UtilsTest {
 
     @Test
     public void correctSpecialitiesStringTest() {
+        assertEquals("Специальность не указана",
+                Utils.getCorrectSpecialitiesString(Arrays.asList(new Speciality[0])));
         assertEquals("Хирург",
                 Utils.getCorrectSpecialitiesString(Arrays.asList(mOneSpeciality)));
         assertEquals("Терапевт, уролог",
@@ -50,6 +52,7 @@ public class UtilsTest {
 
     @Test
     public void correctAgePriceStringTest() {
+        assertEquals("Стоимость не указана", Utils.getCorrectPriceString(0));
         assertEquals("3000\u20bd", Utils.getCorrectPriceString(3000));
     }
 }

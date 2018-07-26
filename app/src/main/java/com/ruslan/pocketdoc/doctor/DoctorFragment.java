@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,7 +54,8 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     @Inject
     Picasso mPicasso;
 
-    private ConstraintLayout mDoctorRootViewGroup;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private NestedScrollView mNestedScrollView;
     private ProgressBar mDoctorProgressBar;
     private ImageView mDoctorPhotoImageView;
     private TextView mDoctorNameTextView;
@@ -76,11 +81,12 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         App.getComponent().inject(this);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mDoctorId = Objects.requireNonNull(getArguments()).getInt(ARG_DOCTOR);
         mPreferredDate = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
-        mPresenter = new DoctorPresenter();
+        mPresenter = new DoctorPresenter(); // TODO: Inject.
         mPresenter.attachView(this);
     }
 
@@ -124,10 +130,29 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_doctor, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_refresh_doctor_info:
+                mPresenter.updateDoctorInfo(mDoctorId, true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void showDoctorInfo(Doctor doctor) {
-        mPicasso.load(doctor.getPhotoUrl().replace("_small", "")).into(mDoctorPhotoImageView);
+        mPicasso
+                .load(doctor.getPhotoUrl().replace("_small", ""))
+                .into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(doctor.getName());
-        mDoctorSpecialityTextView.setText(Utils.getCorrectSpecialitiesString(doctor.getSpecialities()));
+        mDoctorSpecialityTextView
+                .setText(Utils.getCorrectSpecialitiesString(doctor.getSpecialities()));
         mDoctorExperienceTextView.setText(Utils.getCorrectExperienceString(doctor.getExperience()));
         mDoctorPriceTextView.setText(Utils.getCorrectPriceString(doctor.getPrice()));
         mDoctorDescriptionTextView.setText(doctor.getDescription());
@@ -138,50 +163,49 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     public void showNewRecordUi() {
         if (mFragmentManager.findFragmentByTag(TAG_CREATE_RECORD_DIALOG) == null) {
             DialogFragment createRecordDialogFragment = new CreateRecordDialogFragment();
-            createRecordDialogFragment.setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);
+            createRecordDialogFragment
+                    .setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);
             createRecordDialogFragment.show(mFragmentManager, TAG_CREATE_RECORD_DIALOG);
         }
     }
 
     @Override
-    public void showErrorMessage(Throwable throwable) {
-        changeAllViewsVisibility(false, mDoctorRootViewGroup);
+    public void showErrorDialog(Throwable throwable) {
+        mNestedScrollView.setVisibility(View.GONE);
         Log.d(TAG, throwable.getMessage());
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment
+                    .setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
             loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG);
         }
     }
 
     @Override
     public void showProgressBar() {
-        changeAllViewsVisibility(false, mDoctorRootViewGroup);
+        mNestedScrollView.setVisibility(View.GONE);
         mDoctorProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        changeAllViewsVisibility(true, mDoctorRootViewGroup);
+        mNestedScrollView.setVisibility(View.VISIBLE);
         mDoctorProgressBar.setVisibility(View.GONE);
     }
 
-    private void changeAllViewsVisibility(boolean enable, ViewGroup viewGroup) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View child = viewGroup.getChildAt(i);
-            if (enable) {
-                child.setVisibility(View.VISIBLE);
-            } else {
-                child.setVisibility(View.GONE);
-            }
-            if (child instanceof ViewGroup) {
-                changeAllViewsVisibility(enable, (ViewGroup) child);
-            }
-        }
+    @Override
+    public void hideRefreshing() {
+        mNestedScrollView.setVisibility(View.VISIBLE);
+        mDoctorProgressBar.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void initViews(View rootView) {
-        mDoctorRootViewGroup = rootView.findViewById(R.id.doctor_root_view_group);
+        mNestedScrollView = rootView.findViewById(R.id.doctor_root_view_group);
+        mSwipeRefreshLayout = rootView.findViewById(R.id.doctor_swipe_refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mSwipeRefreshLayout.setOnRefreshListener(
+                () -> mPresenter.updateDoctorInfo(mDoctorId, false));
         mDoctorProgressBar = rootView.findViewById(R.id.doctor_progress_bar);
         mDoctorPhotoImageView = rootView.findViewById(R.id.photo_image_view);
         mDoctorNameTextView = rootView.findViewById(R.id.name_text_view);
@@ -190,6 +214,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
         mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
         mCreateRecordButton = rootView.findViewById(R.id.create_record);
-        mCreateRecordButton.setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
+        mCreateRecordButton
+                .setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
     }
 }

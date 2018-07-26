@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Entity(tableName = "clinics")
 public class Clinic implements Serializable {
 
-    @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
     @SerializedName("Id")
@@ -80,12 +79,11 @@ public class Clinic implements Serializable {
 
 //    private List<Schedule> mSchedules;
 
-    @NonNull
     public int getId() {
         return mId;
     }
 
-    public void setId(@NonNull int id) {
+    public void setId(int id) {
         mId = id;
     }
 

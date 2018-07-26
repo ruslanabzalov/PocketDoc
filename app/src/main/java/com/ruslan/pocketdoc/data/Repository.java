@@ -2,7 +2,6 @@ package com.ruslan.pocketdoc.data;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
-import com.ruslan.pocketdoc.data.clinics.ClinicList;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
@@ -10,6 +9,7 @@ import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.Station;
 import com.ruslan.pocketdoc.data.stations.StationList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -95,16 +95,12 @@ public class Repository {
 
     public Flowable<List<Clinic>> getClinics(boolean forceUpdate) {
         if (forceUpdate) {
-            return mRemoteDataSource.getClinics()
-                    .map(ClinicList::getClinics)
-                    .doOnNext(this::saveClinics);
+            return getClinicsZippedFlowable().doOnNext(this::saveClinics);
         } else {
             return mLocalDataSource.getClinics()
                     .flatMap(clinics -> {
                         if (clinics.size() == 0) {
-                            return mRemoteDataSource.getClinics()
-                                    .map(ClinicList::getClinics)
-                                    .doOnNext(this::saveClinics);
+                            return getClinicsZippedFlowable().doOnNext(this::saveClinics);
                         } else {
                             return Flowable.fromIterable(clinics).toList().toFlowable();
                         }
@@ -118,6 +114,15 @@ public class Repository {
 
     public Flowable<List<Clinic>> getOnlyDiagnostics() {
         return mLocalDataSource.getOnlyDiagnostics();
+    }
+
+    private Flowable<List<Clinic>> getClinicsZippedFlowable() {
+        return Flowable.zip(mRemoteDataSource.getClinics(0, 500),
+                mRemoteDataSource.getClinics(500, 500), (clinicList, clinicList2) -> {
+            List<Clinic> finalClinicList = new ArrayList<>(clinicList.getClinics());
+            finalClinicList.addAll(clinicList2.getClinics());
+            return finalClinicList;
+        });
     }
 
     private void saveClinics(List<Clinic> clinics) {

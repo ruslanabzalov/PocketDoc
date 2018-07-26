@@ -42,7 +42,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.showSuccessLoadingMessage();
+                                mView.showClinics(clinics);
                             }
                         },
                         throwable -> {

@@ -21,9 +21,9 @@ interface ClinicsContract {
         void showClinicInfoUi(int clinicId);
     }
 
-    interface Presenter<V extends View> {
+    interface Presenter {
 
-        void attachView(V view);
+        void attachView(View view);
 
         void detachView();
 

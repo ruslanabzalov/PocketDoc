@@ -16,6 +16,8 @@ interface DoctorContract {
 
         void loadDoctorInfo(int doctorId);
 
+        void updateDoctorInfo(int doctorId, boolean isMenuRefreshing);
+
         void onCreateRecordButtonClick();
     }
 }

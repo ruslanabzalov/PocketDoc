@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class ClinicFragment extends Fragment {
 
-    private static String ARG_CLINIC = "clinic";
+    private static final String ARG_CLINIC = "clinic";
 
     private Clinic mClinic;
 

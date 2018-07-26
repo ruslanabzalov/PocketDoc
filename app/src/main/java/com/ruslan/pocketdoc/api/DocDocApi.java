@@ -23,14 +23,13 @@ public interface DocDocApi {
     @GET("doctor/list/start/0/count/500/city/1/speciality/{specialityId}/stations/{stationId}" +
             "/near/strict/order/-rating/deti/0/na-dom/0/withSlots/1/slotsDays/1")
     Flowable<DoctorList> getDoctors(
-            @Path("specialityId") String specialityId, @Path("stationId") String stationId
-    );
+            @Path("specialityId") String specialityId, @Path("stationId") String stationId);
 
     @GET("doctor/{doctorId}/city/1/withSlots/1/slotsDays/1")
     Flowable<DoctorInfo> getDoctor(@Path("doctorId") int doctorId);
 
-    @GET("clinic/list/start/0/count/500/city/1/type/1,2")
-    Flowable<ClinicList> getClinics();
+    @GET("clinic/list/start/{start}/count/{count}/city/1/type/1,2")
+    Flowable<ClinicList> getClinics(@Path("start") int start, @Path("count") int count);
 
     @GET("clinic/{clinicId}")
     Flowable<Clinic> getClinicInfo(@Path("clinicId") int clinicId);
@@ -38,6 +37,5 @@ public interface DocDocApi {
     @GET("slot/list/doctor/{doctorId}/clinic/{clinicId}/from/{startDate}/to/{finishDate}")
     Flowable<SlotList> getSlots(
             @Path("doctorId") int doctorId, @Path("clinicId") int clinicId,
-            @Path("startDate") String startDate, @Path("finishDate") String finishDate
-    );
+            @Path("startDate") String startDate, @Path("finishDate") String finishDate);
 }

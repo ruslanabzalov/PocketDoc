@@ -28,7 +28,8 @@ public class LocalDataSource implements LocalDataSourceContract {
 
     @Override
     public Completable saveSpecialities(List<Speciality> specialities) {
-        return Completable.fromAction(() -> mDatabase.specialityDao().insertSpecialities(specialities));
+        return Completable
+                .fromAction(() -> mDatabase.specialityDao().insertSpecialities(specialities));
     }
 
     @Override

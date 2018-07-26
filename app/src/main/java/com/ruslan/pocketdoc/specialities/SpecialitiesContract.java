@@ -9,8 +9,6 @@ interface SpecialitiesContract {
 
     interface View extends BaseContract.BaseView {
 
-        void hideRefreshing();
-
         void showSpecialities(List<Speciality> specialities);
 
         void showStationsUi(String specialityId);

@@ -42,7 +42,7 @@ public class RemoteDataSource implements RemoteDataSourceContract {
     }
 
     @Override
-    public Flowable<ClinicList> getClinics() {
-        return mApi.getClinics();
+    public Flowable<ClinicList> getClinics(int start, int count) {
+        return mApi.getClinics(start, count);
     }
 }

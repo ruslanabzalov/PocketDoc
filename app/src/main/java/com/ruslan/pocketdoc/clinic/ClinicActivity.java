@@ -14,9 +14,6 @@ import java.util.Objects;
 
 public class ClinicActivity extends AppCompatActivity {
 
-    private static String CLINIC_EXTRA = "clinic";
-
-    // TODO: Передать в качестве параметра объект Clinic.
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, ClinicActivity.class);
         return intent;

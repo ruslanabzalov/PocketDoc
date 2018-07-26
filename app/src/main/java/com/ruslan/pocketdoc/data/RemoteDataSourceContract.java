@@ -18,5 +18,5 @@ interface RemoteDataSourceContract {
 
     Flowable<DoctorInfo> getDoctor(int doctorId);
 
-    Flowable<ClinicList> getClinics();
+    Flowable<ClinicList> getClinics(int start, int count);
 }

@@ -81,7 +81,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     private void showError(Throwable throwable) {
         if (mView != null) {
-            mView.showErrorMessage(throwable);
+            mView.showErrorDialog(throwable);
             mView.hideProgressBar();
         }
     }
@@ -99,7 +99,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
         if (mView != null) {
-            mView.showErrorMessage(throwable);
+            mView.showErrorDialog(throwable);
             if (isMenuRefreshing) {
                 mView.hideProgressBar();
             } else {

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -36,6 +37,8 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     private FragmentManager mFragmentManager;
     private GoogleMap mGoogleMap;
 
+    private boolean isDisplayed = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,28 +49,22 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.clinics_title);
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-        SupportMapFragment supportMapFragment = (SupportMapFragment) mFragmentManager.findFragmentById(R.id.map);
-        supportMapFragment.getMapAsync((googleMap -> {
-            mGoogleMap = googleMap;
-            mGoogleMap.setMinZoomPreference(10f);
-            mGoogleMap.setMaxZoomPreference(18f);
-            CameraPosition moscowPosition = new CameraPosition.Builder()
-                    .target(MOSCOW)
-                    .zoom(10f)
-                    .build();
-            mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(moscowPosition));
-            mGoogleMap.setOnMarkerClickListener(this::isMarkerClicked);
-        }));
+        SupportMapFragment supportMapFragment =
+                (SupportMapFragment) mFragmentManager.findFragmentById(R.id.map);
+        supportMapFragment.getMapAsync(this::initMap);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadClinics();
+        if (!isDisplayed) {
+            mPresenter.loadClinics();
+        }
     }
 
     @Override
@@ -116,12 +113,16 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
 
     @Override
     public void showClinics(List<Clinic> clinics) {
-        for (Clinic clinic : clinics) {
-            mGoogleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(Double.parseDouble(clinic.getLatitude()),
-                            Double.parseDouble(clinic.getLongitude())))
-                    .title(clinic.getName())
-            );
+        Toast.makeText(getActivity(), clinics.size() + "", Toast.LENGTH_SHORT).show();
+        if (!isDisplayed) {
+            for (Clinic clinic : clinics) {
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(Double.parseDouble(clinic.getLatitude()),
+                                Double.parseDouble(clinic.getLongitude())))
+                        .title(clinic.getName())
+                );
+            }
+            isDisplayed = true;
         }
     }
 
@@ -134,7 +135,22 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     @Override
     public void showClinicInfoUi(int clinicId) {}
 
-    private boolean isMarkerClicked(Marker marker) {
+    private void initMap(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        mGoogleMap.setMinZoomPreference(10f);
+        mGoogleMap.setMaxZoomPreference(18f);
+        CameraPosition moscowPosition = new CameraPosition.Builder()
+                .target(MOSCOW)
+                .zoom(10f)
+                .build();
+        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(moscowPosition));
+        mGoogleMap.setOnInfoWindowClickListener(this::isMarkersInfoClicked);
+        UiSettings uiSettings = mGoogleMap.getUiSettings();
+        uiSettings.setZoomControlsEnabled(true);
+        uiSettings.setMapToolbarEnabled(false);
+    }
+
+    private boolean isMarkersInfoClicked(Marker marker) {
         Intent intent = ClinicActivity.newIntent(getContext());
         startActivity(intent);
         return true;

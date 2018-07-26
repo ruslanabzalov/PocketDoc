@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
-        mFragmentManager = getSupportFragmentManager();
         TabLayout tabLayout = findViewById(R.id.main_tab_layout);
+        mFragmentManager = getSupportFragmentManager();
         if (mFragmentManager.findFragmentById(R.id.main_activity_fragment_container) == null) {
             SpecialitiesFragment specialitiesFragment = new SpecialitiesFragment();
             mFragmentManager.beginTransaction()

@@ -7,6 +7,9 @@ import java.util.List;
 public class Utils {
 
     public static String getCorrectSpecialitiesString(List<Speciality> specialities) {
+        if (specialities.size() == 0) {
+            return "Специальность не указана";
+        }
         if (specialities.size() == 1) {
             return specialities.get(0).getName();
         } else {
@@ -33,6 +36,6 @@ public class Utils {
     }
 
     public static String getCorrectPriceString(int price) {
-        return price + "\u20bd";
+        return (price == 0) ? "Стоимость не указана" : price + "\u20bd";
     }
 }

@@ -29,7 +29,8 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
     @NonNull
     @Override
     public DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_doctor, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_doctor, parent, false);
         return new DoctorViewHolder(view, mListener);
     }
 
@@ -71,10 +72,12 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
 
         void bind(Doctor doctor) {
             mDoctor = doctor;
-            mDoctorSpecialityTextView.setText(Utils.getCorrectSpecialitiesString(mDoctor.getSpecialities()));
+            mDoctorSpecialityTextView
+                    .setText(Utils.getCorrectSpecialitiesString(mDoctor.getSpecialities()));
             mDoctorNameTextView.setText(mDoctor.getName());
             mDoctorRating.setRating(Float.parseFloat(mDoctor.getRating()));
-            mDoctorExperienceTextView.setText(Utils.getCorrectExperienceString(mDoctor.getExperience()));
+            mDoctorExperienceTextView
+                    .setText(Utils.getCorrectExperienceString(mDoctor.getExperience()));
             mDoctorPriceTextView.setText(Utils.getCorrectPriceString(mDoctor.getPrice()));
         }
     }

@@ -41,6 +41,16 @@ public class DoctorPresenter implements DoctorContract.Presenter {
     }
 
     @Override
+    public void updateDoctorInfo(int doctorId, boolean isMenuRefreshing) {
+        if (isMenuRefreshing) {
+            mView.showProgressBar();
+            mDisposable = getDoctorInfo(doctorId, true);
+        } else {
+            mDisposable = getDoctorInfo(doctorId, false);
+        }
+    }
+
+    @Override
     public void onCreateRecordButtonClick() {
         mView.showNewRecordUi();
     }
@@ -54,7 +64,39 @@ public class DoctorPresenter implements DoctorContract.Presenter {
 
     private void showError(Throwable throwable) {
         if (mView != null) {
-            mView.showErrorMessage(throwable);
+            mView.showErrorDialog(throwable);
+        }
+    }
+
+    private Disposable getDoctorInfo(int doctorId, boolean isMenuRefreshing) {
+        return mRepository.getDoctorInfo(doctorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        doctor -> showUpdatedDoctorInfo(doctor, isMenuRefreshing),
+                        throwable -> showUpdateError(throwable, isMenuRefreshing)
+                );
+    }
+
+    private void showUpdatedDoctorInfo(Doctor doctor, boolean isMenuRefreshing) {
+        if (mView != null) {
+            if (isMenuRefreshing) {
+                mView.hideProgressBar();
+            } else {
+                mView.hideRefreshing();
+            }
+            mView.showDoctorInfo(doctor);
+        }
+    }
+
+    private void showUpdateError(Throwable throwable, boolean isMenuRefreshing) {
+        if (mView != null) {
+            if (isMenuRefreshing) {
+                mView.hideProgressBar();
+            } else {
+                mView.hideRefreshing();
+            }
+            mView.showErrorDialog(throwable);
         }
     }
 }

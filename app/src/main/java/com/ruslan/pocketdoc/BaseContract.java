@@ -4,11 +4,13 @@ public interface BaseContract {
 
     interface BaseView {
 
-        void showErrorMessage(Throwable throwable);
+        void showErrorDialog(Throwable throwable);
 
         void showProgressBar();
 
         void hideProgressBar();
+
+        void hideRefreshing();
     }
 
     interface BasePresenter<V extends BaseView> {

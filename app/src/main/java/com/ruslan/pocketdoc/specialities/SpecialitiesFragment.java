@@ -31,8 +31,9 @@ import java.util.Objects;
 
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
-    private static final String TAG = "SpecialitiesFragment";
-    private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT = "LoadingErrorDialogFragment";
+    private static final String TAG = SpecialitiesFragment.class.getSimpleName();
+    private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT =
+            LoadingErrorDialogFragment.class.getSimpleName();
 
     private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 111;
 
@@ -50,7 +51,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-        mPresenter = new SpecialitiesPresenter();
+        mPresenter = new SpecialitiesPresenter(); // TODO: Inject.
         mPresenter.attachView(this);
     }
 
@@ -126,7 +127,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     @Override
-    public void showErrorMessage(Throwable throwable) {
+    public void showErrorDialog(Throwable throwable) {
         Log.e(TAG, throwable.getMessage(), throwable);
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
