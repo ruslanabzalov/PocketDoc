@@ -4,8 +4,16 @@ import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.util.List;
 
+/**
+ * Класс, предоставляющий вспомогательные статические методы.
+ */
 public class Utils {
 
+    /**
+     * Метод формирования корректной строки специальности(-ей) врача.
+     * @param specialities Список специальностей.
+     * @return Строка специальности(-ей).
+     */
     public static String getCorrectSpecialitiesString(List<Speciality> specialities) {
         if (specialities.size() == 0) {
             return "Специальность не указана";
@@ -21,6 +29,11 @@ public class Utils {
         }
     }
 
+    /**
+     * Метод формирования корректной строки стажа работы врача.
+     * @param age Стаж работы.
+     * @return Строка стажа работы.
+     */
     public static String getCorrectExperienceString(int age) {
         if (age == 0) {
             return "Нет опыта";
@@ -35,6 +48,11 @@ public class Utils {
         }
     }
 
+    /**
+     * Метод формирования корректной строки стоимости посещения врача.
+     * @param price Стоимость посещения.
+     * @return Строка стоимости.
+     */
     public static String getCorrectPriceString(int price) {
         return (price == 0) ? "Стоимость не указана" : price + "\u20bd";
     }

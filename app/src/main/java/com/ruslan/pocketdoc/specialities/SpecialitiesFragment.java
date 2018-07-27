@@ -29,6 +29,9 @@ import com.ruslan.pocketdoc.stations.StationsFragment;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Класс, описывающий фрагмент, содержащий список специальностей.
+ */
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
     private static final String TAG = SpecialitiesFragment.class.getSimpleName();
@@ -51,7 +54,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-        mPresenter = new SpecialitiesPresenter(); // TODO: Inject.
+        mPresenter = new SpecialitiesPresenter();
         mPresenter.attachView(this);
     }
 
@@ -128,7 +131,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showErrorDialog(Throwable throwable) {
-        Log.e(TAG, throwable.getMessage(), throwable);
+        Log.d(TAG, throwable.getMessage(), throwable);
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
             loadingErrorDialogFragment
@@ -166,13 +169,20 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     @Override
     public void showRecordsHistoryListUi() {
-        Intent intent = new Intent(getActivity(), RecordsHistoryActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(getActivity(), RecordsHistoryActivity.class));
     }
 
+    /**
+     * Метод инициализации элементов View.
+     * @param view Корневой элемент View.
+     */
     private void initViews(@NonNull View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        int[] swipeRefreshColors = {
+                getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorPrimaryDark)};
+        mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
         mSwipeRefreshLayout
                 .setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);

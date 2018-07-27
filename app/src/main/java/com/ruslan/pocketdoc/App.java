@@ -9,10 +9,17 @@ import com.ruslan.pocketdoc.di.DocDocServiceModule;
 import com.ruslan.pocketdoc.di.DataSourceModule;
 import com.ruslan.pocketdoc.di.UtilsModule;
 
+/**
+ * Основной класс приложения.
+ */
 public class App extends Application {
 
     private static AppComponent sComponent;
 
+    /**
+     * Метод доступа к компоненту Dagger 2.
+     * @return Компонент Dagger 2.
+     */
     public static AppComponent getComponent() {
         return sComponent;
     }

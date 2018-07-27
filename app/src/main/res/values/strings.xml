@@ -23,8 +23,8 @@
     <string name="speciality_name_preview">Специальность</string>
 
     <!--Menu items (fragment_map)-->
-    <string name="item_show_clinics">Клиники</string>
-    <string name="item_show_diagnostics">Диагностические центры</string>
+    <string name="item_show_clinics">Только клиники</string>
+    <string name="item_show_diagnostics">Только диагностические центры</string>
     <string name="item_refresh_clinics">Обновить список клиник</string>
 
     <!--Menu item (fragment_stations)-->

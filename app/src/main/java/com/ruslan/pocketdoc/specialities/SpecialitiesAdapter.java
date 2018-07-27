@@ -13,6 +13,9 @@ import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 
 import java.util.List;
 
+/**
+ * Класс, описывающий пользовательский RecycleView Adapter.
+ */
 class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.SpecialityHolder> {
 
     private RecyclerItemOnClickListener<Speciality> mListener;
@@ -49,6 +52,9 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
         notifyDataSetChanged();
     }
 
+    /**
+     * Вложенный класс, описывающий пользовательский RecyclerView ViewHolder.
+     */
     static class SpecialityHolder extends RecyclerView.ViewHolder {
 
         private TextView mSpecialityNameTextView;
@@ -57,10 +63,14 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
 
         SpecialityHolder(View view, RecyclerItemOnClickListener<Speciality> listener) {
             super(view);
-            itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
             mSpecialityNameTextView = itemView.findViewById(R.id.speciality_name_text_view);
+            itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
         }
 
+        /**
+         * Метод привязки данных специальности к ViewHolder.
+         * @param speciality Специальность.
+         */
         void bind(Speciality speciality) {
             mSpeciality = speciality;
             mSpecialityNameTextView.setText(speciality.getName());

@@ -8,15 +8,9 @@ interface ClinicsContract {
 
     interface View {
 
-        void showProgressBar();
-
-        void hideProgressBar();
-
-        void showSuccessLoadingMessage();
+        void showClinics(List<Clinic> clinics);
 
         void showErrorDialog(Throwable throwable);
-
-        void showClinics(List<Clinic> clinics);
 
         void showClinicInfoUi(int clinicId);
     }
@@ -35,6 +29,6 @@ interface ClinicsContract {
 
         void getOnlyDiagnostics();
 
-        void chooseClinic(Clinic clinic);
+        void chooseClinic(int clinicId);
     }
 }

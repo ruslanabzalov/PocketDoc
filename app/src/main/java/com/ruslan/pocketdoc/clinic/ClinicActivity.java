@@ -14,8 +14,11 @@ import java.util.Objects;
 
 public class ClinicActivity extends AppCompatActivity {
 
-    public static Intent newIntent(Context context) {
+    private static final String CLINIC_ID_EXTRA = "clinic_id";
+
+    public static Intent newIntent(Context context, int clinicId) {
         Intent intent = new Intent(context, ClinicActivity.class);
+        intent.putExtra(CLINIC_ID_EXTRA, clinicId);
         return intent;
     }
 
@@ -29,7 +32,7 @@ public class ClinicActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.findFragmentById(R.id.activity_clinic_info_fragment) == null) {
             fragmentManager.beginTransaction()
-                    .add(R.id.activity_clinic_info_fragment, ClinicFragment.newInstance(null))
+                    .add(R.id.activity_clinic_info_fragment, ClinicFragment.newInstance(getIntent().getIntExtra(CLINIC_ID_EXTRA, 0)))
                     .commit();
         }
     }

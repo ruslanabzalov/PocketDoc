@@ -8,19 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.clinics.Clinic;
 
 import java.util.Objects;
 
 public class ClinicFragment extends Fragment {
 
-    private static final String ARG_CLINIC = "clinic";
+    private static final String ARG_CLINIC = "clinic_id";
 
-    private Clinic mClinic;
+    private int mClinicId;
 
-    public static Fragment newInstance(Clinic clinic) {
+    public static Fragment newInstance(int clinicId) {
         Bundle arguments = new Bundle();
-        arguments.putSerializable(ARG_CLINIC, clinic);
+        arguments.putInt(ARG_CLINIC, clinicId);
         Fragment clinicFragment = new ClinicFragment();
         clinicFragment.setArguments(arguments);
         return clinicFragment;
@@ -29,7 +28,7 @@ public class ClinicFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mClinic = (Clinic) Objects.requireNonNull(getArguments()).getSerializable(ARG_CLINIC);
+        mClinicId = Objects.requireNonNull(getArguments()).getInt(ARG_CLINIC);
     }
 
     @Override

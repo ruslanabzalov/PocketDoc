@@ -2,7 +2,6 @@ package com.ruslan.pocketdoc.clinics;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
-import com.ruslan.pocketdoc.data.clinics.Clinic;
 
 import javax.inject.Inject;
 
@@ -61,7 +60,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.showSuccessLoadingMessage();
+                                mView.showClinics(clinics);
                             }
                         },
                         throwable -> {
@@ -111,7 +110,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
     }
 
     @Override
-    public void chooseClinic(Clinic clinic) {
-        mView.showClinicInfoUi(clinic.getId());
+    public void chooseClinic(int clinicId) {
+        mView.showClinicInfoUi(clinicId);
     }
 }
