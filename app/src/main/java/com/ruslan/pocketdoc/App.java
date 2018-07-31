@@ -5,8 +5,8 @@ import android.app.Application;
 import com.ruslan.pocketdoc.di.AppComponent;
 import com.ruslan.pocketdoc.di.ContextModule;
 import com.ruslan.pocketdoc.di.DaggerAppComponent;
-import com.ruslan.pocketdoc.di.DocDocServiceModule;
 import com.ruslan.pocketdoc.di.DataSourceModule;
+import com.ruslan.pocketdoc.di.DocDocServiceModule;
 import com.ruslan.pocketdoc.di.UtilsModule;
 
 /**

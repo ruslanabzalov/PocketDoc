@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public class LocalDataSource implements LocalDataSourceContract {
 
@@ -40,6 +41,11 @@ public class LocalDataSource implements LocalDataSourceContract {
     @Override
     public Completable saveStations(List<Station> stations) {
         return Completable.fromAction(() -> mDatabase.stationDao().insertStations(stations));
+    }
+
+    @Override
+    public Single<Integer> countClinics() {
+        return mDatabase.clinicsDao().countAll();
     }
 
     @Override

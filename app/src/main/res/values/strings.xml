@@ -2,6 +2,7 @@
     <!--Main strings-->
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
+    <string name="clinics_service_description">Служба, отвечающая за загрузку клиник</string>
 
     <!--activity_main, fragments & tabs titles-->
     <string name="specialities_title">Список специальностей</string>

@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 interface LocalDataSourceContract {
 
@@ -18,6 +19,8 @@ interface LocalDataSourceContract {
     Flowable<List<Station>> getStations();
 
     Completable saveStations(List<Station> stations);
+
+    Single<Integer> countClinics();
 
     Flowable<List<Clinic>> getClinics();
 

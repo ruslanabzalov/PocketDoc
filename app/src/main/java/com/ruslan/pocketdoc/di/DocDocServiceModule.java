@@ -29,7 +29,7 @@ public class DocDocServiceModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkHttpClient() {
+    OkHttpClient provideOkHttpClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(this::customInterceptor)
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -39,7 +39,7 @@ public class DocDocServiceModule {
 
     @Provides
     @Singleton
-    public Retrofit provideRetrofit(OkHttpClient client) {
+    Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl("https://" + USER_CREDENTIALS + "@back.docdoc.ru/api/rest/1.0.6/json/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -50,7 +50,7 @@ public class DocDocServiceModule {
 
     @Provides
     @Singleton
-    public DocDocApi provideDocDocService(Retrofit retrofit) {
+    DocDocApi provideDocDocService(Retrofit retrofit) {
         return retrofit.create(DocDocApi.class);
     }
 

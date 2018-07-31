@@ -1,22 +1,24 @@
 package com.ruslan.pocketdoc.data;
 
-import com.ruslan.pocketdoc.data.clinics.ClinicList;
-import com.ruslan.pocketdoc.data.doctors.DoctorInfo;
-import com.ruslan.pocketdoc.data.doctors.DoctorList;
-import com.ruslan.pocketdoc.data.specialities.SpecialityList;
-import com.ruslan.pocketdoc.data.stations.StationList;
+import com.ruslan.pocketdoc.data.clinics.Clinic;
+import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.data.specialities.Speciality;
+import com.ruslan.pocketdoc.data.stations.Station;
+
+import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 interface RemoteDataSourceContract {
 
-    Flowable<SpecialityList> getSpecialities();
+    Flowable<List<Speciality>> getSpecialities();
 
-    Flowable<StationList> getStations();
+    Flowable<List<Station>> getStations();
 
-    Flowable<DoctorList> getDoctors(String specialityId, String stationId);
+    Flowable<List<Doctor>> getDoctors(String specialityId, String stationId);
 
-    Flowable<DoctorInfo> getDoctor(int doctorId);
+    Single<Doctor> getDoctor(int doctorId);
 
-    Flowable<ClinicList> getClinics(int start, int count);
+    Flowable<List<Clinic>> getClinics(int start, int count);
 }

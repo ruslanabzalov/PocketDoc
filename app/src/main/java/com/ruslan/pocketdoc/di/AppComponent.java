@@ -1,6 +1,7 @@
 package com.ruslan.pocketdoc.di;
 
 import com.ruslan.pocketdoc.clinics.ClinicsPresenter;
+import com.ruslan.pocketdoc.clinics.ClinicsService;
 import com.ruslan.pocketdoc.data.LocalDataSource;
 import com.ruslan.pocketdoc.data.RemoteDataSource;
 import com.ruslan.pocketdoc.data.Repository;
@@ -15,7 +16,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ContextModule.class, DocDocServiceModule.class, DataSourceModule.class, UtilsModule.class})
+@Component(modules =
+        {ContextModule.class, DocDocServiceModule.class, DataSourceModule.class, UtilsModule.class})
 public interface AppComponent {
 
     void inject(RemoteDataSource remoteDataSource);
@@ -35,4 +37,6 @@ public interface AppComponent {
     void inject(DoctorFragment fragment);
 
     void inject(DoctorPresenter presenter);
+
+    void inject(ClinicsService clinicsService);
 }

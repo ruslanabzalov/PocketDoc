@@ -17,55 +17,54 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.clinic.ClinicActivity;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class ClinicsMapFragment extends Fragment implements ClinicsContract.View {
 
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     private static final String TAG = ClinicsMapFragment.class.getSimpleName();
-
     private static final String TAG_LOADING_ERROR_DIALOG =
             LoadingErrorDialogFragment.class.getSimpleName();
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final int LOADING_ERROR_DIALOG_FRAGMENT_REQUEST_CODE = 999;
 
-    private static final LatLng MOSCOW = new LatLng(55.751244, 37.618423);
-
     private static final String IS_DISPLAYED_KEY = "is_displayed";
+    private static final String CAMERA_POSITION_KEY = "camera_position";
+
+    private static final LatLng MOSCOW = new LatLng(55.751244, 37.618423);
+    private static final float DEFAULT_ZOOM = 10f;
 
     private ClinicsContract.Presenter mPresenter;
 
     private FragmentManager mFragmentManager;
     private GoogleMap mGoogleMap;
     private UiSettings mUiSettings;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
 
+    private CameraUpdate mRestoredCameraPosition;
     private boolean mLocationPermissionGranted;
-    private boolean isDisplayed = false;
+    private List<Marker> mMarkers = new ArrayList<>();
+    private boolean isDisplayed;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mFragmentManager = getChildFragmentManager();
-        mFusedLocationProviderClient = LocationServices
-                .getFusedLocationProviderClient(Objects.requireNonNull(getActivity()));
         mPresenter = new ClinicsPresenter();
         mPresenter.attachView(this);
     }
@@ -86,6 +85,8 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             isDisplayed = savedInstanceState.getBoolean(IS_DISPLAYED_KEY, false);
+            mRestoredCameraPosition = CameraUpdateFactory
+                    .newCameraPosition(savedInstanceState.getParcelable(CAMERA_POSITION_KEY));
         }
     }
 
@@ -107,20 +108,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean(IS_DISPLAYED_KEY, isDisplayed);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        mLocationPermissionGranted = false;
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                    break;
-                }
-        }
-        updateLocationUi();
+        savedInstanceState.putParcelable(CAMERA_POSITION_KEY, mGoogleMap.getCameraPosition());
     }
 
     @Override
@@ -135,16 +123,16 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_refresh_clinics:
-                mPresenter.updateClinics();
                 mGoogleMap.clear();
+                mPresenter.updateClinics();
                 return true;
             case R.id.item_show_clinics:
-                mPresenter.getOnlyClinics();
                 mGoogleMap.clear();
+                mPresenter.getOnlyClinics();
                 return true;
             case R.id.item_show_diagnostics:
-                mPresenter.getOnlyDiagnostics();
                 mGoogleMap.clear();
+                mPresenter.getOnlyDiagnostics();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -152,18 +140,27 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     }
 
     @Override
-    public void showClinics(List<Clinic> clinics) {
-        Toast.makeText(getActivity(), clinics.size() + "", Toast.LENGTH_SHORT).show();
-        if (!isDisplayed) {
-            for (Clinic clinic : clinics) {
-                mGoogleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(clinic.getLatitude()),
-                                Double.parseDouble(clinic.getLongitude())))
-                        .title(clinic.getName())
-                ).setTag(clinic.getId());
-                isDisplayed = true;
-            }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                }
+                break;
         }
+        updateLocationUi();
+    }
+
+    @Override
+    public void startClinicsService() {
+        Objects.requireNonNull(getActivity()).startService(ClinicsService.newIntent(getContext()));
+    }
+
+    @Override
+    public void getClinics(List<Clinic> clinics) {
+        Toast.makeText(getActivity(), "" + clinics.size(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -184,33 +181,49 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         startActivity(ClinicActivity.newIntent(getActivity(), clinicId));
     }
 
+    /**
+     * Метод инициализации Google Maps.
+     * @param googleMap Объект карт Google Maps.
+     */
     private void initMap(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mUiSettings = mGoogleMap.getUiSettings();
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setMapToolbarEnabled(false);
-        mGoogleMap.setMinZoomPreference(10f);
+        mGoogleMap.setMinZoomPreference(DEFAULT_ZOOM);
         mGoogleMap.setMaxZoomPreference(18f);
         CameraPosition moscowPosition = new CameraPosition.Builder()
                 .target(MOSCOW)
-                .zoom(10f)
+                .zoom(DEFAULT_ZOOM)
                 .build();
-        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(moscowPosition));
-        mGoogleMap.setOnInfoWindowClickListener(marker -> mPresenter.chooseClinic((Integer) marker.getTag()));
+        mGoogleMap.moveCamera(
+                (mRestoredCameraPosition != null)
+                        ? mRestoredCameraPosition
+                        : CameraUpdateFactory.newCameraPosition(moscowPosition)
+        );
         getLocationPermission();
+        mGoogleMap.setOnInfoWindowClickListener(
+                marker -> mPresenter.chooseClinic(Objects.requireNonNull((Integer) marker.getTag())));
     }
 
+    /**
+     * Метод запроса разрешения на считывание информации о местоположении устройства.
+     */
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
             updateLocationUi();
         } else {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 
+    /**
+     * Метод обновления UI после проверки разрешения на получение информации
+     * о местоположении устройства.
+     */
     private void updateLocationUi() {
         try {
             if (mLocationPermissionGranted) {

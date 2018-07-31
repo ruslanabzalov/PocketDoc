@@ -18,7 +18,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
 
     private ClinicsContract.View mView;
 
-    public ClinicsPresenter() {
+    ClinicsPresenter() {
         App.getComponent().inject(this);
     }
 
@@ -30,26 +30,42 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
-        mDisposable.dispose();
+        // TODO: Понять, почему mDisposable зануляется при пересоздании активности!
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 
     @Override
     public void loadClinics() {
-        mDisposable = mRepository.getClinics(false)
+        mDisposable = mRepository.getClinicsCount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        clinics -> {
-                            if (mView != null) {
-                                mView.showClinics(clinics);
-                            }
-                        },
-                        throwable -> {
-                            if (mView != null) {
-                                mView.showErrorDialog(throwable);
-                            }
+                .subscribe((integer, throwable) -> {
+                    if (mView != null) {
+                        if (throwable != null) {
+                            mView.showErrorDialog(throwable);
                         }
-                );
+                        if (integer == 0) {
+                            mView.startClinicsService();
+                        }
+                    }
+                });
+//        mDisposable = mRepository.getClinics(false)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        clinics -> {
+//                            if (mView != null) {
+//                                mView.getClinics(clinics);
+//                            }
+//                        },
+//                        throwable -> {
+//                            if (mView != null) {
+//                                mView.showErrorDialog(throwable);
+//                            }
+//                        }
+//                );
     }
 
     @Override
@@ -60,7 +76,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.showClinics(clinics);
+                                mView.getClinics(clinics);
                             }
                         },
                         throwable -> {
@@ -79,7 +95,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.showClinics(clinics);
+                                mView.getClinics(clinics);
                             }
                         },
                         throwable -> {
@@ -98,7 +114,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.showClinics(clinics);
+                                mView.getClinics(clinics);
                             }
                         },
                         throwable -> {

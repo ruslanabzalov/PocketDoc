@@ -8,7 +8,9 @@ interface ClinicsContract {
 
     interface View {
 
-        void showClinics(List<Clinic> clinics);
+        void startClinicsService();
+
+        void getClinics(List<Clinic> clinics);
 
         void showErrorDialog(Throwable throwable);
 

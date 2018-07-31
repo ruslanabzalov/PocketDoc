@@ -9,6 +9,7 @@ import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.StationList;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -48,7 +49,7 @@ public interface DocDocApi {
      * @return Информация о враче.
      */
     @GET("doctor/{doctorId}/city/1/withSlots/1/slotsDays/1")
-    Flowable<DoctorInfo> getDoctor(@Path("doctorId") int doctorId);
+    Single<DoctorInfo> getDoctor(@Path("doctorId") int doctorId);
 
     /**
      * Метод получения списка клиник и диагностических центров.

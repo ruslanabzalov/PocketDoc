@@ -3,11 +3,8 @@ package com.ruslan.pocketdoc.data;
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
-import com.ruslan.pocketdoc.data.doctors.DoctorList;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
-import com.ruslan.pocketdoc.data.specialities.SpecialityList;
 import com.ruslan.pocketdoc.data.stations.Station;
-import com.ruslan.pocketdoc.data.stations.StationList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +12,17 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class Repository {
 
+    @SuppressWarnings("WeakerAccess")
     @Inject
     RemoteDataSource mRemoteDataSource;
 
+    @SuppressWarnings("WeakerAccess")
     @Inject
     LocalDataSource mLocalDataSource;
 
@@ -32,18 +32,14 @@ public class Repository {
 
     public Flowable<List<Speciality>> getSpecialities(boolean forceUpdate) {
         if (forceUpdate) {
-            return mRemoteDataSource.getSpecialities()
-                    .map(SpecialityList::getSpecialities)
-                    .doOnNext(this::saveSpecialities);
+            return mRemoteDataSource.getSpecialities();
         } else {
             return mLocalDataSource.getSpecialities()
                     .flatMap(specialities -> {
                         if (specialities.size() == 0) {
-                            return mRemoteDataSource.getSpecialities()
-                                    .map(SpecialityList::getSpecialities)
-                                    .doOnNext(this::saveSpecialities);
+                            return mRemoteDataSource.getSpecialities().doOnNext(this::saveSpecialities);
                         } else {
-                            return Flowable.fromIterable(specialities).toList().toFlowable();
+                            return Flowable.just(specialities);
                         }
                     });
         }
@@ -52,27 +48,19 @@ public class Repository {
     private void saveSpecialities(List<Speciality> specialities) {
         mLocalDataSource.saveSpecialities(specialities)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
 
     public Flowable<List<Station>> getStations(boolean forceUpdate) {
         if (forceUpdate) {
             return mRemoteDataSource.getStations()
-                    .map(StationList::getStations)
                     .doOnNext(this::saveStations);
 
         } else {
             return mLocalDataSource.getStations()
-                    .flatMap(stations -> {
-                       if (stations.size() == 0) {
-                           return mRemoteDataSource.getStations()
-                                   .map(StationList::getStations)
-                                   .doOnNext(this::saveStations);
-                       } else {
-                           return Flowable.fromIterable(stations).toList().toFlowable();
-                       }
-                    });
+                    .flatMap(stations -> (stations.size() == 0)
+                            ? mRemoteDataSource.getStations().doOnNext(this::saveStations)
+                            : Flowable.just(stations));
         }
     }
 
@@ -84,23 +72,27 @@ public class Repository {
     }
 
     public Flowable<List<Doctor>> getDoctors(String specialityId, String stationId) {
-        return mRemoteDataSource.getDoctors(specialityId, stationId)
-                .map(DoctorList::getDoctors);
+        return mRemoteDataSource.getDoctors(specialityId, stationId);
     }
 
-    public Flowable<Doctor> getDoctorInfo(int doctorId) {
-        return mRemoteDataSource.getDoctor(doctorId)
-                .map(doctorInfo -> doctorInfo.getDoctor().get(0));
+    public Single<Doctor> getDoctorInfo(int doctorId) {
+        return mRemoteDataSource.getDoctor(doctorId);
+    }
+
+    public Single<Integer> getClinicsCount() {
+        return mLocalDataSource.countClinics();
     }
 
     public Flowable<List<Clinic>> getClinics(boolean forceUpdate) {
         if (forceUpdate) {
-            return getClinicsZippedFlowable().doOnNext(this::saveClinics);
+            return getClinicsZipped()
+                    .doOnNext(this::saveClinics);
         } else {
             return mLocalDataSource.getClinics()
                     .flatMap(clinics -> {
                         if (clinics.size() == 0) {
-                            return getClinicsZippedFlowable().doOnNext(this::saveClinics);
+                            return getClinicsZipped()
+                                    .doOnNext(this::saveClinics);
                         } else {
                             return Flowable.fromIterable(clinics).toList().toFlowable();
                         }
@@ -116,11 +108,11 @@ public class Repository {
         return mLocalDataSource.getOnlyDiagnostics();
     }
 
-    private Flowable<List<Clinic>> getClinicsZippedFlowable() {
+    private Flowable<List<Clinic>> getClinicsZipped() {
         return Flowable.zip(mRemoteDataSource.getClinics(0, 500),
-                mRemoteDataSource.getClinics(500, 500), (clinicList, clinicList2) -> {
-            List<Clinic> finalClinicList = new ArrayList<>(clinicList.getClinics());
-            finalClinicList.addAll(clinicList2.getClinics());
+                mRemoteDataSource.getClinics(500, 500), (firstClinics, secondClinics) -> {
+            List<Clinic> finalClinicList = new ArrayList<>(firstClinics);
+            finalClinicList.addAll(secondClinics);
             return finalClinicList;
         });
     }

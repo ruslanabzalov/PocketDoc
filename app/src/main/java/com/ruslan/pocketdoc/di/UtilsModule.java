@@ -12,7 +12,7 @@ public class UtilsModule {
 
     @Provides
     @Singleton
-    public Picasso providePicasso() {
+    Picasso providePicasso() {
         return Picasso.get();
     }
 }
