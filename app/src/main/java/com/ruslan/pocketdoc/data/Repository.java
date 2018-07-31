@@ -100,14 +100,6 @@ public class Repository {
         }
     }
 
-    public Flowable<List<Clinic>> getOnlyClinics() {
-        return mLocalDataSource.getOnlyClinics();
-    }
-
-    public Flowable<List<Clinic>> getOnlyDiagnostics() {
-        return mLocalDataSource.getOnlyDiagnostics();
-    }
-
     private Flowable<List<Clinic>> getClinicsZipped() {
         return Flowable.zip(mRemoteDataSource.getClinics(0, 500),
                 mRemoteDataSource.getClinics(500, 500), (firstClinics, secondClinics) -> {

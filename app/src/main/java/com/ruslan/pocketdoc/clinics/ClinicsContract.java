@@ -10,7 +10,7 @@ interface ClinicsContract {
 
         void startClinicsService();
 
-        void getClinics(List<Clinic> clinics);
+        void showClinicsInCurrentArea(List<Clinic> clinics);
 
         void showErrorDialog(Throwable throwable);
 
@@ -25,11 +25,7 @@ interface ClinicsContract {
 
         void loadClinics();
 
-        void updateClinics();
-
-        void getOnlyClinics();
-
-        void getOnlyDiagnostics();
+        void getClinicsFromDb();
 
         void chooseClinic(int clinicId);
     }

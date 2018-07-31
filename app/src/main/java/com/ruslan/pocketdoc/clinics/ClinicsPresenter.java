@@ -51,70 +51,17 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                         }
                     }
                 });
-//        mDisposable = mRepository.getClinics(false)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        clinics -> {
-//                            if (mView != null) {
-//                                mView.getClinics(clinics);
-//                            }
-//                        },
-//                        throwable -> {
-//                            if (mView != null) {
-//                                mView.showErrorDialog(throwable);
-//                            }
-//                        }
-//                );
     }
 
     @Override
-    public void updateClinics() {
-        mDisposable = mRepository.getClinics(true)
+    public void getClinicsFromDb() {
+        mDisposable = mRepository.getClinics(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.getClinics(clinics);
-                            }
-                        },
-                        throwable -> {
-                            if (mView != null) {
-                                mView.showErrorDialog(throwable);
-                            }
-                        }
-                );
-    }
-
-    @Override
-    public void getOnlyClinics() {
-        mDisposable = mRepository.getOnlyClinics()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        clinics -> {
-                            if (mView != null) {
-                                mView.getClinics(clinics);
-                            }
-                        },
-                        throwable -> {
-                            if (mView != null) {
-                                mView.showErrorDialog(throwable);
-                            }
-                        }
-                );
-    }
-
-    @Override
-    public void getOnlyDiagnostics() {
-        mDisposable = mRepository.getOnlyDiagnostics()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        clinics -> {
-                            if (mView != null) {
-                                mView.getClinics(clinics);
+                                mView.showClinicsInCurrentArea(clinics);
                             }
                         },
                         throwable -> {

@@ -11,11 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,13 +21,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.clinic.ClinicActivity;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,6 +45,8 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     private static final String CAMERA_POSITION_KEY = "camera_position";
 
     private static final LatLng MOSCOW = new LatLng(55.751244, 37.618423);
+    private static final LatLngBounds MOSCOW_BOUNDS = new LatLngBounds(
+            new LatLng(55.5484, 37.2881), new LatLng(55.9426, 37.8855));
     private static final float DEFAULT_ZOOM = 10f;
 
     private ClinicsContract.Presenter mPresenter;
@@ -57,7 +57,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
 
     private CameraUpdate mRestoredCameraPosition;
     private boolean mLocationPermissionGranted;
-    private List<Marker> mMarkers = new ArrayList<>();
     private boolean isDisplayed;
 
     @Override
@@ -115,31 +114,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     public void onPrepareOptionsMenu(Menu menu) {}
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_map, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_refresh_clinics:
-                mGoogleMap.clear();
-                mPresenter.updateClinics();
-                return true;
-            case R.id.item_show_clinics:
-                mGoogleMap.clear();
-                mPresenter.getOnlyClinics();
-                return true;
-            case R.id.item_show_diagnostics:
-                mGoogleMap.clear();
-                mPresenter.getOnlyDiagnostics();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -159,8 +133,19 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     }
 
     @Override
-    public void getClinics(List<Clinic> clinics) {
-        Toast.makeText(getActivity(), "" + clinics.size(), Toast.LENGTH_SHORT).show();
+    public void showClinicsInCurrentArea(List<Clinic> clinics) {
+        LatLng clinicsLatLng;
+        for (Clinic clinic : clinics) {
+            clinicsLatLng = new LatLng(Double.parseDouble(clinic.getLatitude()),
+                    Double.parseDouble(clinic.getLongitude()));
+            if (mGoogleMap.getProjection().getVisibleRegion().latLngBounds.contains(clinicsLatLng)) {
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .title(clinic.getShortName())
+                        .position(clinicsLatLng)
+                        .visible(true)
+                ).setTag(clinic.getId());
+            }
+        }
     }
 
     @Override
@@ -201,9 +186,27 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                         ? mRestoredCameraPosition
                         : CameraUpdateFactory.newCameraPosition(moscowPosition)
         );
+        mGoogleMap.setLatLngBoundsForCameraTarget(MOSCOW_BOUNDS);
         getLocationPermission();
-        mGoogleMap.setOnInfoWindowClickListener(
-                marker -> mPresenter.chooseClinic(Objects.requireNonNull((Integer) marker.getTag())));
+        mGoogleMap.setOnMarkerClickListener(this::onMarkerClick);
+        mGoogleMap.setOnInfoWindowClickListener(this::onInfoClick);
+        mGoogleMap.setOnCameraIdleListener(this::onIdle);
+    }
+
+    private boolean onMarkerClick(@NonNull Marker marker) {
+        marker.showInfoWindow();
+        return true;
+    }
+
+    private void onInfoClick(@NonNull Marker marker) {
+        mPresenter.chooseClinic(Objects.requireNonNull((Integer) marker.getTag()));
+    }
+
+    private void onIdle() {
+        mGoogleMap.clear();
+        if (mGoogleMap.getCameraPosition().zoom >= 15f) {
+            mPresenter.getClinicsFromDb();
+        }
     }
 
     /**
@@ -233,7 +236,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                 mGoogleMap.setMyLocationEnabled(false);
                 mUiSettings.setMyLocationButtonEnabled(false);
             }
-
         } catch (SecurityException ex) {
             Log.e(TAG, ex.getMessage(), ex);
         }
