@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Класс для сериализации JSON-массива специальностей.
+ */
 public class SpecialityList {
 
     @SerializedName("SpecList")

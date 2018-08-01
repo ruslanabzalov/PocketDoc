@@ -2,61 +2,70 @@ package com.ruslan.pocketdoc.data;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
+import com.ruslan.pocketdoc.data.clinics.ClinicsDao;
+import com.ruslan.pocketdoc.data.specialities.SpecialitiesDao;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
+import com.ruslan.pocketdoc.data.stations.StationDao;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
+/**
+ * Класс, реализующий интерфейс работы с БД Room.
+ */
 public class LocalDataSource implements LocalDataSourceContract {
 
     @Inject
     AppDatabase mDatabase;
 
-    @Inject
-    ExecutorService mExecutorService;
+    private SpecialitiesDao mSpecialitiesDao;
+    private StationDao mStationDao;
+    private ClinicsDao mClinicsDao;
 
     public LocalDataSource() {
         App.getComponent().inject(this);
+        mSpecialitiesDao = mDatabase.specialityDao();
+        mStationDao = mDatabase.stationDao();
+        mClinicsDao = mDatabase.clinicsDao();
     }
 
     @Override
     public Flowable<List<Speciality>> getSpecialities() {
-        return mDatabase.specialityDao().getAllSpecialities();
+        return mSpecialitiesDao.getAllSpecialities();
     }
 
     @Override
     public void saveSpecialities(List<Speciality> specialities) {
-        mDatabase.specialityDao().insertSpecialities(specialities);
+        mSpecialitiesDao.insertSpecialities(specialities);
     }
 
     @Override
     public Flowable<List<Station>> getStations() {
-        return mDatabase.stationDao().getAllStations();
+        return mStationDao.getAllStations();
     }
 
     @Override
     public void saveStations(List<Station> stations) {
-        mDatabase.stationDao().insertStations(stations);
+        mStationDao.insertStations(stations);
     }
 
     @Override
     public Single<Integer> countClinics() {
-        return mDatabase.clinicsDao().countAll();
+        return mClinicsDao.countAll();
     }
 
     @Override
     public Flowable<List<Clinic>> getClinics() {
-        return mDatabase.clinicsDao().getAllClinics();
+        return mClinicsDao.getAllClinics();
     }
 
     @Override
     public void saveClinics(List<Clinic> clinics) {
-        mDatabase.clinicsDao().insertClinics(clinics);
+        mClinicsDao.insertClinics(clinics);
     }
 }

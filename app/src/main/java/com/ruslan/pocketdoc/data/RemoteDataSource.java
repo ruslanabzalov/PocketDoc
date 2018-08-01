@@ -18,6 +18,9 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
+/**
+ * Класс, реализующий интерфейс работы с API DocDoc.
+ */
 public class RemoteDataSource implements RemoteDataSourceContract {
 
     @Inject
@@ -41,8 +44,8 @@ public class RemoteDataSource implements RemoteDataSourceContract {
 
     @Override
     public Flowable<List<Doctor>> getDoctors(String specialityId, String stationId) {
-        return mApi
-                .getDoctors(specialityId, stationId).map(DoctorList::getDoctors);
+        return mApi.getDoctors(specialityId, stationId)
+                .map(DoctorList::getDoctors);
     }
 
     @Override

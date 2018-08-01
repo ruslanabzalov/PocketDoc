@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Класс для сериализации JSON-массива станций метро.
+ */
 public class StationList {
 
     @SerializedName("MetroList")

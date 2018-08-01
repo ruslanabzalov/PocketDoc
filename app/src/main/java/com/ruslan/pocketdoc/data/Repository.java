@@ -29,10 +29,10 @@ public class Repository {
     }
 
     /**
-     * Метод загрузки списка специальностей врачей с помощью Room или API
+     * Метод получения списка специальностей врачей с помощью Room или API
      * в зависимости от наличия данных в БД.
      * @param forceUpdate Флаг принудительного обновления списка специальностей врачей.
-     * @return Flowable списка специальностей врачей.
+     * @return Список специальностей.
      */
     public Flowable<List<Speciality>> getSpecialities(boolean forceUpdate) {
         if (forceUpdate) {
@@ -47,8 +47,8 @@ public class Repository {
     }
 
     /**
-     * Метод загрузки списка специальностей врачей с помощью API и их сохранения в БД.
-     * @return Flowable списка специальностей врачей.
+     * Метод получения списка специальностей врачей с помощью API и их сохранения в БД.
+     * @return Список специальностей.
      */
     private Flowable<List<Speciality>> getAndSaveRemoteSpecialities() {
         return mRemoteDataSource.getSpecialities()
@@ -56,10 +56,10 @@ public class Repository {
     }
 
     /**
-     * Метод загрузки списка станций метро с помощью Room или API
+     * Метод получения списка станций метро с помощью Room или API
      * в зависимости от наличия данных в БД.
      * @param forceUpdate Флаг принудительного обновления списка станций метро.
-     * @return Flowable списка станций метро.
+     * @return Список станций метро.
      */
     public Flowable<List<Station>> getStations(boolean forceUpdate) {
         if (forceUpdate) {
@@ -74,8 +74,8 @@ public class Repository {
     }
 
     /**
-     * Метод загрузки списка станций метро с помощью API и их сохранения в БД.
-     * @return Flowable списка станций метро.
+     * Метод получения списка станций метро с помощью API и их сохранения в БД.
+     * @return Список станций метро.
      */
     private Flowable<List<Station>> getAndSaveRemoteStations() {
         return mRemoteDataSource.getStations()
@@ -83,35 +83,35 @@ public class Repository {
     }
 
     /**
-     * Метод загрузки списка врачей с помощью API.
+     * Метод получения списка врачей с помощью API.
      * @param specialityId Идентификатор специальности врачей.
      * @param stationId Идентификатор станции метро.
-     * @return Flowable списка врачей.
+     * @return Список врачей.
      */
     public Flowable<List<Doctor>> getDoctors(String specialityId, String stationId) {
         return mRemoteDataSource.getDoctors(specialityId, stationId);
     }
 
     /**
-     * Метод загрузки информации о конкретном враче.
+     * Метод получения подробной информации о враче.
      * @param doctorId Идентификатор врача.
-     * @return Single информации о враче.
+     * @return Экземпляр врача.
      */
     public Single<Doctor> getDoctorInfo(int doctorId) {
         return mRemoteDataSource.getDoctor(doctorId);
     }
 
     /**
-     * Метод загрузки количества клиник в БД.
-     * @return Single количества клиник.
+     * Метод получения количества клиник в БД.
+     * @return Количество клиник.
      */
     public Single<Integer> getClinicsCount() {
         return mLocalDataSource.countClinics();
     }
 
     /**
-     * Метод загрузки списка клиник с помощью API и их сохранения в БД.
-     * @return Flowable списка клиник.
+     * Метод получения списка клиник с помощью API и их сохранения в БД.
+     * @return Список клиник.
      */
     public Flowable<List<Clinic>> getClinicsFromApi() {
         return Flowable.concat(mRemoteDataSource.getClinics(0, 500),
@@ -120,8 +120,8 @@ public class Repository {
     }
 
     /**
-     * Метод загрузки списка клиник с помощью Room.
-     * @return Flowable списка клиник.
+     * Метод получения списка клиник с из БД.
+     * @return Список клиник.
      */
     public Flowable<List<Clinic>> getClinicsFromDb() {
         return mLocalDataSource.getClinics();

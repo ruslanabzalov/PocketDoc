@@ -2,7 +2,10 @@ package com.ruslan.pocketdoc.data.doctors.slots;
 
 import com.google.gson.annotations.SerializedName;
 
-class Slot {
+/**
+ * Класс, описывающий расписание приёма.
+ */
+public class Slot {
 
     @SerializedName("Id")
     private String mId;

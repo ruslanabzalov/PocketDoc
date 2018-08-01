@@ -5,6 +5,9 @@ import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.util.List;
 
+/**
+ * Класс, описывающий врача.
+ */
 public class Doctor {
 
     @SerializedName("Id")

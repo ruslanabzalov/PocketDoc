@@ -108,9 +108,6 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         }
     }
 
-    // TODO: Сделать сначала отдельную проверку на наличие специальностей в базе!
-    // TODO: После этого уже выбирать необходимый Observable (из Room или Retrofit).
-
     @Override
     public void showSpecialities(List<Speciality> specialities) {
         if (mAdapter == null) {

@@ -6,10 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
+/**
+ * Класс, описывающий сущность "Клиника".
+ */
+@SuppressWarnings("WeakerAccess")
 @Entity(tableName = "clinics")
-public class Clinic implements Serializable {
+public class Clinic {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -75,8 +77,6 @@ public class Clinic implements Serializable {
     @ColumnInfo(name = "max_price")
     @SerializedName("MaxPrice")
     private String mMaxPrice;
-
-//    private List<Schedule> mSchedules;
 
     public int getId() {
         return mId;

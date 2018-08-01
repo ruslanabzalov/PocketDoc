@@ -7,6 +7,10 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Класс, описывающий сущность "Специальность".
+ */
+@SuppressWarnings("WeakerAccess")
 @Entity(tableName = "specialities")
 public class Speciality {
 

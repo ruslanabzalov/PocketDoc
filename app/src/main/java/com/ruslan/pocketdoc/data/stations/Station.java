@@ -7,6 +7,10 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Класс, описывающий сущность "Станция метро".
+ */
+@SuppressWarnings("WeakerAccess")
 @Entity(tableName = "stations")
 public class Station {
 
@@ -27,8 +31,6 @@ public class Station {
     @ColumnInfo(name = "line_color")
     @SerializedName("LineColor")
     private String mLineColor;
-
-    // TODO: Добавить возможность сохранения списка идентификаторов районов.
 
     public Station(@NonNull String id) {
         mId = id;
