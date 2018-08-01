@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,6 +28,7 @@ import com.ruslan.pocketdoc.clinic.ClinicActivity;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,6 +58,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     private CameraUpdate mRestoredCameraPosition;
     private boolean mLocationPermissionGranted;
     private boolean isDisplayed;
+    private List<Marker> mMarkers = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,9 +93,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     @Override
     public void onResume() {
         super.onResume();
-        if (!isDisplayed) {
-            mPresenter.loadClinics();
-        }
     }
 
     @Override
@@ -109,9 +107,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         savedInstanceState.putBoolean(IS_DISPLAYED_KEY, isDisplayed);
         savedInstanceState.putParcelable(CAMERA_POSITION_KEY, mGoogleMap.getCameraPosition());
     }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {}
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -133,17 +128,30 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     }
 
     @Override
-    public void showClinicsInCurrentArea(List<Clinic> clinics) {
-        LatLng clinicsLatLng;
-        for (Clinic clinic : clinics) {
-            clinicsLatLng = new LatLng(Double.parseDouble(clinic.getLatitude()),
-                    Double.parseDouble(clinic.getLongitude()));
-            if (mGoogleMap.getProjection().getVisibleRegion().latLngBounds.contains(clinicsLatLng)) {
-                mGoogleMap.addMarker(new MarkerOptions()
+    public void addMarkers(List<Clinic> clinics) {
+        Marker marker;
+        if (mMarkers.size() == 0) {
+            for (Clinic clinic : clinics) {
+                marker = mGoogleMap.addMarker(new MarkerOptions()
                         .title(clinic.getShortName())
-                        .position(clinicsLatLng)
-                        .visible(true)
-                ).setTag(clinic.getId());
+                        .position(new LatLng(Double.parseDouble(clinic.getLatitude()),
+                                Double.parseDouble(clinic.getLongitude())))
+                        .visible(false)
+                );
+                marker.setTag(clinic.getId());
+                mMarkers.add(marker);
+            }
+        }
+    }
+
+    private void showClinicsInCurrentArea() {
+        for (Marker marker : mMarkers) {
+            if (mGoogleMap.getProjection().getVisibleRegion().latLngBounds.contains(marker.getPosition())) {
+                marker.setVisible(true);
+            } else {
+                if (marker.isVisible()) {
+                    marker.setVisible(false);
+                }
             }
         }
     }
@@ -188,14 +196,8 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         );
         mGoogleMap.setLatLngBoundsForCameraTarget(MOSCOW_BOUNDS);
         getLocationPermission();
-        mGoogleMap.setOnMarkerClickListener(this::onMarkerClick);
         mGoogleMap.setOnInfoWindowClickListener(this::onInfoClick);
         mGoogleMap.setOnCameraIdleListener(this::onIdle);
-    }
-
-    private boolean onMarkerClick(@NonNull Marker marker) {
-        marker.showInfoWindow();
-        return true;
     }
 
     private void onInfoClick(@NonNull Marker marker) {
@@ -203,9 +205,11 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     }
 
     private void onIdle() {
-        mGoogleMap.clear();
-        if (mGoogleMap.getCameraPosition().zoom >= 15f) {
+        if (mMarkers.size() == 0) {
             mPresenter.getClinicsFromDb();
+        }
+        if (mGoogleMap.getCameraPosition().zoom >= 15f) {
+            showClinicsInCurrentArea();
         }
     }
 
@@ -232,9 +236,11 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
             if (mLocationPermissionGranted) {
                 mGoogleMap.setMyLocationEnabled(true);
                 mUiSettings.setMyLocationButtonEnabled(true);
+                mPresenter.loadClinics();
             } else {
                 mGoogleMap.setMyLocationEnabled(false);
                 mUiSettings.setMyLocationButtonEnabled(false);
+                mPresenter.loadClinics();
             }
         } catch (SecurityException ex) {
             Log.e(TAG, ex.getMessage(), ex);

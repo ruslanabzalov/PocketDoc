@@ -6,7 +6,6 @@ import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -14,15 +13,15 @@ interface LocalDataSourceContract {
 
     Flowable<List<Speciality>> getSpecialities();
 
-    Completable saveSpecialities(List<Speciality> specialities);
+    void saveSpecialities(List<Speciality> specialities);
 
     Flowable<List<Station>> getStations();
 
-    Completable saveStations(List<Station> stations);
+    void saveStations(List<Station> stations);
 
     Single<Integer> countClinics();
 
     Flowable<List<Clinic>> getClinics();
 
-    Completable saveClinics(List<Clinic> clinics);
+    void saveClinics(List<Clinic> clinics);
 }

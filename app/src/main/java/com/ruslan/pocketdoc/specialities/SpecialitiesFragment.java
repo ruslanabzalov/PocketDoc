@@ -23,7 +23,6 @@ import android.widget.ProgressBar;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
-import com.ruslan.pocketdoc.history.RecordsHistoryActivity;
 import com.ruslan.pocketdoc.stations.StationsFragment;
 
 import java.util.List;
@@ -104,13 +103,13 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
             case R.id.item_refresh_specialities:
                 mPresenter.updateSpecialities(true);
                 return true;
-            case R.id.item_records_history:
-                showRecordsHistoryListUi();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    // TODO: Сделать сначала отдельную проверку на наличие специальностей в базе!
+    // TODO: После этого уже выбирать необходимый Observable (из Room или Retrofit).
 
     @Override
     public void showSpecialities(List<Speciality> specialities) {
@@ -165,11 +164,6 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void showRecordsHistoryListUi() {
-        startActivity(new Intent(getActivity(), RecordsHistoryActivity.class));
     }
 
     /**

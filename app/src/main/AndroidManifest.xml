@@ -24,10 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".history.RecordsHistoryActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".clinic.ClinicActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"/>

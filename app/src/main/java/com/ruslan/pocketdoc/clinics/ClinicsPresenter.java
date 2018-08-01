@@ -55,13 +55,15 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
 
     @Override
     public void getClinicsFromDb() {
-        mDisposable = mRepository.getClinics(false)
+        mDisposable = mRepository.getClinicsFromDb()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         clinics -> {
                             if (mView != null) {
-                                mView.showClinicsInCurrentArea(clinics);
+                                if (clinics.size() != 0) {
+                                    mView.addMarkers(clinics);
+                                }
                             }
                         },
                         throwable -> {

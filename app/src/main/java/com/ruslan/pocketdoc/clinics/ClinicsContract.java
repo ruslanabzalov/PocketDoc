@@ -10,7 +10,7 @@ interface ClinicsContract {
 
         void startClinicsService();
 
-        void showClinicsInCurrentArea(List<Clinic> clinics);
+        void addMarkers(List<Clinic> clinics);
 
         void showErrorDialog(Throwable throwable);
 

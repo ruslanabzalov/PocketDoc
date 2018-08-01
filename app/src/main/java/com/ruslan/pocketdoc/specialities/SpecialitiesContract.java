@@ -26,11 +26,6 @@ interface SpecialitiesContract {
          * @param specialityId Идентификатор выбранной специальности.
          */
         void showStationsUi(String specialityId);
-
-        /**
-         * Метод открытия активности, отображающей историю записей.
-         */
-        void showRecordsHistoryListUi();
     }
 
     /**

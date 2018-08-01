@@ -6,23 +6,21 @@ import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
+/**
+ * Класс, описывающий репозиторий.
+ */
 public class Repository {
 
-    @SuppressWarnings("WeakerAccess")
     @Inject
     RemoteDataSource mRemoteDataSource;
 
-    @SuppressWarnings("WeakerAccess")
     @Inject
     LocalDataSource mLocalDataSource;
 
@@ -30,89 +28,102 @@ public class Repository {
         App.getComponent().inject(this);
     }
 
+    /**
+     * Метод загрузки списка специальностей врачей с помощью Room или API
+     * в зависимости от наличия данных в БД.
+     * @param forceUpdate Флаг принудительного обновления списка специальностей врачей.
+     * @return Flowable списка специальностей врачей.
+     */
     public Flowable<List<Speciality>> getSpecialities(boolean forceUpdate) {
         if (forceUpdate) {
-            return mRemoteDataSource.getSpecialities();
+            return getAndSaveRemoteSpecialities();
         } else {
             return mLocalDataSource.getSpecialities()
-                    .flatMap(specialities -> {
-                        if (specialities.size() == 0) {
-                            return mRemoteDataSource.getSpecialities().doOnNext(this::saveSpecialities);
-                        } else {
-                            return Flowable.just(specialities);
-                        }
-                    });
+                    // Почему-то выполняется 2 раза: сначала первое, потом второе.
+                    .switchMap(specialities -> (specialities.size() == 0)
+                            ? getAndSaveRemoteSpecialities()
+                            : Flowable.just(specialities));
         }
     }
 
-    private void saveSpecialities(List<Speciality> specialities) {
-        mLocalDataSource.saveSpecialities(specialities)
-                .subscribeOn(Schedulers.io())
-                .subscribe();
+    /**
+     * Метод загрузки списка специальностей врачей с помощью API и их сохранения в БД.
+     * @return Flowable списка специальностей врачей.
+     */
+    private Flowable<List<Speciality>> getAndSaveRemoteSpecialities() {
+        return mRemoteDataSource.getSpecialities()
+                .doOnNext(mLocalDataSource::saveSpecialities);
     }
 
+    /**
+     * Метод загрузки списка станций метро с помощью Room или API
+     * в зависимости от наличия данных в БД.
+     * @param forceUpdate Флаг принудительного обновления списка станций метро.
+     * @return Flowable списка станций метро.
+     */
     public Flowable<List<Station>> getStations(boolean forceUpdate) {
         if (forceUpdate) {
-            return mRemoteDataSource.getStations()
-                    .doOnNext(this::saveStations);
-
+            return getAndSaveRemoteStations();
         } else {
             return mLocalDataSource.getStations()
-                    .flatMap(stations -> (stations.size() == 0)
-                            ? mRemoteDataSource.getStations().doOnNext(this::saveStations)
+                    // Почему-то выполняется 2 раза: сначала первое, потом второе.
+                    .switchMap(stations -> (stations.size() == 0)
+                            ? getAndSaveRemoteStations()
                             : Flowable.just(stations));
         }
     }
 
-    private void saveStations(List<Station> stations) {
-        mLocalDataSource.saveStations(stations)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+    /**
+     * Метод загрузки списка станций метро с помощью API и их сохранения в БД.
+     * @return Flowable списка станций метро.
+     */
+    private Flowable<List<Station>> getAndSaveRemoteStations() {
+        return mRemoteDataSource.getStations()
+                .doOnNext(mLocalDataSource::saveStations);
     }
 
+    /**
+     * Метод загрузки списка врачей с помощью API.
+     * @param specialityId Идентификатор специальности врачей.
+     * @param stationId Идентификатор станции метро.
+     * @return Flowable списка врачей.
+     */
     public Flowable<List<Doctor>> getDoctors(String specialityId, String stationId) {
         return mRemoteDataSource.getDoctors(specialityId, stationId);
     }
 
+    /**
+     * Метод загрузки информации о конкретном враче.
+     * @param doctorId Идентификатор врача.
+     * @return Single информации о враче.
+     */
     public Single<Doctor> getDoctorInfo(int doctorId) {
         return mRemoteDataSource.getDoctor(doctorId);
     }
 
+    /**
+     * Метод загрузки количества клиник в БД.
+     * @return Single количества клиник.
+     */
     public Single<Integer> getClinicsCount() {
         return mLocalDataSource.countClinics();
     }
 
-    public Flowable<List<Clinic>> getClinics(boolean forceUpdate) {
-        if (forceUpdate) {
-            return getClinicsZipped()
-                    .doOnNext(this::saveClinics);
-        } else {
-            return mLocalDataSource.getClinics()
-                    .flatMap(clinics -> {
-                        if (clinics.size() == 0) {
-                            return getClinicsZipped()
-                                    .doOnNext(this::saveClinics);
-                        } else {
-                            return Flowable.fromIterable(clinics).toList().toFlowable();
-                        }
-                    });
-        }
+    /**
+     * Метод загрузки списка клиник с помощью API и их сохранения в БД.
+     * @return Flowable списка клиник.
+     */
+    public Flowable<List<Clinic>> getClinicsFromApi() {
+        return Flowable.concat(mRemoteDataSource.getClinics(0, 500),
+                mRemoteDataSource.getClinics(500, 500))
+                .doOnNext(mLocalDataSource::saveClinics);
     }
 
-    private Flowable<List<Clinic>> getClinicsZipped() {
-        return Flowable.zip(mRemoteDataSource.getClinics(0, 500),
-                mRemoteDataSource.getClinics(500, 500), (firstClinics, secondClinics) -> {
-            List<Clinic> finalClinicList = new ArrayList<>(firstClinics);
-            finalClinicList.addAll(secondClinics);
-            return finalClinicList;
-        });
-    }
-
-    private void saveClinics(List<Clinic> clinics) {
-        mLocalDataSource.saveClinics(clinics)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+    /**
+     * Метод загрузки списка клиник с помощью Room.
+     * @return Flowable списка клиник.
+     */
+    public Flowable<List<Clinic>> getClinicsFromDb() {
+        return mLocalDataSource.getClinics();
     }
 }

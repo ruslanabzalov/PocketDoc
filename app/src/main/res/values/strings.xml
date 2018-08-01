@@ -7,7 +7,6 @@
     <!--activity_main, fragments & tabs titles-->
     <string name="specialities_title">Список специальностей</string>
     <string name="clinics_title">Карта клиник</string>
-    <string name="records_history_title">История записей</string>
     <string name="stations_title">Список станций метро</string>
     <string name="doctors_title">Список врачей</string>
     <string name="doctor_title">Информация о враче</string>
@@ -18,7 +17,6 @@
 
     <!--Menu (fragment_specialities)-->
     <string name="item_refresh_specialities">Обновить список специальностей</string>
-    <string name="title_records_history_activity">История записей</string>
 
     <!--Preview (fragment_specialities)-->
     <string name="speciality_name_preview">Специальность</string>

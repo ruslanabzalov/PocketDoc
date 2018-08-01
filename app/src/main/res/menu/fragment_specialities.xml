@@ -9,9 +9,4 @@
         android:icon="@drawable/ic_refresh_white_24dp"
         app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/item_records_history"
-        android:title="@string/title_records_history_activity"
-        app:showAsAction="never"/>
-
 </menu>
