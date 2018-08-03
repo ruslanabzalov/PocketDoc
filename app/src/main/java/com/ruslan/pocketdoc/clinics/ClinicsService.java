@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
@@ -38,13 +38,18 @@ public class ClinicsService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (isNetworkAvailableAndConnected()) {
             mDisposable = mRepository.getClinicsFromApi()
-                    .subscribe(clinics -> Toast.makeText(getApplicationContext(),
-                            "Clinics size: " + clinics.size(),
-                            Toast.LENGTH_SHORT).show(),
-                            throwable -> Toast.makeText(getApplicationContext(),
-                                    "Throwable message: " + throwable.getMessage(),
-                                    Toast.LENGTH_SHORT).show()
-                    );
+                    .doOnSubscribe(subscription ->
+                            Log.i(TAG, "getClinicsFromApi(): onSubscribe()"))
+                    .doOnNext(clinics -> {
+                        Log.i(TAG, "getClinicsFromApi(): onNext()");
+                        Log.i(TAG, "Clinics loaded: " + clinics.size());
+                    })
+                    .doOnError(throwable -> {
+                        Log.i(TAG, "getClinicsFromApi(): onError()");
+                        Log.i(TAG, "Error message: " + throwable.getMessage());
+                    })
+                    .doOnComplete(() -> Log.i(TAG, "getClinicsFromApi(): onComplete()"))
+                    .subscribe();
         }
     }
 

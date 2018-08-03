@@ -20,16 +20,21 @@ public class LoadingErrorDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
-        View loadingErrorDialogView = inflater.inflate(R.layout.dialog_fragment_loading_error, null);
+        View loadingErrorDialogView =
+                inflater.inflate(R.layout.dialog_fragment_loading_error, null);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(loadingErrorDialogView)
                 .setTitle(R.string.loading_error_title)
-                .setPositiveButton(R.string.loading_error_positive_button_text,(dialogInterface, i) -> loadAgain())
-                .setNegativeButton(R.string.loading_error_negative_button_text, (dialogInterface, i) -> closeDialog());
+                .setPositiveButton(R.string.loading_error_positive_button_text,
+                        (dialogInterface, i) -> loadAgain())
+                .setNegativeButton(R.string.loading_error_negative_button_text,
+                        (dialogInterface, i) -> closeDialog());
+
         Dialog loadingErrorDialog = builder.create();
         loadingErrorDialog.setCanceledOnTouchOutside(false);
-        loadingErrorDialog.setOnKeyListener(
-                (dialogInterface, i, keyEvent) -> isBackPressed(i, keyEvent));
+        loadingErrorDialog
+                .setOnKeyListener((dialogInterface, i, keyEvent) -> isBackPressed(i, keyEvent));
         return loadingErrorDialog;
     }
 

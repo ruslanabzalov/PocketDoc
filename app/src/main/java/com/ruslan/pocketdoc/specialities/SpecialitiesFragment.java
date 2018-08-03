@@ -33,11 +33,10 @@ import java.util.Objects;
  */
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
-    private static final String TAG = SpecialitiesFragment.class.getSimpleName();
-    private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT =
-            LoadingErrorDialogFragment.class.getSimpleName();
+    private static final String TAG = "SpecialitiesFragment";
+    private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT = "LoadingErrorDialogFragment";
 
-    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 111;
+    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 1;
 
     private SpecialitiesContract.Presenter mPresenter;
 
@@ -172,12 +171,14 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         int[] swipeRefreshColors = {
                 getResources().getColor(R.color.colorAccent),
                 getResources().getColor(R.color.colorPrimary),
-                getResources().getColor(R.color.colorPrimaryDark)};
+                getResources().getColor(R.color.colorPrimaryDark)
+        };
         mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
         mSwipeRefreshLayout
                 .setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

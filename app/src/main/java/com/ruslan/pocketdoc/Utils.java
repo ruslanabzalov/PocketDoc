@@ -1,5 +1,7 @@
 package com.ruslan.pocketdoc;
 
+import android.support.annotation.NonNull;
+
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.util.List;
@@ -14,37 +16,38 @@ public class Utils {
      * @param specialities Список специальностей.
      * @return Строка специальности(-ей).
      */
-    public static String getCorrectSpecialitiesString(List<Speciality> specialities) {
+    public static String getCorrectSpecialitiesString(@NonNull List<Speciality> specialities) {
         if (specialities.size() == 0) {
             return "Специальность не указана";
-        }
-        if (specialities.size() == 1) {
+        } else if (specialities.size() == 1) {
             return specialities.get(0).getName();
         } else {
-            StringBuilder stringBuilder = new StringBuilder(specialities.get(0).getName());
+            String speciality = specialities.get(0).getName();
+            StringBuilder specialitiesString = new StringBuilder(speciality);
             for (int i = 1; i < specialities.size(); i++) {
-                stringBuilder.append(", ").append(specialities.get(i).getName().toLowerCase());
+                speciality = specialities.get(i).getName().toLowerCase();
+                specialitiesString.append(", ").append(speciality);
             }
-            return stringBuilder.toString();
+            return specialitiesString.toString();
         }
     }
 
     /**
      * Метод формирования корректной строки стажа работы врача.
-     * @param age Стаж работы.
+     * @param experience Стаж работы.
      * @return Строка стажа работы.
      */
-    public static String getCorrectExperienceString(int age) {
-        if (age == 0) {
+    public static String getCorrectExperienceString(int experience) {
+        if (experience == 0) {
             return "Нет опыта";
-        } else if (age > 10 && age < 20) {
-            return age + " лет";
-        } else if (age % 10 == 1) {
-            return age + " год";
-        } else if (age % 10 > 1 && age % 10 < 5) {
-            return age + " года";
+        } else if (experience > 10 && experience < 20) {
+            return experience + " лет";
+        } else if (experience % 10 == 1) {
+            return experience + " год";
+        } else if (experience % 10 > 1 && experience % 10 < 5) {
+            return experience + " года";
         } else {
-            return age + " лет";
+            return experience + " лет";
         }
     }
 

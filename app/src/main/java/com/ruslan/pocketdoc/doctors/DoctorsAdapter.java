@@ -8,14 +8,23 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
 import com.ruslan.pocketdoc.Utils;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
+import javax.inject.Inject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+/**
+ * Класс, описывающий пользовательский RecyclerView Adapter.
+ */
+public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
     private RecyclerItemOnClickListener<Doctor> mListener;
 
@@ -50,8 +59,15 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
         notifyDataSetChanged();
     }
 
-    static class DoctorViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * Вложенный класс, описывающий пользовательский RecyclerView ViewHolder.
+     */
+    public static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
+        @Inject
+        Picasso mPicasso;
+
+        private CircleImageView mDoctorPhotoCircleImageView;
         private TextView mDoctorSpecialityTextView;
         private TextView mDoctorNameTextView;
         private RatingBar mDoctorRating;
@@ -62,16 +78,18 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
 
         DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
             super(view);
+            App.getComponent().inject(this);
+            initViews();
             itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
-            mDoctorSpecialityTextView = itemView.findViewById(R.id.doctor_speciality_text_view);
-            mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
-            mDoctorRating = itemView.findViewById(R.id.doctor_rating_bar);
-            mDoctorExperienceTextView = itemView.findViewById(R.id.doctor_experience_text_view);
-            mDoctorPriceTextView = itemView.findViewById(R.id.doctor_price_text_view);
         }
 
+        /**
+         * Метод привязки данных врача к ViewHolder.
+         * @param doctor Врач.
+         */
         void bind(Doctor doctor) {
             mDoctor = doctor;
+            mPicasso.load(mDoctor.getPhotoUrl()).into(mDoctorPhotoCircleImageView);
             mDoctorSpecialityTextView
                     .setText(Utils.getCorrectSpecialitiesString(mDoctor.getSpecialities()));
             mDoctorNameTextView.setText(mDoctor.getName());
@@ -79,6 +97,18 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolde
             mDoctorExperienceTextView
                     .setText(Utils.getCorrectExperienceString(mDoctor.getExperience()));
             mDoctorPriceTextView.setText(Utils.getCorrectPriceString(mDoctor.getPrice()));
+        }
+
+        /**
+         * Метод инициализации элементов View.
+         */
+        private void initViews() {
+            mDoctorPhotoCircleImageView = itemView.findViewById(R.id.doctor_photo_circle_image_view);
+            mDoctorSpecialityTextView = itemView.findViewById(R.id.doctor_speciality_text_view);
+            mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
+            mDoctorRating = itemView.findViewById(R.id.doctor_rating_bar);
+            mDoctorExperienceTextView = itemView.findViewById(R.id.doctor_experience_text_view);
+            mDoctorPriceTextView = itemView.findViewById(R.id.doctor_price_text_view);
         }
     }
 }

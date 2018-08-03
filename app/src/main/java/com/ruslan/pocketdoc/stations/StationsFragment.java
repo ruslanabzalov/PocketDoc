@@ -27,6 +27,9 @@ import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Класс, описывающий фрагмент, содержащий список станций метро.
+ */
 public class StationsFragment extends Fragment implements StationsContract.View {
 
     private static final String TAG = "StationsFragment";
@@ -34,7 +37,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     private static final String ARG_SPECIALITY_ID = "speciality_id";
 
-    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 222;
+    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 2;
 
     private StationsContract.Presenter mPresenter;
 
@@ -78,7 +81,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     public void onResume() {
         super.onResume();
         if (mRecyclerView.getAdapter() == null) {
-            // Выполняется только при создании или пересоздании фрагмента.
             mPresenter.loadStations();
         }
     }
@@ -119,16 +121,13 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showStations(List<Station> stations) {
-        // Выполняется только при создании или пересоздании фрагмента.
         if (mAdapter == null) {
             mAdapter = new StationsAdapter(stations, mPresenter::chooseStation);
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            // Выполняется при возврате из обратного стека.
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
             } else {
-                // Выполняется при обновлении списка.
                 if (stations.size() != mRecyclerView.getAdapter().getItemCount()) {
                     mAdapter.updateDataSet(stations);
                     mRecyclerView.setAdapter(mAdapter);
@@ -140,8 +139,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     @Override
     public void showErrorDialog(Throwable throwable) {
         Log.e(TAG, Log.getStackTraceString(throwable));
-        // Если LoadingErrorDialogFragment уже отображался перед сменой ориентации устройства,
-        // то этот же DialogFragment не пересоздаётся заново, а продолжает отображаться.
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
             loadingErrorDialogFragment
@@ -174,13 +171,23 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         datePickerDialogFragment.show(mFragmentManager, null);
     }
 
+    /**
+     * Метод инициализации элементов View.
+     * @param view Корневой элемент View.
+     */
     private void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.stations_refresh);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        int[] swipeRefreshColors = {
+                getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorPrimaryDark)
+        };
+        mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
         mSwipeRefreshLayout
                 .setOnRefreshListener(() -> mPresenter.updateStations(false));
         mRecyclerView = view.findViewById(R.id.stations_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mProgressBar = view.findViewById(R.id.stations_progress_bar);
     }
 }

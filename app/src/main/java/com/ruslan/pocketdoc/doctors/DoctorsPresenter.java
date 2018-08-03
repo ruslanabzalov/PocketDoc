@@ -1,5 +1,7 @@
 package com.ruslan.pocketdoc.doctors;
 
+import android.util.Log;
+
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
@@ -12,7 +14,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * Класс, описывающий Presenter для взаимодействия с фрагментом DoctorsPresenter.
+ */
 public class DoctorsPresenter implements DoctorsContract.Presenter {
+
+    private static final String TAG = "DoctorsPresenter";
 
     private DoctorsContract.View mView;
 
@@ -33,7 +40,6 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
-        // Может быть null при смене конфигурации в следующем фрагменте.
         if (mDisposable != null) {
             mDisposable.dispose();
         }
@@ -41,32 +47,33 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
 
     @Override
     public void loadDoctors(String specialityId, String stationId) {
+        dispose(mDisposable);
         mView.showProgressBar();
         mDisposable = mRepository.getDoctors(specialityId, stationId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(subscription ->
+                        Log.i(TAG, "getDoctors(false): onSubscribe()"))
+                .doOnNext(doctors -> {
+                    Log.i(TAG, "getDoctors(false): onNext()");
+                    Log.i(TAG, "Doctors loaded: " + doctors.size());
+                })
+                .doOnError(throwable -> {
+                    Log.i(TAG, "getDoctors(false): onError()");
+                    Log.i(TAG, "Error message: " + throwable.getMessage());
+                })
+                .doOnComplete(() -> Log.i(TAG, "getDoctors(false): onComplete"))
                 .subscribe(this::showList, this::showError);
     }
 
     @Override
     public void updateDoctors(String specialityId, String stationId, boolean isMenuRefreshing) {
+        dispose(mDisposable);
         if (isMenuRefreshing) {
             mView.showProgressBar();
-            mDisposable = mRepository.getDoctors(specialityId, stationId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            doctors -> showUpdatedList(doctors, true),
-                            throwable -> showRefreshingError(throwable, true)
-                    );
+            forceUpdateDoctors(specialityId, stationId, true);
         } else {
-            mDisposable = mRepository.getDoctors(specialityId, stationId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            doctors -> showUpdatedList(doctors, false),
-                            throwable -> showRefreshingError(throwable, false)
-                    );
+            forceUpdateDoctors(specialityId, stationId, false);
         }
     }
 
@@ -75,6 +82,45 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         mView.showDoctorInfoUi(doctor.getId());
     }
 
+    /**
+     * Метод освобождения ресурсов Disposable.
+     * @param disposable Объект, содержащий освобождаемые ресурсы.
+     */
+    private void dispose(Disposable disposable) {
+        if (disposable != null) {
+            disposable.dispose();
+        }
+    }
+
+    /**
+     * Метод принудительного обновления списка врачей.
+     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+     */
+    private void forceUpdateDoctors(String specialityId, String stationId,
+                                    boolean isMenuRefreshing) {
+        mDisposable = mRepository.getDoctors(specialityId, stationId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(subscription ->
+                        Log.i(TAG, "getDoctors(true): onSubscribe()"))
+                .doOnNext(doctors -> {
+                    Log.i(TAG, "getDoctors(true): onNext()");
+                    Log.i(TAG, "Doctors loaded: " + doctors.size());
+                })
+                .doOnError(throwable -> {
+                    Log.i(TAG, "getDoctors(true): onError()");
+                    Log.i(TAG, "Error message: " + throwable.getMessage());
+                })
+                .doOnComplete(() -> Log.i(TAG, "getDoctors(true): onComplete"))
+                .subscribe(
+                        doctors -> showUpdatedList(doctors, isMenuRefreshing),
+                        throwable -> showRefreshingError(throwable, isMenuRefreshing));
+    }
+
+    /**
+     * Метод отображения полученного списка врачей.
+     * @param doctors Список врачей.
+     */
     private void showList(List<Doctor> doctors) {
         if (mView != null) {
             mView.showDoctors(doctors);
@@ -82,6 +128,10 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         }
     }
 
+    /**
+     * Метод отображения сообщения об ошибке при неудачном получении списка врачей.
+     * @param throwable Выброшенное исключение.
+     */
     private void showError(Throwable throwable) {
         if (mView != null) {
             mView.showErrorDialog(throwable);
@@ -89,6 +139,11 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         }
     }
 
+    /**
+     * Метод отображения обновлённого списка врачей.
+     * @param doctors Список врачей.
+     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+     */
     private void showUpdatedList(List<Doctor> doctors, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showDoctors(doctors);
@@ -100,6 +155,11 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         }
     }
 
+    /**
+     * Метод отображения сообщения об ошибке при неудачном обновлении списка врачей.
+     * @param throwable Выброшенное исключение.
+     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+     */
     private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showErrorDialog(throwable);

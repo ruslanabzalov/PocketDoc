@@ -30,6 +30,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Класс, описывающий фрагмент, содержащий список врачей.
+ */
 public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private static final String TAG = "DoctorsFragment";
@@ -40,8 +43,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT = "LoadingErrorDialogFragment";
 
-    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 333;
-    private static final int NO_DOCTORS_DIALOG_REQUEST_CODE = 444;
+    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 3;
+    private static final int NO_DOCTORS_DIALOG_REQUEST_CODE = 4;
 
     private DoctorsContract.Presenter mPresenter;
 
@@ -79,15 +82,11 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.doctors_title);
         View view = inflater.inflate(R.layout.fragment_doctors, container, false);
-        mSwipeRefreshLayout = view.findViewById(R.id.doctors_refresh);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateDoctors(mSpecialityId, mStationId, false));
-        mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mProgressBar = view.findViewById(R.id.doctors_progress_bar);
+        initViews(view);
         return view;
     }
 
@@ -95,7 +94,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     public void onResume() {
         super.onResume();
         if (mRecyclerView.getAdapter() == null) {
-            // Выполняется только при создании или пересоздании фрагмента.
             mPresenter.loadDoctors(mSpecialityId, mStationId);
         }
     }
@@ -143,22 +141,20 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     @Override
     public void showDoctors(List<Doctor> doctors) {
-        // Выполняется только при создании или пересоздании фрагмента.
         if (mAdapter == null) {
             if (doctors.size() == 0) {
                 DialogFragment noDoctorsDialogFragment = new NoDoctorsDialogFragment();
-                noDoctorsDialogFragment.setTargetFragment(this, NO_DOCTORS_DIALOG_REQUEST_CODE);
+                noDoctorsDialogFragment
+                        .setTargetFragment(this, NO_DOCTORS_DIALOG_REQUEST_CODE);
                 noDoctorsDialogFragment.show(mFragmentManager, null);
             } else {
                 mAdapter = new DoctorsAdapter(doctors, mPresenter::chooseDoctor);
                 mRecyclerView.setAdapter(mAdapter);
             }
         } else {
-            // Выполняется при возврате из обратного стека.
             if (mRecyclerView.getAdapter() == null) {
                 mRecyclerView.setAdapter(mAdapter);
             } else {
-                // Выполняется при обновлении списка.
                 if (doctors.size() != mRecyclerView.getAdapter().getItemCount()) {
                     mAdapter.updateDataSet(doctors);
                     mRecyclerView.setAdapter(mAdapter);
@@ -170,8 +166,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void showErrorDialog(Throwable throwable) {
         Log.d(TAG, throwable.getMessage());
-        // Если LoadingErrorDialogFragment уже отображался перед сменой ориентации устройства,
-        // то этот же DialogFragment не пересоздаётся заново, а продолжает отображаться.
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
             loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
@@ -199,9 +193,30 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void showDoctorInfoUi(int doctorId) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, DoctorFragment.newInstance(doctorId, mDate))
+                .replace(R.id.main_activity_fragment_container,
+                        DoctorFragment.newInstance(doctorId, mDate))
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    /**
+     * Метод инициализации элементов View.
+     * @param view Корневой элемент View.
+     */
+    private void initViews(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.doctors_refresh);
+        int[] swipeRefreshColors = {
+                getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorPrimaryDark)
+        };
+        mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
+        mSwipeRefreshLayout.setOnRefreshListener(
+                () -> mPresenter.updateDoctors(mSpecialityId, mStationId, false));
+        mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mProgressBar = view.findViewById(R.id.doctors_progress_bar);
     }
 }

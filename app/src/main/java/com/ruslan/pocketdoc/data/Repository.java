@@ -6,6 +6,7 @@ import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.data.stations.Station;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +40,7 @@ public class Repository {
             return getAndSaveRemoteSpecialities();
         } else {
             return mLocalDataSource.getSpecialities()
-                    // Почему-то выполняется 2 раза: сначала первое, потом второе.
+                    // TODO: Работает некорректно. Переделать!
                     .switchMap(specialities -> (specialities.size() == 0)
                             ? getAndSaveRemoteSpecialities()
                             : Flowable.just(specialities));
@@ -66,7 +67,7 @@ public class Repository {
             return getAndSaveRemoteStations();
         } else {
             return mLocalDataSource.getStations()
-                    // Почему-то выполняется 2 раза: сначала первое, потом второе.
+                    // TODO: Работает некорректно. Переделать!
                     .switchMap(stations -> (stations.size() == 0)
                             ? getAndSaveRemoteStations()
                             : Flowable.just(stations));
@@ -114,13 +115,17 @@ public class Repository {
      * @return Список клиник.
      */
     public Flowable<List<Clinic>> getClinicsFromApi() {
-        return Flowable.concat(mRemoteDataSource.getClinics(0, 500),
-                mRemoteDataSource.getClinics(500, 500))
+        return Flowable.zip(mRemoteDataSource.getClinics(0, 500),
+                mRemoteDataSource.getClinics(500, 500), (firstClinics, secondClinics) -> {
+            List<Clinic> finalClinics = new ArrayList<>(firstClinics);
+            finalClinics.addAll(secondClinics);
+            return finalClinics;
+        })
                 .doOnNext(mLocalDataSource::saveClinics);
     }
 
     /**
-     * Метод получения списка клиник с из БД.
+     * Метод получения списка клиник из БД.
      * @return Список клиник.
      */
     public Flowable<List<Clinic>> getClinicsFromDb() {

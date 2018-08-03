@@ -18,6 +18,9 @@ import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
+/**
+ * Класс, описывающий пользовательский RecyclerView Adapter.
+ */
 class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHolder> {
 
     private RecyclerItemOnClickListener<Station> mListener;
@@ -53,6 +56,9 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
         notifyDataSetChanged();
     }
 
+    /**
+     * Вложенный класс, описывающий пользовательский RecyclerView ViewHolder.
+     */
     static class StationViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mStationNameTextView;
@@ -62,11 +68,15 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
 
         StationViewHolder(View view, RecyclerItemOnClickListener<Station> listener) {
             super(view);
-            itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
             mStationNameTextView = itemView.findViewById(R.id.station_name_text_view);
             mLineIndicator = itemView.findViewById(R.id.metro_indicator);
+            itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
         }
 
+        /**
+         * Метод привязки данный станции метро к ViewHolder.
+         * @param station Станция метро.
+         */
         void bind(Station station) {
             mStation = station;
             String stationName = mStation.getName();

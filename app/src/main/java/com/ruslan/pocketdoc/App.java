@@ -10,7 +10,7 @@ import com.ruslan.pocketdoc.di.DocDocServiceModule;
 import com.ruslan.pocketdoc.di.UtilsModule;
 
 /**
- * Основной класс приложения.
+ * Базовый класс приложения.
  */
 public class App extends Application {
 
