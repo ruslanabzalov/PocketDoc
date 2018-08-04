@@ -34,6 +34,9 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+/**
+ * Класс, описывающий фрагмент, содержащий подробную информацию о враче.
+ */
 public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private static final String TAG = "DoctorFragment";
@@ -41,11 +44,11 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private static final String ARG_DOCTOR = "doctor";
     private static final String ARG_DATE = "date";
 
-    private static final int CREATE_RECORD_DIALOG_REQUEST_CODE = 555;
-    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 777;
-
     private static final String TAG_CREATE_RECORD_DIALOG = "CreateRecordDialogFragment";
     private static final String TAG_LOADING_ERROR_DIALOG = "LoadingErrorDialogFragment";
+
+    private static final int CREATE_RECORD_DIALOG_REQUEST_CODE = 5;
+    private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 7;
 
     private DoctorContract.Presenter mPresenter;
 
@@ -86,7 +89,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mDoctorId = Objects.requireNonNull(getArguments()).getInt(ARG_DOCTOR);
         mPreferredDate = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
-        mPresenter = new DoctorPresenter(); // TODO: Inject.
+        mPresenter = new DoctorPresenter();
         mPresenter.attachView(this);
     }
 
@@ -200,6 +203,10 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
+    /**
+     * Метод инициализации элементов View.
+     * @param rootView Корневой элемент View.
+     */
     private void initViews(View rootView) {
         mNestedScrollView = rootView.findViewById(R.id.doctor_root_view_group);
         mSwipeRefreshLayout = rootView.findViewById(R.id.doctor_swipe_refresh);
@@ -214,7 +221,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
         mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
         mCreateRecordButton = rootView.findViewById(R.id.create_record);
-        mCreateRecordButton
-                .setOnClickListener((View view) -> mPresenter.onCreateRecordButtonClick());
+        mCreateRecordButton.setOnClickListener((View view) -> showNewRecordUi());
     }
 }

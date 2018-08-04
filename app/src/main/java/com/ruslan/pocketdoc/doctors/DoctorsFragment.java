@@ -168,7 +168,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         Log.d(TAG, throwable.getMessage());
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment
+                    .setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
             loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG_FRAGMENT);
         }
     }

@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Класс, описывающий Presenter для взаимодействия с фрагментом DoctorsPresenter.
+ * Класс, описывающий Presenter для взаимодействия с фрагментом DoctorsFragment.
  */
 public class DoctorsPresenter implements DoctorsContract.Presenter {
 

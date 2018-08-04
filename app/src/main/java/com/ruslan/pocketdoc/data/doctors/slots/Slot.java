@@ -1,20 +1,21 @@
 package com.ruslan.pocketdoc.data.doctors.slots;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Класс, описывающий расписание приёма.
  */
 public class Slot {
 
-    @SerializedName("Id")
     private String mId;
 
-    @SerializedName("StartTime")
     private String mStartTime;
 
-    @SerializedName("FinishTime")
     private String mFinishTime;
+
+    public Slot(String id, String startTime, String finishTime) {
+        mId = id;
+        mStartTime = startTime;
+        mFinishTime = finishTime;
+    }
 
     public String getId() {
         return mId;

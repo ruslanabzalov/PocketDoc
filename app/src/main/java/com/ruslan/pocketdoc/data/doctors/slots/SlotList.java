@@ -1,16 +1,23 @@
 package com.ruslan.pocketdoc.data.doctors.slots;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**
- * Класс для сериализации JSON-массива расписаний приёма.
+ * Класс для десериализации JSON-массива расписаний приёма.
  */
 public class SlotList {
 
-    @SerializedName("SlotList")
+    private String clinicId;
+
     private List<Slot> mSlots;
+
+    public String getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
 
     public List<Slot> getSlots() {
         return mSlots;

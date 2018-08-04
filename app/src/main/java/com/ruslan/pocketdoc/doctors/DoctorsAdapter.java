@@ -103,7 +103,8 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
          * Метод инициализации элементов View.
          */
         private void initViews() {
-            mDoctorPhotoCircleImageView = itemView.findViewById(R.id.doctor_photo_circle_image_view);
+            mDoctorPhotoCircleImageView =
+                    itemView.findViewById(R.id.doctor_photo_circle_image_view);
             mDoctorSpecialityTextView = itemView.findViewById(R.id.doctor_speciality_text_view);
             mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
             mDoctorRating = itemView.findViewById(R.id.doctor_rating_bar);

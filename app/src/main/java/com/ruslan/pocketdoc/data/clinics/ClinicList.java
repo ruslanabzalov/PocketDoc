@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Класс для сериализации JSON-массива клиник.
+ * Класс для десериализации JSON-массива клиник.
  */
 public class ClinicList {
 
