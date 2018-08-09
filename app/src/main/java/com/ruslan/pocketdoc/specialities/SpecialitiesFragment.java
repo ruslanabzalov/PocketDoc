@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,16 +21,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
+import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.stations.StationsFragment;
 
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Класс, описывающий фрагмент, содержащий список специальностей.
+ * Класс, описывающий fragment, содержащий список специальностей.
  */
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
@@ -57,8 +58,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.specialities_title);
         View view = inflater.inflate(R.layout.fragment_specialities, container, false);
         initViews(view);
@@ -129,8 +129,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
         Log.d(TAG, throwable.getMessage(), throwable);
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-            loadingErrorDialogFragment
-                    .setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
             loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG_FRAGMENT);
         }
     }
@@ -155,16 +154,15 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public void showStationsUi(String specialityId) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container,
-                        StationsFragment.newInstance(specialityId))
+                .replace(R.id.main_activity_fragment_container, StationsFragment.newInstance(specialityId))
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
     }
 
     /**
-     * Метод инициализации элементов View.
-     * @param view Корневой элемент View.
+     * Метод инициализации элементов типа <code>View</code>.
+     * @param view Корневой элемент типа <code>View</code>.
      */
     private void initViews(@NonNull View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
@@ -174,11 +172,13 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 getResources().getColor(R.color.colorPrimaryDark)
         };
         mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
-        mSwipeRefreshLayout
-                .setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateSpecialities(false));
         mRecyclerView = view.findViewById(R.id.specialities_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(mRecyclerView.getContext(), linearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mProgressBar = view.findViewById(R.id.specialities_progress_bar);
     }
 }

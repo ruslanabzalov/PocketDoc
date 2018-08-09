@@ -195,7 +195,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     public void showDoctorInfoUi(int doctorId) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container,
-                        DoctorFragment.newInstance(doctorId, mDate))
+                        DoctorFragment.newInstance(doctorId, mDate, mStationId))
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();

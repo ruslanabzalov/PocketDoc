@@ -1,7 +1,5 @@
 package com.ruslan.pocketdoc;
 
-import android.support.annotation.NonNull;
-
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.util.List;
@@ -16,7 +14,7 @@ public class Utils {
      * @param specialities Список специальностей.
      * @return Строка специальности(-ей).
      */
-    public static String getCorrectSpecialitiesString(@NonNull List<Speciality> specialities) {
+    public static String getCorrectSpecialitiesString(List<Speciality> specialities) {
         if (specialities.size() == 0) {
             return "Специальность не указана";
         } else if (specialities.size() == 1) {
@@ -54,7 +52,7 @@ public class Utils {
     /**
      * Метод формирования корректной строки стоимости посещения врача.
      * @param price Стоимость посещения.
-     * @return Строка стоимости.
+     * @return Строка стоимости посещения.
      */
     public static String getCorrectPriceString(int price) {
         return (price == 0) ? "Стоимость не указана" : price + "\u20bd";

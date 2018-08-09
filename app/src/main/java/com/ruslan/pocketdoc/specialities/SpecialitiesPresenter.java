@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Класс, описывающий Presenter для взаимодействия с фрагментом SpecialitiesFragment.
+ * Класс, описывающий Presenter для взаимодействия с <code>SpecialitiesFragment</code>.
  */
 public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
@@ -50,17 +50,16 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         mDisposable = mRepository.getSpecialities(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(subscription ->
-                        Log.i(TAG, "getSpecialities(false): onSubscribe()"))
+                .doOnSubscribe(subscription -> Log.i(TAG, "getSpecialities: onSubscribe()"))
                 .doOnNext(specialities -> {
-                    Log.i(TAG, "getSpecialities(false): onNext()");
+                    Log.i(TAG, "getSpecialities: onNext()");
                     Log.i(TAG, "Specialities loaded: " + specialities.size());
                 })
                 .doOnError(throwable -> {
-                    Log.i(TAG, "getSpecialities(false): onError()");
+                    Log.i(TAG, "getSpecialities: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
                 })
-                .doOnComplete(() -> Log.i(TAG, "getSpecialities(false): onComplete"))
+                .doOnComplete(() -> Log.i(TAG, "getSpecialities: onComplete"))
                 .subscribe(this::showList, this::showError);
     }
 
@@ -81,8 +80,8 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     }
 
     /**
-     * Метод освобождения ресурсов Disposable.
-     * @param disposable Объект, содержащий освобождаемые ресурсы.
+     * Метод для освобождения ресурсов.
+     * @param disposable Объект типа <code>Disposable</code>, содержащий освобождаемые ресурсы.
      */
     private void dispose(Disposable disposable) {
         if (disposable != null) {
@@ -92,26 +91,26 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     /**
      * Метод принудительного обновления списка специальностей.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+     * @param isMenuRefreshing Значение типа <code>boolean</code>, указывающее на способ обновления.
      */
     private void forceUpdateSpecialities(boolean isMenuRefreshing) {
         mDisposable = mRepository.getSpecialities(true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(subscription ->
-                        Log.i(TAG, "getSpecialities(true): onSubscribe()"))
+                .doOnSubscribe(subscription -> Log.i(TAG, "getSpecialities: onSubscribe()"))
                 .doOnNext(specialities -> {
-                    Log.i(TAG, "getSpecialities(true): onNext()");
+                    Log.i(TAG, "getSpecialities: onNext()");
                     Log.i(TAG, "Specialities loaded: " + specialities.size());
                 })
                 .doOnError(throwable -> {
-                    Log.i(TAG, "getSpecialities(true): onError()");
+                    Log.i(TAG, "getSpecialities: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
                 })
-                .doOnComplete(() -> Log.i(TAG, "getSpecialities(true): onComplete"))
+                .doOnComplete(() -> Log.i(TAG, "getSpecialities: onComplete"))
                 .subscribe(
                         specialities -> showUpdatedList(specialities, isMenuRefreshing),
-                        throwable -> showRefreshingError(throwable, isMenuRefreshing));
+                        throwable -> showRefreshingError(throwable, isMenuRefreshing)
+                );
     }
 
     /**
@@ -127,7 +126,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     /**
      * Метод отображения сообщения об ошибке при неудачном получении списка специальностей.
-     * @param throwable Выброшенное исключение.
+     * @param throwable Исключение, выбрашенное при неудачном получении списка специальностей.
      */
     private void showError(Throwable throwable) {
         if (mView != null) {
@@ -139,7 +138,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     /**
      * Метод отображения обновлённого списка специальностей.
      * @param specialities Список специальностей.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+     * @param isMenuRefreshing Значение типа <code>boolean</code>, указывающее на способ обновления.
      */
     private void showUpdatedList(List<Speciality> specialities, boolean isMenuRefreshing) {
         if (mView != null) {
@@ -154,8 +153,8 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     /**
      * Метод отображения сообщения об ошибке при неудачном обновлении списка специальностей.
-     * @param throwable Выброшенное исключение.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+     * @param throwable Исключение, выбрашенное при неудачном обновлении списка специальностей.
+     * @param isMenuRefreshing Значение типа <code>boolean</code>, указывающее на способ обновления.
      */
     private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
         if (mView != null) {

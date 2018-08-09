@@ -1,6 +1,7 @@
 package com.ruslan.pocketdoc.data.doctors;
 
 import com.google.gson.annotations.SerializedName;
+import com.ruslan.pocketdoc.data.clinics.ClinicsInfo;
 import com.ruslan.pocketdoc.data.doctors.slots.SlotList;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 
@@ -43,6 +44,9 @@ public class Doctor {
 
     @SerializedName("Slots")
     private SlotList mSlotList;
+
+    @SerializedName("ClinicsInfo")
+    private List<ClinicsInfo> mClinicsInfos;
 
     public int getId() {
         return mId;
@@ -130,5 +134,13 @@ public class Doctor {
 
     public void setSlotList(SlotList slotList) {
         mSlotList = slotList;
+    }
+
+    public List<ClinicsInfo> getClinicsInfos() {
+        return mClinicsInfos;
+    }
+
+    public void setClinicsInfos(List<ClinicsInfo> clinicsInfos) {
+        mClinicsInfos = clinicsInfos;
     }
 }

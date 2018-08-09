@@ -17,8 +17,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules =
-        {ContextModule.class, DocDocServiceModule.class, DataSourceModule.class, UtilsModule.class})
+@Component(modules = {ContextModule.class, DocDocServiceModule.class, DataSourceModule.class, UtilsModule.class})
 public interface AppComponent {
 
     void inject(RemoteDataSource remoteDataSource);
@@ -31,6 +30,8 @@ public interface AppComponent {
 
     void inject(ClinicsPresenter presenter);
 
+    void inject(ClinicsService clinicsService);
+
     void inject(StationsPresenter presenter);
 
     void inject(DoctorsPresenter presenter);
@@ -40,6 +41,4 @@ public interface AppComponent {
     void inject(DoctorFragment fragment);
 
     void inject(DoctorPresenter presenter);
-
-    void inject(ClinicsService clinicsService);
 }

@@ -11,23 +11,24 @@ public interface BaseContract {
     interface BaseView {
 
         /**
-         * Метод отображения DialogFragment с информацией об ошибке.
+         * Метод отображения экземпляра <code>DialogFragment</code>
+         * с информацией об ошибке получения данных.
          * @param throwable Исключение, полученное в результате ошибки.
          */
         void showErrorDialog(Throwable throwable);
 
         /**
-         * Метод отображения ProgressBar.
+         * Метод отображения <code>ProgressBar</code>.
          */
         void showProgressBar();
 
         /**
-         * Метод сокрытия ProgressBar.
+         * Метод сокрытия <code>ProgressBar</code>.
          */
         void hideProgressBar();
 
         /**
-         * Метод сокрытия иконки загрузки SwipeRefreshLayout.
+         * Метод сокрытия иконки загрузки <code>SwipeRefreshLayout</code>.
          */
         void hideRefreshing();
     }

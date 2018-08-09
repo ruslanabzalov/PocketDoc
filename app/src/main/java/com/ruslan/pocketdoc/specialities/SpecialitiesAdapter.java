@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
+import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.util.List;
 
 /**
- * Класс, описывающий пользовательский RecycleView Adapter.
+ * Класс, описывающий пользовательский <code>RecyclerView.Adapter</code>.
  */
 class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.SpecialityHolder> {
 
@@ -22,8 +22,7 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
 
     private List<Speciality> mSpecialities;
 
-    SpecialitiesAdapter(List<Speciality> specialities,
-                        RecyclerItemOnClickListener<Speciality> listener) {
+    SpecialitiesAdapter(List<Speciality> specialities, RecyclerItemOnClickListener<Speciality> listener) {
         mSpecialities = specialities;
         mListener = listener;
     }
@@ -31,8 +30,8 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
     @NonNull
     @Override
     public SpecialityHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_speciality, parent, false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.list_item_speciality, parent, false);
         return new SpecialityHolder(view, mListener);
     }
 
@@ -53,7 +52,7 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
     }
 
     /**
-     * Вложенный класс, описывающий пользовательский RecyclerView ViewHolder.
+     * Вложенный класс, описывающий пользовательский <code>RecyclerView.ViewHolder</code>.
      */
     static class SpecialityHolder extends RecyclerView.ViewHolder {
 
@@ -68,7 +67,7 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
         }
 
         /**
-         * Метод привязки данных специальности к ViewHolder.
+         * Метод привязки данных специальности к экземпляру {@link SpecialityHolder}.
          * @param speciality Специальность.
          */
         void bind(Speciality speciality) {

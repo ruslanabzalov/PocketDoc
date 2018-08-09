@@ -129,10 +129,10 @@ public class DoctorPresenter implements DoctorContract.Presenter {
     private void showUpdatedDoctorInfo(Doctor doctor, boolean isMenuRefreshing) {
         if (mView != null) {
             if (isMenuRefreshing) {
-                mView.hideProgressBar();
             } else {
                 mView.hideRefreshing();
             }
+            mView.hideProgressBar();
             mView.showDoctorInfo(doctor);
         }
     }

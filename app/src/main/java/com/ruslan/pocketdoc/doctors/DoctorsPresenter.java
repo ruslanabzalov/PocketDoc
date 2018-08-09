@@ -53,16 +53,16 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscription ->
-                        Log.i(TAG, "getDoctors(false): onSubscribe()"))
+                        Log.i(TAG, "getDoctors: onSubscribe()"))
                 .doOnNext(doctors -> {
-                    Log.i(TAG, "getDoctors(false): onNext()");
+                    Log.i(TAG, "getDoctors: onNext()");
                     Log.i(TAG, "Doctors loaded: " + doctors.size());
                 })
                 .doOnError(throwable -> {
-                    Log.i(TAG, "getDoctors(false): onError()");
+                    Log.i(TAG, "getDoctors: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
                 })
-                .doOnComplete(() -> Log.i(TAG, "getDoctors(false): onComplete"))
+                .doOnComplete(() -> Log.i(TAG, "getDoctors: onComplete"))
                 .subscribe(this::showList, this::showError);
     }
 
@@ -102,16 +102,16 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscription ->
-                        Log.i(TAG, "getDoctors(true): onSubscribe()"))
+                        Log.i(TAG, "getDoctors: onSubscribe()"))
                 .doOnNext(doctors -> {
-                    Log.i(TAG, "getDoctors(true): onNext()");
+                    Log.i(TAG, "getDoctors: onNext()");
                     Log.i(TAG, "Doctors loaded: " + doctors.size());
                 })
                 .doOnError(throwable -> {
-                    Log.i(TAG, "getDoctors(true): onError()");
+                    Log.i(TAG, "getDoctors: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
                 })
-                .doOnComplete(() -> Log.i(TAG, "getDoctors(true): onComplete"))
+                .doOnComplete(() -> Log.i(TAG, "getDoctors: onComplete"))
                 .subscribe(
                         doctors -> showUpdatedList(doctors, isMenuRefreshing),
                         throwable -> showRefreshingError(throwable, isMenuRefreshing));

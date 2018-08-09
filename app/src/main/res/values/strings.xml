@@ -3,6 +3,7 @@
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
     <string name="clinics_service_description">Служба, отвечающая за загрузку клиник</string>
+    <string name="specialities_service_description">Служба, отвечающая за обновления специальностей</string>
 
     <!--activity_main, fragments & tabs titles-->
     <string name="specialities_title">Список специальностей</string>
@@ -22,9 +23,9 @@
     <string name="speciality_name_preview">Специальность</string>
 
     <!--Menu items (fragment_map)-->
-    <string name="item_show_clinics">Только клиники</string>
-    <string name="item_show_diagnostics">Только диагностические центры</string>
-    <string name="item_refresh_clinics">Обновить список клиник</string>
+    <string name="item_refresh_clinics">Обновить список мед. учреждений</string>
+    <string name="item_show_only_clinics">Только клиники</string>
+    <string name="item_show_only_diagnostics">Только диагн. центры</string>
 
     <!--Menu item (fragment_stations)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
@@ -40,8 +41,7 @@
     <string name="date_picker_dialog_fragment_title">Желаемая дата посещения</string>
     <string name="date_picker_dialog_fragment_positive_button_text">Ок</string>
     <string name="date_picker_dialog_fragment_negative_button_text">Отмена</string>
-    <string name="date_picker_dialog_text_view">
-        Записаться на приём к врачу онлайн можно толькона ближайшие 2 недели!</string>
+    <string name="date_picker_dialog_text_view">Записаться на приём к врачу онлайн можно толькона ближайшие 2 недели!</string>
 
     <!--NoDoctorsDialogFragment-->
     <string name="no_doctors_dialog_message">
@@ -75,8 +75,7 @@
     <string name="create_record_button_text">Оформить заявку</string>
 
     <!--dialog_fragment_loading_error-->
-    <string name="loading_error_dialog_message">
-        Ошибка загрузки данных с сервера!\nВозможно, нет подключения к интернету.</string>
+    <string name="loading_error_dialog_message">Ошибка загрузки данных с сервера!\nВозможно, нет подключения к интернету.</string>
     <string name="loading_error_image_description">Ошибка загрузки данных</string>
 
     <!--Other-->

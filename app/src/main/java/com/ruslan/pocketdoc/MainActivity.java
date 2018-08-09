@@ -14,7 +14,7 @@ import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 import java.util.Objects;
 
 /**
- * Класс, описывающий основную Activity приложения.
+ * Класс, описывающий основную activity приложения.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Метод замены текущего фрагмента новым.
-     * @param fragment Новый фрагмент.
+     * @param fragment Новый экземпляр класса <code>Fragment</code>.
      */
     private void replaceFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()

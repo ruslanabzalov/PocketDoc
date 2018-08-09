@@ -20,16 +20,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.Utils;
+import com.ruslan.pocketdoc.data.clinics.ClinicsInfo;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -41,8 +45,9 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private static final String TAG = "DoctorFragment";
 
-    private static final String ARG_DOCTOR = "doctor";
+    private static final String ARG_DOCTOR_ID = "doctor_id";
     private static final String ARG_DATE = "date";
+    private static final String ARG_STATION_ID = "station_id";
 
     private static final String TAG_CREATE_RECORD_DIALOG = "CreateRecordDialogFragment";
     private static final String TAG_LOADING_ERROR_DIALOG = "LoadingErrorDialogFragment";
@@ -70,12 +75,15 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private int mDoctorId;
     private Date mPreferredDate;
+    private String mStationId;
+    private List<Integer> mClinicsNearSelectedStation = new ArrayList<>();
     private boolean isDoctorInfoDisplayed = false;
 
-    public static Fragment newInstance(int doctorId, Date date) {
+    public static Fragment newInstance(int doctorId, Date date, String stationId) {
         Bundle arguments = new Bundle();
-        arguments.putInt(ARG_DOCTOR, doctorId);
+        arguments.putInt(ARG_DOCTOR_ID, doctorId);
         arguments.putSerializable(ARG_DATE, date);
+        arguments.putString(ARG_STATION_ID, stationId);
         DoctorFragment doctorFragment = new DoctorFragment();
         doctorFragment.setArguments(arguments);
         return doctorFragment;
@@ -87,8 +95,9 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         setHasOptionsMenu(true);
         App.getComponent().inject(this);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-        mDoctorId = Objects.requireNonNull(getArguments()).getInt(ARG_DOCTOR);
-        mPreferredDate = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
+        mDoctorId = Objects.requireNonNull(getArguments()).getInt(ARG_DOCTOR_ID);
+        mPreferredDate = (Date) getArguments().getSerializable(ARG_DATE);
+        mStationId = getArguments().getString(ARG_STATION_ID);
         mPresenter = new DoctorPresenter();
         mPresenter.attachView(this);
     }
@@ -160,6 +169,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorPriceTextView.setText(Utils.getCorrectPriceString(doctor.getPrice()));
         mDoctorDescriptionTextView.setText(doctor.getDescription());
         isDoctorInfoDisplayed = true;
+        getClinicsNearCurrentStation(doctor);
     }
 
     @Override
@@ -207,10 +217,15 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
      * Метод инициализации элементов View.
      * @param rootView Корневой элемент View.
      */
-    private void initViews(View rootView) {
+    private void initViews(@NonNull View rootView) {
         mNestedScrollView = rootView.findViewById(R.id.doctor_root_view_group);
         mSwipeRefreshLayout = rootView.findViewById(R.id.doctor_swipe_refresh);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        int[] swipeRefreshColors = {
+                getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorPrimaryDark)
+        };
+        mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
         mSwipeRefreshLayout.setOnRefreshListener(
                 () -> mPresenter.updateDoctorInfo(mDoctorId, false));
         mDoctorProgressBar = rootView.findViewById(R.id.doctor_progress_bar);
@@ -222,5 +237,21 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
         mCreateRecordButton = rootView.findViewById(R.id.create_record);
         mCreateRecordButton.setOnClickListener((View view) -> showNewRecordUi());
+    }
+
+    /**
+     * Метод выбора клиник врача около выбранной станции метро.
+     * @param doctor Врач.
+     */
+    private void getClinicsNearCurrentStation(Doctor doctor) {
+        for (ClinicsInfo clinicsInfo : doctor.getClinicsInfos()) {
+            for (String stationId : clinicsInfo.getStations()) {
+                if (stationId.equals(mStationId)) {
+                    mClinicsNearSelectedStation.add(clinicsInfo.getClinicId());
+                }
+            }
+        }
+        Toast.makeText(getActivity(), mClinicsNearSelectedStation.size() + "",
+                Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_refresh_clinics"
+        android:title="@string/item_refresh_clinics"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/item_show_only_clinics"
+        android:title="@string/item_show_only_clinics"
+        android:checkable="true"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/item_show_only_diagnostics"
+        android:title="@string/item_show_only_diagnostics"
+        android:checkable="true"
+        app:showAsAction="never"/>
+
+</menu>

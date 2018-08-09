@@ -11,7 +11,7 @@ public class Slot {
 
     private String mFinishTime;
 
-    public Slot(String id, String startTime, String finishTime) {
+    Slot(String id, String startTime, String finishTime) {
         mId = id;
         mStartTime = startTime;
         mFinishTime = finishTime;

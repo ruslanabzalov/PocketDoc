@@ -21,13 +21,6 @@
             app:constraint_referenced_ids="speciality_name_label"
             app:barrierDirection="top"/>
 
-        <android.support.constraint.Barrier
-            android:id="@+id/speciality_bottom_horizontal_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="doctor_speciality_text_view"
-            app:barrierDirection="bottom"/>
-
         <TextView
             android:id="@+id/speciality_name_label"
             android:layout_width="0dp"
@@ -52,6 +45,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/speciality_name_label"
             tools:text="@string/doctor_speciality_preview" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/speciality_bottom_horizontal_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="doctor_speciality_text_view"
+            app:barrierDirection="bottom"/>
 
         <android.support.constraint.Guideline
             android:id="@+id/doctor_speciality_guideline"

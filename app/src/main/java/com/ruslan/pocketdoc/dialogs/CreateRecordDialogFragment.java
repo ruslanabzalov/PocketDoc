@@ -12,6 +12,9 @@ import com.ruslan.pocketdoc.R;
 
 import java.util.Objects;
 
+/**
+ * Класс, описывающий DialogFragment, позволяющий создавать заявку на запись к врачу.
+ */
 public class CreateRecordDialogFragment extends DialogFragment {
 
     @NonNull
@@ -22,8 +25,6 @@ public class CreateRecordDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dialog_fragment_create_record_title)
                 .setView(rootView);
-        Dialog createRecordDialog = builder.create();
-        createRecordDialog.setCanceledOnTouchOutside(false);
-        return createRecordDialog;
+        return builder.create();
     }
 }

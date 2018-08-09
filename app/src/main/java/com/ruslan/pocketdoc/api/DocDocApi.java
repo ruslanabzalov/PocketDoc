@@ -38,10 +38,11 @@ public interface DocDocApi {
      * @param stationId Идентификатор станции метро.
      * @return Список врачей.
      */
-    @GET("doctor/list/start/0/count/500/city/1/speciality/{specialityId}/stations/{stationId}" +
-            "/near/strict/order/-rating/deti/0/na-dom/0/withSlots/1/slotsDays/1")
-    Flowable<DoctorList> getDoctors(
-            @Path("specialityId") String specialityId, @Path("stationId") String stationId);
+    @GET(
+            "doctor/list/start/0/count/500/city/1/speciality/{specialityId}/stations/{stationId}/" +
+                    "near/strict/order/-rating/deti/0/na-dom/0/withSlots/1/slotsDays/14"
+    )
+    Flowable<DoctorList> getDoctors(@Path("specialityId") String specialityId, @Path("stationId") String stationId);
 
     /**
      * Метод получения информации о враче.

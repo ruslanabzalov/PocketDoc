@@ -6,12 +6,13 @@ import com.ruslan.pocketdoc.data.specialities.Speciality;
 import java.util.List;
 
 /**
- * Интерфейс, описывающий контракт между SpecialitiesContract.View и SpecialitiesContract.Presenter.
+ * Интерфейс, описывающий контракт между <code>SpecialitiesContract.View</code>
+ * и <code>SpecialitiesContract.Presenter</code>.
  */
-interface SpecialitiesContract {
+public interface SpecialitiesContract {
 
     /**
-     * Интерфейс, описывающий SpecialitiesContract.View.
+     * Интерфейс, описывающий контракт <code>SpecialitiesContract.View</code>.
      */
     interface View extends BaseContract.BaseView {
 
@@ -22,14 +23,14 @@ interface SpecialitiesContract {
         void showSpecialities(List<Speciality> specialities);
 
         /**
-         * Метод отображения фрагмента со списком станций.
+         * Метод отображения fragment со списком станций.
          * @param specialityId Идентификатор выбранной специальности.
          */
         void showStationsUi(String specialityId);
     }
 
     /**
-     * Интерфейс, описывающий SpecialitiesContract.Presenter.
+     * Интерфейс, описывающий контракт <code>SpecialitiesContract.Presenter</code>.
      */
     interface Presenter extends BaseContract.BasePresenter<View> {
 
@@ -40,7 +41,8 @@ interface SpecialitiesContract {
 
         /**
          * Метод обновления списка специальностей.
-         * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+         * @param isMenuRefreshing Значение типа <code>boolean</code>,
+         *                         указывающее на способ обновления.
          */
         void updateSpecialities(boolean isMenuRefreshing);
 

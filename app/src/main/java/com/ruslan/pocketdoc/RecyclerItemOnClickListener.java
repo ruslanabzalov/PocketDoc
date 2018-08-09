@@ -1,13 +1,14 @@
 package com.ruslan.pocketdoc;
 
 /**
- * Интерфейс, описывающий callback нажатия на элемент RecyclerView.
- * @param <T>
+ * Интерфейс, описывающий callback нажатия на пользовательский <code>RecyclerView.ViewHolder</code>.
+ * @param <T> Тип объекта, на который происходит нажатие.
  */
 public interface RecyclerItemOnClickListener<T> {
 
     /**
-     * Callback-метод, срабатывающий при нажатии на элемент RecyclerView.
+     * Callback-метод, срабатывающий при нажатии
+     * на пользовательский <code>RecyclerView.ViewHolder</code>.
      * @param t Объект, на который происходит нажатие.
      */
     void onRecyclerItemClickListener(T t);

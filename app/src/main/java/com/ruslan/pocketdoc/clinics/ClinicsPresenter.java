@@ -30,7 +30,6 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
-        // TODO: Понять, почему mDisposable зануляется при пересоздании активности!
         if (mDisposable != null) {
             mDisposable.dispose();
         }
