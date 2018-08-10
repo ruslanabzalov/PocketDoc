@@ -66,6 +66,7 @@ public class LocalDataSource implements LocalDataSourceContract {
 
     @Override
     public void saveClinics(List<Clinic> clinics) {
+        mClinicsDao.clearTable();
         mClinicsDao.insertClinics(clinics);
     }
 }

@@ -8,18 +8,12 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.RecyclerItemOnClickListener;
-import com.ruslan.pocketdoc.Utils;
+import com.ruslan.pocketdoc.StringUtils;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import javax.inject.Inject;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Класс, описывающий пользовательский RecyclerView Adapter.
@@ -64,10 +58,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
      */
     public static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
-        @Inject
-        Picasso mPicasso;
-
-        private CircleImageView mDoctorPhotoCircleImageView;
         private TextView mDoctorSpecialityTextView;
         private TextView mDoctorNameTextView;
         private RatingBar mDoctorRating;
@@ -78,7 +68,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
 
         DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
             super(view);
-            App.getComponent().inject(this);
             initViews();
             itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
         }
@@ -89,22 +78,19 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
          */
         void bind(Doctor doctor) {
             mDoctor = doctor;
-            mPicasso.load(mDoctor.getPhotoUrl()).into(mDoctorPhotoCircleImageView);
             mDoctorSpecialityTextView
-                    .setText(Utils.getCorrectSpecialitiesString(mDoctor.getSpecialities()));
+                    .setText(StringUtils.getCorrectSpecialitiesString(mDoctor.getSpecialities()));
             mDoctorNameTextView.setText(mDoctor.getName());
             mDoctorRating.setRating(Float.parseFloat(mDoctor.getRating()));
             mDoctorExperienceTextView
-                    .setText(Utils.getCorrectExperienceString(mDoctor.getExperience()));
-            mDoctorPriceTextView.setText(Utils.getCorrectPriceString(mDoctor.getPrice()));
+                    .setText(StringUtils.getCorrectExperienceString(mDoctor.getExperience()));
+            mDoctorPriceTextView.setText(StringUtils.getCorrectPriceString(mDoctor.getPrice()));
         }
 
         /**
          * Метод инициализации элементов View.
          */
         private void initViews() {
-            mDoctorPhotoCircleImageView =
-                    itemView.findViewById(R.id.doctor_photo_circle_image_view);
             mDoctorSpecialityTextView = itemView.findViewById(R.id.doctor_speciality_text_view);
             mDoctorNameTextView = itemView.findViewById(R.id.doctor_name_text_view);
             mDoctorRating = itemView.findViewById(R.id.doctor_rating_bar);

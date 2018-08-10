@@ -6,12 +6,13 @@ import com.ruslan.pocketdoc.data.stations.Station;
 import java.util.List;
 
 /**
- * Интерфейс, описывающий контракт между StationsContract.View и StationsContract.Presenter.
+ * Интерфейс, описывающий контракт между <code>StationsContract.View</code>
+ * и <code>StationsContract.Presenter</code>.
  */
 interface StationsContract {
 
     /**
-     * Интерфейс, описывающий StationsContract.View.
+     * Интерфейс, описывающий контракт <code>StationsContract.View</code>.
      */
     interface View extends BaseContract.BaseView {
 
@@ -22,14 +23,14 @@ interface StationsContract {
         void showStations(List<Station> stations);
 
         /**
-         * Метод отображения DialogFragment для выбора даты записи.
+         * Метод отображения экземпляра <code>DialogFragment</code> для выбора даты записи.
          * @param stationId Идентификатор выбранной станции метро.
          */
         void showCalendarUi(String stationId);
     }
 
     /**
-     * Интерфейс, описывающий StationsContract.Presenter.
+     * Интерфейс, описывающий контракт <code>StationsContract.Presenter</code>.
      */
     interface Presenter extends BaseContract.BasePresenter<View> {
 
@@ -40,7 +41,8 @@ interface StationsContract {
 
         /**
          * Метод обновления списка станций метро.
-         * @param isMenuRefreshing Флаг, указывающий на способ обновления.
+         * @param isMenuRefreshing Значение типа <code>boolean</code>,
+         *                         указывающее на способ обновления.
          */
         void updateStations(boolean isMenuRefreshing);
 

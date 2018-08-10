@@ -34,7 +34,7 @@
                 <ImageView
                     android:id="@+id/photo_image_view"
                     android:layout_width="0dp"
-                    android:layout_height="350dp"
+                    android:layout_height="300dp"
                     android:scaleType="centerCrop"
                     android:contentDescription="@string/doctor_photo_content_description"
                     app:layout_constraintTop_toTopOf="parent"

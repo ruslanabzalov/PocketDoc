@@ -1,7 +1,12 @@
 package com.ruslan.pocketdoc.clinics;
 
 import android.Manifest;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -36,10 +41,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Класс, описывающий фрагмент, отображающий карту.
+ */
 public class ClinicsMapFragment extends Fragment implements ClinicsContract.View {
 
     private static final String TAG = "ClinicsMapFragment";
     private static final String TAG_LOADING_ERROR_DIALOG = "LoadingErrorDialogFragment";
+
+    private static final int JOB_ID = 12;
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final int LOADING_ERROR_DIALOG_FRAGMENT_REQUEST_CODE = 999;
@@ -79,23 +89,19 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mIsDisplayed = savedInstanceState.getBoolean(IS_DISPLAYED_KEY, false);
+            mRestoredCameraPosition = CameraUpdateFactory
+                    .newCameraPosition(savedInstanceState.getParcelable(CAMERA_POSITION_KEY));
+            mAreMarkersInDb =
+                    savedInstanceState.getBoolean(ARE_MARKERS_IN_DB_KEY, false);
+        }
         Objects.requireNonNull(getActivity()).setTitle(R.string.clinics_title);
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         SupportMapFragment supportMapFragment =
                 (SupportMapFragment) mFragmentManager.findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this::initMap);
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            mIsDisplayed = savedInstanceState.getBoolean(IS_DISPLAYED_KEY, false);
-            mRestoredCameraPosition = CameraUpdateFactory
-                    .newCameraPosition(savedInstanceState.getParcelable(CAMERA_POSITION_KEY));
-            mAreMarkersInDb = savedInstanceState.getBoolean(ARE_MARKERS_IN_DB_KEY, false);
-        }
     }
 
     @Override
@@ -140,9 +146,9 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         if (mAreMarkersInDb) {
-            setMenuVisible(menu, true);
+            setOptionsMenuVisible(menu, true);
         } else {
-            setMenuVisible(menu, false);
+            setOptionsMenuVisible(menu, false);
         }
     }
 
@@ -166,8 +172,37 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     }
 
     @Override
-    public void startClinicsService() {
-        Objects.requireNonNull(getActivity()).startService(ClinicsService.newIntent(getContext()));
+    public void setOptionsMenuVisible(Menu menu, boolean isVisible) {
+        menu.findItem(R.id.item_refresh_clinics).setVisible(isVisible);
+        menu.findItem(R.id.item_show_only_clinics).setVisible(isVisible);
+        menu.findItem(R.id.item_show_only_diagnostics).setVisible(isVisible);
+    }
+
+    @Override
+    public void startClinicsJobService() {
+        ComponentName componentName =
+                new ComponentName(Objects.requireNonNull(getActivity()), ClinicsJobService.class);
+        long oneDayInMillis = 86400000;
+        JobInfo jobInfo;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            jobInfo = new JobInfo.Builder(JOB_ID, componentName)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setPeriodic(oneDayInMillis)
+                    .build();
+        } else {
+            jobInfo = new JobInfo.Builder(JOB_ID, componentName)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setRequiresBatteryNotLow(true)
+                    .setPeriodic(oneDayInMillis)
+                    .build();
+        }
+        JobScheduler jobScheduler =
+                (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        // Отмена всех предыдущих задач, если они не успели завершиться до начала новой.
+        Objects.requireNonNull(jobScheduler).cancelAll();
+
+        Objects.requireNonNull(jobScheduler).schedule(jobInfo);
     }
 
     @Override
@@ -189,7 +224,8 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
     }
 
-    private void showClinicsInCurrentArea() {
+    @Override
+    public void showClinicsInCurrentArea() {
         for (Marker marker : mMarkers) {
             if (mGoogleMap.getProjection().getVisibleRegion().latLngBounds
                     .contains(marker.getPosition())) {
@@ -220,6 +256,15 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         startActivity(ClinicActivity.newIntent(getActivity(), clinicId));
     }
 
+    @Override
+    public void showProgressBar() {}
+
+    @Override
+    public void hideProgressBar() {}
+
+    @Override
+    public void hideRefreshing() {}
+
     /**
      * Метод инициализации Google Maps.
      * @param googleMap Объект карт Google Maps.
@@ -241,9 +286,9 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                         : CameraUpdateFactory.newCameraPosition(moscowPosition)
         );
         mGoogleMap.setLatLngBoundsForCameraTarget(MOSCOW_BOUNDS);
-        getLocationPermission();
         mGoogleMap.setOnInfoWindowClickListener(this::onInfoClick);
         mGoogleMap.setOnCameraIdleListener(this::onIdle);
+        getLocationPermission();
     }
 
     /**
@@ -252,7 +297,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
      * @param marker Маркер, на окно которого происходит нажатие.
      */
     private void onInfoClick(@NonNull Marker marker) {
-        mPresenter.chooseClinic(Objects.requireNonNull((Integer) marker.getTag()));
+        showClinicInfoUi(Objects.requireNonNull((Integer) marker.getTag()));
     }
 
     /**
@@ -291,27 +336,15 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
             if (mLocationPermissionGranted) {
                 mGoogleMap.setMyLocationEnabled(true);
                 mUiSettings.setMyLocationButtonEnabled(true);
-                mPresenter.loadClinics();
+                mPresenter.getClinicsCount();
             } else {
                 mGoogleMap.setMyLocationEnabled(false);
                 mUiSettings.setMyLocationButtonEnabled(false);
-                mPresenter.loadClinics();
+                mPresenter.getClinicsCount();
             }
         } catch (SecurityException ex) {
             Log.e(TAG, ex.getMessage(), ex);
         }
-    }
-
-    /**
-     * Метод оторажения или сокрытия пунктов меню.
-     * @param menu Меню.
-     * @param isVisible Значение типа <code>boolean</code>,
-     *                  указывающее на видимость пунктов меню.
-     */
-    private void setMenuVisible(Menu menu, boolean isVisible) {
-        menu.findItem(R.id.item_refresh_clinics).setVisible(isVisible);
-        menu.findItem(R.id.item_show_only_clinics).setVisible(isVisible);
-        menu.findItem(R.id.item_show_only_diagnostics).setVisible(isVisible);
     }
 
     /**

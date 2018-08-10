@@ -1,5 +1,7 @@
 package com.ruslan.pocketdoc;
 
+import android.view.Menu;
+
 /**
  * Базовый интерфейс, описывающий контракт между базовым View и базовым Presenter.
  */
@@ -9,6 +11,13 @@ public interface BaseContract {
      * Интерфейс, описывающий базовый View.
      */
     interface BaseView {
+
+        /**
+         * Метод отображения или сокрытия меню.
+         * @param menu Меню.
+         * @param isVisible Значение типа <code>boolean</code>, указывающее на видимость меню.
+         */
+        void setOptionsMenuVisible(Menu menu, boolean isVisible);
 
         /**
          * Метод отображения экземпляра <code>DialogFragment</code>

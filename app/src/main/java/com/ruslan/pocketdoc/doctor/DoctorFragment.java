@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.Utils;
+import com.ruslan.pocketdoc.StringUtils;
 import com.ruslan.pocketdoc.data.clinics.ClinicsInfo;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Класс, описывающий фрагмент, содержащий подробную информацию о враче.
@@ -77,7 +79,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private Date mPreferredDate;
     private String mStationId;
     private List<Integer> mClinicsNearSelectedStation = new ArrayList<>();
-    private boolean isDoctorInfoDisplayed = false;
+    private boolean isDoctorInfoDisplayed;
 
     public static Fragment newInstance(int doctorId, Date date, String stationId) {
         Bundle arguments = new Bundle();
@@ -158,15 +160,18 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     }
 
     @Override
+    public void setOptionsMenuVisible(Menu menu, boolean isVisible) {}
+
+    @Override
     public void showDoctorInfo(Doctor doctor) {
         mPicasso
                 .load(doctor.getPhotoUrl().replace("_small", ""))
                 .into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(doctor.getName());
         mDoctorSpecialityTextView
-                .setText(Utils.getCorrectSpecialitiesString(doctor.getSpecialities()));
-        mDoctorExperienceTextView.setText(Utils.getCorrectExperienceString(doctor.getExperience()));
-        mDoctorPriceTextView.setText(Utils.getCorrectPriceString(doctor.getPrice()));
+                .setText(StringUtils.getCorrectSpecialitiesString(doctor.getSpecialities()));
+        mDoctorExperienceTextView.setText(StringUtils.getCorrectExperienceString(doctor.getExperience()));
+        mDoctorPriceTextView.setText(StringUtils.getCorrectPriceString(doctor.getPrice()));
         mDoctorDescriptionTextView.setText(doctor.getDescription());
         isDoctorInfoDisplayed = true;
         getClinicsNearCurrentStation(doctor);

@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,6 +49,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     private ProgressBar mProgressBar;
 
     private String mSpecialityId;
+    private boolean mAreStationsLoaded;
 
     public static Fragment newInstance(String specialityId) {
         Bundle arguments = new Bundle();
@@ -70,7 +70,8 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.stations_title);
         View view = inflater.inflate(R.layout.fragment_stations, container, false);
         initViews(view);
@@ -109,6 +110,15 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (mAreStationsLoaded) {
+            setOptionsMenuVisible(menu, true);
+        } else {
+            setOptionsMenuVisible(menu, false);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_refresh_stations:
@@ -120,7 +130,14 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     }
 
     @Override
+    public void setOptionsMenuVisible(Menu menu, boolean isVisible) {
+        menu.findItem(R.id.item_refresh_stations).setVisible(isVisible);
+    }
+
+    @Override
     public void showStations(List<Station> stations) {
+        mAreStationsLoaded = true;
+        Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
         if (mAdapter == null) {
             mAdapter = new StationsAdapter(stations, mPresenter::chooseStation);
             mRecyclerView.setAdapter(mAdapter);
@@ -141,7 +158,8 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         Log.e(TAG, Log.getStackTraceString(throwable));
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
-            loadingErrorDialogFragment.setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
+            loadingErrorDialogFragment
+                    .setTargetFragment(this, LOADING_ERROR_DIALOG_REQUEST_CODE);
             loadingErrorDialogFragment.show(mFragmentManager, TAG_LOADING_ERROR_DIALOG_FRAGMENT);
         }
     }
@@ -165,7 +183,8 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     @Override
     public void showCalendarUi(String stationId) {
-        DialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mSpecialityId, stationId);
+        DialogFragment datePickerDialogFragment =
+                DatePickerDialogFragment.newInstance(mSpecialityId, stationId);
         datePickerDialogFragment.show(mFragmentManager, null);
     }
 
@@ -181,13 +200,12 @@ public class StationsFragment extends Fragment implements StationsContract.View 
                 getResources().getColor(R.color.colorPrimaryDark)
         };
         mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.updateStations(false));
+        mSwipeRefreshLayout.setOnRefreshListener(
+                () -> mPresenter.updateStations(false)
+        );
         mRecyclerView = view.findViewById(R.id.stations_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(mRecyclerView.getContext(), linearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mProgressBar = view.findViewById(R.id.stations_progress_bar);
     }
 }

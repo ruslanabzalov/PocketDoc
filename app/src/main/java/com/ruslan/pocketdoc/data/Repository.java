@@ -117,9 +117,9 @@ public class Repository {
     public Flowable<List<Clinic>> getClinicsFromApi() {
         return Flowable.zip(mRemoteDataSource.getClinics(0, 500),
                 mRemoteDataSource.getClinics(500, 500), (firstClinics, secondClinics) -> {
-            List<Clinic> finalClinics = new ArrayList<>(firstClinics);
-            finalClinics.addAll(secondClinics);
-            return finalClinics;
+            List<Clinic> allClinics = new ArrayList<>(firstClinics);
+            allClinics.addAll(secondClinics);
+            return allClinics;
         })
                 .doOnNext(mLocalDataSource::saveClinics);
     }

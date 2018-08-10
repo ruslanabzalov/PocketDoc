@@ -15,7 +15,7 @@
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/station_line_indicator_content_description"
-        android:src="@drawable/metro_indicator"
+        android:src="@drawable/shape_metro_indicator"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

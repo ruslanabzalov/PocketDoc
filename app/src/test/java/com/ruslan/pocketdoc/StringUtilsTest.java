@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-public class UtilsTest {
+public class StringUtilsTest {
 
     private Speciality[] mOneSpeciality;
     private Speciality[] mTwoSpecialities;
@@ -31,28 +31,28 @@ public class UtilsTest {
     @Test
     public void correctSpecialitiesStringTest() {
         assertEquals("Специальность не указана",
-                Utils.getCorrectSpecialitiesString(Arrays.asList(new Speciality[0])));
+                StringUtils.getCorrectSpecialitiesString(Arrays.asList(new Speciality[0])));
         assertEquals("Хирург",
-                Utils.getCorrectSpecialitiesString(Arrays.asList(mOneSpeciality)));
+                StringUtils.getCorrectSpecialitiesString(Arrays.asList(mOneSpeciality)));
         assertEquals("Терапевт, уролог",
-                Utils.getCorrectSpecialitiesString(Arrays.asList(mTwoSpecialities)));
+                StringUtils.getCorrectSpecialitiesString(Arrays.asList(mTwoSpecialities)));
         assertEquals("Уролог, хирург, терапевт",
-                Utils.getCorrectSpecialitiesString(Arrays.asList(mThreeSpecialities)));
+                StringUtils.getCorrectSpecialitiesString(Arrays.asList(mThreeSpecialities)));
     }
 
     @Test
     public void correctExperienceStringTest() {
-        assertEquals("Нет опыта", Utils.getCorrectExperienceString(0));
-        assertEquals("13 лет", Utils.getCorrectExperienceString(13));
-        assertEquals("20 лет", Utils.getCorrectExperienceString(20));
-        assertEquals("1 год", Utils.getCorrectExperienceString(1));
-        assertEquals("34 года", Utils.getCorrectExperienceString(34));
-        assertEquals("39 лет", Utils.getCorrectExperienceString(39));
+        assertEquals("Нет опыта", StringUtils.getCorrectExperienceString(0));
+        assertEquals("13 лет", StringUtils.getCorrectExperienceString(13));
+        assertEquals("20 лет", StringUtils.getCorrectExperienceString(20));
+        assertEquals("1 год", StringUtils.getCorrectExperienceString(1));
+        assertEquals("34 года", StringUtils.getCorrectExperienceString(34));
+        assertEquals("39 лет", StringUtils.getCorrectExperienceString(39));
     }
 
     @Test
     public void correctAgePriceStringTest() {
-        assertEquals("Стоимость не указана", Utils.getCorrectPriceString(0));
-        assertEquals("3000\u20bd", Utils.getCorrectPriceString(3000));
+        assertEquals("Стоимость не указана", StringUtils.getCorrectPriceString(0));
+        assertEquals("3000\u20bd", StringUtils.getCorrectPriceString(3000));
     }
 }

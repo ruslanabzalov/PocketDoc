@@ -36,7 +36,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
     }
 
     @Override
-    public void loadClinics() {
+    public void getClinicsCount() {
         mDisposable = mRepository.getClinicsCount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,7 +46,7 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                             mView.showErrorDialog(throwable);
                         }
                         if (integer == 0) {
-                            mView.startClinicsService();
+                            mView.startClinicsJobService();
                         }
                     }
                 });
@@ -71,10 +71,5 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
                             }
                         }
                 );
-    }
-
-    @Override
-    public void chooseClinic(int clinicId) {
-        mView.showClinicInfoUi(clinicId);
     }
 }

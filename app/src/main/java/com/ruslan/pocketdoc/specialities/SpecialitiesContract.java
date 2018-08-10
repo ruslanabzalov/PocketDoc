@@ -23,7 +23,7 @@ public interface SpecialitiesContract {
         void showSpecialities(List<Speciality> specialities);
 
         /**
-         * Метод отображения fragment со списком станций.
+         * Метод замены текущего фрагмента на фрагмент со списком станций метро.
          * @param specialityId Идентификатор выбранной специальности.
          */
         void showStationsUi(String specialityId);

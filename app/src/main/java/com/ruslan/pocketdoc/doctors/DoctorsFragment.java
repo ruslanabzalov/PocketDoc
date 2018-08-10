@@ -58,6 +58,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private String mSpecialityId;
     private String mStationId;
     private Date mDate;
+    private boolean mAreDoctorsLoaded;
 
     public static Fragment newInstance(String specId, String stationId, Date date) {
         Bundle arguments = new Bundle();
@@ -129,6 +130,15 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (mAreDoctorsLoaded) {
+            setOptionsMenuVisible(menu, true);
+        } else {
+            setOptionsMenuVisible(menu, false);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_refresh_doctors:
@@ -140,7 +150,14 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
+    public void setOptionsMenuVisible(Menu menu, boolean isVisible) {
+        menu.findItem(R.id.item_refresh_doctors).setVisible(isVisible);
+    }
+
+    @Override
     public void showDoctors(List<Doctor> doctors) {
+        mAreDoctorsLoaded = true;
+        Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
         if (mAdapter == null) {
             if (doctors.size() == 0) {
                 DialogFragment noDoctorsDialogFragment = new NoDoctorsDialogFragment();
@@ -194,8 +211,10 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public void showDoctorInfoUi(int doctorId) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container,
-                        DoctorFragment.newInstance(doctorId, mDate, mStationId))
+                .replace(
+                        R.id.main_activity_fragment_container,
+                        DoctorFragment.newInstance(doctorId, mDate, mStationId)
+                )
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
@@ -214,7 +233,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         };
         mSwipeRefreshLayout.setColorSchemeColors(swipeRefreshColors);
         mSwipeRefreshLayout.setOnRefreshListener(
-                () -> mPresenter.updateDoctors(mSpecialityId, mStationId, false));
+                () -> mPresenter.updateDoctors(mSpecialityId, mStationId, false)
+        );
         mRecyclerView = view.findViewById(R.id.doctors_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);

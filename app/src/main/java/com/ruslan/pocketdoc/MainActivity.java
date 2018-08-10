@@ -14,7 +14,7 @@ import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 import java.util.Objects;
 
 /**
- * Класс, описывающий основную activity приложения.
+ * Класс, описывающий основную активность приложения.
  */
 public class MainActivity extends AppCompatActivity {
 

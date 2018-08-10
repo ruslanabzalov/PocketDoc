@@ -126,7 +126,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     /**
      * Метод отображения сообщения об ошибке при неудачном получении списка специальностей.
-     * @param throwable Исключение, выбрашенное при неудачном получении списка специальностей.
+     * @param throwable Исключение, выброшенное при неудачном получении списка специальностей.
      */
     private void showError(Throwable throwable) {
         if (mView != null) {
@@ -153,7 +153,7 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     /**
      * Метод отображения сообщения об ошибке при неудачном обновлении списка специальностей.
-     * @param throwable Исключение, выбрашенное при неудачном обновлении списка специальностей.
+     * @param throwable Исключение, выброшенное при неудачном обновлении списка специальностей.
      * @param isMenuRefreshing Значение типа <code>boolean</code>, указывающее на способ обновления.
      */
     private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
