@@ -20,7 +20,7 @@ interface ClinicsContract {
          * Метод запуска и планирования службы <code>JobService</code>
          * для получения списка клиник.
          */
-        void startClinicsJobService();
+        void scheduleClinicsJobService();
 
         /**
          * Метод добавления маркеров клиник на карту.
@@ -51,8 +51,18 @@ interface ClinicsContract {
         void getClinicsCount();
 
         /**
-         * Метод получения клиник из базы данных.
+         * Метод получения всех мед. учреждений из базы данных.
          */
-        void getClinicsFromDb();
+        void getAllClinicsFromDb();
+
+        /**
+         * Метод получения только клиник из базы данных.
+         */
+        void getOnlyClinicsFromDb();
+
+        /**
+         * Метод получения только диагностических центров из базы данных.
+         */
+        void getOnlyDiagnosticsFromDb();
     }
 }

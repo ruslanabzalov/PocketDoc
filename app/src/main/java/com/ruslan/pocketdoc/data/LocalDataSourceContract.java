@@ -45,10 +45,22 @@ interface LocalDataSourceContract {
     Single<Integer> countClinics();
 
     /**
-     * Метод получения списка клиник.
+     * Метод получения списка всех мед. учреждений.
+     * @return Список всех мед. учреждений.
+     */
+    Flowable<List<Clinic>> getAllClinics();
+
+    /**
+     * Метод получения списка только клиник.
      * @return Список клиник.
      */
-    Flowable<List<Clinic>> getClinics();
+    Flowable<List<Clinic>> getOnlyClinics(String isDiagnostic);
+
+    /**
+     * Метод получения списка только диагностических центров.
+     * @return Список только диагностических центров.
+     */
+    Flowable<List<Clinic>> getOnlyDiagnostics(String isDiagnostic);
 
     /**
      * Метод сохранения списка клиник в БД.

@@ -60,8 +60,18 @@ public class LocalDataSource implements LocalDataSourceContract {
     }
 
     @Override
-    public Flowable<List<Clinic>> getClinics() {
+    public Flowable<List<Clinic>> getAllClinics() {
         return mClinicsDao.getAllClinics();
+    }
+
+    @Override
+    public Flowable<List<Clinic>> getOnlyClinics(String isDiagnostic) {
+        return mClinicsDao.getOnlyClinics(isDiagnostic);
+    }
+
+    @Override
+    public Flowable<List<Clinic>> getOnlyDiagnostics(String isDiagnostic) {
+        return mClinicsDao.getOnlyDiagnostics(isDiagnostic);
     }
 
     @Override

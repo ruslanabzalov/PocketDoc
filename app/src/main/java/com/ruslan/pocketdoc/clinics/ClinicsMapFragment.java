@@ -57,6 +57,8 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     private static final String IS_DISPLAYED_KEY = "is_displayed";
     private static final String CAMERA_POSITION_KEY = "camera_position";
     private static final String ARE_MARKERS_IN_DB_KEY = "are_markers_in_db";
+    private static final String SHOW_ONLY_CLINICS_KEY = "show_only_clinics";
+    private static final String SHOW_ONLY_DIAGNOSTICS_KEY = "show_only_diagnostics";
 
     private static final LatLng MOSCOW = new LatLng(55.751244, 37.618423);
     private static final LatLngBounds MOSCOW_BOUNDS = new LatLngBounds(
@@ -73,9 +75,11 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
 
     private CameraUpdate mRestoredCameraPosition;
     private boolean mLocationPermissionGranted;
+    private List<Marker> mMarkers = new ArrayList<>();
     private boolean mIsDisplayed;
     private boolean mAreMarkersInDb;
-    private List<Marker> mMarkers = new ArrayList<>();
+    private boolean mShowOnlyClinics;
+    private boolean mShowOnlyDiagnostics;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,10 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                     .newCameraPosition(savedInstanceState.getParcelable(CAMERA_POSITION_KEY));
             mAreMarkersInDb =
                     savedInstanceState.getBoolean(ARE_MARKERS_IN_DB_KEY, false);
+            mShowOnlyClinics =
+                    savedInstanceState.getBoolean(SHOW_ONLY_CLINICS_KEY, false);
+            mShowOnlyDiagnostics =
+                    savedInstanceState.getBoolean(SHOW_ONLY_DIAGNOSTICS_KEY, false);
         }
         Objects.requireNonNull(getActivity()).setTitle(R.string.clinics_title);
         View view = inflater.inflate(R.layout.fragment_map, container, false);
@@ -121,6 +129,8 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         savedInstanceState.putBoolean(IS_DISPLAYED_KEY, mIsDisplayed);
         savedInstanceState.putParcelable(CAMERA_POSITION_KEY, mGoogleMap.getCameraPosition());
         savedInstanceState.putBoolean(ARE_MARKERS_IN_DB_KEY, mAreMarkersInDb);
+        savedInstanceState.putBoolean(SHOW_ONLY_CLINICS_KEY, mShowOnlyClinics);
+        savedInstanceState.putBoolean(SHOW_ONLY_DIAGNOSTICS_KEY, mShowOnlyDiagnostics);
     }
 
     @Override
@@ -141,6 +151,21 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mMenu = menu;
         inflater.inflate(R.menu.fragment_map, mMenu);
+        if (mShowOnlyClinics || mShowOnlyDiagnostics) {
+            restoreMenuChecks();
+        }
+    }
+
+    /**
+     * Метод восстановления состояния пунктов меню.
+     */
+    private void restoreMenuChecks() {
+        if (mShowOnlyClinics) {
+            mMenu.findItem(R.id.item_show_only_clinics).setChecked(true);
+        }
+        if (mShowOnlyDiagnostics) {
+            mMenu.findItem(R.id.item_show_only_diagnostics).setChecked(true);
+        }
     }
 
     @Override
@@ -155,31 +180,68 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.item_refresh_clinics:
-                // TODO: Принудительное обновление списка мед. учреждений.
-                return true;
             case R.id.item_show_only_clinics:
-                showOnlySpecificItems(menuItem, R.id.item_show_only_diagnostics);
-                // TODO: Отображать только клиники.
+                changeMenuChecks(menuItem, R.id.item_show_only_diagnostics);
+                checkMenuItems();
+                mGoogleMap.clear();
+                mMarkers.clear();
+                mPresenter.getOnlyClinicsFromDb();
                 return true;
             case R.id.item_show_only_diagnostics:
-                showOnlySpecificItems(menuItem, R.id.item_show_only_clinics);
-                // TODO: Отображать только диагн. центры.
+                changeMenuChecks(menuItem, R.id.item_show_only_clinics);
+                checkMenuItems();
+                mGoogleMap.clear();
+                mMarkers.clear();
+                mPresenter.getOnlyDiagnosticsFromDb();
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
     }
 
+    /**
+     * Метод изменения выбора пунктов меню
+     * @param menuItem Пункт меню.
+     * @param menuItemId Идентификатор другого пункта меню.
+     */
+    private void changeMenuChecks(@NonNull MenuItem menuItem, @IdRes int menuItemId) {
+        if (menuItem.isChecked()) {
+            menuItem.setChecked(false);
+        } else {
+            menuItem.setChecked(true);
+            MenuItem otherMenuItem = mMenu.findItem(menuItemId);
+            if (otherMenuItem.isChecked()) {
+                otherMenuItem.setChecked(false);
+            }
+        }
+    }
+
+    /**
+     * Метод проверки выбранных пунктов меню.
+     */
+    private void checkMenuItems() {
+        MenuItem clinicsMenuItem = mMenu.findItem(R.id.item_show_only_clinics);
+        MenuItem diagnosticsMenuItem = mMenu.findItem(R.id.item_show_only_diagnostics);
+        if (clinicsMenuItem.isChecked()) {
+            mShowOnlyClinics = true;
+            mShowOnlyDiagnostics = false;
+        } else if (diagnosticsMenuItem.isChecked()) {
+            mShowOnlyClinics = false;
+            mShowOnlyDiagnostics = true;
+        } else {
+            mShowOnlyClinics = false;
+            mShowOnlyDiagnostics = false;
+        }
+    }
+
     @Override
     public void setOptionsMenuVisible(Menu menu, boolean isVisible) {
-        menu.findItem(R.id.item_refresh_clinics).setVisible(isVisible);
         menu.findItem(R.id.item_show_only_clinics).setVisible(isVisible);
         menu.findItem(R.id.item_show_only_diagnostics).setVisible(isVisible);
     }
 
     @Override
-    public void startClinicsJobService() {
+    public void scheduleClinicsJobService() {
         ComponentName componentName =
                 new ComponentName(Objects.requireNonNull(getActivity()), ClinicsJobService.class);
         long oneDayInMillis = 86400000;
@@ -198,17 +260,17 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
         JobScheduler jobScheduler =
                 (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
         // Отмена всех предыдущих задач, если они не успели завершиться до начала новой.
         Objects.requireNonNull(jobScheduler).cancelAll();
-
         Objects.requireNonNull(jobScheduler).schedule(jobInfo);
     }
 
     @Override
     public void addMarkers(List<Clinic> clinics) {
-        mAreMarkersInDb = true;
-        Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
+        if (!mAreMarkersInDb) {
+            mAreMarkersInDb = true;
+            Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
+        }
         Marker marker;
         if (mMarkers.size() == 0) {
             for (Clinic clinic : clinics) {
@@ -221,6 +283,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                 marker.setTag(clinic.getId());
                 mMarkers.add(marker);
             }
+            onIdle();
         }
     }
 
@@ -255,15 +318,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     public void showClinicInfoUi(int clinicId) {
         startActivity(ClinicActivity.newIntent(getActivity(), clinicId));
     }
-
-    @Override
-    public void showProgressBar() {}
-
-    @Override
-    public void hideProgressBar() {}
-
-    @Override
-    public void hideRefreshing() {}
 
     /**
      * Метод инициализации Google Maps.
@@ -306,10 +360,27 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
      */
     private void onIdle() {
         if (mMarkers.size() == 0) {
-            mPresenter.getClinicsFromDb();
+            if (mShowOnlyClinics) {
+                mPresenter.getOnlyClinicsFromDb();
+            } else if (mShowOnlyDiagnostics) {
+                mPresenter.getOnlyDiagnosticsFromDb();
+            } else {
+                mPresenter.getAllClinicsFromDb();
+            }
         }
         if (mGoogleMap.getCameraPosition().zoom >= 15f) {
             showClinicsInCurrentArea();
+        } else {
+            hideMarkers();
+        }
+    }
+
+    /**
+     * Метод сокрытия маркеров.
+     */
+    private void hideMarkers() {
+        for (Marker marker : mMarkers) {
+            marker.setVisible(false);
         }
     }
 
@@ -343,24 +414,16 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                 mPresenter.getClinicsCount();
             }
         } catch (SecurityException ex) {
-            Log.e(TAG, ex.getMessage(), ex);
+            Log.e(TAG, "Location error: " + ex.getMessage(), ex);
         }
     }
 
-    /**
-     * Метод отображения клиник определённого типа.
-     * @param menuItem Пункт меню.
-     * @param menuItemId Идентификатор другого пункта меню.
-     */
-    private void showOnlySpecificItems(MenuItem menuItem, @IdRes int menuItemId) {
-        if (menuItem.isChecked()) {
-            menuItem.setChecked(false);
-        } else {
-            menuItem.setChecked(true);
-            MenuItem otherMenuItem = mMenu.findItem(menuItemId);
-            if (otherMenuItem.isChecked()) {
-                otherMenuItem.setChecked(false);
-            }
-        }
-    }
+    @Override
+    public void showProgressBar() {}
+
+    @Override
+    public void hideProgressBar() {}
+
+    @Override
+    public void hideRefreshing() {}
 }

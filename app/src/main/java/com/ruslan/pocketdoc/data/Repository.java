@@ -125,10 +125,26 @@ public class Repository {
     }
 
     /**
-     * Метод получения списка клиник из БД.
-     * @return Список клиник.
+     * Метод получения списка всех мед. учреждений из БД.
+     * @return Список всех мед. учреждений.
      */
-    public Flowable<List<Clinic>> getClinicsFromDb() {
-        return mLocalDataSource.getClinics();
+    public Flowable<List<Clinic>> getAllClinicsFromDb() {
+        return mLocalDataSource.getAllClinics();
+    }
+
+    /**
+     * Метод получения списка только клиник.
+     * @return Список только клиник.
+     */
+    public Flowable<List<Clinic>> getOnlyClinicsFromDb(String isDiagnostic) {
+        return mLocalDataSource.getOnlyClinics(isDiagnostic);
+    }
+
+    /**
+     * Метод получения списка только диагностических центров.
+     * @return Список диагностических центров.
+     */
+    public Flowable<List<Clinic>> getOnlyDiagnosticsFromDb(String isDiagnostic) {
+        return mLocalDataSource.getOnlyDiagnostics(isDiagnostic);
     }
 }

@@ -40,36 +40,76 @@ public class ClinicsPresenter implements ClinicsContract.Presenter {
         mDisposable = mRepository.getClinicsCount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((integer, throwable) -> {
+                .doOnSuccess(integer -> {
+                    if (mView != null) {
+                        if (integer == 0) {
+                            mView.scheduleClinicsJobService();
+                        }
+                    }
+                })
+                .doOnError(throwable -> {
                     if (mView != null) {
                         if (throwable != null) {
                             mView.showErrorDialog(throwable);
                         }
-                        if (integer == 0) {
-                            mView.startClinicsJobService();
-                        }
                     }
-                });
+                })
+                .subscribe();
     }
 
     @Override
-    public void getClinicsFromDb() {
-        mDisposable = mRepository.getClinicsFromDb()
+    public void getAllClinicsFromDb() {
+        mDisposable = mRepository.getAllClinicsFromDb()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        clinics -> {
-                            if (mView != null) {
-                                if (clinics.size() != 0) {
-                                    mView.addMarkers(clinics);
-                                }
-                            }
-                        },
-                        throwable -> {
-                            if (mView != null) {
-                                mView.showErrorDialog(throwable);
-                            }
+                .doOnNext(clinics -> {
+                    if (mView != null) {
+                        if (clinics.size() != 0) {
+                            mView.addMarkers(clinics);
                         }
-                );
+                    }
+                })
+                .doOnError(throwable -> {
+                    if (mView != null) {
+                        mView.showErrorDialog(throwable);
+                    }
+                })
+                .subscribe();
+    }
+
+    @Override
+    public void getOnlyClinicsFromDb() {
+        mDisposable = mRepository.getOnlyClinicsFromDb("no")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(clinics -> {
+                    if (mView != null) {
+                        mView.addMarkers(clinics);
+                    }
+                })
+                .doOnError(throwable -> {
+                    if (mView != null) {
+                        mView.showErrorDialog(throwable);
+                    }
+                })
+                .subscribe();
+    }
+
+    @Override
+    public void getOnlyDiagnosticsFromDb() {
+        mDisposable = mRepository.getOnlyDiagnosticsFromDb("yes")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(clinics -> {
+                    if (mView != null) {
+                        mView.addMarkers(clinics);
+                    }
+                })
+                .doOnError(throwable -> {
+                    if (mView != null) {
+                        mView.showErrorDialog(throwable);
+                    }
+                })
+                .subscribe();
     }
 }

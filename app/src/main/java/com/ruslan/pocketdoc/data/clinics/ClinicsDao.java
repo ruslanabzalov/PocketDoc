@@ -31,11 +31,27 @@ public interface ClinicsDao {
     Single<Integer> countAll();
 
     /**
-     * Запрос получения списка всех клиник.
-     * @return Список клиник.
+     * Запрос получения списка всех мед. учреждений.
+     * @return Список всех мед. учреждений.
      */
     @Query("SELECT * FROM clinics")
     Flowable<List<Clinic>> getAllClinics();
+
+    /**
+     * Запрос получения списка только клиник.
+     * @param isDiagnostic Параметр для фильтра списка клиник.
+     * @return Список только клиник.
+     */
+    @Query("SELECT * FROM clinics WHERE is_diagnostic LIKE :isDiagnostic")
+    Flowable<List<Clinic>> getOnlyClinics(String isDiagnostic);
+
+    /**
+     * Запрос получения списка только диагностических центров.
+     * @param isDiagnostic Параметр для фильтра списка диагн. центров.
+     * @return Список только диагностических центров.
+     */
+    @Query("SELECT * FROM clinics WHERE is_diagnostic LIKE :isDiagnostic")
+    Flowable<List<Clinic>> getOnlyDiagnostics(String isDiagnostic);
 
     /**
      * Запрос очистки таблицы.
