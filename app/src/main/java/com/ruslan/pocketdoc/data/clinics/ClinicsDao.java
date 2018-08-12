@@ -54,6 +54,14 @@ public interface ClinicsDao {
     Flowable<List<Clinic>> getOnlyDiagnostics(String isDiagnostic);
 
     /**
+     * Запрос получения конкретной клинике по идентификатору.
+     * @param id Идентификатор клиник.
+     * @return Подробная информация о конкретной клинике.
+     */
+    @Query("SELECT * FROM clinics WHERE id=:id")
+    Single<Clinic> getClinicById(int id);
+
+    /**
      * Запрос очистки таблицы.
      */
     @Query("DELETE FROM clinics")

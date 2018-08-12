@@ -75,6 +75,11 @@ public class LocalDataSource implements LocalDataSourceContract {
     }
 
     @Override
+    public Single<Clinic> getClinicById(int id) {
+        return mClinicsDao.getClinicById(id);
+    }
+
+    @Override
     public void saveClinics(List<Clinic> clinics) {
         mClinicsDao.clearTable();
         mClinicsDao.insertClinics(clinics);

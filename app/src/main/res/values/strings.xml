@@ -28,6 +28,13 @@
     <string name="item_show_only_clinics">Только клиники</string>
     <string name="item_show_only_diagnostics">Только диагн. центры</string>
 
+    <!--fragment_clinic-->
+    <string name="clinic_logo_content_description">Логотип клиники</string>
+    <string name="clinic_name_label_text_view">Название</string>
+    <string name="clinic_name_text_view_preview">Название мед. учреждения</string>
+    <string name="clinic_address_label_text_view">Адрес</string>
+    <string name="clinic_address_text_view_preview">Адрес мед. учреждения</string>
+
     <!--Menu item (fragment_stations)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
 

@@ -78,6 +78,10 @@ public class Clinic {
     @SerializedName("MaxPrice")
     private String mMaxPrice;
 
+    @ColumnInfo(name = "logo")
+    @SerializedName("Logo")
+    private String mLogo;
+
     public int getId() {
         return mId;
     }
@@ -204,5 +208,13 @@ public class Clinic {
 
     public void setMaxPrice(String maxPrice) {
         mMaxPrice = maxPrice;
+    }
+
+    public String getLogo() {
+        return mLogo;
+    }
+
+    public void setLogo(String logo) {
+        mLogo = logo;
     }
 }

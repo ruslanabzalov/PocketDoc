@@ -5,7 +5,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DoctorCard" parent="CardView.Light">
+    <style name="DoctorCard" parent="Theme.AppCompat.Light">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>

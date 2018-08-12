@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -279,6 +280,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
                         .position(new LatLng(Double.parseDouble(clinic.getLatitude()),
                                 Double.parseDouble(clinic.getLongitude())))
                         .visible(false)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
                 );
                 marker.setTag(clinic.getId());
                 mMarkers.add(marker);
@@ -417,6 +419,10 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
             Log.e(TAG, "Location error: " + ex.getMessage(), ex);
         }
     }
+
+    /*
+    Ненужные методы!
+     */
 
     @Override
     public void showProgressBar() {}

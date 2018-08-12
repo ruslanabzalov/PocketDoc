@@ -147,4 +147,13 @@ public class Repository {
     public Flowable<List<Clinic>> getOnlyDiagnosticsFromDb(String isDiagnostic) {
         return mLocalDataSource.getOnlyDiagnostics(isDiagnostic);
     }
+
+    /**
+     * Метод получения информации о клинике из БД по идентификатору.
+     * @param id Идентификатор клиники.
+     * @return Подробная информация о клинике.
+     */
+    public Single<Clinic> getClinicByIdFromDb(int id) {
+        return mLocalDataSource.getClinicById(id);
+    }
 }

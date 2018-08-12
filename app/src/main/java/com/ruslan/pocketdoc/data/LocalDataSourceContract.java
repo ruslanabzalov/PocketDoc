@@ -63,6 +63,13 @@ interface LocalDataSourceContract {
     Flowable<List<Clinic>> getOnlyDiagnostics(String isDiagnostic);
 
     /**
+     * Метод получения информации о клинике по идентификатору.
+     * @param id Идентификатор клиники.
+     * @return Подробная информация о клинике.
+     */
+    Single<Clinic> getClinicById(int id);
+
+    /**
      * Метод сохранения списка клиник в БД.
      * @param clinics Список клиник.
      */
