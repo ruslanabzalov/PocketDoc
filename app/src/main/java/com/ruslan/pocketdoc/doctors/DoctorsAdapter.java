@@ -1,10 +1,12 @@
 package com.ruslan.pocketdoc.doctors;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -27,12 +29,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
     private RecyclerItemOnClickListener<Doctor> mListener;
+    private CreateRecordListener mCreateRecordListener;
 
     private List<Doctor> mDoctors;
 
-    DoctorsAdapter(List<Doctor> doctors, RecyclerItemOnClickListener<Doctor> listener) {
+    DoctorsAdapter(List<Doctor> doctors, RecyclerItemOnClickListener<Doctor> listener,
+                   CreateRecordListener createRecordListener) {
         mDoctors = doctors;
         mListener = listener;
+        mCreateRecordListener = createRecordListener;
     }
 
     @NonNull
@@ -40,7 +45,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
     public DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_doctor, parent, false);
-        return new DoctorViewHolder(view, mListener);
+        return new DoctorViewHolder(view, mListener, mCreateRecordListener);
     }
 
     @Override
@@ -64,22 +69,28 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
      */
     public static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
+        private CreateRecordListener mCreateRecordListener;
+
         private CircleImageView mDoctorPhotoImageView;
         private TextView mDoctorSpecialityTextView;
         private TextView mDoctorNameTextView;
         private RatingBar mDoctorRating;
         private TextView mDoctorExperienceTextView;
         private TextView mDoctorPriceTextView;
+        private Button mCreateRecordButton;
+        private RecyclerView mScheduleRecyclerView;
 
         @Inject
         Picasso mPicasso;
 
         private Doctor mDoctor;
 
-        DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener) {
+        DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener,
+                         CreateRecordListener createRecordListener) {
             super(view);
             App.getComponent().inject(this);
             initViews();
+            mCreateRecordListener = createRecordListener;
             itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
         }
 
@@ -97,6 +108,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             mDoctorExperienceTextView
                     .setText(StringUtils.getCorrectExperienceString(mDoctor.getExperience()));
             mDoctorPriceTextView.setText(StringUtils.getCorrectPriceString(mDoctor.getPrice()));
+            checkDoctorsSchedule(doctor);
         }
 
         /**
@@ -109,6 +121,37 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             mDoctorRating = itemView.findViewById(R.id.doctor_rating_bar);
             mDoctorExperienceTextView = itemView.findViewById(R.id.doctor_experience_text_view);
             mDoctorPriceTextView = itemView.findViewById(R.id.doctor_price_text_view);
+            mCreateRecordButton = itemView.findViewById(R.id.doctor_create_record_button);
+            mCreateRecordButton.setOnClickListener(view ->
+                    mCreateRecordListener.onCreateRecordListener());
+            mScheduleRecyclerView = itemView.findViewById(R.id.schedulers_recycler_view);
+            LinearLayoutManager linearLayoutManager =
+                    new LinearLayoutManager(itemView.getContext());
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mScheduleRecyclerView.setLayoutManager(linearLayoutManager);
+        }
+
+        /**
+         * Метод проверки наличия расписания у врача.
+         * @param doctor Врач.
+         */
+        private void checkDoctorsSchedule(Doctor doctor) {
+            if (doctor.getSlotList() == null) {
+                if (mScheduleRecyclerView.getVisibility() != View.GONE) {
+                    mScheduleRecyclerView.setVisibility(View.GONE);
+                }
+                if (mCreateRecordButton.getVisibility() == View.GONE) {
+                    mCreateRecordButton.setVisibility(View.VISIBLE);
+                }
+            } else {
+                if (mCreateRecordButton.getVisibility() != View.GONE) {
+                    mCreateRecordButton.setVisibility(View.GONE);
+                }
+                if (mScheduleRecyclerView.getVisibility() == View.GONE) {
+                    mScheduleRecyclerView.setVisibility(View.VISIBLE);
+                }
+                mScheduleRecyclerView.setAdapter(new TimesAdapter(doctor, mCreateRecordListener));
+            }
         }
     }
 }

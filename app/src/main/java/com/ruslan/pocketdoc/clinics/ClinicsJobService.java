@@ -35,7 +35,7 @@ public class ClinicsJobService extends JobService {
                 })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getClinicsFromApi(): onError()");
-                    Log.i(TAG, "Error message: " + throwable.getMessage());
+                    Log.e(TAG, "Error message: " + throwable.getMessage());
                     jobFinished(jobParameters, true);
                 })
                 .doOnComplete(() -> Log.i(TAG, "getClinicsFromApi(): onComplete()"))
@@ -43,10 +43,6 @@ public class ClinicsJobService extends JobService {
                 .subscribe();
         return true;
     }
-
-    /*
-    Почему-то вылетает приложение, если во время загрузки списка клиник включить авиарежим!
-     */
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {

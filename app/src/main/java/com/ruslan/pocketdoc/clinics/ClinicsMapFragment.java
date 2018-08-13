@@ -184,16 +184,10 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
             case R.id.item_show_only_clinics:
                 changeMenuChecks(menuItem, R.id.item_show_only_diagnostics);
                 checkMenuItems();
-                mGoogleMap.clear();
-                mMarkers.clear();
-                mPresenter.getOnlyClinicsFromDb();
                 return true;
             case R.id.item_show_only_diagnostics:
                 changeMenuChecks(menuItem, R.id.item_show_only_clinics);
                 checkMenuItems();
-                mGoogleMap.clear();
-                mMarkers.clear();
-                mPresenter.getOnlyDiagnosticsFromDb();
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
@@ -226,12 +220,21 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         if (clinicsMenuItem.isChecked()) {
             mShowOnlyClinics = true;
             mShowOnlyDiagnostics = false;
+            mGoogleMap.clear();
+            mMarkers.clear();
+            mPresenter.getOnlyClinicsFromDb();
         } else if (diagnosticsMenuItem.isChecked()) {
             mShowOnlyClinics = false;
             mShowOnlyDiagnostics = true;
+            mGoogleMap.clear();
+            mMarkers.clear();
+            mPresenter.getOnlyDiagnosticsFromDb();
         } else {
             mShowOnlyClinics = false;
             mShowOnlyDiagnostics = false;
+            mGoogleMap.clear();
+            mMarkers.clear();
+            mPresenter.getAllClinicsFromDb();
         }
     }
 

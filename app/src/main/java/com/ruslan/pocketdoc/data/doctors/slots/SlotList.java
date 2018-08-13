@@ -7,17 +7,7 @@ import java.util.List;
  */
 public class SlotList {
 
-    private String clinicId;
-
     private List<Slot> mSlots;
-
-    public String getClinicId() {
-        return clinicId;
-    }
-
-    public void setClinicId(String clinicId) {
-        this.clinicId = clinicId;
-    }
 
     public List<Slot> getSlots() {
         return mSlots;

@@ -1,5 +1,5 @@
 <resources>
-    <!--Main strings-->
+    <!--Основные строковые ресурсы-->
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
     <string name="clinics_service_description">Служба, отвечающая за загрузку клиник</string>
@@ -30,10 +30,15 @@
 
     <!--fragment_clinic-->
     <string name="clinic_logo_content_description">Логотип клиники</string>
+    <string name="clinic_name_icon_content_description">Иконка здания</string>
     <string name="clinic_name_label_text_view">Название</string>
     <string name="clinic_name_text_view_preview">Название мед. учреждения</string>
+    <string name="clinic_address_icon_content_description">Иконка адреса</string>
     <string name="clinic_address_label_text_view">Адрес</string>
     <string name="clinic_address_text_view_preview">Адрес мед. учреждения</string>
+    <string name="clinic_phone_icon_content_description">Иконка телефона</string>
+    <string name="clinic_phone_label_text_view">Номер телефона</string>
+    <string name="clinic_phone_text_view_preview">Номер телефона мед. учреждения</string>
 
     <!--Menu item (fragment_stations)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>

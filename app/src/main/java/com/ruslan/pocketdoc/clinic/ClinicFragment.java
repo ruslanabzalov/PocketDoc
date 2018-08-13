@@ -1,10 +1,11 @@
 package com.ruslan.pocketdoc.clinic;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     private ImageView mClinicLogoImageView;
     private TextView mClinicNameTextView;
     private TextView mClinicAddressTextView;
+    private TextView mClinicPhoneTextView;
 
     private ClinicContract.Presenter mPresenter;
 
@@ -64,9 +66,9 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_clinic, container, false);
-        initViews(view);
-        return view;
+        View rootView = inflater.inflate(R.layout.fragment_clinic, container, false);
+        initViews(rootView);
+        return rootView;
     }
 
     @Override
@@ -83,15 +85,34 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
         mClinicNameTextView.setText(clinic.getShortName());
         String address = clinic.getStreet() + ", " + clinic.getHouse();
         mClinicAddressTextView.setText(address);
+        String incorrectPhone = clinic.getPhone();
+        String correctPhone =  "+7(" + incorrectPhone.substring(1, 4) + ")" +
+                incorrectPhone.substring(4, 7) + "-" + incorrectPhone.substring(7, 9) + "-" +
+                incorrectPhone.substring(9);
+        mClinicPhoneTextView.setText(correctPhone);
+        mIsClinicShowed = true;
     }
 
     /**
      * Метод инициализации элементов типа <code>View</code>.
-     * @param view Корневой <code>View</code> элемент.
+     * @param rootView Корневой <code>View</code> элемент.
      */
-    private void initViews(View view) {
-        mClinicLogoImageView = view.findViewById(R.id.clinic_logo_image_view);
-        mClinicNameTextView = view.findViewById(R.id.clinic_name_text_view);
-        mClinicAddressTextView = view.findViewById(R.id.clinic_address_text_view);
+    private void initViews(@NonNull View rootView) {
+        mClinicLogoImageView = rootView.findViewById(R.id.clinic_logo_image_view);
+        mClinicNameTextView = rootView.findViewById(R.id.clinic_name_text_view);
+        mClinicAddressTextView = rootView.findViewById(R.id.clinic_address_text_view);
+        mClinicPhoneTextView = rootView.findViewById(R.id.clinic_phone_text_view);
+        mClinicPhoneTextView
+                .setOnClickListener(view -> onPhoneClick(mClinicPhoneTextView.getText().toString()));
+    }
+
+    /**
+     * Метод обработки нажатия на номер телефона для возможности звонка.
+     * @param phone Номер телефона.
+     */
+    private void onPhoneClick(String phone) {
+        Intent intent =
+                new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+        startActivity(intent);
     }
 }

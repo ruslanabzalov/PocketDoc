@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.dialogs.NoDoctorsDialogFragment;
 import com.ruslan.pocketdoc.doctor.DoctorFragment;
@@ -42,9 +43,11 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private static final String ARG_DATE = "date";
 
     private static final String TAG_LOADING_ERROR_DIALOG_FRAGMENT = "LoadingErrorDialogFragment";
+    private static final String TAG_CREATE_RECORD_DIALOG_FRAGMENT = "CreateRecordDialogFragment";
 
     private static final int LOADING_ERROR_DIALOG_REQUEST_CODE = 3;
     private static final int NO_DOCTORS_DIALOG_REQUEST_CODE = 4;
+    private static final int CREATE_RECORD_DIALOG_REQUEST_CODE = 5;
 
     private DoctorsContract.Presenter mPresenter;
 
@@ -165,7 +168,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
                         .setTargetFragment(this, NO_DOCTORS_DIALOG_REQUEST_CODE);
                 noDoctorsDialogFragment.show(mFragmentManager, null);
             } else {
-                mAdapter = new DoctorsAdapter(doctors, mPresenter::chooseDoctor);
+                mAdapter = new DoctorsAdapter(
+                        doctors, mPresenter::chooseDoctor, this::showCreateNewRecordUi
+                );
                 mRecyclerView.setAdapter(mAdapter);
             }
         } else {
@@ -239,5 +244,16 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mProgressBar = view.findViewById(R.id.doctors_progress_bar);
+    }
+
+    /**
+     * Метод отображения экземпляра <code>DialogFragment</code> для оформления заявки.
+     */
+    private void showCreateNewRecordUi() {
+        if (mFragmentManager.findFragmentByTag(TAG_CREATE_RECORD_DIALOG_FRAGMENT) == null) {
+            DialogFragment createRecordDialogFragment = new CreateRecordDialogFragment();
+            createRecordDialogFragment.setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);
+            createRecordDialogFragment.show(mFragmentManager, TAG_CREATE_RECORD_DIALOG_FRAGMENT);
+        }
     }
 }

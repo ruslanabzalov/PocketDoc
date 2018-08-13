@@ -1,43 +1,26 @@
 package com.ruslan.pocketdoc.data.doctors.slots;
 
-/**
- * Класс, описывающий расписание приёма.
- */
+import java.util.List;
+
 public class Slot {
 
-    private String mId;
+    private String clinicId;
 
-    private String mStartTime;
+    private List<Schedule> mSchedules;
 
-    private String mFinishTime;
-
-    Slot(String id, String startTime, String finishTime) {
-        mId = id;
-        mStartTime = startTime;
-        mFinishTime = finishTime;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public String getId() {
-        return mId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
-    public void setId(String id) {
-        mId = id;
+    public List<Schedule> getSchedules() {
+        return mSchedules;
     }
 
-    public String getStartTime() {
-        return mStartTime;
-    }
-
-    public void setStartTime(String startTime) {
-        mStartTime = startTime;
-    }
-
-    public String getFinishTime() {
-        return mFinishTime;
-    }
-
-    public void setFinishTime(String finishTime) {
-        mFinishTime = finishTime;
+    public void setSchedules(List<Schedule> schedules) {
+        mSchedules = schedules;
     }
 }

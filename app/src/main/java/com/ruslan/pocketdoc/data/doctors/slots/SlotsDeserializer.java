@@ -24,20 +24,24 @@ public class SlotsDeserializer implements JsonDeserializer<SlotList> {
             JsonObject rootJsonObject = json.getAsJsonObject();
             Set<String> clinicsIds = rootJsonObject.keySet();
             SlotList slotList = new SlotList();
+            List<Slot> slots = new ArrayList<>();
+            Slot slot = new Slot();
             for (String clinicId : clinicsIds) {
-                slotList.setClinicId(clinicId);
+                slot.setClinicId(clinicId);
                 JsonArray clinicSlotsArray = rootJsonObject.getAsJsonArray(clinicId);
-                List<Slot> slots = new ArrayList<>();
+                List<Schedule> schedules = new ArrayList<>();
                 for (JsonElement slotElement : clinicSlotsArray) {
                     JsonObject slotObject = slotElement.getAsJsonObject();
-                    Slot slot = new Slot(
+                    Schedule schedule = new Schedule(
                             slotObject.get("Id").getAsString(),
                             slotObject.get("StartTime").getAsString(),
                             slotObject.get("FinishTime").getAsString());
-                    slots.add(slot);
+                    schedules.add(schedule);
                 }
-                slotList.setSlots(slots);
+                slot.setSchedules(schedules);
+                slots.add(slot);
             }
+            slotList.setSlots(slots);
             return slotList;
         } else {
             return null;

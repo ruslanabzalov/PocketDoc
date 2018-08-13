@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,8 +39,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Класс, описывающий фрагмент, содержащий подробную информацию о враче.
@@ -170,11 +170,12 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorNameTextView.setText(doctor.getName());
         mDoctorSpecialityTextView
                 .setText(StringUtils.getCorrectSpecialitiesString(doctor.getSpecialities()));
-        mDoctorExperienceTextView.setText(StringUtils.getCorrectExperienceString(doctor.getExperience()));
+        mDoctorExperienceTextView
+                .setText(StringUtils.getCorrectExperienceString(doctor.getExperience()));
         mDoctorPriceTextView.setText(StringUtils.getCorrectPriceString(doctor.getPrice()));
         mDoctorDescriptionTextView.setText(doctor.getDescription());
         isDoctorInfoDisplayed = true;
-        getClinicsNearCurrentStation(doctor);
+        getClinicsSchedulesCount(doctor);
     }
 
     @Override
@@ -245,18 +246,16 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     }
 
     /**
-     * Метод выбора клиник врача около выбранной станции метро.
+     * Метод вывода количества расписаний у одного врача.
      * @param doctor Врач.
      */
-    private void getClinicsNearCurrentStation(Doctor doctor) {
-        for (ClinicsInfo clinicsInfo : doctor.getClinicsInfos()) {
-            for (String stationId : clinicsInfo.getStations()) {
-                if (stationId.equals(mStationId)) {
-                    mClinicsNearSelectedStation.add(clinicsInfo.getClinicId());
-                }
-            }
+    private void getClinicsSchedulesCount(Doctor doctor) {
+        String count;
+        if (doctor.getSlotList() == null) {
+            count = "Нет расписания!";
+        } else {
+            count = doctor.getSlotList().getSlots().size() + " распис.";
         }
-        Toast.makeText(getActivity(), mClinicsNearSelectedStation.size() + "",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), count, Toast.LENGTH_SHORT).show();
     }
 }
