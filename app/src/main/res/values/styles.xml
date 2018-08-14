@@ -5,10 +5,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DoctorCard" parent="Theme.AppCompat.Light">
+    <style name="DoctorCard" parent="CardView.Light">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">16dp</item>
+    </style>
+
+    <style name="ScheduleButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/inset_schedule_button</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CreateRecordButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/inset_create_record_button</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

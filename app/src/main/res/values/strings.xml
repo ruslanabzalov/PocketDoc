@@ -32,13 +32,16 @@
     <string name="clinic_logo_content_description">Логотип клиники</string>
     <string name="clinic_name_icon_content_description">Иконка здания</string>
     <string name="clinic_name_label_text_view">Название</string>
-    <string name="clinic_name_text_view_preview">Название мед. учреждения</string>
+    <string name="clinic_name_text_view_preview">Клиника \"Lorem Ipsum\"</string>
     <string name="clinic_address_icon_content_description">Иконка адреса</string>
     <string name="clinic_address_label_text_view">Адрес</string>
-    <string name="clinic_address_text_view_preview">Адрес мед. учреждения</string>
+    <string name="clinic_address_text_view_preview">ул. Садовая, 18к3</string>
     <string name="clinic_phone_icon_content_description">Иконка телефона</string>
     <string name="clinic_phone_label_text_view">Номер телефона</string>
-    <string name="clinic_phone_text_view_preview">Номер телефона мед. учреждения</string>
+    <string name="clinic_phone_text_view_preview">+7(999)123–45–67</string>
+    <string name="clinic_url_icon_content_description">Иконка сайта</string>
+    <string name="clinic_url_label">Сайт клиники</string>
+    <string name="clinic_url_text_view_preview">https://loremipsum.io</string>
 
     <!--Menu item (fragment_stations)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
@@ -67,18 +70,17 @@
 
     <!--list_item_doctor & fragment_doctor-->
     <string name="doctor_photo_content_description">Фотография врача</string>
-    <string name="doctor_speciality_label">Специальность</string>
-    <string name="doctor_speciality_preview">Специальность врача</string>
     <string name="doctor_name_label">Ф.И.О.</string>
-    <string name="doctor_name_preview">Имя врача</string>
+    <string name="doctor_name_preview">Иванов Иван Иванович</string>
+    <string name="doctor_speciality_label">Специальность</string>
+    <string name="doctor_speciality_preview">Флеболог, хирург</string>
     <string name="doctor_experience_label">Стаж работы</string>
-    <string name="doctor_experience_preview">Стаж врача</string>
+    <string name="doctor_experience_preview">44 года</string>
     <string name="doctor_rating_label">Рейтинг</string>
-    <string name="doctor_rating_preview">Рейтинг врача</string>
     <string name="doctor_price_label">Стоимость</string>
-    <string name="doctor_price_preview">Стоимость посещения</string>
+    <string name="doctor_price_preview">8000₽</string>
     <string name="doctor_description_label">Подробное описание</string>
-    <string name="doctor_description_preview">Подробное описание врача</string>
+    <string name="doctor_description_preview">@string/lorem_ipsum</string>
     <string name="doctor_create_record_button_hint">Записаться</string>
     <string name="item_refresh_doctor_info">Обновить информацию о враче</string>
 
@@ -98,4 +100,14 @@
     <string name="loading_error_title">Сообщение об ошибке</string>
     <string name="loading_error_positive_button_text">Попробовать снова</string>
     <string name="loading_error_negative_button_text">Отмена</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. A diam maecenas sed enim
+        ut sem viverra aliquet. Neque aliquam vestibulum morbi blandit cursus risus at.
+        Ullamcorper sit amet risus nullam eget. Velit egestas dui id ornare arcu odio ut sem nulla.
+        Amet est placerat in egestas erat imperdiet sed euismod nisi. Adipiscing commodo elit at
+        imperdiet dui accumsan sit amet nulla. Est velit egestas dui id. At auctor urna nunc
+        id cursus metus. Placerat in egestas erat imperdiet. In nibh mauris cursus mattis
+        molestie a. Eros donec ac odio tempor orci dapibus ultrices in iaculis. Elementum sagittis
+        vitae et leo duis ut diam. Ut pharetra sit amet aliquam. Ut placerat orci nulla
+        pellentesque dignissim enim sit amet venenatis.</string>
 </resources>

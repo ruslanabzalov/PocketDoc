@@ -31,6 +31,7 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     private TextView mClinicNameTextView;
     private TextView mClinicAddressTextView;
     private TextView mClinicPhoneTextView;
+    private TextView mClinicUrlTextView;
 
     private ClinicContract.Presenter mPresenter;
 
@@ -81,16 +82,28 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
 
     @Override
     public void showClinicInfo(Clinic clinic) {
-        mPicasso.load(clinic.getLogo()).into(mClinicLogoImageView);
-        mClinicNameTextView.setText(clinic.getShortName());
-        String address = clinic.getStreet() + ", " + clinic.getHouse();
-        mClinicAddressTextView.setText(address);
-        String incorrectPhone = clinic.getPhone();
-        String correctPhone =  "+7(" + incorrectPhone.substring(1, 4) + ")" +
-                incorrectPhone.substring(4, 7) + "-" + incorrectPhone.substring(7, 9) + "-" +
-                incorrectPhone.substring(9);
-        mClinicPhoneTextView.setText(correctPhone);
-        mIsClinicShowed = true;
+        if (!mIsClinicShowed) {
+            mPicasso.load(clinic.getLogo()).into(mClinicLogoImageView);
+            mClinicNameTextView.setText(clinic.getShortName());
+            String address = clinic.getStreet() + ", " + clinic.getHouse();
+            mClinicAddressTextView.setText(address);
+            String incorrectPhone = clinic.getPhone();
+            String correctPhone =  "+7(" + incorrectPhone.substring(1, 4) + ")" +
+                    incorrectPhone.substring(4, 7) + "-" + incorrectPhone.substring(7, 9) + "-" +
+                    incorrectPhone.substring(9);
+            mClinicPhoneTextView.setText(correctPhone);
+            if (clinic.getUrl() == null) {
+                mClinicUrlTextView.setText("Сайт не указан");
+            } else {
+                String clinicUrl = clinic.getUrl();
+                char lastCharacter = clinicUrl.charAt(clinicUrl.length() - 1);
+                if (lastCharacter == '/') {
+                    clinicUrl = clinicUrl.substring(0, clinicUrl.length() - 1);
+                }
+                mClinicUrlTextView.setText(clinicUrl);
+            }
+            mIsClinicShowed = true;
+        }
     }
 
     /**
@@ -104,6 +117,7 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
         mClinicPhoneTextView = rootView.findViewById(R.id.clinic_phone_text_view);
         mClinicPhoneTextView
                 .setOnClickListener(view -> onPhoneClick(mClinicPhoneTextView.getText().toString()));
+        mClinicUrlTextView = rootView.findViewById(R.id.clinic_url_text_view);
     }
 
     /**

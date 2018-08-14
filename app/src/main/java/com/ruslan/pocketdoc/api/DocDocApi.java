@@ -51,7 +51,7 @@ public interface DocDocApi {
      * @param doctorId Идентификатор врача.
      * @return Информация о враче.
      */
-    @GET("doctor/{doctorId}/city/1/withSlots/1/slotsDays/1")
+    @GET("doctor/{doctorId}/city/1/withSlots/1/slotsDays/14")
     Single<DoctorInfo> getDoctor(@Path("doctorId") int doctorId);
 
     /**

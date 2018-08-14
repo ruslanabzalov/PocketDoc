@@ -27,7 +27,7 @@ public class Clinic {
     private String mShortName;
 
     @ColumnInfo(name = "url")
-    @SerializedName("Url")
+    @SerializedName("URL")
     private String mUrl;
 
     @ColumnInfo(name = "longitude")

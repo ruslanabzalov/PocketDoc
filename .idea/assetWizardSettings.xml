@@ -19,10 +19,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/marker_icon.png" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/ic_map_marker.png" />
                                       <entry key="outputName" value="ic_map_marker" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="b71c1c" />
+                                      <entry key="themeColor" value="311b92" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -58,7 +58,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_location_city_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_info_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -68,10 +68,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="f05545" />
-                            <entry key="outputName" value="ic_phone_red_24dp" />
-                            <entry key="overrideSize" value="true" />
+                            <entry key="outputName" value="ic_info_black_24dp" />
                             <entry key="sourceFile" value="$USER_HOME$/Downloads/telephone.svg" />
                           </map>
                         </option>

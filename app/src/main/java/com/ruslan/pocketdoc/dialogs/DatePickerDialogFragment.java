@@ -2,6 +2,7 @@ package com.ruslan.pocketdoc.dialogs;
 
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -55,6 +56,9 @@ public class DatePickerDialogFragment extends DialogFragment {
         int thirteenDaysInMillis = 1123000000;
         mDatePicker.setMinDate(System.currentTimeMillis());
         mDatePicker.setMaxDate(System.currentTimeMillis() + thirteenDaysInMillis);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mDatePicker.setOnDateChangedListener(((datePicker, i, i1, i2) -> showDoctorsListUi()));
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.date_picker_dialog_fragment_title)
                 .setView(rootView)
@@ -67,6 +71,9 @@ public class DatePickerDialogFragment extends DialogFragment {
         return datePickerDialog;
     }
 
+    /**
+     * Метод отображения фрагмента с полученным списком врачей.
+     */
     private void showDoctorsListUi() {
         int year = mDatePicker.getYear();
         int month = mDatePicker.getMonth() + 1;

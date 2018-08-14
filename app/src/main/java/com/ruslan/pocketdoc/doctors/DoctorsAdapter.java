@@ -29,15 +29,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
     private RecyclerItemOnClickListener<Doctor> mListener;
-    private CreateRecordListener mCreateRecordListener;
+    private OnCreateRecordListener mOnCreateRecordListener;
 
     private List<Doctor> mDoctors;
 
     DoctorsAdapter(List<Doctor> doctors, RecyclerItemOnClickListener<Doctor> listener,
-                   CreateRecordListener createRecordListener) {
+                   OnCreateRecordListener onCreateRecordListener) {
         mDoctors = doctors;
         mListener = listener;
-        mCreateRecordListener = createRecordListener;
+        mOnCreateRecordListener = onCreateRecordListener;
     }
 
     @NonNull
@@ -45,7 +45,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
     public DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_doctor, parent, false);
-        return new DoctorViewHolder(view, mListener, mCreateRecordListener);
+        return new DoctorViewHolder(view, mListener, mOnCreateRecordListener);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
      */
     public static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
-        private CreateRecordListener mCreateRecordListener;
+        private OnCreateRecordListener mOnCreateRecordListener;
 
         private CircleImageView mDoctorPhotoImageView;
         private TextView mDoctorSpecialityTextView;
@@ -86,11 +86,11 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
         private Doctor mDoctor;
 
         DoctorViewHolder(View view, RecyclerItemOnClickListener<Doctor> listener,
-                         CreateRecordListener createRecordListener) {
+                         OnCreateRecordListener onCreateRecordListener) {
             super(view);
             App.getComponent().inject(this);
             initViews();
-            mCreateRecordListener = createRecordListener;
+            mOnCreateRecordListener = onCreateRecordListener;
             itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
         }
 
@@ -123,7 +123,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             mDoctorPriceTextView = itemView.findViewById(R.id.doctor_price_text_view);
             mCreateRecordButton = itemView.findViewById(R.id.doctor_create_record_button);
             mCreateRecordButton.setOnClickListener(view ->
-                    mCreateRecordListener.onCreateRecordListener());
+                    mOnCreateRecordListener.onCreateRecord());
             mScheduleRecyclerView = itemView.findViewById(R.id.schedulers_recycler_view);
             LinearLayoutManager linearLayoutManager =
                     new LinearLayoutManager(itemView.getContext());
@@ -135,7 +135,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
          * Метод проверки наличия расписания у врача.
          * @param doctor Врач.
          */
-        private void checkDoctorsSchedule(Doctor doctor) {
+        private void checkDoctorsSchedule(@NonNull Doctor doctor) {
             if (doctor.getSlotList() == null) {
                 if (mScheduleRecyclerView.getVisibility() != View.GONE) {
                     mScheduleRecyclerView.setVisibility(View.GONE);
@@ -150,7 +150,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
                 if (mScheduleRecyclerView.getVisibility() == View.GONE) {
                     mScheduleRecyclerView.setVisibility(View.VISIBLE);
                 }
-                mScheduleRecyclerView.setAdapter(new TimesAdapter(doctor, mCreateRecordListener));
+                mScheduleRecyclerView.setAdapter(new TimesAdapter(doctor, mOnCreateRecordListener));
             }
         }
     }

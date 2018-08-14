@@ -9,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,16 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.StringUtils;
-import com.ruslan.pocketdoc.data.clinics.ClinicsInfo;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
@@ -73,7 +68,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private TextView mDoctorExperienceTextView;
     private TextView mDoctorPriceTextView;
     private TextView mDoctorDescriptionTextView;
-    private Button mCreateRecordButton;
 
     private int mDoctorId;
     private Date mPreferredDate;
@@ -175,7 +169,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorPriceTextView.setText(StringUtils.getCorrectPriceString(doctor.getPrice()));
         mDoctorDescriptionTextView.setText(doctor.getDescription());
         isDoctorInfoDisplayed = true;
-        getClinicsSchedulesCount(doctor);
     }
 
     @Override
@@ -241,21 +234,5 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);
         mDoctorPriceTextView = rootView.findViewById(R.id.price_text_view);
         mDoctorDescriptionTextView = rootView.findViewById(R.id.desc_text_view);
-        mCreateRecordButton = rootView.findViewById(R.id.create_record);
-        mCreateRecordButton.setOnClickListener((View view) -> showNewRecordUi());
-    }
-
-    /**
-     * Метод вывода количества расписаний у одного врача.
-     * @param doctor Врач.
-     */
-    private void getClinicsSchedulesCount(Doctor doctor) {
-        String count;
-        if (doctor.getSlotList() == null) {
-            count = "Нет расписания!";
-        } else {
-            count = doctor.getSlotList().getSlots().size() + " распис.";
-        }
-        Toast.makeText(getActivity(), count, Toast.LENGTH_SHORT).show();
     }
 }

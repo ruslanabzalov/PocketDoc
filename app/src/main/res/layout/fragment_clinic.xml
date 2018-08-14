@@ -1,212 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/begin_horizontal_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="16dp"/>
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/end_horizontal_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="80dp"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/begin_horizontal_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="16dp"/>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/start_vertical_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="48dp"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/end_horizontal_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="80dp"/>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/end_vertical_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="48dp"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/start_vertical_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="48dp"/>
 
-    <ImageView
-        android:id="@+id/clinic_logo_image_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/clinic_logo_content_description"
-        app:layout_constraintTop_toBottomOf="@id/begin_horizontal_guideline"
-        app:layout_constraintBottom_toTopOf="@id/end_horizontal_guideline"
-        app:layout_constraintStart_toEndOf="@id/start_vertical_guideline"
-        app:layout_constraintEnd_toStartOf="@id/end_vertical_guideline" />
+        <android.support.constraint.Guideline
+            android:id="@+id/end_vertical_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="48dp"/>
 
-    <android.support.constraint.Barrier
-        android:id="@+id/clinic_name_barrier_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="clinic_name_label_text_view"
-        app:barrierDirection="top"/>
+        <ImageView
+            android:id="@+id/clinic_logo_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/clinic_logo_content_description"
+            app:layout_constraintTop_toBottomOf="@id/begin_horizontal_guideline"
+            app:layout_constraintBottom_toTopOf="@id/end_horizontal_guideline"
+            app:layout_constraintStart_toEndOf="@id/start_vertical_guideline"
+            app:layout_constraintEnd_toStartOf="@id/end_vertical_guideline"
+            tools:src="@drawable/company_logo"/>
 
-    <ImageView
-        android:id="@+id/clinic_name_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_building_red_24dp"
-        android:contentDescription="@string/clinic_name_icon_content_description"
-        app:layout_constraintTop_toBottomOf="@id/clinic_name_barrier_top"
-        app:layout_constraintBottom_toTopOf="@id/clinic_name_barrier_bottom"
-        app:layout_constraintStart_toStartOf="parent" />
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_name_barrier_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_name_label_text_view"
+            app:barrierDirection="top"/>
 
-    <TextView
-        android:id="@+id/clinic_name_label_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:textSize="12sp"
-        android:text="@string/clinic_name_label_text_view"
-        app:layout_constraintTop_toBottomOf="@id/end_horizontal_guideline"
-        app:layout_constraintStart_toEndOf="@id/clinic_name_icon"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <ImageView
+            android:id="@+id/clinic_name_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_home_black_24dp"
+            android:contentDescription="@string/clinic_name_icon_content_description"
+            app:layout_constraintTop_toBottomOf="@id/clinic_name_barrier_top"
+            app:layout_constraintBottom_toTopOf="@id/clinic_name_barrier_bottom"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/clinic_name_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="4dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/clinic_name_label_text_view"
-        app:layout_constraintStart_toEndOf="@id/clinic_name_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@string/clinic_name_text_view_preview"/>
+        <TextView
+            android:id="@+id/clinic_name_label_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="12sp"
+            android:text="@string/clinic_name_label_text_view"
+            app:layout_constraintTop_toBottomOf="@id/end_horizontal_guideline"
+            app:layout_constraintStart_toEndOf="@id/clinic_name_icon"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <android.support.constraint.Barrier
-        android:id="@+id/clinic_name_barrier_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="clinic_name_text_view"
-        app:barrierDirection="bottom"/>
+        <TextView
+            android:id="@+id/clinic_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/clinic_name_label_text_view"
+            app:layout_constraintStart_toEndOf="@id/clinic_name_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/clinic_name_text_view_preview"/>
 
-    <android.support.constraint.Barrier
-        android:id="@+id/clinic_address_barrier_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="clinic_address_label_text_view"
-        app:barrierDirection="top"/>
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_name_barrier_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_name_text_view"
+            app:barrierDirection="bottom"/>
 
-    <ImageView
-        android:id="@+id/clinic_address_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_address_red_24dp"
-        android:contentDescription="@string/clinic_address_icon_content_description"
-        app:layout_constraintTop_toBottomOf="@id/clinic_address_barrier_top"
-        app:layout_constraintBottom_toTopOf="@id/clinic_address_barrier_bottom"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_address_barrier_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_address_label_text_view"
+            app:barrierDirection="top"/>
 
-    <TextView
-        android:id="@+id/clinic_address_label_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:textSize="12sp"
-        android:text="@string/clinic_address_label_text_view"
-        app:layout_constraintTop_toBottomOf="@id/clinic_name_text_view"
-        app:layout_constraintStart_toEndOf="@id/clinic_address_icon"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+            android:id="@+id/clinic_address_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_location_black_24dp"
+            android:contentDescription="@string/clinic_address_icon_content_description"
+            app:layout_constraintTop_toBottomOf="@id/clinic_address_barrier_top"
+            app:layout_constraintBottom_toTopOf="@id/clinic_address_barrier_bottom"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView
-        android:id="@+id/clinic_address_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="4dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/clinic_address_label_text_view"
-        app:layout_constraintStart_toEndOf="@id/clinic_address_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@string/clinic_address_text_view_preview"/>
+        <TextView
+            android:id="@+id/clinic_address_label_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="12sp"
+            android:text="@string/clinic_address_label_text_view"
+            app:layout_constraintTop_toBottomOf="@id/clinic_name_text_view"
+            app:layout_constraintStart_toEndOf="@id/clinic_address_icon"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <android.support.constraint.Barrier
-        android:id="@+id/clinic_address_barrier_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="clinic_address_text_view"
-        app:barrierDirection="bottom"/>
+        <TextView
+            android:id="@+id/clinic_address_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/clinic_address_label_text_view"
+            app:layout_constraintStart_toEndOf="@id/clinic_address_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/clinic_address_text_view_preview"/>
 
-    <android.support.constraint.Barrier
-        android:id="@+id/clinic_phone_barrier_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="clinic_phone_label_text_view"
-        app:barrierDirection="top"/>
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_address_barrier_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_address_text_view"
+            app:barrierDirection="bottom"/>
 
-    <ImageView
-        android:id="@+id/clinic_phone_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_phone_red_24dp"
-        android:contentDescription="@string/clinic_phone_icon_content_description"
-        app:layout_constraintTop_toBottomOf="@id/clinic_phone_barrier_top"
-        app:layout_constraintBottom_toTopOf="@id/clinic_phone_barrier_bottom"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_phone_barrier_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_phone_label_text_view"
+            app:barrierDirection="top"/>
 
-    <TextView
-        android:id="@+id/clinic_phone_label_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:textSize="12sp"
-        android:text="@string/clinic_phone_label_text_view"
-        app:layout_constraintTop_toBottomOf="@id/clinic_address_text_view"
-        app:layout_constraintStart_toEndOf="@id/clinic_phone_icon"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+            android:id="@+id/clinic_phone_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_phone_black_24dp"
+            android:contentDescription="@string/clinic_phone_icon_content_description"
+            app:layout_constraintTop_toBottomOf="@id/clinic_phone_barrier_top"
+            app:layout_constraintBottom_toTopOf="@id/clinic_phone_barrier_bottom"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView
-        android:id="@+id/clinic_phone_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="4dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:focusable="true"
-        android:clickable="true"
-        android:background="?attr/selectableItemBackground"
-        app:layout_constraintTop_toBottomOf="@id/clinic_phone_label_text_view"
-        app:layout_constraintStart_toEndOf="@id/clinic_phone_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@string/clinic_phone_text_view_preview"/>
+        <TextView
+            android:id="@+id/clinic_phone_label_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="12sp"
+            android:text="@string/clinic_phone_label_text_view"
+            app:layout_constraintTop_toBottomOf="@id/clinic_address_text_view"
+            app:layout_constraintStart_toEndOf="@id/clinic_phone_icon"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <android.support.constraint.Barrier
-        android:id="@+id/clinic_phone_barrier_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="clinic_phone_text_view"
-        app:barrierDirection="bottom"/>
+        <TextView
+            android:id="@+id/clinic_phone_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintTop_toBottomOf="@id/clinic_phone_label_text_view"
+            app:layout_constraintStart_toEndOf="@id/clinic_phone_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/clinic_phone_text_view_preview"/>
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_phone_barrier_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_phone_text_view"
+            app:barrierDirection="bottom"/>
+
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_url_barrier_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_url_label"
+            app:barrierDirection="top"/>
+
+        <ImageView
+            android:id="@+id/clinic_url_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/clinic_url_icon_content_description"
+            android:src="@drawable/ic_http_black_24dp"
+            app:layout_constraintTop_toBottomOf="@id/clinic_url_barrier_top"
+            app:layout_constraintBottom_toTopOf="@id/clinic_url_barrier_bottom"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/clinic_url_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="12sp"
+            android:text="@string/clinic_url_label"
+            app:layout_constraintTop_toBottomOf="@id/clinic_phone_text_view"
+            app:layout_constraintStart_toEndOf="@id/clinic_url_icon"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/clinic_url_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="italic"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintTop_toBottomOf="@id/clinic_url_label"
+            app:layout_constraintStart_toEndOf="@id/clinic_url_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/clinic_url_text_view_preview"/>
+
+        <android.support.constraint.Barrier
+            android:id="@+id/clinic_url_barrier_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="clinic_url_text_view" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
