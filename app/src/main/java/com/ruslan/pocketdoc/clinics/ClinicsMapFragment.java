@@ -79,6 +79,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     private List<Marker> mMarkers = new ArrayList<>();
     private boolean mIsDisplayed;
     private boolean mAreMarkersInDb;
+    private boolean mAreMarkersAdded;
     private boolean mShowOnlyClinics;
     private boolean mShowOnlyDiagnostics;
 
@@ -116,6 +117,9 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     @Override
     public void onResume() {
         super.onResume();
+        if (!mAreMarkersAdded) {
+            mPresenter.getClinicsCount();
+        }
     }
 
     @Override
@@ -290,6 +294,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
             }
             onIdle();
         }
+        mAreMarkersAdded = true;
     }
 
     @Override
@@ -412,11 +417,9 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
             if (mLocationPermissionGranted) {
                 mGoogleMap.setMyLocationEnabled(true);
                 mUiSettings.setMyLocationButtonEnabled(true);
-                mPresenter.getClinicsCount();
             } else {
                 mGoogleMap.setMyLocationEnabled(false);
                 mUiSettings.setMyLocationButtonEnabled(false);
-                mPresenter.getClinicsCount();
             }
         } catch (SecurityException ex) {
             Log.e(TAG, "Location error: " + ex.getMessage(), ex);

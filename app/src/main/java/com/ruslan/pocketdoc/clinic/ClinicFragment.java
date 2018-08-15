@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +31,12 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     private ImageView mClinicLogoImageView;
     private TextView mClinicNameTextView;
     private TextView mClinicAddressTextView;
+    private Group mClinicPhoneGroup;
     private TextView mClinicPhoneTextView;
+    private Group mClinicUrlGroup;
     private TextView mClinicUrlTextView;
+    private Group mClinicDescriptionGroup;
+    private TextView mClinicDescriptionTextView;
 
     private ClinicContract.Presenter mPresenter;
 
@@ -87,13 +92,17 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
             mClinicNameTextView.setText(clinic.getShortName());
             String address = clinic.getStreet() + ", " + clinic.getHouse();
             mClinicAddressTextView.setText(address);
-            String incorrectPhone = clinic.getPhone();
-            String correctPhone =  "+7(" + incorrectPhone.substring(1, 4) + ")" +
-                    incorrectPhone.substring(4, 7) + "-" + incorrectPhone.substring(7, 9) + "-" +
-                    incorrectPhone.substring(9);
-            mClinicPhoneTextView.setText(correctPhone);
-            if (clinic.getUrl() == null) {
-                mClinicUrlTextView.setText("Сайт не указан");
+            if (clinic.getPhone() == null || clinic.getPhone().equals("")) {
+                mClinicPhoneGroup.setVisibility(View.GONE);
+            } else {
+                String incorrectPhone = clinic.getPhone();
+                String correctPhone =  "+7(" + incorrectPhone.substring(1, 4) + ")" +
+                        incorrectPhone.substring(4, 7) + "-" + incorrectPhone.substring(7, 9) +
+                        "-" + incorrectPhone.substring(9);
+                mClinicPhoneTextView.setText(correctPhone);
+            }
+            if (clinic.getUrl() == null || clinic.getUrl().equals("")) {
+                mClinicUrlGroup.setVisibility(View.GONE);
             } else {
                 String clinicUrl = clinic.getUrl();
                 char lastCharacter = clinicUrl.charAt(clinicUrl.length() - 1);
@@ -101,6 +110,11 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
                     clinicUrl = clinicUrl.substring(0, clinicUrl.length() - 1);
                 }
                 mClinicUrlTextView.setText(clinicUrl);
+            }
+            if (clinic.getDescription() == null || clinic.getDescription().equals("")) {
+                mClinicDescriptionGroup.setVisibility(View.GONE);
+            } else {
+                mClinicDescriptionTextView.setText(clinic.getDescription());
             }
             mIsClinicShowed = true;
         }
@@ -114,10 +128,16 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
         mClinicLogoImageView = rootView.findViewById(R.id.clinic_logo_image_view);
         mClinicNameTextView = rootView.findViewById(R.id.clinic_name_text_view);
         mClinicAddressTextView = rootView.findViewById(R.id.clinic_address_text_view);
+        mClinicPhoneGroup = rootView.findViewById(R.id.clinic_phone_group);
         mClinicPhoneTextView = rootView.findViewById(R.id.clinic_phone_text_view);
         mClinicPhoneTextView
                 .setOnClickListener(view -> onPhoneClick(mClinicPhoneTextView.getText().toString()));
+        mClinicUrlGroup = rootView.findViewById(R.id.clinic_url_group);
         mClinicUrlTextView = rootView.findViewById(R.id.clinic_url_text_view);
+        mClinicUrlTextView
+                .setOnClickListener(view -> onUrlClick(mClinicUrlTextView.getText().toString()));
+        mClinicDescriptionGroup = rootView.findViewById(R.id.clinic_description_group);
+        mClinicDescriptionTextView = rootView.findViewById(R.id.clinic_description_text_view);
     }
 
     /**
@@ -127,6 +147,15 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     private void onPhoneClick(String phone) {
         Intent intent =
                 new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+        startActivity(intent);
+    }
+
+    /**
+     * Метод обработки нажатия на URL клиники.
+     * @param url URL клиники.
+     */
+    private void onUrlClick(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
 }

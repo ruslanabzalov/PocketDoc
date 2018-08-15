@@ -3,8 +3,6 @@
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
     <string name="clinics_service_description">Служба, отвечающая за загрузку клиник</string>
-    <string name="specialities_service_description">
-        Служба, отвечающая за обновления специальностей</string>
 
     <!--activity_main, fragments & tabs titles-->
     <string name="specialities_title">Список специальностей</string>
@@ -12,7 +10,6 @@
     <string name="stations_title">Список станций метро</string>
     <string name="doctors_title">Список врачей</string>
     <string name="doctor_title">Информация о враче</string>
-    <string name="new_record_title">Оформление заявки</string>
     <string name="tab_title_doctors">Врачи</string>
     <string name="tab_title_clinics">Клиники</string>
     <string name="clinic_title">Информация о клинике</string>
@@ -42,6 +39,8 @@
     <string name="clinic_url_icon_content_description">Иконка сайта</string>
     <string name="clinic_url_label">Сайт клиники</string>
     <string name="clinic_url_text_view_preview">https://loremipsum.io</string>
+    <string name="clinic_description_label">Подробное описание</string>
+    <string name="clinic_description_preview_text_view">@string/lorem_ipsum</string>
 
     <!--Menu item (fragment_stations)-->
     <string name="item_refresh_stations">Обновить список станций метро</string>
@@ -51,7 +50,6 @@
 
     <!--Previews (fragment_stations)-->
     <string name="station_name_preview">Станция</string>
-    <string name="line_name_preview">Линия</string>
 
     <!--dialog_fragment_date_picker-->
     <string name="date_picker_dialog_fragment_title">Желаемая дата посещения</string>
@@ -96,7 +94,6 @@
     <string name="loading_error_image_description">Ошибка загрузки данных</string>
 
     <!--Other-->
-    <string name="load_error_toast">Ошибка получения данных от сервера:</string>
     <string name="loading_error_title">Сообщение об ошибке</string>
     <string name="loading_error_positive_button_text">Попробовать снова</string>
     <string name="loading_error_negative_button_text">Отмена</string>

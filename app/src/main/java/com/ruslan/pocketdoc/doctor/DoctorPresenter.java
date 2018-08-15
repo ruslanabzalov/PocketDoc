@@ -47,9 +47,7 @@ public class DoctorPresenter implements DoctorContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscription ->
                         Log.i(TAG, "getDoctorInfo: onSubscribe()"))
-                .doOnSuccess(doctor -> {
-                    Log.i(TAG, "getDoctorInfo: onNext()");
-                })
+                .doOnSuccess(doctor -> Log.i(TAG, "getDoctorInfo: onNext()"))
                 .doOnError(throwable -> {
                     Log.i(TAG, "getDoctorInfo: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
@@ -88,9 +86,7 @@ public class DoctorPresenter implements DoctorContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscription ->
                         Log.i(TAG, "getDoctorInfo: onSubscribe()"))
-                .doOnSuccess(doctor -> {
-                    Log.i(TAG, "getDoctorInfo: onNext()");
-                })
+                .doOnSuccess(doctor -> Log.i(TAG, "getDoctorInfo: onNext()"))
                 .doOnError(throwable -> {
                     Log.i(TAG, "getDoctorInfo: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());

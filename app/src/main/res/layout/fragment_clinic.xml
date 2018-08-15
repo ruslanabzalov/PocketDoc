@@ -79,7 +79,7 @@
             android:layout_marginEnd="8dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:text="@string/clinic_name_label_text_view"
             app:layout_constraintTop_toBottomOf="@id/end_horizontal_guideline"
             app:layout_constraintStart_toEndOf="@id/clinic_name_icon"
@@ -133,7 +133,7 @@
             android:layout_marginEnd="8dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:text="@string/clinic_address_label_text_view"
             app:layout_constraintTop_toBottomOf="@id/clinic_name_text_view"
             app:layout_constraintStart_toEndOf="@id/clinic_address_icon"
@@ -159,6 +159,13 @@
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="clinic_address_text_view"
             app:barrierDirection="bottom"/>
+
+        <android.support.constraint.Group
+            android:id="@+id/clinic_phone_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_phone_icon, clinic_phone_label_text_view, clinic_phone_text_view"/>
+
 
         <android.support.constraint.Barrier
             android:id="@+id/clinic_phone_barrier_top"
@@ -187,7 +194,7 @@
             android:layout_marginEnd="8dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:text="@string/clinic_phone_label_text_view"
             app:layout_constraintTop_toBottomOf="@id/clinic_address_text_view"
             app:layout_constraintStart_toEndOf="@id/clinic_phone_icon"
@@ -217,6 +224,12 @@
             app:constraint_referenced_ids="clinic_phone_text_view"
             app:barrierDirection="bottom"/>
 
+        <android.support.constraint.Group
+            android:id="@+id/clinic_url_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_url_icon, clinic_url_label, clinic_url_text_view"/>
+
         <android.support.constraint.Barrier
             android:id="@+id/clinic_url_barrier_top"
             android:layout_width="wrap_content"
@@ -244,7 +257,7 @@
             android:layout_marginEnd="8dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:text="@string/clinic_url_label"
             app:layout_constraintTop_toBottomOf="@id/clinic_phone_text_view"
             app:layout_constraintStart_toEndOf="@id/clinic_url_icon"
@@ -274,6 +287,37 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="clinic_url_text_view" />
+
+        <android.support.constraint.Group
+            android:id="@+id/clinic_description_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="clinic_description_label, clinic_description_text_view"/>
+
+        <TextView
+            android:id="@+id/clinic_description_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="14sp"
+            android:text="@string/clinic_description_label"
+            app:layout_constraintTop_toBottomOf="@id/clinic_url_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/clinic_description_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/clinic_description_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/clinic_description_preview_text_view"/>
 
     </android.support.constraint.ConstraintLayout>
 

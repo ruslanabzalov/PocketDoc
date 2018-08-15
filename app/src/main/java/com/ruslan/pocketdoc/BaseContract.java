@@ -44,15 +44,15 @@ public interface BaseContract {
 
     /**
      * Интерфейс, описывающий базовый Presenter.
-     * @param <V> Тип привязываемого View.
+     * @param <T> Тип привязываемого View.
      */
-    interface BasePresenter<V extends BaseView> {
+    interface BasePresenter<T extends BaseView> {
 
         /**
          * Метод привязки View.
          * @param view View, который необходимо привязать к Presenter.
          */
-        void attachView(V view);
+        void attachView(T view);
 
         /**
          * Метод отвязки View.
