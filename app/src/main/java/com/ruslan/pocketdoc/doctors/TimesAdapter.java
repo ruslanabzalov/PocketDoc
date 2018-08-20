@@ -31,12 +31,15 @@ class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.TimesViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TimesViewHolder holder, int position) {
-        holder.mTimeButton.setText("18:00");
+        String startTime = mDoctor.getDaySchedules().get(position).getStartTime();
+        startTime = startTime
+                .substring(startTime.length() - 9, startTime.length() - 3);
+        holder.mTimeButton.setText(startTime.trim());
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return mDoctor.getDaySchedules().size();
     }
 
     static class TimesViewHolder extends RecyclerView.ViewHolder {

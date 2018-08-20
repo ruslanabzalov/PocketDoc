@@ -1,14 +1,11 @@
 package com.ruslan.pocketdoc.doctors;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -147,13 +144,24 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
                     mCreateRecordButton.setVisibility(View.VISIBLE);
                 }
             } else {
-                if (mCreateRecordButton.getVisibility() != View.GONE) {
-                    mCreateRecordButton.setVisibility(View.GONE);
+                if (doctor.getDaySchedules().size() == 0) {
+                    if (mScheduleRecyclerView.getVisibility() != View.GONE) {
+                        mScheduleRecyclerView.setVisibility(View.GONE);
+                    }
+                    if (mCreateRecordButton.getVisibility() == View.GONE) {
+                        mCreateRecordButton.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (mCreateRecordButton.getVisibility() != View.GONE) {
+                        mCreateRecordButton.setVisibility(View.GONE);
+                    }
+                    if (mScheduleRecyclerView.getVisibility() == View.GONE) {
+                        mScheduleRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                    mScheduleRecyclerView.setAdapter(
+                            new TimesAdapter(doctor, mOnCreateRecordListener)
+                    );
                 }
-                if (mScheduleRecyclerView.getVisibility() == View.GONE) {
-                    mScheduleRecyclerView.setVisibility(View.VISIBLE);
-                }
-                mScheduleRecyclerView.setAdapter(new TimesAdapter(doctor, mOnCreateRecordListener));
             }
         }
     }

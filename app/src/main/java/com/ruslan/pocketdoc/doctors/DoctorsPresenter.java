@@ -5,7 +5,10 @@ import android.util.Log;
 import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.data.Repository;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
+import com.ruslan.pocketdoc.data.doctors.slots.Schedule;
+import com.ruslan.pocketdoc.data.doctors.slots.Slot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,6 +67,24 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                 })
                 .doOnComplete(() -> Log.i(TAG, "getDoctors: onComplete"))
                 .subscribe(this::showList, this::showError);
+    }
+
+    @Override
+    public void setDoctorsSchedules(List<Doctor> doctors, String preferredDate) {
+        List<Schedule> doctorSchedules;
+        for (Doctor doctor : doctors) {
+            doctorSchedules = new ArrayList<>();
+            if (doctor.getSlotList() != null) {
+                for (Slot slot : doctor.getSlotList().getSlots()) {
+                    for (Schedule schedule : slot.getSchedules()) {
+                        if (schedule.getStartTime().contains(preferredDate)) {
+                            doctorSchedules.add(schedule);
+                        }
+                    }
+                }
+                doctor.setDaySchedules(doctorSchedules);
+            }
+        }
     }
 
     @Override

@@ -76,7 +76,7 @@ public class DatePickerDialogFragment extends DialogFragment {
      */
     private void showDoctorsListUi() {
         int year = mDatePicker.getYear();
-        int month = mDatePicker.getMonth() + 1;
+        int month = mDatePicker.getMonth();
         int day = mDatePicker.getDayOfMonth();
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.set(year, month, day);

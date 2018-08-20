@@ -41,6 +41,13 @@ interface DoctorsContract {
         void loadDoctors(String specialityId, String stationId);
 
         /**
+         * Метод установки установки расписания врачей на выбранную дату.
+         * @param doctors Список врачей.
+         * @param preferredDate Выбранная дата записи.
+         */
+        void setDoctorsSchedules(List<Doctor> doctors, String preferredDate);
+
+        /**
          * Метод обновления списка врачей.
          * @param specialityId Идентификатор специальности.
          * @param stationId Идентификатор станции метро.

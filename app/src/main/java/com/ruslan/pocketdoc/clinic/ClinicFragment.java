@@ -141,7 +141,7 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     }
 
     /**
-     * Метод обработки нажатия на номер телефона для возможности звонка.
+     * Метод обработки нажатия на номер телефона для возможности совершения звонка.
      * @param phone Номер телефона.
      */
     private void onPhoneClick(String phone) {

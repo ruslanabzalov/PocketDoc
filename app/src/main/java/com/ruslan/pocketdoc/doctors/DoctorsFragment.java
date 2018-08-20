@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.ruslan.pocketdoc.R;
+import com.ruslan.pocketdoc.StringUtils;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
@@ -60,7 +61,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private String mSpecialityId;
     private String mStationId;
-    private Date mDate;
+    private String mPreferredDate;
     private boolean mAreDoctorsLoaded;
 
     public static Fragment newInstance(String specId, String stationId, Date date) {
@@ -80,7 +81,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mSpecialityId = Objects.requireNonNull(getArguments()).getString(ARG_SPECIALITY_ID);
         mStationId = Objects.requireNonNull(getArguments()).getString(ARG_STATION_ID);
-        mDate = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
+        Date date = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
+        mPreferredDate = StringUtils.makeCorrectDateString(Objects.requireNonNull(date));
         mPresenter = new DoctorsPresenter();
         mPresenter.attachView(this);
     }
@@ -168,6 +170,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
                         .setTargetFragment(this, NO_DOCTORS_DIALOG_REQUEST_CODE);
                 noDoctorsDialogFragment.show(mFragmentManager, null);
             } else {
+                mPresenter.setDoctorsSchedules(doctors, mPreferredDate);
                 mAdapter = new DoctorsAdapter(
                         doctors, mPresenter::chooseDoctor, this::showCreateNewRecordUi
                 );
@@ -218,7 +221,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mFragmentManager.beginTransaction()
                 .replace(
                         R.id.main_activity_fragment_container,
-                        DoctorFragment.newInstance(doctorId, mDate, mStationId)
+                        DoctorFragment.newInstance(doctorId, mStationId)
                 )
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)

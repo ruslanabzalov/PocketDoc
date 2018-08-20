@@ -70,15 +70,13 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private TextView mDoctorDescriptionTextView;
 
     private int mDoctorId;
-    private Date mPreferredDate;
     private String mStationId;
     private List<Integer> mClinicsNearSelectedStation = new ArrayList<>();
     private boolean isDoctorInfoDisplayed;
 
-    public static Fragment newInstance(int doctorId, Date date, String stationId) {
+    public static Fragment newInstance(int doctorId, String stationId) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARG_DOCTOR_ID, doctorId);
-        arguments.putSerializable(ARG_DATE, date);
         arguments.putString(ARG_STATION_ID, stationId);
         DoctorFragment doctorFragment = new DoctorFragment();
         doctorFragment.setArguments(arguments);
@@ -92,7 +90,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         App.getComponent().inject(this);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mDoctorId = Objects.requireNonNull(getArguments()).getInt(ARG_DOCTOR_ID);
-        mPreferredDate = (Date) getArguments().getSerializable(ARG_DATE);
         mStationId = getArguments().getString(ARG_STATION_ID);
         mPresenter = new DoctorPresenter();
         mPresenter.attachView(this);

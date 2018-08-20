@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
@@ -54,5 +55,11 @@ public class StringUtilsTest {
     public void correctAgePriceStringTest() {
         assertEquals("Стоимость не указана", StringUtils.getCorrectPriceString(0));
         assertEquals("3000\u20bd", StringUtils.getCorrectPriceString(3000));
+    }
+
+    @Test
+    public void correctDateStringTest() {
+        assertEquals("", StringUtils.makeCorrectDateString(null));
+        assertEquals("2018-08-20", StringUtils.makeCorrectDateString(new Date()));
     }
 }
