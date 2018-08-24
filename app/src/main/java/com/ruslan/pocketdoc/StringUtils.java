@@ -70,19 +70,15 @@ public class StringUtils {
      * @return Корректное строковое представление желаемой даты записи.
      */
     public static String makeCorrectDateString(@NonNull Date date) {
-        if (date == null) {
-            return "";
-        } else {
-            Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTime(date);
-            String year = "" + calendar.get(Calendar.YEAR);
-            String month = (calendar.get(Calendar.MONTH) < 10)
-                    ? "0" + (calendar.get(Calendar.MONTH) + 1)
-                    : "" + calendar.get(Calendar.MONTH) + 1;
-            String dayOfMonth = (calendar.get(Calendar.DAY_OF_MONTH) < 10)
-                    ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
-                    : "" + calendar.get(Calendar.DAY_OF_MONTH);
-            return year + "-" + month + "-" + dayOfMonth;
-        }
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        String year = "" + calendar.get(Calendar.YEAR);
+        String month = (calendar.get(Calendar.MONTH) < 10)
+                ? "0" + (calendar.get(Calendar.MONTH) + 1)
+                : "" + calendar.get(Calendar.MONTH) + 1;
+        String dayOfMonth = (calendar.get(Calendar.DAY_OF_MONTH) < 10)
+                ? "0" + calendar.get(Calendar.DAY_OF_MONTH)
+                : "" + calendar.get(Calendar.DAY_OF_MONTH);
+        return year + "-" + month + "-" + dayOfMonth;
     }
 }

@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
+import com.ruslan.pocketdoc.history.HistoryActivity;
 import com.ruslan.pocketdoc.stations.StationsFragment;
 
 import java.util.List;
@@ -114,7 +115,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 mPresenter.updateSpecialities(true);
                 return true;
             case R.id.item_records_history:
-                // TODO: Открыть актинвость, в которой будет отображаться история записей.
+                showHistoryUi();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -184,6 +185,12 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void showHistoryUi() {
+        Intent intent = new Intent(getContext(), HistoryActivity.class);
+        startActivity(intent);
     }
 
     /**

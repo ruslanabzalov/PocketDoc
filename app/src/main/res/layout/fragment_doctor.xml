@@ -31,19 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/photo_image_view"
-                    android:layout_width="0dp"
-                    android:layout_height="300dp"
-                    android:cropToPadding="true"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/doctor_photo_content_description"
-                    android:background="@drawable/shape_image_view_border"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:src="@drawable/doctor_photo"/>
-
                 <TextView
                     android:id="@+id/name_label"
                     android:layout_width="0dp"
@@ -55,7 +42,7 @@
                     android:paddingEnd="8dp"
                     android:textSize="16sp"
                     android:text="@string/doctor_name_label"
-                    app:layout_constraintTop_toBottomOf="@id/photo_image_view"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 

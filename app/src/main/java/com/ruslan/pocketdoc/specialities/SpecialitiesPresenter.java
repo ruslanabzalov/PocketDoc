@@ -54,13 +54,15 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
                 .doOnNext(specialities -> {
                     Log.i(TAG, "getSpecialities: onNext()");
                     Log.i(TAG, "Specialities loaded: " + specialities.size());
+                    showList(specialities);
                 })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getSpecialities: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showError(throwable);
                 })
                 .doOnComplete(() -> Log.i(TAG, "getSpecialities: onComplete"))
-                .subscribe(this::showList, this::showError);
+                .subscribe();
     }
 
     @Override

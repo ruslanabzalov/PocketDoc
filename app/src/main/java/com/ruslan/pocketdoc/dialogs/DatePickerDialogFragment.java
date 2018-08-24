@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.ruslan.pocketdoc.R;
+import com.ruslan.pocketdoc.StringUtils;
 import com.ruslan.pocketdoc.doctors.DoctorsFragment;
 
 import java.util.Calendar;
@@ -81,8 +82,11 @@ public class DatePickerDialogFragment extends DialogFragment {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.set(year, month, day);
         Date date = calendar.getTime();
-        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-        Fragment doctorsFragment = DoctorsFragment.newInstance(mSpecialityId, mStationId, date);
+        String correctDate = StringUtils.makeCorrectDateString(date);
+        FragmentManager fragmentManager =
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        Fragment doctorsFragment =
+                DoctorsFragment.newInstance(mSpecialityId, mStationId, correctDate);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, doctorsFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

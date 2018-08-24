@@ -13,6 +13,7 @@
     <string name="tab_title_doctors">Врачи</string>
     <string name="tab_title_clinics">Клиники</string>
     <string name="clinic_title">Информация о клинике</string>
+    <string name="history_tab_title">История записей</string>
 
     <!--Menu (fragment_specialities)-->
     <string name="item_refresh_specialities">Обновить список специальностей</string>

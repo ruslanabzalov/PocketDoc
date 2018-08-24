@@ -30,6 +30,11 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".history.HistoryActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".clinics.ClinicsJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"

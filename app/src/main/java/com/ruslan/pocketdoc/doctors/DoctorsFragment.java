@@ -21,14 +21,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.ruslan.pocketdoc.R;
-import com.ruslan.pocketdoc.StringUtils;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import com.ruslan.pocketdoc.dialogs.NoDoctorsDialogFragment;
 import com.ruslan.pocketdoc.doctor.DoctorFragment;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,11 +62,11 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     private String mPreferredDate;
     private boolean mAreDoctorsLoaded;
 
-    public static Fragment newInstance(String specId, String stationId, Date date) {
+    public static Fragment newInstance(String specId, String stationId, String correctDate) {
         Bundle arguments = new Bundle();
         arguments.putString(ARG_SPECIALITY_ID, specId);
         arguments.putString(ARG_STATION_ID, stationId);
-        arguments.putSerializable(ARG_DATE, date);
+        arguments.putString(ARG_DATE, correctDate);
         DoctorsFragment doctorsFragment = new DoctorsFragment();
         doctorsFragment.setArguments(arguments);
         return doctorsFragment;
@@ -81,8 +79,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mSpecialityId = Objects.requireNonNull(getArguments()).getString(ARG_SPECIALITY_ID);
         mStationId = Objects.requireNonNull(getArguments()).getString(ARG_STATION_ID);
-        Date date = (Date) Objects.requireNonNull(getArguments()).getSerializable(ARG_DATE);
-        mPreferredDate = StringUtils.makeCorrectDateString(Objects.requireNonNull(date));
+        mPreferredDate = Objects.requireNonNull(getArguments()).getString(ARG_DATE);
         mPresenter = new DoctorsPresenter();
         mPresenter.attachView(this);
     }
@@ -221,7 +218,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mFragmentManager.beginTransaction()
                 .replace(
                         R.id.main_activity_fragment_container,
-                        DoctorFragment.newInstance(doctorId, mStationId)
+                        DoctorFragment.newInstance(doctorId)
                 )
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)

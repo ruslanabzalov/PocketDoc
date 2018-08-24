@@ -16,24 +16,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ruslan.pocketdoc.App;
 import com.ruslan.pocketdoc.R;
 import com.ruslan.pocketdoc.StringUtils;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-
-import javax.inject.Inject;
 
 /**
  * Класс, описывающий фрагмент, содержащий подробную информацию о враче.
@@ -43,8 +35,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private static final String TAG = "DoctorFragment";
 
     private static final String ARG_DOCTOR_ID = "doctor_id";
-    private static final String ARG_DATE = "date";
-    private static final String ARG_STATION_ID = "station_id";
 
     private static final String TAG_CREATE_RECORD_DIALOG = "CreateRecordDialogFragment";
     private static final String TAG_LOADING_ERROR_DIALOG = "LoadingErrorDialogFragment";
@@ -56,13 +46,9 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private FragmentManager mFragmentManager;
 
-    @Inject
-    Picasso mPicasso;
-
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private NestedScrollView mNestedScrollView;
     private ProgressBar mDoctorProgressBar;
-    private ImageView mDoctorPhotoImageView;
     private TextView mDoctorNameTextView;
     private TextView mDoctorSpecialityTextView;
     private TextView mDoctorExperienceTextView;
@@ -70,14 +56,11 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private TextView mDoctorDescriptionTextView;
 
     private int mDoctorId;
-    private String mStationId;
-    private List<Integer> mClinicsNearSelectedStation = new ArrayList<>();
     private boolean isDoctorInfoDisplayed;
 
-    public static Fragment newInstance(int doctorId, String stationId) {
+    public static Fragment newInstance(int doctorId) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARG_DOCTOR_ID, doctorId);
-        arguments.putString(ARG_STATION_ID, stationId);
         DoctorFragment doctorFragment = new DoctorFragment();
         doctorFragment.setArguments(arguments);
         return doctorFragment;
@@ -87,10 +70,8 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        App.getComponent().inject(this);
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mDoctorId = Objects.requireNonNull(getArguments()).getInt(ARG_DOCTOR_ID);
-        mStationId = getArguments().getString(ARG_STATION_ID);
         mPresenter = new DoctorPresenter();
         mPresenter.attachView(this);
     }
@@ -155,9 +136,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     @Override
     public void showDoctorInfo(Doctor doctor) {
-        mPicasso
-                .load(doctor.getPhotoUrl().replace("_small", ""))
-                .into(mDoctorPhotoImageView);
         mDoctorNameTextView.setText(doctor.getName());
         mDoctorSpecialityTextView
                 .setText(StringUtils.getCorrectSpecialitiesString(doctor.getSpecialities()));
@@ -225,7 +203,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mSwipeRefreshLayout.setOnRefreshListener(
                 () -> mPresenter.updateDoctorInfo(mDoctorId, false));
         mDoctorProgressBar = rootView.findViewById(R.id.doctor_progress_bar);
-        mDoctorPhotoImageView = rootView.findViewById(R.id.photo_image_view);
         mDoctorNameTextView = rootView.findViewById(R.id.name_text_view);
         mDoctorSpecialityTextView = rootView.findViewById(R.id.speciality_text_view);
         mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);

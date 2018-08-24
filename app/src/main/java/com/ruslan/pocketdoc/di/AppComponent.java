@@ -46,7 +46,5 @@ public interface AppComponent {
 
     void inject(DoctorsAdapter.DoctorViewHolder viewHolder);
 
-    void inject(DoctorFragment fragment);
-
     void inject(DoctorPresenter presenter);
 }
