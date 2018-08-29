@@ -103,16 +103,15 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
                 .doOnNext(specialities -> {
                     Log.i(TAG, "getSpecialities: onNext()");
                     Log.i(TAG, "Specialities loaded: " + specialities.size());
+                    showUpdatedList(specialities, isMenuRefreshing);
                 })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getSpecialities: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showRefreshingError(throwable, isMenuRefreshing);
                 })
                 .doOnComplete(() -> Log.i(TAG, "getSpecialities: onComplete"))
-                .subscribe(
-                        specialities -> showUpdatedList(specialities, isMenuRefreshing),
-                        throwable -> showRefreshingError(throwable, isMenuRefreshing)
-                );
+                .subscribe();
     }
 
     /**

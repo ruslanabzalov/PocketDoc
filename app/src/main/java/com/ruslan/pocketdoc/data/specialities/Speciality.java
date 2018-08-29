@@ -2,6 +2,7 @@ package com.ruslan.pocketdoc.data.specialities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -24,18 +25,22 @@ public class Speciality {
     @SerializedName("Name")
     private String mName;
 
+    @Ignore
     @ColumnInfo(name = "name_genitive")
     @SerializedName("NameGenitive")
     private String mNameGenitive;
 
+    @Ignore
     @ColumnInfo(name = "name_plural")
     @SerializedName("NamePlural")
     private String mNamePlural;
 
+    @Ignore
     @ColumnInfo(name = "name_plural_genitive")
     @SerializedName("NamePluralGenitive")
     private String mNamePluralGenitive;
 
+    @Ignore
     @ColumnInfo(name = "branch_name")
     @SerializedName("BranchName")
     private String mBranchName;

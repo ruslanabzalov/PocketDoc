@@ -249,10 +249,20 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     /**
      * Метод отображения экземпляра <code>DialogFragment</code> для оформления заявки.
      */
-    private void showCreateNewRecordUi() {
+    private void showCreateNewRecordUi(int createRecordButtonType) {
         if (mFragmentManager.findFragmentByTag(TAG_CREATE_RECORD_DIALOG_FRAGMENT) == null) {
-            DialogFragment createRecordDialogFragment = new CreateRecordDialogFragment();
-            createRecordDialogFragment.setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);
+            DialogFragment createRecordDialogFragment;
+            if (createRecordButtonType == OnCreateRecordListener.SIMPLE_RECORD_BUTTON) {
+                createRecordDialogFragment =
+                        CreateRecordDialogFragment
+                                .newInstance(OnCreateRecordListener.SIMPLE_RECORD_BUTTON);
+            } else {
+                createRecordDialogFragment =
+                        CreateRecordDialogFragment
+                                .newInstance(OnCreateRecordListener.SCHEDULE_BUTTON);
+            }
+            createRecordDialogFragment
+                    .setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);
             createRecordDialogFragment.show(mFragmentManager, TAG_CREATE_RECORD_DIALOG_FRAGMENT);
         }
     }

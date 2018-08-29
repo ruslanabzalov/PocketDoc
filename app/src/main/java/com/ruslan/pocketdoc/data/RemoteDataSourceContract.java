@@ -1,5 +1,7 @@
 package com.ruslan.pocketdoc.data;
 
+import com.ruslan.pocketdoc.api.CreateRecordRequest;
+import com.ruslan.pocketdoc.api.CreateRecordResponse;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
@@ -49,4 +51,11 @@ interface RemoteDataSourceContract {
      * @return Список клиник.
      */
     Flowable<List<Clinic>> getClinics(int start, int count);
+
+    /**
+     * Метод формирования заявки на приём к врачу.
+     * @param createRecordRequest Тело POST-запроса.
+     * @return Объект, содежащий ответ на POST-запрос.
+     */
+    Single<CreateRecordResponse> createRecord(CreateRecordRequest createRecordRequest);
 }

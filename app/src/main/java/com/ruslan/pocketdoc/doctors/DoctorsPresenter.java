@@ -60,13 +60,15 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                 .doOnNext(doctors -> {
                     Log.i(TAG, "getDoctors: onNext()");
                     Log.i(TAG, "Doctors loaded: " + doctors.size());
+                    showList(doctors);
                 })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getDoctors: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showError(throwable);
                 })
                 .doOnComplete(() -> Log.i(TAG, "getDoctors: onComplete"))
-                .subscribe(this::showList, this::showError);
+                .subscribe();
     }
 
     @Override
@@ -127,15 +129,15 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                 .doOnNext(doctors -> {
                     Log.i(TAG, "getDoctors: onNext()");
                     Log.i(TAG, "Doctors loaded: " + doctors.size());
+                    showUpdatedList(doctors, isMenuRefreshing);
                 })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getDoctors: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showRefreshingError(throwable, isMenuRefreshing);
                 })
                 .doOnComplete(() -> Log.i(TAG, "getDoctors: onComplete"))
-                .subscribe(
-                        doctors -> showUpdatedList(doctors, isMenuRefreshing),
-                        throwable -> showRefreshingError(throwable, isMenuRefreshing));
+                .subscribe();
     }
 
     /**

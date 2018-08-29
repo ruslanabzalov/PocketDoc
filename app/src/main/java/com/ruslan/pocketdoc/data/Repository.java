@@ -1,6 +1,8 @@
 package com.ruslan.pocketdoc.data;
 
 import com.ruslan.pocketdoc.App;
+import com.ruslan.pocketdoc.api.CreateRecordRequest;
+import com.ruslan.pocketdoc.api.CreateRecordResponse;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
 import com.ruslan.pocketdoc.data.doctors.Doctor;
 import com.ruslan.pocketdoc.data.specialities.Speciality;
@@ -155,5 +157,14 @@ public class Repository {
      */
     public Single<Clinic> getClinicByIdFromDb(int id) {
         return mLocalDataSource.getClinicById(id);
+    }
+
+    /**
+     * Метод формирования заявки.
+     * @param recordRequest Тело запроса, для формирования заявки.
+     * @return Ответ на запрос.
+     */
+    public Single<CreateRecordResponse> createRecord(CreateRecordRequest recordRequest) {
+        return mRemoteDataSource.createRecord(recordRequest);
     }
 }

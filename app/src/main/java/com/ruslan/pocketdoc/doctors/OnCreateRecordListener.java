@@ -1,7 +1,10 @@
 package com.ruslan.pocketdoc.doctors;
 
 @FunctionalInterface
-interface OnCreateRecordListener {
+public interface OnCreateRecordListener {
 
-    void onCreateRecord();
+    int SIMPLE_RECORD_BUTTON = 0;
+    int SCHEDULE_BUTTON = 1;
+
+    void onCreateRecord(int createRecordButtonType);
 }

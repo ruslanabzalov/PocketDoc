@@ -57,13 +57,15 @@ public class StationsPresenter implements StationsContract.Presenter {
                 .doOnNext(stations -> {
                     Log.i(TAG, "getStations(false): onNext()");
                     Log.i(TAG, "Stations loaded: " + stations.size());
+                    showList(stations);
                 })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getStations(false): onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showError(throwable);
                 })
                 .doOnComplete(() -> Log.i(TAG, "getStations(false): onComplete"))
-                .subscribe(this::showList, this::showError);
+                .subscribe();
     }
 
     @Override
@@ -105,15 +107,15 @@ public class StationsPresenter implements StationsContract.Presenter {
                 .doOnNext(stations -> {
                     Log.i(TAG, "getStations(true): onNext()");
                     Log.i(TAG, "Stations loaded: " + stations.size());
+                    showUpdatedList(stations, isMenuRefreshing);
                 })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getStations(true): onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showRefreshingError(throwable, isMenuRefreshing);
                 })
                 .doOnComplete(() -> Log.i(TAG, "getStations(true): onComplete"))
-                .subscribe(
-                        stations -> showUpdatedList(stations, isMenuRefreshing),
-                        throwable -> showRefreshingError(throwable, isMenuRefreshing));
+                .subscribe();
     }
 
     /**

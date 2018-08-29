@@ -10,7 +10,10 @@ import com.ruslan.pocketdoc.data.stations.StationList;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -83,4 +86,12 @@ public interface DocDocApi {
     Flowable<SlotList> getSlots(
             @Path("doctorId") int doctorId, @Path("clinicId") int clinicId,
             @Path("startDate") String startDate, @Path("finishDate") String finishDate);
+
+    /**
+     * Метод формирования заявки записи на приём к врачу.
+     * @return Ответ об успешности или неудаче оформления заявки.
+     */
+    @Headers("Content-Type: application/json")
+    @POST("request")
+    Single<CreateRecordResponse> createRecord(@Body CreateRecordRequest body);
 }

@@ -47,12 +47,16 @@ public class DoctorPresenter implements DoctorContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscription ->
                         Log.i(TAG, "getDoctorInfo: onSubscribe()"))
-                .doOnSuccess(doctor -> Log.i(TAG, "getDoctorInfo: onNext()"))
+                .doOnSuccess(doctor -> {
+                    Log.i(TAG, "getDoctorInfo: onNext()");
+                    showDoctorInfo(doctor);
+                })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getDoctorInfo: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showError(throwable);
                 })
-                .subscribe(this::showDoctorInfo, this::showError);
+                .subscribe();
     }
 
     @Override
@@ -86,14 +90,16 @@ public class DoctorPresenter implements DoctorContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscription ->
                         Log.i(TAG, "getDoctorInfo: onSubscribe()"))
-                .doOnSuccess(doctor -> Log.i(TAG, "getDoctorInfo: onNext()"))
+                .doOnSuccess(doctor -> {
+                    Log.i(TAG, "getDoctorInfo: onNext()");
+                    showUpdatedDoctorInfo(doctor, isMenuRefreshing);
+                })
                 .doOnError(throwable -> {
                     Log.i(TAG, "getDoctorInfo: onError()");
                     Log.i(TAG, "Error message: " + throwable.getMessage());
+                    showRefreshingError(throwable, isMenuRefreshing);
                 })
-                .subscribe(
-                        doctor -> showUpdatedDoctorInfo(doctor, isMenuRefreshing),
-                        throwable -> showRefreshingError(throwable, isMenuRefreshing));
+                .subscribe();
     }
 
     /**

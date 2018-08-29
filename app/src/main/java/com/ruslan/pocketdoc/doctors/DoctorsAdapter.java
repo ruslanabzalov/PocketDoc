@@ -123,7 +123,8 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             mDoctorPriceTextView = itemView.findViewById(R.id.doctor_price_text_view);
             mCreateRecordButton = itemView.findViewById(R.id.doctor_create_record_button);
             mCreateRecordButton.setOnClickListener(view ->
-                    mOnCreateRecordListener.onCreateRecord());
+                    mOnCreateRecordListener
+                            .onCreateRecord(OnCreateRecordListener.SIMPLE_RECORD_BUTTON));
             mScheduleRecyclerView = itemView.findViewById(R.id.schedulers_recycler_view);
             LinearLayoutManager linearLayoutManager =
                     new LinearLayoutManager(itemView.getContext());

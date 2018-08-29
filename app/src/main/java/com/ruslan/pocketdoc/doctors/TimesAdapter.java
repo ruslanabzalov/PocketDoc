@@ -32,8 +32,7 @@ class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.TimesViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull TimesViewHolder holder, int position) {
         String startTime = mDoctor.getDaySchedules().get(position).getStartTime();
-        startTime = startTime
-                .substring(startTime.length() - 9, startTime.length() - 3);
+        startTime = startTime.substring(startTime.length() - 9, startTime.length() - 3);
         holder.mTimeButton.setText(startTime.trim());
     }
 
@@ -49,7 +48,9 @@ class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.TimesViewHolder> {
         private TimesViewHolder(View rootView, OnCreateRecordListener onCreateRecordListener) {
             super(rootView);
             mTimeButton = itemView.findViewById(R.id.time_button);
-            mTimeButton.setOnClickListener(view -> onCreateRecordListener.onCreateRecord());
+            mTimeButton.setOnClickListener(view ->
+                    onCreateRecordListener.onCreateRecord(OnCreateRecordListener.SCHEDULE_BUTTON)
+            );
         }
     }
 }
