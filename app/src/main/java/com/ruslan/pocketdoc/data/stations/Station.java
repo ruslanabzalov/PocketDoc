@@ -7,9 +7,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Класс, описывающий сущность "Станция метро".
- */
 @SuppressWarnings("WeakerAccess")
 @Entity(tableName = "stations")
 public class Station {

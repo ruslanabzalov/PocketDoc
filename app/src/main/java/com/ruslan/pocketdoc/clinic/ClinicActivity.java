@@ -12,19 +12,10 @@ import com.ruslan.pocketdoc.R;
 
 import java.util.Objects;
 
-/**
- * Класс, описывающий активность, содержащую фрагмент <code>ClinicFragment</code>.
- */
 public class ClinicActivity extends AppCompatActivity {
 
     private static final String CLINIC_ID_EXTRA = "clinic_id";
 
-    /**
-     * Статический метод создания интента для запуска активности <code>ClinicActivity</code>.
-     * @param context Контекст.
-     * @param clinicId Идентификатор врача.
-     * @return Интент для запуска активности <code>ClinicActivity</code>.
-     */
     public static Intent newIntent(Context context, int clinicId) {
         Intent intent = new Intent(context, ClinicActivity.class);
         intent.putExtra(CLINIC_ID_EXTRA, clinicId);

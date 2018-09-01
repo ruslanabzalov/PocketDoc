@@ -14,9 +14,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Класс, описывающий Presenter для взаимодействия с <code>SpecialitiesFragment</code>.
- */
 public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
 
     private static final String TAG = "SpecialitiesPresenter";
@@ -81,20 +78,12 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         mView.showStationsUi(speciality.getId());
     }
 
-    /**
-     * Метод для освобождения ресурсов.
-     * @param disposable Объект типа <code>Disposable</code>, содержащий освобождаемые ресурсы.
-     */
     private void dispose(Disposable disposable) {
         if (disposable != null) {
             disposable.dispose();
         }
     }
 
-    /**
-     * Метод принудительного обновления списка специальностей.
-     * @param isMenuRefreshing Значение типа <code>boolean</code>, указывающее на способ обновления.
-     */
     private void forceUpdateSpecialities(boolean isMenuRefreshing) {
         mDisposable = mRepository.getSpecialities(true)
                 .subscribeOn(Schedulers.io())
@@ -114,10 +103,6 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
                 .subscribe();
     }
 
-    /**
-     * Метод отображения полученного списка специальностей.
-     * @param specialities Список специальностей.
-     */
     private void showList(List<Speciality> specialities) {
         if (mView != null) {
             mView.showSpecialities(specialities);
@@ -125,10 +110,6 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения сообщения об ошибке при неудачном получении списка специальностей.
-     * @param throwable Исключение, выброшенное при неудачном получении списка специальностей.
-     */
     private void showError(Throwable throwable) {
         if (mView != null) {
             mView.showErrorDialog(throwable);
@@ -136,11 +117,6 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения обновлённого списка специальностей.
-     * @param specialities Список специальностей.
-     * @param isMenuRefreshing Значение типа <code>boolean</code>, указывающее на способ обновления.
-     */
     private void showUpdatedList(List<Speciality> specialities, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showSpecialities(specialities);
@@ -152,11 +128,6 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения сообщения об ошибке при неудачном обновлении списка специальностей.
-     * @param throwable Исключение, выброшенное при неудачном обновлении списка специальностей.
-     * @param isMenuRefreshing Значение типа <code>boolean</code>, указывающее на способ обновления.
-     */
     private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showErrorDialog(throwable);

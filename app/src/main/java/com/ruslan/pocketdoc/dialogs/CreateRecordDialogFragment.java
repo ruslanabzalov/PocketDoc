@@ -17,12 +17,12 @@ import com.ruslan.pocketdoc.doctors.OnCreateRecordListener;
 
 import java.util.Objects;
 
-/**
- * Класс, описывающий DialogFragment, позволяющий создавать заявку на запись к врачу.
- */
 public class CreateRecordDialogFragment extends DialogFragment {
 
     private static final String ARG_CREATE_RECORD_BUTTON_TYPE = "create_record_button_type";
+    private static final String ARG_DOCTOR_ID = "doctor_id";
+    private static final String ARG_CLINIC_ID = "clinic_id";
+    private static final String ARG_SLOT_ID = "slot_id";
 
     private EditText mUserNameEditText;
     private EditText mUserPhoneEditText;
@@ -54,10 +54,6 @@ public class CreateRecordDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    /**
-     * Метод инициализации элементов типа <code>View</code>.
-     * @param rootView Корневой элемент типа <code>View</code>.
-     */
     private void initViews(@NonNull View rootView) {
         mUserNameEditText = rootView.findViewById(R.id.user_name_edit_text);
         mUserNameEditText.addTextChangedListener(new TextWatcher() {
@@ -92,9 +88,6 @@ public class CreateRecordDialogFragment extends DialogFragment {
         mCreateRecordButton.setEnabled(false);
     }
 
-    /**
-     * Метод включения кнопки формирования заявки в зависимости от заполненных данных пользователя.
-     */
     private void checkCreateRecordButtonEnable() {
         if (!mUserName.equals("") && !mUserPhone.equals("")) {
             mCreateRecordButton.setEnabled(true);
@@ -103,14 +96,11 @@ public class CreateRecordDialogFragment extends DialogFragment {
         }
     }
 
-    /**
-     * Метод формирования заявки.
-     */
     private void createRecord() {
         if (mCreateRecordButtonType == OnCreateRecordListener.SIMPLE_RECORD_BUTTON) {
-            // TODO: Создать POST-запрос для записи не по расписанию.
+            // TODO: Создать POST-запрос для записи без расписания.
         } else {
-            // TODO: Передать сюда идентификатор расписания.
+            // TODO: Сюда необходимо передать информацию ID врача, ID клиники врача и ID расписания.
             // TODO: Создать POST-запрос для записи по расписанию.
         }
     }

@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Класс, описывающий пользовательский десериализатор расписания врачей.
- */
 public class SlotsDeserializer implements JsonDeserializer<SlotList> {
 
     @Override

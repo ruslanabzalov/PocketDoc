@@ -2,9 +2,6 @@ package com.ruslan.pocketdoc.api;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Класс, описывающий ответ на POST-запрос для создания записи.
- */
 public class CreateRecordResponse {
 
     @SerializedName("status")

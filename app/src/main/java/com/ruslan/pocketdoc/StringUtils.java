@@ -9,17 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-/**
- * Класс, предоставляющий вспомогательные статические методы
- * для формирования корректных строковых литералов.
- */
 public class StringUtils {
 
-    /**
-     * Метод формирования корректной строки специальности(-ей) врача.
-     * @param specialities Список специальностей.
-     * @return Строка специальности(-ей).
-     */
     public static String getCorrectSpecialitiesString(List<Speciality> specialities) {
         if (specialities == null || specialities.size() == 0) {
             return "Специальность не указана";
@@ -36,11 +27,6 @@ public class StringUtils {
         }
     }
 
-    /**
-     * Метод формирования корректной строки стажа работы врача.
-     * @param experience Стаж работы.
-     * @return Строка стажа работы.
-     */
     public static String getCorrectExperienceString(int experience) {
         if (experience == 0) {
             return "Нет опыта";
@@ -55,20 +41,11 @@ public class StringUtils {
         }
     }
 
-    /**
-     * Метод формирования корректной строки стоимости посещения врача.
-     * @param price Стоимость посещения.
-     * @return Строка стоимости посещения.
-     */
     public static String getCorrectPriceString(int price) {
-        return (price == 0) ? "Стоимость не указана" : price + "\u20bd";
+        String rubleSign = "\u20bd";
+        return (price == 0) ? "Стоимость не указана" : price + rubleSign;
     }
 
-    /**
-     * Метод формирования корректной строки, содержащей желаемую дату записи к врачу.
-     * @param date Желаемая дата записи к врачу.
-     * @return Корректное строковое представление желаемой даты записи.
-     */
     public static String makeCorrectDateString(@NonNull Date date) {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);

@@ -13,9 +13,6 @@ import com.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
 import java.util.Objects;
 
-/**
- * Класс, описывающий основную активность приложения.
- */
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
@@ -34,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.main_activity_fragment_container, specialitiesFragment)
                     .commit();
         } else {
-            // Если активность пересоздаётся, то отобразить (или не отображать) кнопку Up
-            // в зависимости от размера back stack'а.
             checkUpButton();
             Fragment currentFragment =
                     mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
@@ -83,18 +78,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * Метод отображения или сокрытия кнопки Up в зависимости от размера back stack'а.
-     */
     private void checkUpButton() {
         Objects.requireNonNull(getSupportActionBar())
                 .setDisplayHomeAsUpEnabled(mFragmentManager.getBackStackEntryCount() > 0);
     }
 
-    /**
-     * Метод замены текущего фрагмента новым.
-     * @param fragment Новый экземпляр класса <code>Fragment</code>.
-     */
     private void replaceFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_activity_fragment_container, fragment)
@@ -102,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    /**
-     * Метод полной очистки back stack'а.
-     */
     private void clearBackStack() {
         int backStackCount = mFragmentManager.getBackStackEntryCount();
         while (backStackCount > 0) {

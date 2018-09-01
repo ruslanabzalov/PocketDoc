@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Класс для десериализации JSON-массива клиник.
- */
 public class ClinicList {
 
     @SerializedName("Total")

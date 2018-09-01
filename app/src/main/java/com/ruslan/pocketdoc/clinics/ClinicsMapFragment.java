@@ -42,9 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Класс, описывающий фрагмент, отображающий карту.
- */
 public class ClinicsMapFragment extends Fragment implements ClinicsContract.View {
 
     private static final String TAG = "ClinicsMapFragment";
@@ -161,9 +158,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
     }
 
-    /**
-     * Метод восстановления состояния пунктов меню.
-     */
     private void restoreMenuChecks() {
         if (mShowOnlyClinics) {
             mMenu.findItem(R.id.item_show_only_clinics).setChecked(true);
@@ -198,11 +192,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
     }
 
-    /**
-     * Метод изменения выбора пунктов меню
-     * @param menuItem Пункт меню.
-     * @param menuItemId Идентификатор другого пункта меню.
-     */
     private void changeMenuChecks(@NonNull MenuItem menuItem, @IdRes int menuItemId) {
         if (menuItem.isChecked()) {
             menuItem.setChecked(false);
@@ -215,9 +204,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
     }
 
-    /**
-     * Метод проверки выбранных пунктов меню.
-     */
     private void checkMenuItems() {
         MenuItem clinicsMenuItem = mMenu.findItem(R.id.item_show_only_clinics);
         MenuItem diagnosticsMenuItem = mMenu.findItem(R.id.item_show_only_diagnostics);
@@ -268,7 +254,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
         JobScheduler jobScheduler =
                 (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        // Отмена всех предыдущих задач, если они не успели завершиться до начала новой.
         Objects.requireNonNull(jobScheduler).cancelAll();
         Objects.requireNonNull(jobScheduler).schedule(jobInfo);
     }
@@ -329,10 +314,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         startActivity(ClinicActivity.newIntent(getActivity(), clinicId));
     }
 
-    /**
-     * Метод инициализации Google Maps.
-     * @param googleMap Объект карт Google Maps.
-     */
     private void initMap(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mUiSettings = mGoogleMap.getUiSettings();
@@ -355,19 +336,10 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         getLocationPermission();
     }
 
-    /**
-     * Метод отображения информации о мед. учреждении
-     * при нажатии на окно маркера.
-     * @param marker Маркер, на окно которого происходит нажатие.
-     */
     private void onInfoClick(@NonNull Marker marker) {
         showClinicInfoUi(Objects.requireNonNull((Integer) marker.getTag()));
     }
 
-    /**
-     * Метод загрузки или отображения мед. учреждений
-     * при остановке движения камеры.
-     */
     private void onIdle() {
         if (mMarkers.size() == 0) {
             if (mShowOnlyClinics) {
@@ -385,18 +357,12 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
     }
 
-    /**
-     * Метод сокрытия маркеров.
-     */
     private void hideMarkers() {
         for (Marker marker : mMarkers) {
             marker.setVisible(false);
         }
     }
 
-    /**
-     * Метод запроса разрешения на считывание информации о местоположении устройства.
-     */
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -408,10 +374,6 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
     }
 
-    /**
-     * Метод обновления UI после проверки разрешения на получение информации
-     * о местоположении устройства.
-     */
     private void updateLocationUi() {
         try {
             if (mLocationPermissionGranted) {
@@ -426,9 +388,7 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
         }
     }
 
-    /*
-    Ненужные методы!
-     */
+    // Ненужные методы!
 
     @Override
     public void showProgressBar() {}

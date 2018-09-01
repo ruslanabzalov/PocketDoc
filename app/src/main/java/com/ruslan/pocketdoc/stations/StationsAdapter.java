@@ -18,9 +18,6 @@ import com.ruslan.pocketdoc.data.stations.Station;
 
 import java.util.List;
 
-/**
- * Класс, описывающий пользовательский RecyclerView Adapter.
- */
 class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHolder> {
 
     private RecyclerItemOnClickListener<Station> mListener;
@@ -56,13 +53,10 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
         notifyDataSetChanged();
     }
 
-    /**
-     * Вложенный класс, описывающий пользовательский RecyclerView ViewHolder.
-     */
     static class StationViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mStationNameTextView;
         private ImageView mLineIndicator;
+        private TextView mStationNameTextView;
 
         private Station mStation;
 
@@ -73,17 +67,12 @@ class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationViewHo
             itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mStation));
         }
 
-        /**
-         * Метод привязки данный станции метро к ViewHolder.
-         * @param station Станция метро.
-         */
         void bind(Station station) {
             mStation = station;
             String stationName = mStation.getName();
             mStationNameTextView.setText(stationName);
             Drawable lineIndicatorDrawable = mLineIndicator.getDrawable();
             int lineColor = Color.parseColor("#" + mStation.getLineColor());
-            // TODO: Узнать побольше о классе PorterDuffColorFilter!
             lineIndicatorDrawable
                     .setColorFilter(new PorterDuffColorFilter(lineColor, PorterDuff.Mode.SRC_IN));
             mLineIndicator.setBackground(lineIndicatorDrawable);

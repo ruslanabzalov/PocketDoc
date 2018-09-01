@@ -1,8 +1,5 @@
 package com.ruslan.pocketdoc.data.doctors.slots;
 
-/**
- * Класс, описывающий расписание приёма.
- */
 public class Schedule {
 
     private String mId;

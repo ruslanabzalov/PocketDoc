@@ -27,9 +27,6 @@ import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 
 import java.util.Objects;
 
-/**
- * Класс, описывающий фрагмент, содержащий подробную информацию о враче.
- */
 public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     private static final String TAG = "DoctorFragment";
@@ -187,10 +184,6 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    /**
-     * Метод инициализации элементов View.
-     * @param rootView Корневой элемент View.
-     */
     private void initViews(@NonNull View rootView) {
         mNestedScrollView = rootView.findViewById(R.id.doctor_root_view_group);
         mSwipeRefreshLayout = rootView.findViewById(R.id.doctor_swipe_refresh);

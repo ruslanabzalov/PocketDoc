@@ -14,9 +14,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Класс, описывающий Presenter для взаимодействия с фрагментом StationsFragment.
- */
 public class StationsPresenter implements StationsContract.Presenter {
 
     private static final String TAG = "StationsPresenter";
@@ -84,20 +81,12 @@ public class StationsPresenter implements StationsContract.Presenter {
         mView.showCalendarUi(station.getId());
     }
 
-    /**
-     * Метод освобождения ресурсов Disposable.
-     * @param disposable Объект, содержащий освобождаемые ресурсы.
-     */
     private void dispose(Disposable disposable) {
         if (disposable != null) {
             disposable.dispose();
         }
     }
 
-    /**
-     * Метод принудительного обновления списка станций метро.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
-     */
     private void forceUpdateStations(boolean isMenuRefreshing) {
         mDisposable = mRepository.getStations(true)
                 .subscribeOn(Schedulers.io())
@@ -118,10 +107,6 @@ public class StationsPresenter implements StationsContract.Presenter {
                 .subscribe();
     }
 
-    /**
-     * Метод отображения полученного списка станций метро.
-     * @param stations Список станций метро.
-     */
     private void showList(List<Station> stations) {
         if (mView != null) {
             mView.showStations(stations);
@@ -129,10 +114,6 @@ public class StationsPresenter implements StationsContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения сообщения об ошибке при неудачном получении списка станций метро.
-     * @param throwable Выброшенное исключение.
-     */
     private void showError(Throwable throwable) {
         if (mView != null) {
             mView.showErrorDialog(throwable);
@@ -140,11 +121,6 @@ public class StationsPresenter implements StationsContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения обновлённого списка станций метро.
-     * @param stations Список станций метро.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
-     */
     private void showUpdatedList(List<Station> stations, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showStations(stations);
@@ -156,11 +132,6 @@ public class StationsPresenter implements StationsContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения сообщения об ошибке при неудачном обновлении списка станций метро.
-     * @param throwable Выброшенное исключение.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
-     */
     private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showErrorDialog(throwable);

@@ -1,7 +1,7 @@
 package com.ruslan.pocketdoc.data;
 
 import com.ruslan.pocketdoc.App;
-import com.ruslan.pocketdoc.api.CreateRecordRequest;
+import com.ruslan.pocketdoc.api.CreateRecordRequestSchedule;
 import com.ruslan.pocketdoc.api.CreateRecordResponse;
 import com.ruslan.pocketdoc.api.DocDocApi;
 import com.ruslan.pocketdoc.data.clinics.Clinic;
@@ -20,9 +20,6 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-/**
- * Класс, реализующий интерфейс работы с API DocDoc.
- */
 public class RemoteDataSource implements RemoteDataSourceContract {
 
     @Inject
@@ -63,7 +60,7 @@ public class RemoteDataSource implements RemoteDataSourceContract {
     }
 
     @Override
-    public Single<CreateRecordResponse> createRecord(CreateRecordRequest recordRequest) {
+    public Single<CreateRecordResponse> createRecord(CreateRecordRequestSchedule recordRequest) {
         return mApi.createRecord(recordRequest);
     }
 }

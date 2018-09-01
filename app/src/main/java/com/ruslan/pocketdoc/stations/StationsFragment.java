@@ -27,9 +27,6 @@ import com.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Класс, описывающий фрагмент, содержащий список станций метро.
- */
 public class StationsFragment extends Fragment implements StationsContract.View {
 
     private static final String TAG = "StationsFragment";
@@ -188,10 +185,6 @@ public class StationsFragment extends Fragment implements StationsContract.View 
         datePickerDialogFragment.show(mFragmentManager, null);
     }
 
-    /**
-     * Метод инициализации элементов View.
-     * @param view Корневой элемент View.
-     */
     private void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.stations_refresh);
         int[] swipeRefreshColors = {

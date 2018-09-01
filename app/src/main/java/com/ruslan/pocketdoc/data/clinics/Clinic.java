@@ -6,9 +6,6 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Класс, описывающий сущность "Клиника".
- */
 @SuppressWarnings("WeakerAccess")
 @Entity(tableName = "clinics")
 public class Clinic {

@@ -7,7 +7,6 @@ import com.ruslan.pocketdoc.clinics.ClinicsPresenter;
 import com.ruslan.pocketdoc.data.LocalDataSource;
 import com.ruslan.pocketdoc.data.RemoteDataSource;
 import com.ruslan.pocketdoc.data.Repository;
-import com.ruslan.pocketdoc.doctor.DoctorFragment;
 import com.ruslan.pocketdoc.doctor.DoctorPresenter;
 import com.ruslan.pocketdoc.doctors.DoctorsAdapter;
 import com.ruslan.pocketdoc.doctors.DoctorsPresenter;

@@ -17,9 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Класс, описывающий Presenter для взаимодействия с фрагментом DoctorsFragment.
- */
 public class DoctorsPresenter implements DoctorsContract.Presenter {
 
     private static final String TAG = "DoctorsPresenter";
@@ -105,20 +102,12 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         mView.showDoctorInfoUi(doctor.getId());
     }
 
-    /**
-     * Метод освобождения ресурсов Disposable.
-     * @param disposable Объект, содержащий освобождаемые ресурсы.
-     */
     private void dispose(Disposable disposable) {
         if (disposable != null) {
             disposable.dispose();
         }
     }
 
-    /**
-     * Метод принудительного обновления списка врачей.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
-     */
     private void forceUpdateDoctors(String specialityId, String stationId,
                                     boolean isMenuRefreshing) {
         mDisposable = mRepository.getDoctors(specialityId, stationId)
@@ -140,10 +129,6 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
                 .subscribe();
     }
 
-    /**
-     * Метод отображения полученного списка врачей.
-     * @param doctors Список врачей.
-     */
     private void showList(List<Doctor> doctors) {
         if (mView != null) {
             mView.showDoctors(doctors);
@@ -151,10 +136,6 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения сообщения об ошибке при неудачном получении списка врачей.
-     * @param throwable Выброшенное исключение.
-     */
     private void showError(Throwable throwable) {
         if (mView != null) {
             mView.showErrorDialog(throwable);
@@ -162,11 +143,6 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения обновлённого списка врачей.
-     * @param doctors Список врачей.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
-     */
     private void showUpdatedList(List<Doctor> doctors, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showDoctors(doctors);
@@ -178,11 +154,6 @@ public class DoctorsPresenter implements DoctorsContract.Presenter {
         }
     }
 
-    /**
-     * Метод отображения сообщения об ошибке при неудачном обновлении списка врачей.
-     * @param throwable Выброшенное исключение.
-     * @param isMenuRefreshing Флаг, указывающий на способ обновления.
-     */
     private void showRefreshingError(Throwable throwable, boolean isMenuRefreshing) {
         if (mView != null) {
             mView.showErrorDialog(throwable);

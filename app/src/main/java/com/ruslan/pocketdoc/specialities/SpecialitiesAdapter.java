@@ -13,9 +13,6 @@ import com.ruslan.pocketdoc.data.specialities.Speciality;
 
 import java.util.List;
 
-/**
- * Класс, описывающий пользовательский <code>RecyclerView.Adapter</code>.
- */
 class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.SpecialityHolder> {
 
     private RecyclerItemOnClickListener<Speciality> mListener;
@@ -52,9 +49,6 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
         notifyDataSetChanged();
     }
 
-    /**
-     * Вложенный класс, описывающий пользовательский <code>RecyclerView.ViewHolder</code>.
-     */
     static class SpecialityHolder extends RecyclerView.ViewHolder {
 
         private TextView mSpecialityNameTextView;
@@ -67,10 +61,6 @@ class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.Speci
             itemView.setOnClickListener(v -> listener.onRecyclerItemClickListener(mSpeciality));
         }
 
-        /**
-         * Метод привязки данных специальности к экземпляру {@link SpecialityHolder}.
-         * @param speciality Специальность.
-         */
         private void bind(@NonNull Speciality speciality) {
             mSpeciality = speciality;
             mSpecialityNameTextView.setText(speciality.getName());

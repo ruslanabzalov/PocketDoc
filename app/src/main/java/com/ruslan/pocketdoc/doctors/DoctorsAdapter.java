@@ -23,9 +23,6 @@ import javax.inject.Inject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Класс, описывающий пользовательский RecyclerView Adapter.
- */
 public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorViewHolder> {
 
     private RecyclerItemOnClickListener<Doctor> mListener;
@@ -64,9 +61,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
         notifyDataSetChanged();
     }
 
-    /**
-     * Вложенный класс, описывающий пользовательский RecyclerView ViewHolder.
-     */
     public static class DoctorViewHolder extends RecyclerView.ViewHolder {
 
         private OnCreateRecordListener mOnCreateRecordListener;
@@ -94,10 +88,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             itemView.setOnClickListener((View v) -> listener.onRecyclerItemClickListener(mDoctor));
         }
 
-        /**
-         * Метод привязки данных врача к ViewHolder.
-         * @param doctor Врач.
-         */
         void bind(Doctor doctor) {
             mDoctor = doctor;
             mPicasso.load(mDoctor.getPhotoUrl()).into(mDoctorPhotoImageView);
@@ -111,9 +101,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             checkDoctorsSchedule(doctor);
         }
 
-        /**
-         * Метод инициализации элементов View.
-         */
         private void initViews() {
             mDoctorPhotoImageView = itemView.findViewById(R.id.doctor_photo_circle_image_view);
             mDoctorSpecialityTextView = itemView.findViewById(R.id.doctor_speciality_text_view);
@@ -132,10 +119,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             mScheduleRecyclerView.setLayoutManager(linearLayoutManager);
         }
 
-        /**
-         * Метод проверки наличия расписания у врача.
-         * @param doctor Врач.
-         */
         private void checkDoctorsSchedule(@NonNull Doctor doctor) {
             if (doctor.getSlotList() == null) {
                 if (mScheduleRecyclerView.getVisibility() != View.GONE) {

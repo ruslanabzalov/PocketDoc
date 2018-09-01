@@ -21,9 +21,6 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-/**
- * Класс, описывающий фрагмент для отображения подробной информации о клинике.
- */
 public class ClinicFragment extends Fragment implements ClinicContract.View {
 
     private static final String ARG_CLINIC = "clinic_id";
@@ -46,12 +43,6 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     private int mClinicId;
     private boolean mIsClinicShowed;
 
-    /**
-     * Статический метод для создания фрагмента <code>ClinicFragment</code>
-     * с необходимым аргументом.
-     * @param clinicId Идентификатор мед. учреждения.
-     * @return Фрагмент <code>ClinicFragment</code>.
-     */
     public static Fragment newInstance(int clinicId) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARG_CLINIC, clinicId);
@@ -120,10 +111,6 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
         }
     }
 
-    /**
-     * Метод инициализации элементов типа <code>View</code>.
-     * @param rootView Корневой <code>View</code> элемент.
-     */
     private void initViews(@NonNull View rootView) {
         mClinicLogoImageView = rootView.findViewById(R.id.clinic_logo_image_view);
         mClinicNameTextView = rootView.findViewById(R.id.clinic_name_text_view);
@@ -140,20 +127,12 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
         mClinicDescriptionTextView = rootView.findViewById(R.id.clinic_description_text_view);
     }
 
-    /**
-     * Метод обработки нажатия на номер телефона для возможности совершения звонка.
-     * @param phone Номер телефона.
-     */
     private void onPhoneClick(String phone) {
         Intent intent =
                 new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
         startActivity(intent);
     }
 
-    /**
-     * Метод обработки нажатия на URL клиники.
-     * @param url URL клиники.
-     */
     private void onUrlClick(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);

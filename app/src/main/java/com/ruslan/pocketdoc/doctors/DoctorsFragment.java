@@ -30,9 +30,6 @@ import com.ruslan.pocketdoc.doctor.DoctorFragment;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Класс, описывающий фрагмент, содержащий список врачей.
- */
 public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     private static final String TAG = "DoctorsFragment";
@@ -225,10 +222,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
                 .commit();
     }
 
-    /**
-     * Метод инициализации элементов View.
-     * @param view Корневой элемент View.
-     */
     private void initViews(View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.doctors_refresh);
         int[] swipeRefreshColors = {
@@ -246,9 +239,6 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mProgressBar = view.findViewById(R.id.doctors_progress_bar);
     }
 
-    /**
-     * Метод отображения экземпляра <code>DialogFragment</code> для оформления заявки.
-     */
     private void showCreateNewRecordUi(int createRecordButtonType) {
         if (mFragmentManager.findFragmentByTag(TAG_CREATE_RECORD_DIALOG_FRAGMENT) == null) {
             DialogFragment createRecordDialogFragment;

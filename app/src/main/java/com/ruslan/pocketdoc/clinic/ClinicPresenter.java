@@ -49,7 +49,7 @@ public class ClinicPresenter implements ClinicContract.Presenter {
                     }
                 })
                 .doOnError(throwable -> {
-                    Log.i(TAG, "getClinicByIdFromDb(): onError()");
+                    Log.e(TAG, "getClinicByIdFromDb(): onError()", throwable);
                     if (mView != null) {
                         // TODO: Показать сообщение об ошибке.
                     }

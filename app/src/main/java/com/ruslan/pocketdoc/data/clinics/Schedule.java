@@ -2,9 +2,6 @@ package com.ruslan.pocketdoc.data.clinics;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Класс, описывающий расписание работы клиник.
- */
 public class Schedule {
 
     @SerializedName("Day")

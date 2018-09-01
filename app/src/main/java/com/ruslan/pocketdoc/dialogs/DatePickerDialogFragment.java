@@ -72,9 +72,6 @@ public class DatePickerDialogFragment extends DialogFragment {
         return datePickerDialog;
     }
 
-    /**
-     * Метод отображения фрагмента с полученным списком врачей.
-     */
     private void showDoctorsListUi() {
         int year = mDatePicker.getYear();
         int month = mDatePicker.getMonth();

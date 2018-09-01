@@ -28,9 +28,6 @@ import com.ruslan.pocketdoc.stations.StationsFragment;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Класс, описывающий фрагмент, содержащий список специальностей.
- */
 public class SpecialitiesFragment extends Fragment implements SpecialitiesContract.View {
 
     private static final String TAG = "SpecialitiesFragment";
@@ -182,10 +179,6 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
                 .commit();
     }
 
-    /**
-     * Метод инициализации элементов типа <code>View</code>.
-     * @param view Корневой <code>View</code> элемент.
-     */
     private void initViews(@NonNull View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.specialities_refresh);
         int[] swipeRefreshColors = {

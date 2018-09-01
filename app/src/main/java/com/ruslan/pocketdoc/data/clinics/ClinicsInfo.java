@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Класс, описывающий информацию о клинике(-ах), в которой(-ых) работает конкретный врач.
- */
 public class ClinicsInfo {
 
     @SerializedName("ClinicId")

@@ -15,9 +15,6 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-/**
- * Класс, реализующий интерфейс работы с БД Room.
- */
 public class LocalDataSource implements LocalDataSourceContract {
 
     @Inject
