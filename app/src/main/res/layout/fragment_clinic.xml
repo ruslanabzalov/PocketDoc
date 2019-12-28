@@ -6,35 +6,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/begin_horizontal_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="16dp"/>
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/end_horizontal_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="80dp"/>
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_vertical_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="48dp"/>
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/end_vertical_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toStartOf="@id/end_vertical_guideline"
             tools:src="@drawable/company_logo"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_name_barrier_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,14 +99,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/clinic_name_text_view_preview"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_name_barrier_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="clinic_name_text_view"
             app:barrierDirection="bottom"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_address_barrier_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -153,21 +153,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/clinic_address_text_view_preview"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_address_barrier_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="clinic_address_text_view"
             app:barrierDirection="bottom"/>
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/clinic_phone_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="clinic_phone_icon, clinic_phone_label_text_view, clinic_phone_text_view"/>
 
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_phone_barrier_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -217,20 +217,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/clinic_phone_text_view_preview"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_phone_barrier_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="clinic_phone_text_view"
             app:barrierDirection="bottom"/>
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/clinic_url_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="clinic_url_icon, clinic_url_label, clinic_url_text_view"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_url_barrier_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -281,14 +281,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/clinic_url_text_view_preview"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/clinic_url_barrier_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="clinic_url_text_view" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/clinic_description_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -319,6 +319,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/clinic_description_preview_text_view"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

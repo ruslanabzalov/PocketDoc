@@ -1,1 +1,2 @@
+rootProject.name='PocketDoc'
 include ':app'
