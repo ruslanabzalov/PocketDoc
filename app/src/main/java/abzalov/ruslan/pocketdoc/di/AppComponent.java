@@ -19,7 +19,8 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {
-        ContextModule.class, DocDocServiceModule.class, DataSourceModule.class, UtilsModule.class
+        ContextModule.class, DocDocServiceModule.class,
+        DataSourceModule.class, UtilsModule.class
 })
 public interface AppComponent {
 

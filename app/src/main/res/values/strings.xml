@@ -1,9 +1,17 @@
 <resources>
+
+    <!-- Основные строковые ресурсы приложения. -->
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
     <string name="clinics_service_description">Служба, отвечающая за загрузку клиник</string>
 
-    <string name="specialities_title">Список специальностей</string>
+    <!-- Названия пунктов меню activity_main_bottom_navigation. -->
+    <string name="doctors_activity_main_bottom_navigation_menu_item_title">Врачи</string>
+    <string name="clinics_activity_main_bottom_navigation_menu_item_title">Клиники</string>
+    <string name="settings_activity_main_bottom_navigation_menu_item_title">Настройки</string>
+
+    <!-- Названия fragment'ов на toolbar'е. -->
+    <string name="specialities_toolbar_title">Список специальностей</string>
     <string name="clinics_title">Карта клиник</string>
     <string name="stations_title">Список станций метро</string>
     <string name="doctors_title">Список врачей</string>
