@@ -1,13 +1,13 @@
 package abzalov.ruslan.pocketdoc.specialities;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,7 +58,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Objects.requireNonNull(getActivity()).setTitle(R.string.specialities_title);
+        Objects.requireNonNull(getActivity()).setTitle(R.string.specialities_toolbar_title);
         View view = inflater.inflate(R.layout.fragment_specialities, container, false);
         initViews(view);
         return view;
@@ -171,7 +171,7 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     public void showStationsUi(String specialityId) {
         mFragmentManager.beginTransaction()
                 .replace(
-                        R.id.main_activity_fragment_container,
+                        R.id.activity_main_fragment_container,
                         StationsFragment.newInstance(specialityId)
                 )
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

@@ -1,9 +1,9 @@
 package abzalov.ruslan.pocketdoc.doctors;
 
+import java.util.List;
+
 import abzalov.ruslan.pocketdoc.BaseContract;
 import abzalov.ruslan.pocketdoc.data.doctors.Doctor;
-
-import java.util.List;
 
 interface DoctorsContract {
 

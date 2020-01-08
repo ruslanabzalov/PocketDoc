@@ -1,9 +1,9 @@
 package abzalov.ruslan.pocketdoc.specialities;
 
+import java.util.List;
+
 import abzalov.ruslan.pocketdoc.BaseContract;
 import abzalov.ruslan.pocketdoc.data.specialities.Speciality;
-
-import java.util.List;
 
 public interface SpecialitiesContract {
 

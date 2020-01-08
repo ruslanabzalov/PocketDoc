@@ -1,7 +1,6 @@
 package abzalov.ruslan.pocketdoc.dialogs;
 
 import android.app.Dialog;
-import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -9,6 +8,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -85,7 +86,7 @@ public class DatePickerDialogFragment extends DialogFragment {
         Fragment doctorsFragment =
                 DoctorsFragment.newInstance(mSpecialityId, mStationId, correctDate);
         fragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, doctorsFragment)
+                .replace(R.id.activity_main_fragment_container, doctorsFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();

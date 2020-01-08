@@ -1,13 +1,13 @@
 package abzalov.ruslan.pocketdoc.doctors;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -214,7 +214,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     public void showDoctorInfoUi(int doctorId) {
         mFragmentManager.beginTransaction()
                 .replace(
-                        R.id.main_activity_fragment_container,
+                        R.id.activity_main_fragment_container,
                         DoctorFragment.newInstance(doctorId)
                 )
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
