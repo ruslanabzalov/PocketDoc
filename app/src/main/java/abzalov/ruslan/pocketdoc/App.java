@@ -9,7 +9,10 @@ import abzalov.ruslan.pocketdoc.di.DataSourceModule;
 import abzalov.ruslan.pocketdoc.di.DocDocServiceModule;
 import abzalov.ruslan.pocketdoc.di.UtilsModule;
 
-public class App extends Application {
+/**
+ * Основной класс приложения.
+ */
+public final class App extends Application {
 
     private static AppComponent sComponent;
 
