@@ -53,7 +53,7 @@ public class DocDocServiceModule {
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl("https://" + USER_CREDENTIALS + "@back.docdoc.ru/api/rest/1.0.6/json/")
+                .baseUrl("https://api.docdoc.ru/public/rest/1.0.12/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)

@@ -37,7 +37,9 @@ public class SpecialitiesPresenter implements SpecialitiesContract.Presenter {
     @Override
     public void detachView() {
         mView = null;
-        mDisposable.dispose();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 
     @Override

@@ -2,11 +2,12 @@
 
     <!-- Основные строковые ресурсы приложения. -->
     <string name="app_name">PocketDoc</string>
-    <string name="api_key">AIzaSyAXqFpeFRk0Yb5iC_4Mw2XEKX6Z69quHHc</string>
+    <string name="api_key">AIzaSyBQG-KS67d0mwcdgjafND6u3OcYTnr_Fqc</string>
     <string name="clinics_service_description">Служба, отвечающая за загрузку клиник</string>
 
     <!-- Названия пунктов меню activity_main_bottom_navigation. -->
     <string name="doctors_activity_main_bottom_navigation_menu_item_title">Врачи</string>
+    <string name="emergency_activity_main_bottom_navigation_menu_item_title">Экстренные службы</string>
     <string name="clinics_activity_main_bottom_navigation_menu_item_title">Клиники</string>
     <string name="settings_activity_main_bottom_navigation_menu_item_title">Настройки</string>
 
