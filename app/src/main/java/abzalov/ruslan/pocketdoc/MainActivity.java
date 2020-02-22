@@ -14,7 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import abzalov.ruslan.pocketdoc.clinics.ClinicsMapFragment;
 import abzalov.ruslan.pocketdoc.databinding.ActivityMainBinding;
 import abzalov.ruslan.pocketdoc.emergency.EmergencyFragment;
-import abzalov.ruslan.pocketdoc.settings.SettingsFragment;
 import abzalov.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
 /**
@@ -32,6 +31,8 @@ public final class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+
+        setSupportActionBar(mBinding.activityMainToolbar);
 
         mCurrentFragment = mFragmentManager.findFragmentById(R.id.activity_main_fragment_container);
         if (mCurrentFragment == null) {
@@ -70,12 +71,6 @@ public final class MainActivity extends AppCompatActivity {
             case R.id.emergency_activity_main_bottom_navigation_menu_item: {
                 if (!(mCurrentFragment instanceof EmergencyFragment)) {
                     changeCurrentFragment(new EmergencyFragment());
-                    return true;
-                } else return false;
-            }
-            case R.id.settings_activity_main_bottom_navigation_menu_item: {
-                if (!(mCurrentFragment instanceof SettingsFragment)) {
-                    changeCurrentFragment(new SettingsFragment());
                     return true;
                 } else return false;
             }

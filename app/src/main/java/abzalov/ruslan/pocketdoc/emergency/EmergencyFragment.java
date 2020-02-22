@@ -10,11 +10,22 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
 
 import abzalov.ruslan.pocketdoc.R;
 
-public class EmergencyFragment extends Fragment {
+/**
+ * Фрагмент с номерами телефонов экстренных служб.
+ */
+public final class EmergencyFragment extends Fragment {
+
+    private AppCompatActivity mMainActivity;
+
+    private ActionBar mActionBar;
 
     private Button mMain;
     private Button mMCHS;
@@ -24,6 +35,7 @@ public class EmergencyFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMainActivity = (AppCompatActivity) getActivity();
     }
 
     @Nullable
@@ -36,6 +48,9 @@ public class EmergencyFragment extends Fragment {
     }
 
     private void initViews(@NonNull View view) {
+        mActionBar = Objects.requireNonNull(mMainActivity.getSupportActionBar(), "ActionBar is null!");
+        mActionBar.setTitle(R.string.emergency_toolbar_title);
+
         mMain = view.findViewById(R.id.main_emergency);
         mMain.setOnClickListener(main -> {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);

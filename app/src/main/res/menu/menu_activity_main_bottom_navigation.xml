@@ -6,17 +6,12 @@
         android:icon="@drawable/ic_doctors_purple_24dp"/>
 
     <item
-        android:id="@+id/emergency_activity_main_bottom_navigation_menu_item"
-        android:title="@string/emergency_activity_main_bottom_navigation_menu_item_title"
-        android:icon="@drawable/ic_phone_black_24dp"/>
-
-    <item
         android:id="@+id/clinics_activity_main_bottom_navigation_menu_item"
         android:title="@string/clinics_activity_main_bottom_navigation_menu_item_title"
         android:icon="@drawable/ic_clinics_purple_24dp"/>
 
     <item
-        android:id="@+id/settings_activity_main_bottom_navigation_menu_item"
-        android:title="@string/settings_activity_main_bottom_navigation_menu_item_title"
-        android:icon="@drawable/ic_settings_purple_24dp"/>
+        android:id="@+id/emergency_activity_main_bottom_navigation_menu_item"
+        android:title="@string/emergency_activity_main_bottom_navigation_menu_item_title"
+        android:icon="@drawable/ic_emergency_red_24dp"/>
 </menu>

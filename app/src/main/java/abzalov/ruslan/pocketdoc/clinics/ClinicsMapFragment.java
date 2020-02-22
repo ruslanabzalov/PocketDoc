@@ -1,6 +1,7 @@
 package abzalov.ruslan.pocketdoc.clinics;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -10,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -42,7 +45,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ClinicsMapFragment extends Fragment implements ClinicsContract.View {
+/**
+ * Фрагмент, отображающий карту с клиниками.
+ */
+public final class ClinicsMapFragment extends Fragment implements ClinicsContract.View {
 
     private static final String TAG = "ClinicsMapFragment";
     private static final String TAG_LOADING_ERROR_DIALOG = "LoadingErrorDialogFragment";
@@ -64,9 +70,12 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     );
     private static final float DEFAULT_ZOOM = 10f;
 
+    private Activity mMainActivity;
+
     private ClinicsContract.Presenter mPresenter;
 
     private FragmentManager mFragmentManager;
+    private ActionBar mSupportActionBar;
     private GoogleMap mGoogleMap;
     private UiSettings mUiSettings;
     private Menu mMenu;
@@ -84,6 +93,10 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        mMainActivity = Objects.requireNonNull(getActivity(), "Activity is null!");
+        mSupportActionBar = ((AppCompatActivity) mMainActivity).getSupportActionBar();
+
         mFragmentManager = getChildFragmentManager();
         mPresenter = new ClinicsPresenter();
         mPresenter.attachView(this);
@@ -103,7 +116,10 @@ public class ClinicsMapFragment extends Fragment implements ClinicsContract.View
             mShowOnlyDiagnostics =
                     savedInstanceState.getBoolean(SHOW_ONLY_DIAGNOSTICS_KEY, false);
         }
-        Objects.requireNonNull(getActivity()).setTitle(R.string.clinics_title);
+
+        Objects.requireNonNull(mSupportActionBar, "ActionBar is null!")
+                .setTitle(R.string.clinics_title);
+
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         SupportMapFragment supportMapFragment =
                 (SupportMapFragment) mFragmentManager.findFragmentById(R.id.map);

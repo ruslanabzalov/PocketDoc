@@ -1,5 +1,4 @@
 <resources>
-
     <!-- Основные строковые ресурсы приложения. -->
     <string name="app_name">PocketDoc</string>
     <string name="api_key">AIzaSyBQG-KS67d0mwcdgjafND6u3OcYTnr_Fqc</string>
@@ -13,6 +12,7 @@
 
     <!-- Названия fragment'ов на toolbar'е. -->
     <string name="specialities_toolbar_title">Список специальностей</string>
+    <string name="emergency_toolbar_title">Номера экстренных служб</string>
     <string name="clinics_title">Карта клиник</string>
     <string name="stations_title">Список станций метро</string>
     <string name="doctors_title">Список врачей</string>

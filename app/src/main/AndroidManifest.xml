@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".clinic.ClinicActivity"/>
+
         <service
             android:name=".clinics.ClinicsJobService"
             android:description="@string/clinics_service_description"

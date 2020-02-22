@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -37,8 +39,11 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
 
     private SpecialitiesContract.Presenter mPresenter;
 
+    private Activity mMainActivity;
+
     private FragmentManager mFragmentManager;
 
+    private ActionBar mSupportActionBar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private SpecialitiesAdapter mAdapter;
@@ -50,6 +55,9 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        mMainActivity = Objects.requireNonNull(getActivity(), "Activity is null!");
+
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mPresenter = new SpecialitiesPresenter();
         mPresenter.attachView(this);
@@ -58,7 +66,9 @@ public class SpecialitiesFragment extends Fragment implements SpecialitiesContra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Objects.requireNonNull(getActivity()).setTitle(R.string.specialities_toolbar_title);
+        mSupportActionBar = ((AppCompatActivity) mMainActivity).getSupportActionBar();
+        Objects.requireNonNull(mSupportActionBar, "ActionBar is null!")
+                .setTitle(R.string.specialities_toolbar_title);
         View view = inflater.inflate(R.layout.fragment_specialities, container, false);
         initViews(view);
         return view;
