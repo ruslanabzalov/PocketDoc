@@ -26,7 +26,7 @@ class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.TimesViewHolder> {
     public TimesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.list_item_time, parent, false);
-        return new TimesViewHolder(view, mOnCreateRecordListener);
+        return new TimesViewHolder(view, mDoctor, mOnCreateRecordListener);
     }
 
     @Override
@@ -45,11 +45,11 @@ class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.TimesViewHolder> {
 
         private Button mTimeButton;
 
-        private TimesViewHolder(View rootView, OnCreateRecordListener onCreateRecordListener) {
+        private TimesViewHolder(View rootView, Doctor doctor, OnCreateRecordListener onCreateRecordListener) {
             super(rootView);
             mTimeButton = itemView.findViewById(R.id.time_button);
             mTimeButton.setOnClickListener(view ->
-                    onCreateRecordListener.onCreateRecord(OnCreateRecordListener.SCHEDULE_BUTTON)
+                    onCreateRecordListener.onCreateRecord(OnCreateRecordListener.SCHEDULE_BUTTON, doctor)
             );
         }
     }

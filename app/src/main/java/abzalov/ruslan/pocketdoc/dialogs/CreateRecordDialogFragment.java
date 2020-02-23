@@ -11,15 +11,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import abzalov.ruslan.pocketdoc.App;
 import abzalov.ruslan.pocketdoc.R;
+import abzalov.ruslan.pocketdoc.data.Repository;
+import abzalov.ruslan.pocketdoc.data.doctors.Doctor;
+import abzalov.ruslan.pocketdoc.data.records.Record;
+import abzalov.ruslan.pocketdoc.di.AppComponent;
 import abzalov.ruslan.pocketdoc.doctors.OnCreateRecordListener;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 
+import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
+
+import javax.inject.Inject;
 
 public class CreateRecordDialogFragment extends DialogFragment {
 
     private static final String ARG_CREATE_RECORD_BUTTON_TYPE = "create_record_button_type";
+    private static final String ARG_CREATE_RECORD_DOCTOR = "create_record_button_type";
     private static final String ARG_DOCTOR_ID = "doctor_id";
     private static final String ARG_CLINIC_ID = "clinic_id";
     private static final String ARG_SLOT_ID = "slot_id";
@@ -28,13 +43,18 @@ public class CreateRecordDialogFragment extends DialogFragment {
     private EditText mUserPhoneEditText;
     private Button mCreateRecordButton;
 
+    private Doctor mDoctor;
     private int mCreateRecordButtonType;
     private String mUserName = "";
     private String mUserPhone = "";
 
-    public static DialogFragment newInstance(int createRecordButtonType) {
+    @Inject
+    Repository mRepository;
+
+    public static DialogFragment newInstance(int createRecordButtonType, Doctor doctor) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARG_CREATE_RECORD_BUTTON_TYPE, createRecordButtonType);
+        arguments.putSerializable(ARG_CREATE_RECORD_DOCTOR, doctor);
         DialogFragment createRecordDialogFragment = new CreateRecordDialogFragment();
         createRecordDialogFragment.setArguments(arguments);
         return createRecordDialogFragment;
@@ -43,8 +63,10 @@ public class CreateRecordDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        App.getComponent().inject(this);
         mCreateRecordButtonType =
                 Objects.requireNonNull(getArguments()).getInt(ARG_CREATE_RECORD_BUTTON_TYPE);
+        mDoctor = (Doctor) Objects.requireNonNull(getArguments()).getSerializable(ARG_CREATE_RECORD_DOCTOR);
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View rootView = inflater.inflate(R.layout.dialog_fragment_create_record, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
@@ -97,11 +119,26 @@ public class CreateRecordDialogFragment extends DialogFragment {
     }
 
     private void createRecord() {
+        Record record = new Record(UUID.randomUUID().toString());
+        record.setDocType(mDoctor.getSpecialities().toString());
+        record.setDocFullName(mDoctor.getName());
+        record.setUserName(mUserName);
+        record.setRecordDate(new Date().toString());
+
+        String recordSaved = "Запись создана";
+
         if (mCreateRecordButtonType == OnCreateRecordListener.SIMPLE_RECORD_BUTTON) {
-            // TODO: Создать POST-запрос для записи без расписания.
+            Completable.fromAction(() -> mRepository.saveRecord(record))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe();
+            Toast.makeText(getActivity(), recordSaved, Toast.LENGTH_SHORT).show();
+            dismiss();
         } else {
-            // TODO: Сюда необходимо передать информацию ID врача, ID клиники врача и ID расписания.
-            // TODO: Создать POST-запрос для записи по расписанию.
+            Completable.fromAction(() -> mRepository.saveRecord(record))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe();
+            Toast.makeText(getActivity(), recordSaved, Toast.LENGTH_SHORT).show();
+            dismiss();
         }
     }
 }

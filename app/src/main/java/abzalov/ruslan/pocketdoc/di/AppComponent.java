@@ -7,6 +7,8 @@ import abzalov.ruslan.pocketdoc.clinics.ClinicsPresenter;
 import abzalov.ruslan.pocketdoc.data.LocalDataSource;
 import abzalov.ruslan.pocketdoc.data.RemoteDataSource;
 import abzalov.ruslan.pocketdoc.data.Repository;
+import abzalov.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
+import abzalov.ruslan.pocketdoc.doctor.DoctorFragment;
 import abzalov.ruslan.pocketdoc.doctor.DoctorPresenter;
 import abzalov.ruslan.pocketdoc.doctors.DoctorsAdapter;
 import abzalov.ruslan.pocketdoc.doctors.DoctorsPresenter;
@@ -46,5 +48,9 @@ public interface AppComponent {
 
     void inject(DoctorsAdapter.DoctorViewHolder viewHolder);
 
+    void inject(DoctorFragment fragment);
+
     void inject(DoctorPresenter presenter);
+
+    void inject(CreateRecordDialogFragment createRecordDialogFragment);
 }

@@ -1,6 +1,7 @@
 package abzalov.ruslan.pocketdoc.data;
 
 import abzalov.ruslan.pocketdoc.data.clinics.Clinic;
+import abzalov.ruslan.pocketdoc.data.records.Record;
 import abzalov.ruslan.pocketdoc.data.specialities.Speciality;
 import abzalov.ruslan.pocketdoc.data.stations.Station;
 
@@ -14,6 +15,10 @@ interface LocalDataSourceContract {
     Flowable<List<Speciality>> getSpecialities();
 
     void saveSpecialities(List<Speciality> specialities);
+
+    Flowable<List<Record>> getAllRecords();
+
+    void insertRecord(Record record);
 
     Flowable<List<Station>> getStations();
 

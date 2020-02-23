@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import org.jetbrains.annotations.NotNull;
+
 import abzalov.ruslan.pocketdoc.R;
 import abzalov.ruslan.pocketdoc.data.doctors.Doctor;
 import abzalov.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
@@ -124,12 +126,12 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_doctors, menu);
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NotNull Menu menu) {
         if (mAreDoctorsLoaded) {
             setOptionsMenuVisible(menu, true);
         } else {
@@ -139,13 +141,11 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_refresh_doctors:
-                mPresenter.updateDoctors(mSpecialityId, mStationId, true);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.item_refresh_doctors) {
+            mPresenter.updateDoctors(mSpecialityId, mStationId, true);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
 
     @Override
     public void showErrorDialog(Throwable throwable) {
-        Log.d(TAG, throwable.getMessage());
+        Log.d(TAG, Objects.requireNonNull(throwable.getMessage()));
         if (mFragmentManager.findFragmentByTag(TAG_LOADING_ERROR_DIALOG_FRAGMENT) == null) {
             DialogFragment loadingErrorDialogFragment = new LoadingErrorDialogFragment();
             loadingErrorDialogFragment
@@ -239,17 +239,17 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
         mProgressBar = view.findViewById(R.id.doctors_progress_bar);
     }
 
-    private void showCreateNewRecordUi(int createRecordButtonType) {
+    private void showCreateNewRecordUi(int createRecordButtonType, Doctor doctor) {
         if (mFragmentManager.findFragmentByTag(TAG_CREATE_RECORD_DIALOG_FRAGMENT) == null) {
             DialogFragment createRecordDialogFragment;
             if (createRecordButtonType == OnCreateRecordListener.SIMPLE_RECORD_BUTTON) {
                 createRecordDialogFragment =
                         CreateRecordDialogFragment
-                                .newInstance(OnCreateRecordListener.SIMPLE_RECORD_BUTTON);
+                                .newInstance(OnCreateRecordListener.SIMPLE_RECORD_BUTTON, doctor);
             } else {
                 createRecordDialogFragment =
                         CreateRecordDialogFragment
-                                .newInstance(OnCreateRecordListener.SCHEDULE_BUTTON);
+                                .newInstance(OnCreateRecordListener.SCHEDULE_BUTTON, doctor);
             }
             createRecordDialogFragment
                     .setTargetFragment(this, CREATE_RECORD_DIALOG_REQUEST_CODE);

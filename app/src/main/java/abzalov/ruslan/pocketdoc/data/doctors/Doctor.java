@@ -6,9 +6,10 @@ import abzalov.ruslan.pocketdoc.data.doctors.slots.Schedule;
 import abzalov.ruslan.pocketdoc.data.doctors.slots.SlotList;
 import abzalov.ruslan.pocketdoc.data.specialities.Speciality;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Doctor {
+public class Doctor implements Serializable {
 
     @SerializedName("Id")
     private int mId;

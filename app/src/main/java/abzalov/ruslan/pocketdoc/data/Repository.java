@@ -5,6 +5,7 @@ import abzalov.ruslan.pocketdoc.api.CreateRecordRequestSchedule;
 import abzalov.ruslan.pocketdoc.api.CreateRecordResponse;
 import abzalov.ruslan.pocketdoc.data.clinics.Clinic;
 import abzalov.ruslan.pocketdoc.data.doctors.Doctor;
+import abzalov.ruslan.pocketdoc.data.records.Record;
 import abzalov.ruslan.pocketdoc.data.specialities.Speciality;
 import abzalov.ruslan.pocketdoc.data.stations.Station;
 
@@ -43,6 +44,14 @@ public class Repository {
     private Flowable<List<Speciality>> getAndSaveRemoteSpecialities() {
         return mRemoteDataSource.getSpecialities()
                 .doOnNext(mLocalDataSource::saveSpecialities);
+    }
+
+    public Flowable<List<Record>> getRecords() {
+        return mLocalDataSource.getAllRecords();
+    }
+
+    public void saveRecord(Record record) {
+        mLocalDataSource.insertRecord(record);
     }
 
     public Flowable<List<Station>> getStations(boolean forceUpdate) {

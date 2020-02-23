@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import abzalov.ruslan.pocketdoc.clinics.ClinicsMapFragment;
 import abzalov.ruslan.pocketdoc.databinding.ActivityMainBinding;
+import abzalov.ruslan.pocketdoc.drugs.DrugsFragment;
 import abzalov.ruslan.pocketdoc.emergency.EmergencyFragment;
 import abzalov.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
@@ -59,6 +60,12 @@ public final class MainActivity extends AppCompatActivity {
             case R.id.doctors_activity_main_bottom_navigation_menu_item: {
                 if (!(mCurrentFragment instanceof SpecialitiesFragment)) {
                     changeCurrentFragment(new SpecialitiesFragment());
+                    return true;
+                } else return false;
+            }
+            case R.id.drugs_activity_main_bottom_navigation_menu_item: {
+                if (!(mCurrentFragment instanceof DrugsFragment)) {
+                    changeCurrentFragment(new DrugsFragment());
                     return true;
                 } else return false;
             }

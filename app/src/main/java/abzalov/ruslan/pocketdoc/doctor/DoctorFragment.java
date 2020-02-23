@@ -16,9 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import abzalov.ruslan.pocketdoc.App;
 import abzalov.ruslan.pocketdoc.R;
 import abzalov.ruslan.pocketdoc.StringUtils;
 import abzalov.ruslan.pocketdoc.data.doctors.Doctor;
@@ -26,6 +30,8 @@ import abzalov.ruslan.pocketdoc.dialogs.CreateRecordDialogFragment;
 import abzalov.ruslan.pocketdoc.dialogs.LoadingErrorDialogFragment;
 
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 public class DoctorFragment extends Fragment implements DoctorContract.View {
 
@@ -46,11 +52,15 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private NestedScrollView mNestedScrollView;
     private ProgressBar mDoctorProgressBar;
+    private ImageView mDoctorImageView;
     private TextView mDoctorNameTextView;
     private TextView mDoctorSpecialityTextView;
     private TextView mDoctorExperienceTextView;
     private TextView mDoctorPriceTextView;
     private TextView mDoctorDescriptionTextView;
+
+    @Inject
+    Picasso mPicasso;
 
     private int mDoctorId;
     private boolean isDoctorInfoDisplayed;
@@ -67,6 +77,9 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        App.getComponent().inject(this);
+
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mDoctorId = Objects.requireNonNull(getArguments()).getInt(ARG_DOCTOR_ID);
         mPresenter = new DoctorPresenter();
@@ -133,6 +146,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
 
     @Override
     public void showDoctorInfo(Doctor doctor) {
+        mPicasso.load(doctor.getPhotoUrl()).into(mDoctorImageView);
         mDoctorNameTextView.setText(doctor.getName());
         mDoctorSpecialityTextView
                 .setText(StringUtils.getCorrectSpecialitiesString(doctor.getSpecialities()));
@@ -196,6 +210,7 @@ public class DoctorFragment extends Fragment implements DoctorContract.View {
         mSwipeRefreshLayout.setOnRefreshListener(
                 () -> mPresenter.updateDoctorInfo(mDoctorId, false));
         mDoctorProgressBar = rootView.findViewById(R.id.doctor_progress_bar);
+        mDoctorImageView = rootView.findViewById(R.id.image_doctor);
         mDoctorNameTextView = rootView.findViewById(R.id.name_text_view);
         mDoctorSpecialityTextView = rootView.findViewById(R.id.speciality_text_view);
         mDoctorExperienceTextView = rootView.findViewById(R.id.experience_text_view);

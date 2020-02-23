@@ -1,17 +1,18 @@
 package abzalov.ruslan.pocketdoc.data;
 
-import abzalov.ruslan.pocketdoc.App;
-import abzalov.ruslan.pocketdoc.data.clinics.Clinic;
-import abzalov.ruslan.pocketdoc.data.clinics.ClinicsDao;
-import abzalov.ruslan.pocketdoc.data.specialities.SpecialitiesDao;
-import abzalov.ruslan.pocketdoc.data.specialities.Speciality;
-import abzalov.ruslan.pocketdoc.data.stations.Station;
-import abzalov.ruslan.pocketdoc.data.stations.StationDao;
-
 import java.util.List;
 
 import javax.inject.Inject;
 
+import abzalov.ruslan.pocketdoc.App;
+import abzalov.ruslan.pocketdoc.data.clinics.Clinic;
+import abzalov.ruslan.pocketdoc.data.clinics.ClinicsDao;
+import abzalov.ruslan.pocketdoc.data.records.Record;
+import abzalov.ruslan.pocketdoc.data.records.RecordsDao;
+import abzalov.ruslan.pocketdoc.data.specialities.SpecialitiesDao;
+import abzalov.ruslan.pocketdoc.data.specialities.Speciality;
+import abzalov.ruslan.pocketdoc.data.stations.Station;
+import abzalov.ruslan.pocketdoc.data.stations.StationDao;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -23,12 +24,14 @@ public class LocalDataSource implements LocalDataSourceContract {
     private SpecialitiesDao mSpecialitiesDao;
     private StationDao mStationDao;
     private ClinicsDao mClinicsDao;
+    private RecordsDao mRecordsDao;
 
     public LocalDataSource() {
         App.getComponent().inject(this);
         mSpecialitiesDao = mDatabase.specialityDao();
         mStationDao = mDatabase.stationDao();
         mClinicsDao = mDatabase.clinicsDao();
+        mRecordsDao = mDatabase.recordDao();
     }
 
     @Override
@@ -80,5 +83,15 @@ public class LocalDataSource implements LocalDataSourceContract {
     public void saveClinics(List<Clinic> clinics) {
         mClinicsDao.clearTable();
         mClinicsDao.insertClinics(clinics);
+    }
+
+    @Override
+    public Flowable<List<Record>> getAllRecords() {
+        return mRecordsDao.getAllRecords();
+    }
+
+    @Override
+    public void insertRecord(Record record) {
+        mRecordsDao.insertRecord(record);
     }
 }

@@ -6,9 +6,9 @@
 
     <!-- Названия пунктов меню activity_main_bottom_navigation. -->
     <string name="doctors_activity_main_bottom_navigation_menu_item_title">Врачи</string>
-    <string name="emergency_activity_main_bottom_navigation_menu_item_title">Экстренные службы</string>
+    <string name="drugs_activity_main_bottom_navigation_menu_item_title">Лекарства</string>
     <string name="clinics_activity_main_bottom_navigation_menu_item_title">Клиники</string>
-    <string name="settings_activity_main_bottom_navigation_menu_item_title">Настройки</string>
+    <string name="emergency_activity_main_bottom_navigation_menu_item_title">Экстренные службы</string>
 
     <!-- Названия fragment'ов на toolbar'е. -->
     <string name="specialities_toolbar_title">Список специальностей</string>
@@ -21,6 +21,8 @@
     <string name="tab_title_clinics">Клиники</string>
     <string name="clinic_title">Информация о клинике</string>
     <string name="history_tab_title">История записей</string>
+    <string name="drugs_list_title">Список лекарств</string>
+    <string name="drug_reminder_title">Напоминание приёма лекарста</string>
 
     <string name="item_refresh_specialities">Обновить список специальностей</string>
     <string name="item_records_history">История записей</string>
