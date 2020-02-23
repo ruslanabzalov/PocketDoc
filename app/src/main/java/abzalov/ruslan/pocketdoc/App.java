@@ -14,6 +14,8 @@ import abzalov.ruslan.pocketdoc.di.UtilsModule;
  */
 public final class App extends Application {
 
+    public final static String APP_NAME = "PocketDoc";
+
     private static AppComponent sComponent;
 
     public static AppComponent getComponent() {

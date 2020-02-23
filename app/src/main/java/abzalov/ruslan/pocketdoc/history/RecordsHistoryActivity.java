@@ -2,12 +2,10 @@ package abzalov.ruslan.pocketdoc.history;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import abzalov.ruslan.pocketdoc.App;
+import abzalov.ruslan.pocketdoc.BaseActivity;
 import abzalov.ruslan.pocketdoc.R;
 import abzalov.ruslan.pocketdoc.data.Repository;
 import abzalov.ruslan.pocketdoc.data.records.Record;
@@ -26,7 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Активность, отображающая испторию записей пользователя.
  */
-public class RecordsHistoryActivity extends AppCompatActivity {
+public class RecordsHistoryActivity extends BaseActivity {
 
     @Inject
     Repository mRepository;

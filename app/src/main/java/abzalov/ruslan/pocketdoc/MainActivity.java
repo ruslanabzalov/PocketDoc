@@ -1,14 +1,16 @@
 package abzalov.ruslan.pocketdoc;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -24,10 +26,13 @@ import abzalov.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 /**
  * Основная активность приложения.
  */
-public final class MainActivity extends AppCompatActivity {
+public final class MainActivity extends BaseActivity {
 
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private Fragment mCurrentFragment;
+
+    private SharedPreferences mSharedPreferences;
+    private double mScaleMode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,19 +52,33 @@ public final class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = binding.activityMainBottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(this::wasCurrentFragmentChanged);
         bottomNavigationView.setOnNavigationItemReselectedListener(menuItem -> clearBackStack());
+
+        mSharedPreferences = getSharedPreferences(App.APP_NAME, Context.MODE_PRIVATE);
+        mScaleMode = mSharedPreferences.getFloat("App Scale Mode", (float) 1.0);
+
+        Toast.makeText(this, "Размер шрифта можно изменить в пункте меню", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_main, menu);
-        return super.onCreateOptionsMenu(menu);
+        menu.add(0, 1, 0, "История записей");
+        menu.add(0, 2, 1,
+                (mScaleMode == 1.0)
+                        ? "Увеличить шрифт"
+                        : "Уменьшить шрифт");
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.records_history_menu_item) {
+        if (item.getItemId() == 1) {
             startActivity(new Intent(this, RecordsHistoryActivity.class));
+            return true;
+        } else if (item.getItemId() == 2) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putFloat("App Scale Mode", (mScaleMode == 1.0) ? (float) 2.0 : (float) 1.0);
+            editor.apply();
+            Toast.makeText(this, "Перезагрузите приложение, чтобы изменения вступили в силу", Toast.LENGTH_LONG).show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
