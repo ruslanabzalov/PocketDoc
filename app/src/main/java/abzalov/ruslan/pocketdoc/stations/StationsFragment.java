@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -38,6 +40,10 @@ public class StationsFragment extends Fragment implements StationsContract.View 
 
     private StationsContract.Presenter mPresenter;
 
+    private Activity mMainActivity;
+
+    private ActionBar mActionBar;
+
     private FragmentManager mFragmentManager;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -60,6 +66,7 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mMainActivity = getActivity();
         mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         mSpecialityId = Objects.requireNonNull(getArguments()).getString(ARG_SPECIALITY_ID);
         mPresenter = new StationsPresenter();
@@ -70,6 +77,8 @@ public class StationsFragment extends Fragment implements StationsContract.View 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Objects.requireNonNull(getActivity()).setTitle(R.string.stations_title);
+        mActionBar = ((AppCompatActivity) mMainActivity).getSupportActionBar();
+        mActionBar.setTitle(R.string.stations_title);
         View view = inflater.inflate(R.layout.fragment_stations, container, false);
         initViews(view);
         return view;

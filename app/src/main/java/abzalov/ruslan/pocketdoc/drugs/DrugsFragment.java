@@ -24,7 +24,6 @@ import abzalov.ruslan.pocketdoc.R;
 import abzalov.ruslan.pocketdoc.drugs.drug.Drug;
 import abzalov.ruslan.pocketdoc.drugs.drug.DrugFragment;
 import abzalov.ruslan.pocketdoc.drugs.drug.DrugsList;
-import abzalov.ruslan.pocketdoc.stations.StationsFragment;
 
 public class DrugsFragment extends Fragment {
 
@@ -48,6 +47,7 @@ public class DrugsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medicaments_list, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Список лекарств");
         mDrugsRecyclerView = view.findViewById(R.id.drug_list_recycler_view);
         mDrugsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateDrugsListFragment();

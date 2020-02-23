@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -64,6 +65,7 @@ public class ClinicFragment extends Fragment implements ClinicContract.View {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_clinic, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.clinic_title);
         initViews(rootView);
         return rootView;
     }

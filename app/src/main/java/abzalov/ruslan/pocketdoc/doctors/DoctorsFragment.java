@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -86,6 +87,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.doctors_title);
         Objects.requireNonNull(getActivity()).setTitle(R.string.doctors_title);
         View view = inflater.inflate(R.layout.fragment_doctors, container, false);
         initViews(view);

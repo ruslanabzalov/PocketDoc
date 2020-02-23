@@ -59,31 +59,31 @@ public final class MainActivity extends BaseActivity {
         Toast.makeText(this, "Размер шрифта можно изменить в пункте меню", Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 1, 0, "История записей");
-        menu.add(0, 2, 1,
-                (mScaleMode == 1.0)
-                        ? "Увеличить шрифт"
-                        : "Уменьшить шрифт");
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        menu.add(0, 1, 0, "История записей");
+//        menu.add(0, 2, 1,
+//                (mScaleMode == 1.0)
+//                        ? "Увеличить шрифт"
+//                        : "Уменьшить шрифт");
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == 1) {
-            startActivity(new Intent(this, RecordsHistoryActivity.class));
-            return true;
-        } else if (item.getItemId() == 2) {
-            SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.putFloat("App Scale Mode", (mScaleMode == 1.0) ? (float) 2.0 : (float) 1.0);
-            editor.apply();
-            Toast.makeText(this, "Перезагрузите приложение, чтобы изменения вступили в силу", Toast.LENGTH_LONG).show();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == 1) {
+//            startActivity(new Intent(this, RecordsHistoryActivity.class));
+//            return true;
+//        } else if (item.getItemId() == 2) {
+//            SharedPreferences.Editor editor = mSharedPreferences.edit();
+//            editor.putFloat("App Scale Mode", (mScaleMode == 1.0) ? (float) 2.0 : (float) 1.0);
+//            editor.apply();
+//            Toast.makeText(this, "Перезагрузите приложение, чтобы изменения вступили в силу", Toast.LENGTH_LONG).show();
+//            return true;
+//        } else {
+//            return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     /**
      * Метод, возвращающий логический результат в зависимотсти от того,

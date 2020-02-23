@@ -105,6 +105,7 @@ public final class ClinicsMapFragment extends Fragment implements ClinicsContrac
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.clinics_title);
         if (savedInstanceState != null) {
             mIsDisplayed = savedInstanceState.getBoolean(IS_DISPLAYED_KEY, false);
             mRestoredCameraPosition = CameraUpdateFactory
@@ -288,7 +289,7 @@ public final class ClinicsMapFragment extends Fragment implements ClinicsContrac
                         .position(new LatLng(Double.parseDouble(clinic.getLatitude()),
                                 Double.parseDouble(clinic.getLongitude())))
                         .visible(false)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
+                        //.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
                 );
                 marker.setTag(clinic.getId());
                 mMarkers.add(marker);
