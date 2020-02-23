@@ -12,6 +12,7 @@ import abzalov.ruslan.pocketdoc.doctor.DoctorFragment;
 import abzalov.ruslan.pocketdoc.doctor.DoctorPresenter;
 import abzalov.ruslan.pocketdoc.doctors.DoctorsAdapter;
 import abzalov.ruslan.pocketdoc.doctors.DoctorsPresenter;
+import abzalov.ruslan.pocketdoc.history.RecordsHistoryActivity;
 import abzalov.ruslan.pocketdoc.specialities.SpecialitiesPresenter;
 import abzalov.ruslan.pocketdoc.stations.StationsPresenter;
 
@@ -53,4 +54,6 @@ public interface AppComponent {
     void inject(DoctorPresenter presenter);
 
     void inject(CreateRecordDialogFragment createRecordDialogFragment);
+
+    void inject(RecordsHistoryActivity recordsHistoryActivity);
 }

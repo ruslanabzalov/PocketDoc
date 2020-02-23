@@ -1,6 +1,9 @@
 package abzalov.ruslan.pocketdoc;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import abzalov.ruslan.pocketdoc.clinics.ClinicsMapFragment;
 import abzalov.ruslan.pocketdoc.databinding.ActivityMainBinding;
 import abzalov.ruslan.pocketdoc.drugs.DrugsFragment;
 import abzalov.ruslan.pocketdoc.emergency.EmergencyFragment;
+import abzalov.ruslan.pocketdoc.history.RecordsHistoryActivity;
 import abzalov.ruslan.pocketdoc.specialities.SpecialitiesFragment;
 
 /**
@@ -25,15 +29,13 @@ public final class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private Fragment mCurrentFragment;
 
-    private ActivityMainBinding mBinding;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(mBinding.getRoot());
+        abzalov.ruslan.pocketdoc.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        setSupportActionBar(mBinding.activityMainToolbar);
+        setSupportActionBar(binding.activityMainToolbar);
 
         mCurrentFragment = mFragmentManager.findFragmentById(R.id.activity_main_fragment_container);
         if (mCurrentFragment == null) {
@@ -42,9 +44,26 @@ public final class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        BottomNavigationView bottomNavigationView = mBinding.activityMainBottomNavigation;
+        BottomNavigationView bottomNavigationView = binding.activityMainBottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(this::wasCurrentFragmentChanged);
         bottomNavigationView.setOnNavigationItemReselectedListener(menuItem -> clearBackStack());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.records_history_menu_item) {
+            startActivity(new Intent(this, RecordsHistoryActivity.class));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     /**

@@ -18,6 +18,7 @@ import abzalov.ruslan.pocketdoc.R;
 import abzalov.ruslan.pocketdoc.data.Repository;
 import abzalov.ruslan.pocketdoc.data.doctors.Doctor;
 import abzalov.ruslan.pocketdoc.data.records.Record;
+import abzalov.ruslan.pocketdoc.data.specialities.Speciality;
 import abzalov.ruslan.pocketdoc.di.AppComponent;
 import abzalov.ruslan.pocketdoc.doctors.OnCreateRecordListener;
 import io.reactivex.Completable;
@@ -25,6 +26,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -120,10 +122,16 @@ public class CreateRecordDialogFragment extends DialogFragment {
 
     private void createRecord() {
         Record record = new Record(UUID.randomUUID().toString());
-        record.setDocType(mDoctor.getSpecialities().toString());
+        if (mDoctor.getSpecialities().size() > 0) {
+            String doctorSpecs = "";
+            for (Speciality speciality : mDoctor.getSpecialities()) {
+                doctorSpecs += speciality.getName() + ", ";
+            }
+            record.setDocType(doctorSpecs.substring(0, doctorSpecs.length() - 2));
+        }
         record.setDocFullName(mDoctor.getName());
         record.setUserName(mUserName);
-        record.setRecordDate(new Date().toString());
+        record.setRecordDate(new SimpleDateFormat("dd.MM.YYYY").format(new Date()));
 
         String recordSaved = "Запись создана";
 

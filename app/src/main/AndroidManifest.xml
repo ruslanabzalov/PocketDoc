@@ -25,6 +25,8 @@
 
         <activity android:name=".clinic.ClinicActivity"/>
 
+        <activity android:name=".history.RecordsHistoryActivity"/>
+
         <service
             android:name=".clinics.ClinicsJobService"
             android:description="@string/clinics_service_description"

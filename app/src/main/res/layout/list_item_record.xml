@@ -8,7 +8,7 @@
     android:padding="8dp"
     tools:viewBindingIgnore="true">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_gravity="center"
@@ -31,16 +31,28 @@
                 tools:text="Специализация"/>
 
             <TextView
+                android:id="@+id/record_doc_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="ФИО врача"/>
+
+            <TextView
                 android:id="@+id/record_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Имя посетителя"/>
 
             <TextView
-                android:id="@+id/record_date"
+                android:id="@+id/doctor_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Дата посещения"/>
+
+            <TextView
+                android:id="@+id/record_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Дата записи"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
