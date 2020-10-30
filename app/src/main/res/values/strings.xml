@@ -1,7 +1,7 @@
 <resources>
     <!-- Основные строковые ресурсы приложения. -->
     <string name="app_name">PocketDoc</string>
-    <string name="api_key">AIzaSyBQG-KS67d0mwcdgjafND6u3OcYTnr_Fqc</string>
+    <string name="api_key">removed</string>
     <string name="clinics_service_description">Служба, отвечающая за загрузку клиник</string>
 
     <!-- Названия пунктов меню activity_main_bottom_navigation. -->
